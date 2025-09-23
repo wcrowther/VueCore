@@ -1,10 +1,11 @@
 <script setup>
 
-    //const appStore              = useAppStore()
-    //const { sideBarHidden }     = storeToRefs(appStore)
-    const isDirty               = ref(false)
+    import { useConfirmControl } from '@/composables/UseConfirmControl';
 
-    const { fnShowConfirm }      = useConfirmDialog();
+    const isDirty               = ref(false)
+    const enableGlobal           = useLocalStorage('enableGlobal', true)
+
+    const { createConfirm }     = useConfirmControl();
     
     const handleSave = async () => 
     {
@@ -14,7 +15,7 @@
             return
         }   
         
-        const confirmed = await fnShowConfirm('Are you sure you want to save this item?')
+        const confirmed = await createConfirm('Are you sure you want to save this item?')
     
         if (confirmed) 
             console.log('Item saved!') 
@@ -22,11 +23,7 @@
             console.log('Save cancelled.')
      }
 
-    // Use ConfirmControl composable (not ConfirmDialog component)
-    // import useConfirmControl from '@/composables/useConfirmControl.js'
-    // const { confirm, showConfirm, confirmMessage, onConfirm, onCancel } = useConfirmControl()
-
-    useUnsavedChangesGuard(isDirty, fnShowConfirm, false)
+    useUnsavedGuard(isDirty, () => createConfirm('Testing'), enableGlobal.value)
 
 </script>
 
@@ -36,7 +33,9 @@
 
             <!-- <PrimaryButton @click="sideBarHidden = !sideBarHidden" title="Show / Hide" /> -->
 
-            <PrimaryButton @click="isDirty = !isDirty"> Is Dirty? {{ isDirty }}</PrimaryButton>   
+            <PrimaryButton @click="isDirty = !isDirty"> Is Dirty? {{ isDirty }}</PrimaryButton>  
+
+            <PrimaryButton @click="enableGlobal = !enableGlobal"> Enable Global? {{ enableGlobal }}</PrimaryButton>   
 
             <PrimaryButton @click="handleSave" title="Save Something" class="bg-red" /> 
 
@@ -44,7 +43,7 @@
         </div>
 
 
-        <SidebarStaticControl>
+        <SidebarControl>
 
             <template #sidebar>
                 <div class="bg-orange w-full flex-1 p-5">sidebar</div>
@@ -54,7 +53,7 @@
                 <div class="bg-yellow w-full flex-1 p-5">default</div>
             </template>
 
-        </SidebarStaticControl>	 
+        </SidebarControl>	 
 
     </LayoutMain>
 

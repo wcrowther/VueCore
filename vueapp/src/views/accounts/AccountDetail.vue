@@ -94,18 +94,21 @@
         getAccountDetail()  
     });
 
-    // ===============================================================================================
+    // Unsaved Guard   ===============================================================================
+    // -- stops navigation away if there are unsaved changes
+
+    const { createConfirm } = useConfirmControl();
+    let customMessage = 'You have unsaved changes to this Account. Leave the page?'
+
+    useUnsavedGuard(accountIsDirty, () => createConfirm(customMessage)) 
 
 </script>
 
 <template>
     <div class="flex flex-wrap gap-5" id="AccountDetailView">
         
-        <ConfirmControl v-if="showConfirmControl"
+        <ConfirmControl v-model="showConfirmControl"
 			message="Save Account Data?" @confirmResult="saveAccountDetail"  />
-
-        <!-- <ConfirmControl v-if="showConfirmControl"
-			message="You have unsaved changes that you will lose. Click Cancel to stay on page." @confirmDialog="saveAccountDetail" @cancelDialog="cancelAction" /> -->
 
         <div class="w-full flex justify-between items-center">
 

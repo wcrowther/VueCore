@@ -101,7 +101,8 @@ declare global {
   const useAuthStore: typeof import('./stores/AuthStore.js')['useAuthStore']
   const useChatHub: typeof import('./composables/ChatHub.js')['useChatHub']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
-  const useConfirmDialog: typeof import('./composables/UseConfirmDialog.js')['useConfirmDialog']
+  const useConfirmControl: typeof import('./composables/UseConfirmControl.js')['useConfirmControl']
+  const useConfirmDialog: typeof import('./composables/xxxUseConfirmDialog.js')['useConfirmDialog']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
@@ -119,7 +120,8 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useToastStore: typeof import('./stores/ToastStore.js')['useToastStore']
-  const useUnsavedChangesGuard: typeof import('./composables/UnsavedChangesGuard.js')['useUnsavedChangesGuard']
+  const useUnsavedChangesGuard: typeof import('./composables/UseUnsavedChangesGuard.js')['useUnsavedChangesGuard']
+  const useUnsavedGuard: typeof import('./composables/UseUnsavedGuard.js')['useUnsavedGuard']
   const useUsersStore: typeof import('./stores/UsersStore.js')['useUsersStore']
   const useVuelidate: typeof import('@vuelidate/core')['useVuelidate']
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
@@ -164,7 +166,6 @@ declare module 'vue' {
     readonly SearchForUser: UnwrapRef<typeof import('./models/PagerModel.js')['SearchForUser']>
     readonly SearchModel: UnwrapRef<typeof import('./models/PagerModel.js')['SearchModel']>
     readonly SetHtmlHeadBody: UnwrapRef<typeof import('./composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']>
-    readonly UseConfirmControl: UnwrapRef<typeof import('./composables/UseConfirmControl.js')['default']>
     readonly UserModel: UnwrapRef<typeof import('./models/UserModel.js')['UserModel']>
     readonly accountValidator: UnwrapRef<typeof import('./helpers/validators.js')['accountValidator']>
     readonly apiCall: UnwrapRef<typeof import('./composables/ApiCall.js')['apiCall']>
@@ -239,7 +240,7 @@ declare module 'vue' {
     readonly useAuthStore: UnwrapRef<typeof import('./stores/AuthStore.js')['useAuthStore']>
     readonly useChatHub: UnwrapRef<typeof import('./composables/ChatHub.js')['useChatHub']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
-    readonly useConfirmDialog: UnwrapRef<typeof import('./composables/UseConfirmDialog.js')['useConfirmDialog']>
+    readonly useConfirmControl: UnwrapRef<typeof import('./composables/UseConfirmControl.js')['useConfirmControl']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
@@ -257,7 +258,7 @@ declare module 'vue' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useToastStore: UnwrapRef<typeof import('./stores/ToastStore.js')['useToastStore']>
-    readonly useUnsavedChangesGuard: UnwrapRef<typeof import('./composables/UnsavedChangesGuard.js')['useUnsavedChangesGuard']>
+    readonly useUnsavedGuard: UnwrapRef<typeof import('./composables/UseUnsavedGuard.js')['useUnsavedGuard']>
     readonly useUsersStore: UnwrapRef<typeof import('./stores/UsersStore.js')['useUsersStore']>
     readonly useVuelidate: UnwrapRef<typeof import('@vuelidate/core')['useVuelidate']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>

@@ -1,38 +1,51 @@
+import ConfirmControl from '@/components/controls/ConfirmControl.vue'
 
-const showConfirm 		= ref(false)
-const confirmMessage 	= ref('')
-let resolver 			= null
+let instance = null;
+let container = null;
 
-export default function useConfirm() 
+export function useConfirmControl() 
 {
-	async function confirm(msg) 
-	{
-		confirmMessage.value = msg
-		showConfirm.value 	 = true
+	if (!instance) {
+		container = document.createElement('div')
+		document.body.appendChild(container)
 
-		return new Promise((resolve) => 
+		const exposedRef = ref(null)
+
+		instance = createApp(
 		{
-			resolver = resolve
-		})
+			setup() {
+				return () => h(ConfirmControl, { ref: exposedRef })
+			},
+
+		}).mount(container)
+
+		// attach exposed methods to instance
+		instance.exposedRef = exposedRef;
 	}
 
-	function onConfirm() 
+	const createConfirm = async (message) => 
 	{
-		showConfirm.value = false
-		resolver?.(true)
+		return await instance.exposedRef.value.confirmPromise(message)
 	}
 
-	function onCancel() 
-	{
-		showConfirm.value = false
-		resolver?.(false)
-	}
-
-	return {
-		showConfirm,
-		confirmMessage,
-		confirm,
-		onConfirm,
-		onCancel
-	}
+	return { createConfirm };
 }
+
+
+/* Example:
+
+	const { createConfirm } = useConfirmControl()
+
+	async function tryConfirm() 
+	{
+		const confirmed = await createConfirm('Confirm this record?')
+
+		if (confirmed) 
+			console.log('Confirmed by User')
+		else 
+			console.log('Cancelled by User')
+	}	const { createConfirm } = useConfirmControl()
+
+	// In template:
+	<button @click="tryConfirm">Try Confirm</button>
+*/

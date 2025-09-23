@@ -104,7 +104,7 @@
 
     <div class="flex flex-wrap gap-5" id="UsersDetailView">
 
-        <ConfirmControl v-if="showConfirmSave" message="Save User Data?" 
+        <ConfirmControl v-model="showConfirmSave" message="Save User Data?" 
 			@confirmResult="saveUserDetail"  />
 
         <div class="w-full flex justify-between items-center">

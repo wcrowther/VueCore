@@ -14,7 +14,7 @@
 <template>
 	<div class="flex relative overflow-hidden">
 
-		<div class="overflow-hidden z-10 h-full absolute inset-0 border border-blue
+		<div class="z-10 h-full absolute inset-0 border border-blue
 			xs:static xs:flex-none xs:transition-[width] xs:duration-500" 
 			:class="[props.showSideBar 
                 ? `w-full xs:w-[${widthCalc}] xs:max-w-[${maxPixelWidth}] pointer-events-auto` 

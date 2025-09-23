@@ -136,6 +136,8 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "SearchForUser": true
+    "SearchForUser": true,
+    "useConfirmControl": true,
+    "useUnsavedGuard": true
   }
 }
