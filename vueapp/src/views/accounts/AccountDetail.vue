@@ -100,14 +100,14 @@
     const { createConfirm } = useConfirmControl();
     let customMessage = 'You have unsaved changes to this Account. Leave the page?'
 
-    useUnsavedGuard(accountIsDirty, () => createConfirm(customMessage)) 
+    useUnsavedGuard(accountIsDirty, () => createConfirm(customMessage), false) 
 
 </script>
 
 <template>
     <div class="flex flex-wrap gap-5" id="AccountDetailView">
         
-        <ConfirmControl v-model="showConfirmControl"
+        <ConfirmControl v-if="showConfirmControl" v-model="showConfirmControl"
 			message="Save Account Data?" @confirmResult="saveAccountDetail"  />
 
         <div class="w-full flex justify-between items-center">

@@ -8,7 +8,7 @@
 
     // Keyboard Listeners  ================================================
 	
-	DisableLayoutEscapeKey()
+	DisableLayoutEscapeKey(showModal.value) // disable Esc key if modal is showing  
 
     const keys = function (e)   
     {

@@ -1,16 +1,21 @@
 
-export function DisableLayoutEscapeKey()
+export function DisableLayoutEscapeKey(disable)
 {	
 	const appStore   			= useAppStore()
     const { layoutEscapeKeyOn }	= storeToRefs(appStore)
 
-	onMounted(() =>   { layoutEscapeKeyOn.value  = false; })
+	const disabled = computed(() => unref(disable) ?? false )
+	layoutEscapeKeyOn.value  = !disabled.value 
+	
 	onUnmounted(() => { layoutEscapeKeyOn.value  = true; })
 }
 
 /* 	USAGE: 
-	EXAMPLE CODE:
 
-	import { DisableLayoutEscapeKey } from './helpers/DisableLayoutEscapeKey.js'
-	DisableLayoutEscapeKey();
+	// (if needed) 
+	import { DisableLayoutEscapeKey } from '@/composables/DisableLayoutEscapeKey.js'
+
+	DisableLayoutEscapeKey(showConfirm.value);
 */
+
+

@@ -27,8 +27,8 @@
 
 		<div class="main-width mb-10 relative z-0 h-full">
 
-			<!-- Debugging variable here if needed
-			<div class="text-white p-3">layoutEscapeKeyOn: {{ layoutEscapeKeyOn }}</div> -->
+			<!-- Debugging variable here if needed-->
+			<div class="text-white p-3">layoutEscapeKeyOn: {{ layoutEscapeKeyOn }}</div> 
 
 			<BreakPoints />
 			

@@ -13,7 +13,7 @@
 
     // Keyboard Listeners  ================================================
 	
-	DisableLayoutEscapeKey()
+	DisableLayoutEscapeKey(showConfirm.value) // disable Esc key if confirm is showing
 
     const keys = function (e)   
     {
