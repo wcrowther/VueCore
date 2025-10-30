@@ -14,7 +14,6 @@ export const useAccountsStore = defineStore('AccountsStore',
     getters:
     {
         accountIsDirty: (state) =>  JSON.stringify(state.account) !== JSON.stringify(state.uneditedAccount)  
-        // console.log('accountIsDirty check\n account: \n',JSON.stringify(state.account), '\n uneditedAccount \n', JSON.stringify(state.uneditedAccount))           
     },
     actions:
     {
@@ -100,7 +99,8 @@ export const useAccountsStore = defineStore('AccountsStore',
         },
         async resetAccount ()
         {
-            this.account = this.uneditedAccount // OR THIS?: Object.assign(new AccountModel(), this.uneditedAccount)
+            // this.account = this.uneditedAccount // OR THIS?: 
+            this.account = Object.assign(new AccountModel(), this.uneditedAccount)
         }
     }
 })
@@ -133,3 +133,15 @@ export const useAccountsStore = defineStore('AccountsStore',
 //     .finally(() => { this.isBusy = false })
 // },
 // =======================================================================================
+
+// WITH DEBUGGING
+// getters:
+// {
+//     accountIsDirty: (state)  => 
+//     {   
+//          let dirty = JSON.stringify(state.account) !== JSON.stringify(state.uneditedAccount); 
+//          console.log(`accountIsDirty: ${dirty} account: `, 
+//          JSON.stringify(state.account.AccountName), 'uneditedAccount: ', JSON.stringify(state.uneditedAccount.AccountName) ); 
+//          return dirty 
+//     }          
+// }

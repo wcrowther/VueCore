@@ -5,9 +5,10 @@
     const { sideBarHidden, layoutEscapeKeyOn }	= storeToRefs(appStore)
 
     // Keyboard Listeners & AutoRefreshAuth  ========================================================
-    // --- Disable global Escape for layout by setting app.layoutEscapeKeyOn to false
-    const keys = function (e)   
+
+	const keys = function (e)   
     {
+		// Disable global Escape (Esc) key for layout by setting app.layoutEscapeKeyOn to false
 		if (e.code === 'Escape' && layoutEscapeKeyOn.value){ sideBarHidden.value = !sideBarHidden.value; e.preventDefault(); } 
     }
 
@@ -27,8 +28,8 @@
 
 		<div class="main-width mb-10 relative z-0 h-full">
 
-			<!-- Debugging variable here if needed-->
-			<div class="text-white p-3">layoutEscapeKeyOn: {{ layoutEscapeKeyOn }}</div> 
+			<!-- Debugging variable here if needed
+			<div class="text-white p-3">layoutEscapeKeyOn: {{ layoutEscapeKeyOn }}</div> -->
 
 			<BreakPoints />
 			

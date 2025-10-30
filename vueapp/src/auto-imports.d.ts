@@ -96,7 +96,7 @@ declare global {
   const usPhoneFormat: typeof import('./helpers/global.js')['usPhoneFormat']
   const usStatesList: typeof import('./helpers/usStates.js')['usStatesList']
   const useAccountsStore: typeof import('./stores/AccountsStore.js')['useAccountsStore']
-  const useAppStore: typeof import('./stores/AppStore.js')['useAppStore']
+  const useAppStore: typeof import('./stores/AppStore.js.alt.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('./stores/AuthStore.js')['useAuthStore']
   const useChatHub: typeof import('./composables/ChatHub.js')['useChatHub']
@@ -235,7 +235,7 @@ declare module 'vue' {
     readonly usPhoneFormat: UnwrapRef<typeof import('./helpers/global.js')['usPhoneFormat']>
     readonly usStatesList: UnwrapRef<typeof import('./helpers/usStates.js')['usStatesList']>
     readonly useAccountsStore: UnwrapRef<typeof import('./stores/AccountsStore.js')['useAccountsStore']>
-    readonly useAppStore: UnwrapRef<typeof import('./stores/AppStore.js')['useAppStore']>
+    readonly useAppStore: UnwrapRef<typeof import('./stores/AppStore.js.alt.js')['useAppStore']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('./stores/AuthStore.js')['useAuthStore']>
     readonly useChatHub: UnwrapRef<typeof import('./composables/ChatHub.js')['useChatHub']>

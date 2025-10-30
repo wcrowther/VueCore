@@ -1,10 +1,15 @@
-// browserGuard give a warning if leaving the page at the browser level 
+// browserGuard gives a warning if leaving the page at the browser level 
+
+const authStore	= useAuthStore() 
 
 export function useUnsavedGuard(isDirtyRef, confirmFn, browserGuard = true) 
 {
 	// Internal helper
 	async function checkConfirm() 
 	{
+		if(!authStore.isLoggedIn) // runs only for logged-in users
+			return true
+
 		if (isDirtyRef.value) 
 		{
 			// call your custom confirm dialog instead of window.confirm
@@ -16,7 +21,11 @@ export function useUnsavedGuard(isDirtyRef, confirmFn, browserGuard = true)
 	// Guard against route changes
 	onBeforeRouteLeave(async (to, from, next) => 
 	{
+		if(!authStore.isLoggedIn) // browsercheck runs only for logged-in users
+			return true
+
 		const ok = await checkConfirm()
+		
 		if (ok) 
 			next()
 		else 

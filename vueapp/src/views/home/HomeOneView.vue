@@ -40,14 +40,14 @@
                     reflect your <b>code intent</b> and are easy to adapt. This project isn’t meant to be the definitive 
                     way to build an app — just a solid starting point.
                 </p>
+                <HelpBox class="mt-5 mb-6">
+                    Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
+                    Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+                </HelpBox>
                 <p class="mb-0">
                     You'll find a number of innovative techniques throughout both the <b>Vue.js</b> and <b>.NET</b> 
                     Minimal API projects. We welcome contributions and suggestions as the project evolves.
                 </p>
-                <HelpBox class="mt-5">
-                    Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
-                    Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
-                </HelpBox>
             </div>
 
             <div class="w-full grow italic p-5 flex flex-col gap-y-3 border-color-light-blue

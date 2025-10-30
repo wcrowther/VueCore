@@ -12,6 +12,7 @@ declare module 'vue' {
     AccountFilters: typeof import('./views/accounts/AccountFilters.vue')['default']
     AccountsList: typeof import('./views/accounts/AccountsList.vue')['default']
     AccountsWizardFirst: typeof import('./views/accounts/AccountsWizardFirst.vue')['default']
+    AccountsWizardSecond: typeof import('./views/accounts/AccountsWizardSecond.vue')['default']
     AdminNotes: typeof import('./views/admin/AdminNotes.vue')['default']
     BrandBar: typeof import('./views/layout/BrandBar.vue')['default']
     BrandLogo: typeof import('./views/layout/BrandLogo.vue')['default']

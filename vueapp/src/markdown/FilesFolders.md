@@ -1,74 +1,33 @@
-# Project File & Folder Summary
+### Top-Level Folders
 
-```
-vueapp*
-├── documentation*
-│   └──── toplevelfiles.md
-├── obj*
-├── public*
-├── src*
-│   ├── assets*
-│   ├── components*
-│   │   └── boxes*
-│   │   └── inputs*
-│   │   └── layout*
-│   ├── composables*
-│   │   └──── ApiCall.js
-│   │   └──── KeyboardListeners.js
-│   │   └──── ...
-│   ├── helpers*
-│   │   └──── validators.js
-│   │   └──── ...
-│   ├── layouts*
-│   ├── models*
-│   ├── pages*
-│   │   └── accounts*
-│   │   └── admin*
-│   │   └── auth*
-│   │   └── content*
-│   │   └──── [...path].vue
-│   │   └──── accounts.vue
-│   │   └──── admin.vue
-│   │   └──── content.vue
-│   │   └──── index.vue
-│   ├── router*
-│   ├── stores*
-│   ├── views*
-│   │   └── accounts*
-│   │   └── admin*
-│   │   └── auth*
-│   │   └── content*
-│   │   └── home*
-├──── .env
-├──── .env.production
-├──── .env.qa
-├──── .eslintrc-auto-import.json
-├──── .eslintrc.cjs
-├──── .gitignore
-├──── aspnetcore-https.js
-├──── auto-imports.d.ts
-├──── components.d.ts
-├──── index.html
-├──── nuget.config
-├──── package.json
-├──── postcss.config.js
-├──── tailwind.config.js
-├──── tsconfig.json
-├──── typed-router.d.ts
-├──── README.md
-├──── vite.config.mjs
-├──── vueapp.esproj
-├──── vueapp.esproj.user
+#### `.vscode`
+Lorem ipsum...
 
-* indicates directory
-```
+---
 
-## File & Folder Summaries
+#### `dist`
+Lorem ipsum...
 
-### Folders
+---
 
-#### `documentation/`
-Contains project documentation files, such as this summary.
+#### `node_modules`
+Lorem ipsum...
+
+
+---
+
+#### `obj/`
+Lorem ipsum...
+
+---
+
+#### `public/`
+Contains static assets (images, favicon, etc.) that are served directly by the web server. Files here are not processed by the build tool.
+
+
+### Src Folder
+
+---
 
 #### `obj/`
 Holds build output and intermediate files for .NET projects. This folder is auto-generated and not meant for manual editing.
@@ -77,11 +36,59 @@ Holds build output and intermediate files for .NET projects. This folder is auto
 Contains static assets (images, favicon, etc.) that are served directly by the web server. Files here are not processed by the build tool.
 
 #### `src/`
-Main source code for the Vue application, including components, pages, stores, utilities, and styles.
+The `src` directory contains the main source code for the Vue application, including components, pages, stores, utilities, and styles. Below is a breakdown of its top-level elements, with details for key subfolders and files.
+
+### `components/`
+Reusable Vue components that encapsulate UI elements and logic. Organized by feature or layout.
+
+- **`Boxes/`**
+  - Contains components for displaying boxed content.
+    - `InfoBox.vue`: Shows its slot content only when the application's `infoLevel` is greater than 1. Used for contextual information based on user settings.
+
+- **`Layout/`**
+  - Components related to the application's layout and structure.
+    - `MainSidebar.vue`: Responsive sidebar component. Uses the app store and window size to automatically show or hide itself based on a breakpoint (501px). The sidebar transitions smoothly and adapts to different screen sizes.
+
+- *(Other folders may exist for additional component groups, such as forms, navigation, etc.)*
 
 ---
 
-### Files
+### `views/`
+Vue components representing full pages or major application views. Each file typically maps to a route in the application.
+
+- Example: `HomeView.vue`, `DashboardView.vue`, etc.  
+  *(Actual files may vary depending on your project structure.)*
+
+---
+
+### `store/`
+Pinia or Vuex store modules for managing global application state.
+
+- Example: `appStore.js` or `appStore.ts`  
+  *(Defines state such as `infoLevel`, `sideBarHidden`, etc.)*
+
+---
+
+### `router/`
+Defines application routes and navigation logic.
+
+- Example: `index.js` or `index.ts`  
+  *(Configures paths, route guards, and lazy loading of views.)*
+
+---
+
+### `assets/`
+Static assets such as images, fonts, and icons used within the application.
+
+---
+
+### `styles/`
+Global and shared style files, such as CSS, SCSS, or Tailwind configuration overrides.
+
+
+### Config Files
+
+---
 
 #### `.env`, `.env.production`, `.env.qa`
 Environment variable files for different deployment environments. They store configuration values such as API endpoints, feature flags, and secrets.
@@ -125,8 +132,11 @@ Configuration file for Vite, the frontend build tool. It defines plugins, server
 #### `vueapp.esproj`
 Project files for the Vue frontend, used by certain IDEs for project management and user-specific settings.
 
-#### `vueapp.esproj.user`
+#### vueapp.esproj.user
 Project files for the Vue frontend, used by certain IDEs for project management and user-specific settings.
+
+#### jsconfig.json
+For VSCode IntelliSense (so auto-imports, jump-to-definition, etc. work), you also need this file at the root of your project.
 
 ---
 

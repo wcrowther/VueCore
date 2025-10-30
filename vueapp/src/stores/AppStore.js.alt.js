@@ -1,0 +1,51 @@
+// use this style or convert to Compostion style?
+const showPrevNextRef        = useLocalStorage('showPrevNext', true) 
+const showBreakpointsRef     = useLocalStorage('showBreakpoints', false)
+const showNotificationRef    = useLocalStorage('showNotification', true)
+const showNewChatMessagesRef = useLocalStorage('showNewChatMessages', true)
+const persistSearchRef       = useLocalStorage('persistSearch', false)
+const altThemeRef            = useLocalStorage('altTheme', false)
+const infoLevelRef           = useLocalStorage('infoLevel', 2)
+const pagerDebuggerRef       = useLocalStorage('pagerDebugger', false)
+const pagerDebuggerXRef      = useLocalStorage('pagerDebuggerX', 400)
+const pagerDebuggerYRef      = useLocalStorage('pagerDebuggerY', 30)
+const activeFloaterRef       = useLocalStorage('activeFloater', '')
+
+export const useAppStore = defineStore('AppStore',
+{    
+    state: () => 
+    ({
+        sideBarHidden:          false,
+        layoutEscapeKeyOn:      true,
+        showPrevNext:           showPrevNextRef.value,
+        showBreakpoints:        showBreakpointsRef.value,
+        showNotification:       showNotificationRef.value,
+        showNewChatMessages:    showNewChatMessagesRef.value,
+        persistSearch:          persistSearchRef.value,
+        altTheme:               altThemeRef.value,
+        infoLevel:              infoLevelRef.value,
+        pagerDebugger:          pagerDebuggerRef.value,
+        pagerDebuggerX:         pagerDebuggerXRef.value,
+        pagerDebuggerY:         pagerDebuggerYRef.value,
+        activeFloater:          activeFloaterRef.value,
+        baseApiUrl:             import.meta.env.VITE_API_URL,
+        apiDocsUrl:             import.meta.env.VITE_API_DOCS_URL,
+        baseUrl:                import.meta.env.BASE_URL,
+        mode:                   import.meta.env.MODE
+    }),
+    getters:{},
+    actions:{
+        async resetLocalStorage ()
+        {
+            var local =  [ 'showPrevNext','showBreakpoints','persistSearch','altTheme',
+                           'infoLevel','pagerDebugger','pagerDebuggerX','pagerDebuggerY',
+                           'activeFloater','showNewChatMessages' ];
+
+            local.forEach(item => { localStorage.removeItem(item) });
+
+            useToastStore().showInfo(`Removed local App preferences`)
+            setTimeout(() => { this.router.go(0); }, 2000);
+        }
+    }
+})
+

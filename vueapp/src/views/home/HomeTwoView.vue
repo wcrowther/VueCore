@@ -3,8 +3,13 @@
 <template>
 
     <div class="pb-5" id="HomeTwoView">
-    
+
         <div class="flex flex-wrap gap-y-3 bg-white/50 p-10">
+
+            <!-- <HelpBox>
+                Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
+                Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+            </HelpBox> -->
 
             <h3 class="font-bold text-lg">Vue / Asp.net Combined Solution</h3>
 

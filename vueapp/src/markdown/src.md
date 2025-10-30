@@ -1,6 +1,6 @@
 # `src` Directory Structure and Descriptions
 
-The `src` directory contains the main source code for the Vue application. Below is a breakdown of its top-level elements, with details for key subfolders and files.
+The `src` directory contains the main source code for the Vue application, including components, pages, stores, utilities, and styles. Below is a breakdown of its top-level elements, with details for key subfolders and files.
 
 ---
 

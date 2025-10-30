@@ -12,7 +12,7 @@
 
 <template>
     <div v-if="infoLevel > 2" 
-        :class="['mb-3 text-sm border border-[#f97316] bg-white  w-full',
+        :class="['text-sm border border-[#f97316] bg-white  w-full',
             props.compact ? 'mb-3 px-3 py-2 rounded-md' : 'mb-2 px-6 py-5 rounded-xl']">
 
         <span v-if="!props.compact"

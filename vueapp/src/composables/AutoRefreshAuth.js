@@ -1,6 +1,4 @@
 
-import { onMounted, onUnmounted } from 'vue'
-
 const authStore     	= useAuthStore()
 const { refreshAuth }   = authStore
 const { authUser  } 	= storeToRefs(authStore)

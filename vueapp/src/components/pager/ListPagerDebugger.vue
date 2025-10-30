@@ -1,4 +1,7 @@
 <script setup>
+ 
+    const appStore          = useAppStore()
+    const { pagerDebugger } = storeToRefs(appStore) 
 
     const pager = computed(() => props.pager); 
 
@@ -14,8 +17,13 @@
     <FloaterControl :show name="PagerDebugger" 
         class="w-[200px] pb-3 mb-1 drop-shadow-xl text-sm/loose leading-[25px] bg-white border"> 
 
-        <div class="p-2 bg-color-blue text-white font-bold select-none">
+        <div class="p-2 bg-color-blue text-white font-bold select-none flex 
+            justify-between items-center">
             Pager Debugger
+            <div class="size-4 bg-white hover:bg-color-light-blue rounded-full flex-center" 
+				@click="pagerDebugger = false">
+				<IconSymbol width="12px" class="text-color-dark-gray" icon="heroicons-solid:x" />
+			</div>
         </div>
 
         <div class="px-2 bg-[#ddd]">CurrentRecord:   {{ pager.CurrentRecord }}</div>

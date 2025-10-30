@@ -22,7 +22,8 @@
 					This page is a demonstration of a Wizard Control.
 				</InfoBox>
 
-				<!--<FloaterControl :show="true" name="FloaterOne"
+				<!-- FloaterControl here 
+				<FloaterControl :show="true" name="FloaterOne"
 					class="bg-white w-[400px] h-[300px] p-5">
 					Some floating content here.
 				</FloaterControl>
@@ -35,12 +36,7 @@
 					</template>
 
 					<template #Second>
-
-						<div class="font-bold mb-3">Second Content</div>
-
-						<GridControl :rows="5" :cols="7"
-							class="size-7 bg-white border border-blue aspect-square" />
-
+						<AccountsWizardSecond />
 					</template>
 
 					<template #Third>

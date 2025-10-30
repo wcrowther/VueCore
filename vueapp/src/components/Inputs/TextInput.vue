@@ -9,28 +9,33 @@
     })
 
     const modelValue = defineModel()
-    const rule  = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ',''))
+    const rule       = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ',''))
+    const hasErrors  = computed(() => props.v$ && props.v$[rule.value] && props.v$[rule.value]?.$errors.length > 0 )
 
 </script>
 
 <template>
     <div class="mb-3">
+
         <div class="pb-1 flex justify-between items-baseline">
             <label class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
                 :for="props.labelName">
                 {{props.labelName}}
             </label>
-            <template v-if="v$ && v$[rule] && v$[rule].$errors">
+            <template v-if="hasErrors">
                 <span class="italic font-bold text-right text-xs text-color-red" 
                     v-for="error in v$[rule].$errors" :key="error.$uid">
-                    {{ error.$message }}
+                    {{ error.$message }} 
                 </span>
             </template>
         </div>
+
         <div class="flex justify-center items-center relative">
-            <input class="w-full text-sm" type="text" :id="props.labelName" :name="props.labelName"
+            <input :class="['w-full text-sm', {'border-red': hasErrors}]" 
+                type="text" :id="props.labelName" :name="props.labelName"
                 v-model="modelValue" v-bind="$attrs" :spellcheck="props.spellCheck" />
         </div>
+
     </div>
 </template>
 

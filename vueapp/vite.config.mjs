@@ -3,7 +3,8 @@ import { fileURLToPath, URL }   from 'node:url'
 // import { resolve }           from 'path';
 import { defineConfig }         from 'vite'
 import mkcert                   from 'vite-plugin-mkcert'
-import vue                      from '@vitejs/plugin-vue'
+import Vue                      from '@vitejs/plugin-vue'
+import Markdown 				from 'unplugin-vue-markdown/vite'
 import VueRouter                from 'unplugin-vue-router/vite'
 import AutoImport               from 'unplugin-auto-import/vite'
 import Components               from 'unplugin-vue-components/vite'
@@ -47,7 +48,10 @@ export default defineConfig({
         VueRouter({
             dts: 'src/typed-router.d.ts'
         }),        
-        vue(),
+        Vue({
+            include: [/\.vue$/, /\.md$/], // <-- allows Vue to compile Markdown files
+        }),
+        Markdown({ /* options */ }),
         mkcert(),
         Components({
             dirs: ['./src/components', './src/layouts', './src/views'],
