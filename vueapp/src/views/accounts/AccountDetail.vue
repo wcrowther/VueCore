@@ -2,7 +2,7 @@
 
     const toastStore                    = useToastStore()
     const accountsStore                 = useAccountsStore()
-
+    
     const { account, detailAccountId,
             accountIsDirty  }           = storeToRefs(accountsStore)
     const { getAccountDetailData,  
@@ -100,7 +100,7 @@
     const { createConfirm } = useConfirmControl();
     let customMessage = 'You have unsaved changes to this Account. Leave the page?'
 
-    useUnsavedGuard(accountIsDirty, () => createConfirm(customMessage), false) 
+    useUnsavedGuard(accountIsDirty, () => createConfirm(customMessage), true) 
 
 </script>
 

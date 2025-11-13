@@ -1,4 +1,5 @@
-// Alt approach for usePagedList (not tested or fully implemented)
+// Alt approach for usePagedList which passes in the store 
+// (not tested or fully implemented)
 export function usePagedList2(store, pagerKey, listKey, fetchAction) 
 {
 	// refs to store state

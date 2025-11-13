@@ -7,10 +7,7 @@ export function useUnsavedGuard(isDirtyRef, confirmFn, browserGuard = true)
 	// Internal helper
 	async function checkConfirm() 
 	{
-		if(!authStore.isLoggedIn) // runs only for logged-in users
-			return true
-
-		if (isDirtyRef.value) 
+		if (isDirtyRef.value && authStore.isLoggedIn) // runs only for logged-in users
 		{
 			// call your custom confirm dialog instead of window.confirm
 			return await confirmFn('You have unsaved changes. Continue?')
@@ -21,12 +18,9 @@ export function useUnsavedGuard(isDirtyRef, confirmFn, browserGuard = true)
 	// Guard against route changes
 	onBeforeRouteLeave(async (to, from, next) => 
 	{
-		if(!authStore.isLoggedIn) // browsercheck runs only for logged-in users
-			return true
-
 		const ok = await checkConfirm()
 		
-		if (ok) 
+		if (ok && authStore.isLoggedIn) // browsercheck runs only for logged-in users
 			next()
 		else 
 			next(false)

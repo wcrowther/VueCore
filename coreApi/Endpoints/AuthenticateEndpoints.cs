@@ -18,18 +18,25 @@ public static partial class Endpoints
 					  .WithTags("Authenticate");
 
 
+		// =========================================================
+		// me (get current user claims for JWT testing)
+		// =========================================================
 
-		// me - get current user claims for JWT testing
-		endpoints.MapGet("/me", (ClaimsPrincipal user) =>
+		endpoints.MapGet("/me", 
+		(	ClaimsPrincipal user) =>
 		{
 			return user.Claims.Select(c => new { c.Type, c.Value });
 
 		});
 
+		// =========================================================
 		// login
-		endpoints.MapPost("/login", (	AuthRequest model, 
-										IAuthManager _authManager
-									) =>
+		// =========================================================
+
+		endpoints.MapPost("/login", 
+		(	AuthRequest model, 
+			IAuthManager _authManager
+		) =>
 		{
             Returns<AuthUser> returns = _authManager.Authenticate(model);
 
@@ -38,12 +45,19 @@ public static partial class Endpoints
 					: Results.Unauthorized();
 		})
 		.Validate<AuthRequest>(false)
-        .WithName("Login");
+		.Produces<AuthUser>(StatusCodes.Status200OK) 
+		.Produces(StatusCodes.Status401Unauthorized) 
+		.WithName("Login");
 
-		// signup
-		endpoints.MapPost("/signup", (	UserToCreate model, 
-										IAuthManager _authManager
-									 ) =>
+		// =========================================================
+		// signup 
+		// =========================================================
+
+		endpoints.MapPost("/signup", 
+		(	
+			UserToCreate model, 
+			IAuthManager _authManager									 
+		) =>
 		{
 			Returns<AuthUser> returns = _authManager.Signup(model);
 
@@ -54,10 +68,15 @@ public static partial class Endpoints
 		.Validate<UserToCreate>(false)
 		.WithName("Signup");
 
+		// =========================================================
 		// refreshAuth
-		endpoints.MapPost("/refreshAuth", (	AuthRefreshRequest request, 
-											IAuthManager _authManager
-										  ) =>
+		// =========================================================
+
+		endpoints.MapPost("/refreshAuth", 
+		(	
+			AuthRefreshRequest request, 
+			IAuthManager _authManager
+		) =>
 		{
 			Returns<AuthUser> returns = _authManager.RefreshAuth(request);
 

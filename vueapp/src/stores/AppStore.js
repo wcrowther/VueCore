@@ -1,4 +1,6 @@
 
+// Uses Composition Api-style syntax
+
 export const useAppStore = defineStore('AppStore', () => 
 {
     const sideBarHidden         = ref(false)
