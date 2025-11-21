@@ -1,10 +1,10 @@
 
 export default class AccountModel 
 {
-    constructor(accountId = 0, accountName = '') 
+    constructor() 
     {
-        this.AccountId = accountId;
-        this.AccountName = accountName;
+        this.AccountId = 0;
+        this.AccountName = '';
         this.AccountEmail = '';
         this.AccountPhone = '';
         this.StreetAddress = '';

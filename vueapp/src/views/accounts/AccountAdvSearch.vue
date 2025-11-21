@@ -51,7 +51,7 @@
         <div class="p-5 pb-0">
         
             <SelectInput labelName="Search Type" v-model="listPager.Search.FilterType" 
-                :optionsList="filterTypes" :showDefault="false"  
+                :optionsList="filterTypesList" :showDefault="false"  
                 title="Filter AccountName by 'Starts With', 'Contains' or 'Ends With'." />
 
             <SelectInput labelName="Page Size" v-model="listPager.PageSize" 

@@ -6,7 +6,7 @@
         defaultText:        { type: String,  default: '-----' },    // text for default item
         disableDefault:     { type: Boolean, default: true },       // initial value but default cannot be selected
         optionsList:        { type: Object,  required: true },      // list of options
-        labelName:          { type: String,  required: true },      // labet for select
+        labelName:          { type: String,  required: true },      // label for select
         ruleName:           { type: String },                       // rule for valiadation. if not set, uses labelName removing spaces
         v$:                 { type: Object }                        // pass in vulidate validator (validation ignored if not set)
     })
@@ -46,6 +46,4 @@
     
     <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince" 
         :optionsList="usStatesList" :v$ />
-
-
 -->

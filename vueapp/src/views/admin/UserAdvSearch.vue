@@ -53,7 +53,7 @@
                 title="Change how many records in each page of data." />
 
             <SelectInput labelName="Roles" v-model="listPager.Search.RoleFilter" 
-                :optionsList="roleList" :showDefault="true"  
+                :optionsList="rolesList" :showDefault="true"  
                 title="Filter by the users role" />
         </div>
 

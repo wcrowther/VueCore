@@ -1,4 +1,4 @@
-// use this style or convert to Compostion style?
+// Options style or convert to Compostion style?
 const showPrevNextRef        = useLocalStorage('showPrevNext', true) 
 const showBreakpointsRef     = useLocalStorage('showBreakpoints', false)
 const showNotificationRef    = useLocalStorage('showNotification', true)

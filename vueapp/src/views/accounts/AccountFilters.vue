@@ -1,8 +1,5 @@
 <script setup>
 
-    import { filterTypes }  from '@/helpers/filterTypes'
-    import { usStatesList } from '@/helpers/usStates'
-
     const props = defineProps(
     {
         listPager: { type: PagerModel, required: true },
@@ -18,7 +15,7 @@
 
         let filterType = props.listPager.Search.FilterType
         if(filterType && filterType.length > 0 && filterType !== 'startswith') // do not show if default 
-            filterList.push(filterTypes[filterType])
+            filterList.push(filterTypesList[filterType])
 
         let stateProv = props.listPager.Search.StateProvinceFilter
         if(stateProv && stateProv.length > 0)

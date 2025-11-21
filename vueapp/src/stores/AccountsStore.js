@@ -25,39 +25,31 @@ export const useAccountsStore = defineStore('AccountsStore',
         {
             try 
             {
-                const result = await apiGet(`/accounts/getAllAccounts`)
-                
-                if(result.success) 
-                {
-                    this.accountsList   = result.data.Result.ListItems   
+                const response = await apiGet(`/accounts/getAllAccounts`)                
+                if(response.success) 
+                {    
+                    this.accountsList   = response.data.Result.ListItems   
                 }
             }
-            catch (err)
-            { 
-                toastStore.showError(err.message) 
-            }
+            catch (err) { toastStore.showError(err.message) }
         },
         async getPagedAccounts (pager)
         {
             try 
             {
-                console.log('--- Get AccountList From Server')
-                // logJson('getPagedAccounts request', JSON.stringify(pager))
-               
-                const result = await apiPost(`/accounts/getPagedAccounts`, pager)
+                console.log('--- Get AccountList From Server') // logJson('getPagedAccounts request', JSON.stringify(pager))
+                const response = await apiPost(`/accounts/getPagedAccounts`, pager)
                 
-                if(result.success) 
+                if(response.success) 
                 {
-                    // OLD: this.accountsPager  = Object.assign(new PagerModel(new SearchForAccount(), result.data.Result.Pager)
+                    this.accountsPager = PagerModel.fromJson(response.data.Result.Pager, () => new SearchForAccount()) 
+                    this.accountsList  = response.data.Result.ListItems.map(item => Object.assign(new AccountModel, item))
 
-                    this.accountsPager = PagerModel.fromJson(result.data.Result.Pager, () => new SearchForAccount()) 
-                    this.accountsList  = result.data.Result.ListItems   
+                    // OLD: this.accountsPager  = Object.assign(new PagerModel(new SearchForAccount(), response.data.Result.Pager)
+                    // OLD: this.accountsList   = response.data.Result.ListItems   
                 }
             }
-            catch (err)
-            { 
-                toastStore.showError(err.message) 
-            }
+            catch (err){ toastStore.showError(err.message) }
         },
         async getAccountDetailData (accountId)
         {
@@ -66,7 +58,6 @@ export const useAccountsStore = defineStore('AccountsStore',
                 if(accountId && accountId > 0)
                 {
                     console.log(`------- Get AccountDetail ${accountId} From Server`)
-                    
                     const result = await apiGet(`/accounts/getAccountById/${accountId}`)
                     
                     if(result.success)
@@ -77,9 +68,10 @@ export const useAccountsStore = defineStore('AccountsStore',
                     }
                 }
 
-                this.account = new AccountModel()
+                this.account            = new AccountModel()
+                this.uneditedAccount    = new AccountModel()
             } 
-            catch (err) {  toastStore.showError(err.message) }
+            catch (err) { toastStore.showError(err.message) } 
         },
         async saveAccount ()
         {
@@ -99,7 +91,6 @@ export const useAccountsStore = defineStore('AccountsStore',
         },
         async resetAccount ()
         {
-            // this.account = this.uneditedAccount // OR THIS?: 
             this.account = Object.assign(new AccountModel(), this.uneditedAccount)
         }
     }

@@ -169,7 +169,7 @@
             <TextInput labelName="First Name" v-model="user.FirstName" :v$ />
             <TextInput labelName="Last Name"  v-model="user.LastName"  :v$ />
             <TextInput labelName="UserEmail"  v-model="user.UserEmail" :v$ />
-            <SelectInput labelName="Role"  v-model="user.Role" :v$ :optionsList="roleList" />
+            <SelectInput labelName="Role"     v-model="user.Role" :optionsList="rolesList" :v$ />
 
         </div>
 

@@ -12,12 +12,13 @@ vueapp*
 │   │   └──── ApiCall.js
 │   │   └──── KeyboardListeners.js
 │   │   └──── ...
+│   ├── datalists*
+│   │   └──── filterTypesList.js
+│   │   └──── rolesList.js
+│   │   └──── usStatesList.js
 │   ├── helpers*
-│   │   └──── filterTypes.js
 │   │   └──── global.js
 │   │   └──── pagerPageSize.js
-│   │   └──── roleList.js
-│   │   └──── usStates.js
 │   │   └──── validators.js
 │   ├── layouts*
 │   ├── models*

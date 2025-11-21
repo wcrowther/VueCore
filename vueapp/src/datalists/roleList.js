@@ -1,4 +1,4 @@
-export const roleList =
+export const rolesList =
 {
     'User'      : 'User' ,
     'Admin'     : 'Admin', 
