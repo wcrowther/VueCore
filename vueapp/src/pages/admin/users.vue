@@ -3,8 +3,7 @@
 
 <template>
 
-    <div id="admin-users"
-        class="flex">
+    <div id="admin-users" class="flex">
 
         <MainSidebar>
             <UsersList />

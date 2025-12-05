@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base 
 {
 	/* ---------------------------------------------- */
@@ -102,7 +101,7 @@
 	}
 
 	/*=====================================================================
-		Custom page scrollbar 
+	Custom page scrollbar 
 	===================================================================== 
 	*/
 
@@ -139,7 +138,8 @@
 	.alt-theme .nav-tab { @apply text-[#1b2157] bg-white hover:opacity-50 }    
 	.theme .active-tab, .alt-theme .active-tab  
 						{ @apply text-orange hover:text-black bg-gradient-tab-active rounded-t-md 
-							opacity-100 m-0 h-9 rounded-b-none hover:opacity-100 }
+						  opacity-100 m-0 h-9 rounded-b-none hover:opacity-100 }
 	.active-tab .corner { @apply block }
+	.subnav-active  	{ @apply text-orange hover:opacity-50 }  
 }
 

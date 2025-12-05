@@ -6,8 +6,8 @@
 export {}
 declare global {
   const AccountModel: typeof import('../models/AccountModel.js')['default']
-  const AuthRefreshRequest: typeof import('../models/AuthRefreshRequest.js')['AuthRefreshRequest']
-  const AuthRequest: typeof import('../models/AuthRequest.js')['AuthRequest']
+  const AuthRefreshRequest: typeof import('../models/AuthRefreshRequest.js')['default']
+  const AuthRequest: typeof import('../models/AuthRequest.js')['default']
   const AuthUser: typeof import('../models/AuthUser.js')['AuthUser']
   const AutoRefreshAuth: typeof import('../composables/AutoRefreshAuth.js')['AutoRefreshAuth']
   const DisableLayoutEscapeKey: typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']
@@ -137,6 +137,12 @@ declare global {
   export type { AccountModel } from '../models/AccountModel.js'
   import('../models/AccountModel.js')
   // @ts-ignore
+  export type { AuthRefreshRequest } from '../models/AuthRefreshRequest.js'
+  import('../models/AuthRefreshRequest.js')
+  // @ts-ignore
+  export type { AuthRequest } from '../models/AuthRequest.js'
+  import('../models/AuthRequest.js')
+  // @ts-ignore
   export type { UserModel } from '../models/UserModel.js'
   import('../models/UserModel.js')
 }
@@ -146,8 +152,8 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly AccountModel: UnwrapRef<typeof import('../models/AccountModel.js')['default']>
-    readonly AuthRefreshRequest: UnwrapRef<typeof import('../models/AuthRefreshRequest.js')['AuthRefreshRequest']>
-    readonly AuthRequest: UnwrapRef<typeof import('../models/AuthRequest.js')['AuthRequest']>
+    readonly AuthRefreshRequest: UnwrapRef<typeof import('../models/AuthRefreshRequest.js')['default']>
+    readonly AuthRequest: UnwrapRef<typeof import('../models/AuthRequest.js')['default']>
     readonly AuthUser: UnwrapRef<typeof import('../models/AuthUser.js')['AuthUser']>
     readonly AutoRefreshAuth: UnwrapRef<typeof import('../composables/AutoRefreshAuth.js')['AutoRefreshAuth']>
     readonly DisableLayoutEscapeKey: UnwrapRef<typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']>
