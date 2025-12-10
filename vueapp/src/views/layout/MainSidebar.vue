@@ -27,7 +27,6 @@
         <div class="absolute right-0 w-full min-w-[300px] xs:relative xs:w-[300px] xs:min-w-1">
             <slot></slot>
         </div> 
-
     </div>
 
 </template>

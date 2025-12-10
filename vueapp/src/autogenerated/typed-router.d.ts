@@ -49,7 +49,6 @@ declare module 'vue-router/auto/routes' {
     '/accounts/view': RouteRecordInfo<'/accounts/view', '/accounts/view', Record<never, never>, Record<never, never>>,
     '/accounts/wizard': RouteRecordInfo<'/accounts/wizard', '/accounts/wizard', Record<never, never>, Record<never, never>>,
     '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
-    '/admin/notes': RouteRecordInfo<'/admin/notes', '/admin/notes', Record<never, never>, Record<never, never>>,
     '/admin/site': RouteRecordInfo<'/admin/site', '/admin/site', Record<never, never>, Record<never, never>>,
     '/admin/users': RouteRecordInfo<'/admin/users', '/admin/users', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,

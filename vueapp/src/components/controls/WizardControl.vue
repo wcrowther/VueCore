@@ -42,8 +42,8 @@
            </template>  
 
            <slot>
-                <div @click="nextTab" class="text-right font-bold absolute 
-                    flex justify-end bottom-5 left-5 right-5 hover:text-orange">
+                <div @click="nextTab" class="text-right font-bold absolute w-fit
+                    flex justify-end top-5 right-5 hover:text-orange">
                     Next
                 </div>
            </slot>

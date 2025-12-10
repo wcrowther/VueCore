@@ -12,11 +12,11 @@
 
 <template>
     <div v-if="infoLevel > 2" 
-        :class="['text-sm border border-[#f97316] bg-white  w-full',
-            props.compact ? 'mb-3 px-3 py-2 rounded-md' : 'mb-2 px-6 py-5 rounded-xl']">
+        :class="['text-sm border-y border-[#f97316] bg-white/60  w-full',
+            props.compact ? 'mb-3 px-3 py-2' : 'mb-2 px-6 py-5']">
 
         <span v-if="!props.compact"
-            class="float-right relative -top-4 -right-5 badge-button text-white bg-orange" 
+            class="float-right relative -top-3 -right-4 badge-button text-white bg-orange" 
             @click="infoLevel=2"  @click.right.prevent="infoLevel=1">
             Help
         </span> 

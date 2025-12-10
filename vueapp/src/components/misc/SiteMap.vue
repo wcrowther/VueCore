@@ -18,7 +18,6 @@
 <template>
 
 	<div class="pb-7" id="SiteMap">
-
 		<div v-for="(link, idx) in sitemap" :key="idx+1" :class="{'font-bold mb-3': link == '/'}">
 			<span v-for="n in indent(link)" :key="n" class="w-5 inline-block"></span>
 			<router-link :to="link" class="hover:underline underline-offset-4">{{ linkTitle(link) }}</router-link>

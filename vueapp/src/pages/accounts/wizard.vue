@@ -29,7 +29,7 @@
 				</FloaterControl>
 				-->
 
-				<WizardControl class="mb-10" :tabList="['First', 'Second', 'Third', 'Fourth']">
+				<WizardControl class="mb-10" :tabList="['First', 'Second', 'Third', 'Fourth', 'Fifth']">
 
 					<template #First>
 						<AccountsWizardFirst /> 
@@ -40,14 +40,9 @@
 					</template>
 
 					<template #Third>
-						<div class="font-bold text-red mb-3">Important</div>
-						<div class="">
-							Minus sit enim sapiente id fugiat rem optio! Perferendis recusandae 
-							corporis odio, modi sunt nulla?
-						</div>
+						<AccountsWizardThird />
 					</template>
-
-					
+				
 					<template #Fourth>
 						<div class="font-bold mb-3">Fourth Content</div>
 						<div class="">
@@ -55,8 +50,9 @@
 							tempore accusamus asperiores! Minus sit enim sapiente id fugiat rem optio! Perferendis recusandae 
 							corporis odio, modi sunt nulla?
 						</div>
-
 					</template>
+
+					<template #Fifth></template>
 
 				</WizardControl>
 
