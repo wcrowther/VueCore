@@ -43,7 +43,7 @@
 
 <template>   
 
-	<ModalControl :showModal="showModal" title="Advanced Search" id="UserAdvSearch"
+	<ModalControl :showModal="showModal" title="Advanced Search" id="UsersAdvSearch"
         height="400px" width="500px" @closeModal="showModal=false">
 
         <div class="p-5 pb-0">
@@ -69,6 +69,6 @@
 
 <!-- 
 Usage:
-    <UserAdvSearch v-model:show="showAdvSearch" v-model:listPager="listPager" 
-        @getListData="getListData"></UserAdvSearch>
+    <UsersAdvSearch v-model:show="showAdvSearch" v-model:listPager="listPager" 
+        @getListData="getListData"></UsersAdvSearch>
 -->

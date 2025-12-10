@@ -66,7 +66,6 @@
         {
             let newPager                = new PagerModel()
             newPager.Search.Filter      = listPager.value.Search.Filter
-            // newPager.PageSize           = listPager.value.PageSize  // WILL REMOVE
             listPager.value             = newPager
         }
 
@@ -112,13 +111,6 @@
         refreshList(newVal)
     })
 
-    // WILL REMOVE
-    // watch(() => listPager.value.PageSize, (newVal, oldVal) => 
-    // { 
-    //     if(newVal === oldVal) return
-    //     refreshList(1, true)
-    // })
-    
     watch(() => listPager.value.Search.Filter, (newVal, oldVal) => 
     {
         if(newVal === oldVal || newVal.slice(-1) == ',' || newVal.slice(-1) == ' ')
@@ -146,7 +138,7 @@
                     v-model:showAdvSearch="showAdvSearch" />
             </div>
 
-            <UserFilters :listPager @showAdvancedSearch="showAdvSearch=true" /> 
+            <UsersFilters :listPager @showAdvancedSearch="showAdvSearch=true" /> 
 
             <div class="w-full flex justify-between items-center select-none my-3">
                 <ListPager class="mr-2" id='listPager' v-bind:pager="listPager" />
@@ -156,7 +148,7 @@
             </div>
 
             <InfoBox class="mb-3">
-                Enter search text for the start of an User First Name or Last Name or the UserId.
+                Enter a UserId or search text for the start of an User First or Last Name.
             </InfoBox>
 
             <HelpBox :compact="true">
@@ -203,7 +195,7 @@
 
         </table>
 
-        <UserAdvSearch v-if="showAdvSearch" 
+        <UsersAdvSearch v-if="showAdvSearch" 
             v-model:showModal="showAdvSearch" 
             v-model:listPager="listPager"
              @getListData="getListData" />
