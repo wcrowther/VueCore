@@ -14,7 +14,7 @@
 		}
 	}
     
-    const treeRef       = ref(null);
+    const treeRef       = useTemplateRef('treeRef')
     const expandAll     = () => treeRef.value?.openAll()
     const collapseAll   = () => treeRef.value?.closeAll()
 
@@ -27,8 +27,8 @@
         <PrimaryButton @click="expandAll">Expand All</PrimaryButton>
         <PrimaryButton @click="collapseAll" class="ml-2">Collapse All</PrimaryButton>
     </div>
-    <div class="mt-5">
-        <JsonTreeControl :json="jsonTree" label="json" ref="treeRef" />
+    <div class="mt-5 pb-5">
+        <JsonTreeControl :json="jsonTree" label="json" ref="treeRef" class="border-b-[3px] border-color-primary" />
     </div>
 
 </template>

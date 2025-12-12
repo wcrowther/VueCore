@@ -1,6 +1,6 @@
 <script setup>
 
-    const homeTitle     = ref("Welcome to VueCorp Starter Solution")
+    const homeTitle     = ref("Welcome to VueCore Dev Starter")
     const appStore      = useAppStore()
 
 </script>
@@ -23,7 +23,7 @@
 
             <div class="pr-5 w-2/3 grow">
                 <p class="mb-8 text-lg">
-                    <b>VueCorp</b> is an open source project to promote using <b>Vue.js</b> with a
+                    <b>VueCore</b> is an open source project to promote using <b>Vue.js</b> with a
                     <b>DotNet</b> backend to create a simple yet powerful application environment. 
                     We combined a <b>VueJs </b> SPA project (.esproj) built using <b>Vite</b> with a 
                     separate <b>.Net Minimal API </b> project for the backend that is 
@@ -40,14 +40,14 @@
                     reflect your <b>code intent</b> and are easy to adapt. This project isn’t meant to be the definitive 
                     way to build an app — just a solid starting point.
                 </p>
-                <HelpBox class="mt-5 mb-6">
-                    Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
-                    Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
-                </HelpBox>
-                <p class="mb-0">
+                <p class="mb-3">
                     You'll find a number of innovative techniques throughout both the <b>Vue.js</b> and <b>.NET</b> 
                     Minimal API projects. We welcome contributions and suggestions as the project evolves.
                 </p>
+                <HelpBox :static="true" class="mt-5">
+                    Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
+                    Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+                </HelpBox>
             </div>
 
             <div class="w-full grow italic p-5 flex flex-col gap-y-3 border-color-light-blue

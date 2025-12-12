@@ -1,10 +1,16 @@
 <script setup>
 	const appStore                      = useAppStore()
 	const { infoLevel }                 = storeToRefs(appStore)
+
+    const props = defineProps(
+	{
+        static:  { type: Boolean, default: false },
+	});
+
 </script>
 
 <template>
-    <div v-if="infoLevel > 1" class="mb-3 text-sm">
+    <div v-if="infoLevel > 1 || static" class="mb-3 text-sm">
         <slot></slot>
     </div>
 </template>

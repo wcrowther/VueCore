@@ -1,23 +1,28 @@
 <script setup>
+import { Static } from 'vue';
+
 
 	const appStore        = useAppStore()
 	const { infoLevel, }  = storeToRefs(appStore)
 
     const props = defineProps(
 	{
-		compact: 	 { type: Boolean, default: false }, 
+		compact: { type: Boolean, default: false },
+        static:  { type: Boolean, default: false },
 	});
+
+    const helpClick = () => { if(!props.static){ infoLevel=2 } }
 
 </script>
 
 <template>
-    <div v-if="infoLevel > 2" 
+    <div v-if="infoLevel > 2 || static" 
         :class="['text-sm border-y border-[#f97316] bg-white/60  w-full',
             props.compact ? 'mb-3 px-3 py-2' : 'mb-2 px-6 py-5']">
 
         <span v-if="!props.compact"
             class="float-right relative -top-3 -right-4 badge-button text-white bg-orange" 
-            @click="infoLevel=2"  @click.right.prevent="infoLevel=1">
+            @click="helpClick"  @click.right.prevent="infoLevel=1">
             Help
         </span> 
 

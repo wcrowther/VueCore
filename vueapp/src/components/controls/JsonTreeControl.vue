@@ -25,26 +25,31 @@
 
 	defineExpose({ openAll, closeAll });
 
+	const rowClasses = computed(() => [
+  		isArray.value || isObject.value ? 'border-t-[3px] border-color-primary' : 'border-t border-gray',
+  		props.level !== 0 ? 'ml-[10px]' : ''
+	])
+
 </script>
 
 <template>
-	<div class="" :style="{ marginLeft: level * 10 + 'px' }">
-
+	<div class="bg-transparent" :style="{ marginLeft: level * 10 + 'px' }">
+		
 		<!-- header -->
-		<div @click="open=!open" class="cursor-pointer select-none ">
-
-			<span v-if="isObject" class="py-1 pr-2 inline-block">
+		<div @click="open=!open" 
+			:class="[rowClasses,'cursor-pointer select-none']">
+			<span v-if="isObject" class="py-1 pr-2 inline-block bg-slate-00">
 				{{ open ? "▼" : "▶" }}
 			</span>
-			<span class="p-1 font-bold inline-block">
+			<span class="font-bold inline-block">
 				{{ label }}
 			</span>
 			<span v-if="level === 0"></span>
 			<span v-else-if="isArray" class="p-1 text-gray-400 inline-block">
-				[Array]
+				[ Array ]
 			</span>
 			<span v-else-if="isObject && !isArray" class="p-1 text-gray-400 inline-block">
-				{Object}
+				{ Object }
 			</span>
 			<span v-else class="inline-block">
 				<span class="p-1 inline-block">:</span>
