@@ -33,28 +33,27 @@
 </script>
 
 <template>
-	<div class="bg-transparent" :style="{ marginLeft: level * 10 + 'px' }">
+	<div class="bg-transparent mb-1" :style="{ marginLeft: level * 10 + 'px' }">
 		
 		<!-- header -->
 		<div @click="open=!open" 
 			:class="[rowClasses,'cursor-pointer select-none']">
-			<span v-if="isObject" class="py-1 pr-2 inline-block bg-slate-00">
+			<div v-if="isObject" class="py-1 pr-2 inline-block bg-slate-00">
 				{{ open ? "▼" : "▶" }}
-			</span>
-			<span class="font-bold inline-block">
+			</div>
+			<div class="font-bold inline-block">
 				{{ label }}
-			</span>
-			<span v-if="level === 0"></span>
-			<span v-else-if="isArray" class="p-1 text-gray-400 inline-block">
+				<span v-if="level !== 0" class="p-1 pr-2 inline-block">:</span>
+			</div>
+			<div v-if="isArray" class="p-1 text-gray-400 inline-block">
 				[ Array ]
-			</span>
-			<span v-else-if="isObject && !isArray" class="p-1 text-gray-400 inline-block">
+			</div>
+			<div v-else-if="isObject && !isArray" class="p-1 text-gray-400 inline-block">
 				{ Object }
-			</span>
-			<span v-else class="inline-block">
-				<span class="p-1 inline-block">:</span>
-				<span class="p-1 inline-block">{{ json }}</span>
-			</span>
+			</div>
+			<div v-else class="inline-block">
+				{{ json }}
+			</div>
 		</div>
 
 		<!-- children -->

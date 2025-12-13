@@ -4,7 +4,7 @@
 
     const props = defineProps({
         id: { type: String, default: 'WizardControl' },        
-		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] }
+		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] } 
 	})
 
     const activeTab     = ref(props.tabList[0])
@@ -36,7 +36,7 @@
             overflow-y-auto scrollbar-thin box-border">
 
            <template v-for="(tab,idx) in props.tabList" :key="idx">
-                <div v-show="activeTab == tab" >
+                <div v-show="activeTab == tab">
                     <slot :name="tab"></slot>
                 </div>
            </template>  
@@ -55,28 +55,23 @@
 
 <!-- USAGE: 
 
-    Note: In WizardControl the slots 'KeepAlive' their state. While the TabControl does not.
+    Note: In the WizardControl the slots are all loaded but kept hidden. 
+    In the TabControl, the slots content is not loaded until the tab is selected.
 
     <WizardControl class="mb-10" :tabList="['First', 'Second', 'Third']" >
 
         <div class="text-center p-3 border">Default slot</div>
 
         <template #First>       
-            <div class="p-5">
-                <div class="font-bold mb-3">First Content</div>
-            </div>
+            <div class="font-bold mb-3">First Content</div>
         </template>
 
         <template #Second>       
-            <div class="p-5">
-                <div class="font-bold mb-3">Second Content</div>
-            </div>
+            <div class="font-bold mb-3">Second Content</div>
         </template>
 
         <template #Third>       
-            <div class="p-5">
-                <div class="font-bold text-red mb-3">Important</div>
-            </div>
+            <SomeControl />
         </template>
 
     </WizardControl>

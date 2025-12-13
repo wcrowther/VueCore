@@ -1,6 +1,9 @@
 <script setup>
 
-    const jsonTree = 
+    import externalJson from '@/datalists/30posts.json'
+
+    const useLocal = ref(true)
+    const localJsonTree = 
 	{
 		id:         123,
 		name:       "Will Crowther",
@@ -13,22 +16,25 @@
 			'nested value:': { value: "deep" }
 		}
 	}
-    
+
     const treeRef       = useTemplateRef('treeRef')
     const expandAll     = () => treeRef.value?.openAll()
-    const collapseAll   = () => treeRef.value?.closeAll()
+    const collapseAll   = () => treeRef.value?.closeAll() 
+    const jsonTree      = computed(() => useLocal.value ? localJsonTree : externalJson)
 
 </script>
 
 <template>
 
     <div class="font-bold mb-4">Json Tree Control Example</div>
-    <div class="mb-4">
+    <div class="flex justify-center mb-4">
         <PrimaryButton @click="expandAll">Expand All</PrimaryButton>
         <PrimaryButton @click="collapseAll" class="ml-2">Collapse All</PrimaryButton>
+        <PrimaryButton @click="useLocal=!useLocal" class="ml-2">Toggle Content</PrimaryButton>
     </div>
     <div class="mt-5 pb-5">
-        <JsonTreeControl :json="jsonTree" label="json" ref="treeRef" class="border-b-[3px] border-color-primary" />
+        <JsonTreeControl :json="jsonTree" label="Sample Json" ref="treeRef" 
+            class="border-b-[3px] border-color-primary" />
     </div>
 
 </template>

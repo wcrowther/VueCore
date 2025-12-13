@@ -13,6 +13,8 @@
 	const linkTitle = (link) => link == '/' ? 'homepage' : link.slice(1)
 	const indent 	= (link) => link.split('/').length - 2
 
+	console.log(`${sitemap.join('\n')}`)
+
 </script>
 
 <template>

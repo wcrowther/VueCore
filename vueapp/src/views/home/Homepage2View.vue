@@ -138,7 +138,7 @@
                 </li>
                 <li>
                     <span>Local Storage</span>
-                    Utilizing local storage in our datastores it is very easy to persist user prefernces.
+                    Utilizing local storage in our datastores it is very easy to persist user preferences.
                 </li>
                 <li>
                     <span>Model Validation w/ Vuelidate</span>

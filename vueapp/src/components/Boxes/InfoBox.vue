@@ -22,7 +22,11 @@ USE:  Wrap around content that you only want to appear when infoLevel is Info (2
 EXAMPLES: 
 
     <InfoBox>
-        Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
+        Conditional generic directions or information to display on the page.
+    </InfoBox>
+
+    <InfoBox :static="true">
+        Always display generic directions or information to display on the page 
     </InfoBox>
 -->
 

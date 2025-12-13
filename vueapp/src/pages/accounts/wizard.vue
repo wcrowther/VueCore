@@ -32,15 +32,15 @@
 				<WizardControl class="mb-10" :tabList="['First', 'Second', 'Third', 'Fourth', 'Fifth']">
 
 					<template #First>
-						<AccountsWizardFirst /> 
+						<WizardFirst /> 
 					</template>
 
 					<template #Second>
-						<AccountsWizardSecond />
+						<WizardSecond />
 					</template>
 
 					<template #Third>
-						<AccountsWizardThird />
+						<WizardThird />
 					</template>
 				
 					<template #Fourth>

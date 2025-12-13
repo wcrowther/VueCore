@@ -7,7 +7,6 @@
 	})
 
     // defineOptions({ inheritAttrs: false })
-
     // const grid = Array.from({ length: props.rows }, () => new Array(props.cols).fill(0));
 
 </script>
@@ -15,16 +14,16 @@
 <template>
 
 	<div class="w-fit mx-auto" :style="{ display: 'grid', gap: '4px', 
-		gridTemplateRows: `repeat(${cols}, 1fr)`, 
-		gridTemplateColumns: `repeat(${rows}, 1fr)`}">
+		gridTemplateRows: `repeat(${props.cols}, 1fr)`, 
+		gridTemplateColumns: `repeat(${props.rows}, 1fr)`}">
 
-		<template v-for="(row, rowIndex) in rows" :key="rowIndex">
+		<template v-for="(row, rowIndex) in props.rows" :key="rowIndex">
 
-			<template v-for="(col, colIndex) in cols" :key="`${rowIndex}-${colIndex}`">
+			<template v-for="(col, colIndex) in props.cols" :key="`${rowIndex}-${colIndex}`">
 				<div class="flex justify-center items-center" v-bind='$attrs' 
-					:style="{ gridRow: rowIndex + 1, gridColumn: colIndex + 1 }" 
-					title="Row: {{ rowIndex }}, Col: {{ colIndex }}">
-
+					:style="{ gridRow: rowIndex+1, gridColumn: colIndex+1 }" 
+					:title="`Row: ${rowIndex+1}, Col: ${colIndex+1}`">
+					<slot></slot> <!-- :name="`cell|${row}|${col}`" -->
 				</div>
 			</template>
 
