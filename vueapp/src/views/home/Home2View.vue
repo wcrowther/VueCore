@@ -14,7 +14,7 @@
             <h3 class="font-bold text-lg">Vue / Asp.net Combined Solution</h3>
 
             <p class="w-full">
-                The VueCorp solution is structured to establish a clear separation of concerns by isolating
+                The VueCore solution is structured to establish a clear separation of concerns by isolating
                 the frontend (Vue) and backend (Asp.net Minimal Api) into distinct projects. Despite this separation,
                 the template integrates the build and publish processes so that both layers can be compiled and deployed
                 as a single web application, simplifying hosting while maintaining a modular architecture.

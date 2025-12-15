@@ -55,7 +55,7 @@
                 title="Filter AccountName by 'Starts With', 'Contains' or 'Ends With'." />
 
             <SelectInput labelName="Page Size" v-model="listPager.PageSize" 
-                :optionsList="pagerPageSize" :showDefault="false"  
+                :optionsList="pageSizeList" :showDefault="false"  
                 title="Change how many records are in each page of data." />
 
             <SelectInput labelName="State / Province Filter" v-model="listPager.Search.StateProvinceFilter" 

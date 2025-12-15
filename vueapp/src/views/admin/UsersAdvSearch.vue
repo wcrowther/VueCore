@@ -49,7 +49,7 @@
         <div class="p-5 pb-0">
 
             <SelectInput labelName="PageSize" v-model="listPager.PageSize" 
-                :optionsList="pagerPageSize" :showDefault="false"  
+                :optionsList="pageSizeList" :showDefault="false"  
                 title="Change how many records in each page of data." />
 
             <SelectInput labelName="Roles" v-model="listPager.Search.RoleFilter" 

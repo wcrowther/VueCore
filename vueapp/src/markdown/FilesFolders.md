@@ -142,5 +142,5 @@ For VSCode IntelliSense (so auto-imports, jump-to-definition, etc. work), you al
 
 ### Example Component
 
-#### src/components/Boxes/InfoBox.vue
+#### src/components/boxes/InfoBox.vue
 This Vue component file utilizes the **`<script setup>`** syntax for the Composition API. It imports the **useAppStore** function to access the application store and employs **storeToRefs** to create reactive references to the **infoLevel** property from the store. The template conditionally renders a **`<div>`** element containing a slot for content, which is displayed only if **infoLevel** is greater than 1. This component is specifically designed to wrap around content that should only be visible when the **infoLevel** is set to either Info (2) or Help (3).

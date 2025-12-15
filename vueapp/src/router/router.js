@@ -4,7 +4,7 @@
 import { createRouter, createWebHistory } 	from 'vue-router/auto'
 
 
-const DEFAULT_TITLE = 'Vue Corp';
+const DEFAULT_TITLE = 'VueCore';
 
 const router = createRouter(
 {

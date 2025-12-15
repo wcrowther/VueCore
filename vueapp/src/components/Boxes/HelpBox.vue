@@ -1,6 +1,4 @@
 <script setup>
-import { Static } from 'vue';
-
 
 	const appStore        = useAppStore()
 	const { infoLevel, }  = storeToRefs(appStore)
@@ -8,15 +6,15 @@ import { Static } from 'vue';
     const props = defineProps(
 	{
 		compact: { type: Boolean, default: false },
-        static:  { type: Boolean, default: false },
+        pin:  { type: Boolean, default: false },
 	});
 
-    const helpClick = () => { if(!props.static){ infoLevel=2 } }
+    const helpClick = () => { if(!props.pin){ infoLevel=2 } }
 
 </script>
 
 <template>
-    <div v-if="infoLevel > 2 || static" 
+    <div v-if="infoLevel > 2 || pin" 
         :class="['text-sm border-y border-[#f97316] bg-white/60  w-full',
             props.compact ? 'mb-3 px-3 py-2' : 'mb-2 px-6 py-5']">
 

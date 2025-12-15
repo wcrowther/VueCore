@@ -50,7 +50,7 @@
         activeDetailId.value    = activeListItemId.value
     }
 
-    const refreshList           = (newRecord, forceRefresh) =>
+    const refreshList           = (newRecord, forceRefresh = false) =>
     {
         listPager.value.CurrentRecord = newRecord
             

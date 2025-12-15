@@ -44,28 +44,36 @@
                     You'll find a number of innovative techniques throughout both the <b>Vue.js</b> and <b>.NET</b> 
                     Minimal API projects. We welcome contributions and suggestions as the project evolves.
                 </p>
-                <HelpBox :static="true" class="mt-5">
-                    Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
-                    Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+                <HelpBox :pin="true" class="mt-5">
+                    This application includes an example of a progressive, inline help system with <b>Help</b> styled like this block. 
+                    The other levels are <b>None</b> or <b>Info</b> which can be toggled through using the button on the right of the NavBar.
                 </HelpBox>
             </div>
 
-            <div class="w-full grow italic p-5 flex flex-col gap-y-3 border-color-light-blue
+            <div class="w-full grow italic flex flex-col border-color-light-blue
                 border bg-gradient-source sm:flex-row md:flex-col md:w-1/3 md:border-0" >
 
-                <div class="w-full sm:w-1/2 md:w-full">
-                    <div class="">View the customized DotNet c#:</div>
+                <div class="w-full p-5 pb-0 md:pb-5 sm:w-1/2 md:w-full">
+                    <div class="font-bold">Example website:</div>
                     <a class="block font-bold link-underline text-blue break-words lg:break-normal"
-                        :href="appStore.apiDocsUrl">
-                        VueCorp API Documentation
+                        :href="appStore.vueCoreUrl">
+                        {{ appStore.vueCoreUrl }}
                     </a>
                 </div>
 
-                <div class="w-full sm:w-1/2 md:w-full  sm:text-right md:text-left">
-                    <div>The source for VueCorp is at: </div>
+                <div class="w-full p-5 pb-0 md:pb-5 md:pt-0 sm:w-1/2 md:w-full">
+                    <div class="font-bold">Customized Swagger:</div>
+                    <a class="block font-bold link-underline text-blue break-words lg:break-normal"
+                        :href="appStore.apiDocsUrl">
+                        VueCore API DotNet Documentation
+                    </a>
+                </div>
+
+                <div class="w-full p-5 md:pt-0 sm:w-1/2 md:w-full sm:text-right md:text-left">
+                    <div>VueCore Source: </div>
                     <a class="block font-bold link-underline text-blue break-all lg:break-normal"
-                        href="https://github.com/wcrowther/VueCorp" target="_blank">
-                        https://github.com/wcrowther/VueCorp
+                        :href="appStore.vueCoreSourceUrl" target="_blank">
+                        {{ appStore.vueCoreSourceUrl }}
                     </a>
                 </div>                
             </div>

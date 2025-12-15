@@ -1,5 +1,5 @@
 
 <template>
-	<Homepage1View />
-	<Homepage2View />
+	<Home1View />
+	<Home2View />
 </template>

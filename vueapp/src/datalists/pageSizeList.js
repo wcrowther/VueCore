@@ -1,4 +1,4 @@
-export const pagerPageSize =
+export const pageSizeList =
 {
     "10": "10",
     "15": "15",

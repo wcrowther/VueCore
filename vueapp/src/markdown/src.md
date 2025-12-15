@@ -9,7 +9,7 @@ The `src` directory contains the main source code for the Vue application, inclu
 ### `components/`
 Reusable Vue components that encapsulate UI elements and logic. Organized by feature or layout.
 
-- **`Boxes/`**
+- **`boxes/`**
   - Contains components for displaying boxed content.
     - `InfoBox.vue`: Shows its slot content only when the application's `infoLevel` is greater than 1. Used for contextual information based on user settings.
 
@@ -67,10 +67,10 @@ Global and shared style files, such as CSS, SCSS, or Tailwind configuration over
 
 ## Example: Component Details
 
-- **`components/Boxes/InfoBox.vue`**  
+- **`components/boxes/InfoBox.vue`**  
   Displays its slot content only when `infoLevel` (from the app store) is greater than 1. Used for showing contextual help or information.
 
-- **`components/Layout/MainSidebar.vue`**  
+- **`components/layout/MainSidebar.vue`**  
   Responsive sidebar that hides or shows itself based on window width and a breakpoint. Uses transitions for smooth appearance/disappearance and adapts to mobile/desktop layouts.
 
 ---

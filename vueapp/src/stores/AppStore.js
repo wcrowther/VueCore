@@ -18,6 +18,8 @@ export const useAppStore = defineStore('AppStore', () =>
     const pagerDebuggerY        = useLocalStorage('pagerDebuggerY', 30)
     const baseApiUrl            = import.meta.env.VITE_API_URL
     const apiDocsUrl            = import.meta.env.VITE_API_DOCS_URL
+    const vueCoreUrl            = import.meta.env.VITE_VUE_CORE_URL
+    const vueCoreSourceUrl      = import.meta.env.VITE_VUE_CORE_SOURCE_URL
     const baseUrl               = import.meta.env.BASE_URL
     const mode                  = import.meta.env.MODE
 
@@ -55,6 +57,8 @@ export const useAppStore = defineStore('AppStore', () =>
         activeFloater,
         baseApiUrl,
         apiDocsUrl,
+        vueCoreUrl,
+        vueCoreSourceUrl,
         baseUrl,
         mode,
 
