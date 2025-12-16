@@ -1,27 +1,18 @@
 <script setup>
 
 	const props = defineProps(
-		{
-			json: { type: [Object, Array, String, Number, Boolean, null], required: true },
-			label: { type: [Object, Array, String, Number, Boolean], default: "" },
-			level: { type: Number, default: 0 }
-		})
+	{
+		json: { type: [Object, Array, String, Number, Boolean, null], required: true },
+		label: { type: [Object, Array, String, Number, Boolean], default: "" },
+		level: { type: Number, default: 0 }
+	})
 
 	const open 			= ref(true)
 	const childrenRefs 	= ref([]);
-
-	const isObject = computed(() => typeof props.json === "object" && props.json !== null)
-	const isArray  = computed(() => Array.isArray(props.json))
-
-	function openAll() {
-		open.value = true;
-		childrenRefs.value.forEach(c => c?.openAll?.());
-	}
-
-	function closeAll() {
-		open.value = false;
-		childrenRefs.value.forEach(c => c?.closeAll?.());
-	}
+	const isObject 		= computed(() => typeof props.json === "object" && props.json !== null)
+	const isArray  		= computed(() => Array.isArray(props.json))
+	const openAll 		= () =>  open.value = true;  childrenRefs.value.forEach(c => c?.openAll?.())
+	const closeAll 		= () =>  open.value = false; childrenRefs.value.forEach(c => c?.closeAll?.())
 
 	defineExpose({ openAll, closeAll });
 
@@ -63,4 +54,42 @@
 				:key="key" :json="value" :label="key" :level="level + 1" />
 		</div>
 	</div>
+
 </template>
+
+<!--
+<template>
+	<div class="bg-transparent mb-1" :style="{ marginLeft: level * 10 + 'px' }">
+
+		<div @click="open=!open" :class="[rowClasses, 'cursor-pointer select-none']">
+
+			<div v-show="isObject" class="py-1 pr-2 inline-block bg-slate-00">
+				{{ open ? "▼" : "▶" }}
+			</div>
+
+			<div class="font-bold inline-block">
+				{{ label }}
+				<span v-show="level !== 0" class="p-1 pr-2 inline-block">:</span>
+			</div>
+
+			<div v-show="isArray" class="p-1 text-gray-400 inline-block">
+				[ Array ]
+			</div>
+
+			<div v-show="isObject && !isArray" class="p-1 text-gray-400 inline-block">
+				{ Object }
+			</div>
+
+			<div v-show="!isObject" class="inline-block">
+				{{ json }}
+			</div>
+		</div>
+
+		<div v-show="open && isObject">
+			<JsonTreeControl v-for="(value, key) in json" :key="key" ref="childrenRefs" 
+				:json="value" :label="key" :level="level + 1" />
+		</div>
+
+	</div>
+</template>
+-->

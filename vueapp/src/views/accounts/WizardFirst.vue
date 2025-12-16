@@ -1,39 +1,31 @@
 <script setup>
 
-    import externalJson from '@/datalists/30posts.json'
+    import postsArrayJson       from '@/datalists/30posts.json'
+    import simpleExampleJson    from '@/datalists/simpleExample.json'
 
-    const useLocal = ref(true)
-    const localJsonTree = 
-	{
-		id:         123,
-		name:       "Will Crowther",
-		address:    { city: "Austin", state: "TX" },
-		tags:       ["alpha", "beta"],
-		details:    
-        {
-			level: 2,
-			active: true,
-			'nested value:': { value: "deep" }
-		}
-	}
-
+    const useSimple     = ref(true)
     const treeRef       = useTemplateRef('treeRef')
     const expandAll     = () => treeRef.value?.openAll()
     const collapseAll   = () => treeRef.value?.closeAll() 
-    const jsonTree      = computed(() => useLocal.value ? localJsonTree : externalJson)
+    const jsonTree      = computed(() => useSimple.value ? simpleExampleJson : postsArrayJson)
+    const jsonName      = computed(() => useSimple.value ? 'Simple Object Json' : 'Array of Posts Json')
 
 </script>
 
 <template>
 
-    <div class="font-bold mb-4">Json Tree Control Example</div>
+    <div class="font-bold mb-4">JsonTree Control Example</div>
+    <div class="mb-4">
+        This control is designed to display Json in a nicely-formated collapsable hiearchy.
+        The code also shows how to call public methods on controls like 'expandAll' and 'collapseAll'.
+    </div>
     <div class="flex justify-center mb-4">
         <PrimaryButton @click="expandAll">Expand All</PrimaryButton>
         <PrimaryButton @click="collapseAll" class="ml-2">Collapse All</PrimaryButton>
-        <PrimaryButton @click="useLocal=!useLocal" class="ml-2">Toggle Content</PrimaryButton>
+        <PrimaryButton @click="useSimple=!useSimple" class="ml-2">Toggle Content</PrimaryButton>
     </div>
     <div class="mt-5 pb-5">
-        <JsonTreeControl :json="jsonTree" label="Sample Json" ref="treeRef" 
+        <JsonTreeControl :json="jsonTree" :label="jsonName" ref="treeRef" 
             class="border-b-[3px] border-color-primary" />
     </div>
 

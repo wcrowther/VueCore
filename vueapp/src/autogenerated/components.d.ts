@@ -19,6 +19,7 @@ declare module 'vue' {
     ChatRoom: typeof import('./../components/misc/ChatRoom.vue')['default']
     CheckboxInput: typeof import('./../components/inputs/CheckboxInput.vue')['default']
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']
+    copy: typeof import('./../views/accounts/WizardThird copy.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     FloaterControl: typeof import('./../components/controls/FloaterControl.vue')['default']
     FooterBox: typeof import('./../views/layout/FooterBox.vue')['default']
@@ -64,7 +65,6 @@ declare module 'vue' {
     SecondaryButton: typeof import('./../components/buttons/SecondaryButton.vue')['default']
     SelectInput: typeof import('./../components/inputs/SelectInput.vue')['default']
     SidebarControl: typeof import('./../components/controls/SidebarControl.vue')['default']
-    SidebarStaticControl: typeof import('./../components/controls/SidebarStaticControl.vue')['default']
     SimpleCounter: typeof import('./../components/misc/SimpleCounter.vue')['default']
     SiteMap: typeof import('./../components/misc/SiteMap.vue')['default']
     SubNavBar: typeof import('./../views/layout/SubNavBar.vue')['default']
@@ -81,6 +81,7 @@ declare module 'vue' {
     UsersSearch: typeof import('./../views/admin/UsersSearch.vue')['default']
     WizardControl: typeof import('./../components/controls/WizardControl.vue')['default']
     WizardFirst: typeof import('./../views/accounts/WizardFirst.vue')['default']
+    WizardFourth: typeof import('./../views/accounts/WizardFourth.vue')['default']
     WizardSecond: typeof import('./../views/accounts/WizardSecond.vue')['default']
     WizardThird: typeof import('./../views/accounts/WizardThird.vue')['default']
   }

@@ -44,7 +44,7 @@ export function useConfirmControl()
 			console.log('Confirmed by User')
 		else 
 			console.log('Cancelled by User')
-	}	const { createConfirm } = useConfirmControl()
+	}	
 
 	// In template:
 	<button @click="tryConfirm">Try Confirm</button>

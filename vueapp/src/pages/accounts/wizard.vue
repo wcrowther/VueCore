@@ -44,15 +44,17 @@
 					</template>
 				
 					<template #Fourth>
-						<div class="font-bold mb-3">Fourth Content</div>
+						<WizardFourth />
+					</template>
+				
+					<template #Fifth>
+						<div class="font-bold mb-3">Wizard 	Example with inline template</div>
 						<div class="">
 							Aspernatur maiores odio possimus 
 							tempore accusamus asperiores! Minus sit enim sapiente id fugiat rem optio! Perferendis recusandae 
 							corporis odio, modi sunt nulla?
 						</div>
 					</template>
-
-					<template #Fifth></template>
 
 				</WizardControl>
 
