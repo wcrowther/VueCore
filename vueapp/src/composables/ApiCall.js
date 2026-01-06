@@ -6,7 +6,7 @@ export async function apiPost(url, body){ 	return apiCall('POST', url, true, bod
 
 // ==================================================================================
 
-export async function apiCall(type, url, useAuth, body) 
+export async function apiCall(methodType, url, useAuth, body) 
 {
 	const appStore     	= useAppStore()
 	const authStore     = useAuthStore()
@@ -24,12 +24,12 @@ export async function apiCall(type, url, useAuth, body)
 	{
 		baseURL: 			appStore.baseApiUrl,
 		url:				url,
-		method: 			`${type}`, 				// POST, GET, etc
+		method: 			`${methodType}`, 				// POST, GET, etc
 		headers: 			{},
 		withCredentials: 	true  					// Sends Auth cookie
 	}	
 
-	// console.log(`apiCall: ${type} (useAuth: ${useAuth}) from Url: ${url}`)
+	// console.log(`apiCall: ${methodType} (useAuth: ${useAuth}) from Url: ${url}`)
 
 	if (body) 
 	{

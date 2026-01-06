@@ -3,13 +3,13 @@
 	import FilesFolders_md 	            from '@/markdown/FilesFolders.md'
 	import FilesFoldersHierarchy_md 	from '@/markdown/FilesFoldersHierarchy.md'
 
-    const pageTitle  = ref('Tech Notes')
+    const pageTitle  = ref('Vue Notes')
 
 </script>
 
 <template>
 
-    <div class="relative" id="technotes">
+    <div class="relative" id="vueNotes">
 
         <div class="z-0 bg-gradient-main h-[500px] absolute top-0 left-0 right-0"></div>
 

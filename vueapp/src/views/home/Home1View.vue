@@ -23,7 +23,7 @@
 
             <div class="pr-5 w-2/3 grow">
                 <p class="mb-8 text-lg">
-                    <b>VueCore</b> is an open source project to promote using <b>Vue.js</b> with a
+                    <b>VueCore</b> is an educational open source project to promote using <b>Vue.js</b> with a
                     <b>DotNet</b> backend to create a simple yet powerful application environment. 
                     We combined a <b>VueJs </b> SPA project (.esproj) built using <b>Vite</b> with a 
                     separate <b>.Net Minimal API </b> project for the backend that is 
@@ -37,8 +37,8 @@
                 </p>
                 <p class="mb-3">
                     Rather than relying on third-party UI libraries, we focus on building clean, powerful components that 
-                    reflect your <b>code intent</b> and are easy to adapt. This project isn’t meant to be the definitive 
-                    way to build an app — just a solid starting point.
+                    reflect your <b>code intent</b> and are easy to adapt to your challenges. This project isn’t meant to be 
+                    the definitive way to build an app — just a solid starting point.
                 </p>
                 <p class="mb-3">
                     You'll find a number of innovative techniques throughout both the <b>Vue.js</b> and <b>.NET</b> 
@@ -56,7 +56,7 @@
                 <div class="w-full p-5 pb-0 md:pb-5 sm:w-1/2 md:w-full">
                     <div class="font-bold">Example website:</div>
                     <a class="block font-bold link-underline text-blue break-words lg:break-normal"
-                        :href="appStore.vueCoreUrl">
+                        :href="appStore.vueCoreUrl" target="_blank" ref="noopener">
                         {{ appStore.vueCoreUrl }}
                     </a>
                 </div>

@@ -1,8 +1,10 @@
 	
 <script setup>
 
-    const appStore   							= useAppStore()
-    const { sideBarHidden, layoutEscapeKeyOn }	= storeToRefs(appStore)
+    const appStore   			= useAppStore()
+    const {  sideBarHidden, 
+		 layoutEscapeKeyOn, }	= storeToRefs(appStore)
+	const { setInfoLevel }		= appStore
 
     // Keyboard Listeners & AutoRefreshAuth  ========================================================
 
@@ -10,7 +12,10 @@
     {
 		// Disable global Escape (Esc) key for layout by setting app.layoutEscapeKeyOn to false
 		if (e.code === 'Escape' && layoutEscapeKeyOn.value){ sideBarHidden.value = !sideBarHidden.value; e.preventDefault(); } 
-    }
+
+		let ctrl = navigator.userAgentData.platform.match("Mac") ? e.metaKey : e.ctrlKey   
+        if (e.code === 'KeyH' && ctrl ){ setInfoLevel(1); e.preventDefault() }
+	}
 
 	KeyboardListeners(keys)		// Sets Key listeners for all pages using this layout
 	AutoRefreshAuth()			// Refreshes JWT Tokens

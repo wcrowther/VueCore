@@ -18,9 +18,9 @@
 
 				<span class="px-1 text-gray-300">|</span>
 
-				<router-link to="/technotes" linkName="TechNotes" 
+				<router-link to="/vuenotes" linkName="VueNotes" 
 					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
-					Tech Notes
+					Vue Notes
 				</router-link>
 			</div>
 

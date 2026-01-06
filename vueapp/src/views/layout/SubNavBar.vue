@@ -1,8 +1,5 @@
 <script setup>
 
-    const appStore      = useAppStore()
-    const { infoLevel } = storeToRefs(appStore)
-
 </script>
 
 <template>
@@ -14,7 +11,7 @@
 
         <slot name="default"></slot>
 
-        <InfoButton v-model="infoLevel"></InfoButton>
+        <InfoButton />
         
     </div>
 </template>

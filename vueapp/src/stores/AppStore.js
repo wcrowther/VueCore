@@ -3,6 +3,8 @@
 
 export const useAppStore = defineStore('AppStore', () => 
 {
+    // State ------------------------------------------------------------------
+    
     const sideBarHidden         = ref(false)
     const layoutEscapeKeyOn     = ref(true)
     const showPrevNext          = useLocalStorage('showPrevNext', true)
@@ -22,8 +24,22 @@ export const useAppStore = defineStore('AppStore', () =>
     const vueCoreSourceUrl      = import.meta.env.VITE_VUE_CORE_SOURCE_URL
     const baseUrl               = import.meta.env.BASE_URL
     const mode                  = import.meta.env.MODE
+	
+    // Getters ------------------------------------------------------------------
 
-    // Actions
+	const infoLevelText = computed(() =>
+	{
+		switch (infoLevel.value)
+		{
+			case 1: return "?"
+			case 2: return "Info"
+			case 3: return "Help"
+			default: return "Info"
+		}
+	})
+
+    // Actions ------------------------------------------------------------------
+
     async function resetLocalStorage() 
     {
         const local =  
@@ -40,6 +56,23 @@ export const useAppStore = defineStore('AppStore', () =>
 
         setTimeout(() => router.go(0), 2000)
     }
+
+    const setInfoLevel  = (num) => 
+	{
+		const min = 1
+	    const max = 3
+
+        let val = infoLevel.value + num
+
+		if(val < min)
+			val = max
+		else if(val > max)
+			val = min
+
+		infoLevel.value = val
+	}
+
+    // Return ------------------------------------------------------------------
 
     return {
         sideBarHidden,
@@ -61,8 +94,10 @@ export const useAppStore = defineStore('AppStore', () =>
         vueCoreSourceUrl,
         baseUrl,
         mode,
+        infoLevelText,
 
         // actions
         resetLocalStorage,
+        setInfoLevel
     }
 })
