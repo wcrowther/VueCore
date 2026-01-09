@@ -9,6 +9,12 @@ export function AutoRefreshAuth()
 
 	const refreshToken = () =>
 	{
+		if( typeof authUser.value?.UserId === 'undefined' || authUser.value?.UserId === 0)
+		{
+			console.log(`AutoRefreshAuth.refreshToken has invalid UserId.`)	
+			return
+		}
+		
 		console.log(`AutoRefreshAuth.refreshToken UserId(${authUser.value.UserId}).`)
 
 		let authRefreshRequest = new AuthRefreshRequest(authUser.value.UserId)

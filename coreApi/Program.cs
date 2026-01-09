@@ -11,7 +11,9 @@ using System.Text;
 using WildHare.Extensions;
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
-// ========================================================================================================
+// ----------------------------------------------------------------------------------------
+// Configure Application
+// ----------------------------------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,13 +78,15 @@ builder.Services.AddMyCustomSwaggerGen();
 
 builder.Services.AddMyServices();  // Dependency Injection of My Services
 
-// ========================================================================================================
+// ----------------------------------------------------------------------------------------
+// Build Application
+// ----------------------------------------------------------------------------------------
 
 var app = builder.Build();
 
 app.UseStaticFiles();
 
-app.UseMyCustomSwagger();
+app.MapFallbackToFile("/index.html");
 
 app.UseHttpsRedirection();
 
@@ -92,16 +96,13 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.RegisterMyEndpoints();
+app.UseMiddleware<DebugMiddleware>(); // Only runs in Development
 
-app.RegisterRealtimeHubs();
+app.UseMyEndpoints();
 
-app.MapFallbackToFile("/index.html");
+app.UseMyRealtimeHubs();
 
-if (environment.IsDevelopment())
-{
-	app.UseMiddleware<DebugMiddleware>();
-}
+app.UseMyCustomSwagger();
 
 // ========================================================================================================
 

@@ -187,8 +187,9 @@
                 </li>
                 <li>
                     <span>Debug Middleware</span>
-                    We add a custom middleware component for troubleshooting incoming HttpContext Requests that is 
-                    useful for debugging model-binding and viewing incoming Http Post body JSON.
+                    We added a custom middleware debugging component to help troubleshoot incoming HttpContext requests. 
+                    It is especially useful for diagnosing model binding and API issues. When the request is an 
+                    HttpContext.Request.Post and includes a JSON body, the payload is captured with sensitive values masked.
                 </li>
                 <li>
                     <span>Server Event Logging</span>

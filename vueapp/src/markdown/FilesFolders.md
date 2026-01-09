@@ -1,4 +1,4 @@
-### 1. Top-Level Folders
+### Top-Level Folders
 ---
 #### At the root of the 'vueapp' folder (for the javascript-based Vue application running in Vite) pictured to the right, you will find the following folders with descriptions of what they do. Top-Level Files are described in section 2. The main source code for the Vue application is covered in section 3 - The Src Folder.
 
@@ -30,7 +30,7 @@ Contains static assets (images, favicon, etc.) that are served directly by the w
 ---
 
 
-### 2. Top Level Files
+### Top Level Files
 ---
 
 #### The files in the root of the VueApp are all important environment and configuration files. 
@@ -92,7 +92,9 @@ For VSCode IntelliSense (so auto-imports, jump-to-definition, etc. work), you al
 #### src/components/boxes/InfoBox.vue
 This Vue component file utilizes the **`<script setup>`** syntax for the Composition API. It imports the **useAppStore** function to access the application store and employs **storeToRefs** to create reactive references to the **infoLevel** property from the store. The template conditionally renders a **`<div>`** element containing a slot for content, which is displayed only if **infoLevel** is greater than 1. This component is specifically designed to wrap around content that should only be visible when the **infoLevel** is set to either Info (2) or Help (3).
 
-### 3. The Src Folder
+---
+
+### The Src Folder
 The **src** directory contains the main source code for the Vue application, including components, pages, stores, utilities, and styles. See section 2 below with a breakdown of its top-level elements, with details for key subfolders and files.
 
 #### public/
@@ -125,7 +127,7 @@ Vue components representing full pages or major application views. Each file typ
 ---
 
 ### store/
-Pinia or Vuex store modules for managing global application state.
+Pinia modules for managing global application state.
 
 - Example: **appStore.js** or **appStore.ts**  
   *(Defines state such as **infoLevel**, **sideBarHidden**, etc.)*

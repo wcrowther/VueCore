@@ -18,12 +18,14 @@ public static partial class Endpoints
 							.WithOpenApi()
 							.WithTags("Accounts");
 
-        endpoints.MapGet("/getAllAccounts", (IAccountManager _accountManager) =>
+		endpoints.MapGet("/getAllAccounts", (IAccountManager _accountManager) =>
         {
             var accounts = _accountManager.GetAllAccounts();
 
             return Results.Ok(accounts);
-        });
+        })
+		.WithSummary("Retrieves a list of all Accounts")
+		.WithDescription("This endpoint returns a comprehensive list of all Accounts."); 
 
         endpoints.MapPost("/getPagedAccounts", ( IAccountManager _accountManager, 
 												 [FromBody] Pager<SearchForAccount> pager) =>

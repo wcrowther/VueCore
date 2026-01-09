@@ -75,7 +75,7 @@
 @layer components 
 {
 	strong 			{ @apply text-color-red; }
-	.main-width 	{ @apply min-w-[380px] max-w-[1230px] md:mx-5 xl:mx-auto; }
+	.main-width 	{ @apply min-w-[380px] max-w-[1230px] md:mx-5 }
 	.flex-center 	{ @apply flex justify-center items-center }
 	.link-underline { @apply cursor-pointer hover:underline hover:text-color-blue underline-offset-4 }
 

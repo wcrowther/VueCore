@@ -97,10 +97,10 @@
     // Unsaved Guard   ===============================================================================
     // -- stops navigation away if there are unsaved changes
 
-    const { createConfirm } = useConfirmControl();
-    let customMessage = 'You have unsaved changes to this Account. Leave the page?'
-
-    useUnsavedGuard(accountIsDirty, () => createConfirm(customMessage), true) 
+    // const { createConfirm } = useConfirmControl();
+    // let customMessage = 'You have unsaved changes to this Account. Leave the page?'
+    // 
+    // useUnsavedGuard(accountIsDirty, () => createConfirm(customMessage), true) 
 
 </script>
 

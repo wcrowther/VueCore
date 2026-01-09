@@ -9,7 +9,7 @@ public static class SignalRHubsHelper
 	const string hubRoot = "/v1";
 	
 	/// <summary>Takes incoming call and sends to all in the hub</summary>
-	public static void RegisterRealtimeHubs(this WebApplication app)
+	public static void UseMyRealtimeHubs(this WebApplication app)
     {
 		app.MapHub<ChatHub>($"{hubRoot}/chathub");
 	}

@@ -3,7 +3,6 @@
 
 import { createRouter, createWebHistory } 	from 'vue-router/auto'
 
-
 const DEFAULT_TITLE = 'VueCore';
 
 const router = createRouter(
@@ -17,7 +16,7 @@ router.beforeEach(async (to) =>
 {
 	// AuthStore must be created here because we are in .js not .vue file
 
-	const publicPages 	= ['/','/auth/login','/panzoom']
+	const publicPages 	= ['/','/intro','/vuenotes','/auth/login','/panzoom']
 	const authRequired 	= !publicPages.includes(to.path)
 	const authStore		= useAuthStore() 
 

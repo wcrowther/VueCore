@@ -1,5 +1,5 @@
 <script setup>
-
+    import '@/styles/markdown.css'
 	import FilesFolders_md 	            from '@/markdown/FilesFolders.md'
 	import FilesFoldersHierarchy_md 	from '@/markdown/FilesFoldersHierarchy.md'
 
@@ -31,8 +31,8 @@
             </HelpBox> 
           
             <div class="flex gap-5 min-h-[400px] relative z-20">
-                <FilesFolders_md class="prose prose-sm !max-w-none w-2/3 lg:w-3/4" />
-                <FilesFoldersHierarchy_md class="prose prose-sm !max-w-none w-1/3 lg:w-1/4" />
+                <FilesFolders_md class="markdown !max-w-none w-2/3 lg:w-3/4" />
+                <FilesFoldersHierarchy_md class="markdown !max-w-none w-1/3 lg:w-1/4" />
             </div>
         </div>
 	

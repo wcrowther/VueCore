@@ -23,7 +23,7 @@
             console.log('Save cancelled.')
      }
 
-    useUnsavedGuard(isDirty, () => createConfirm('Testing'), enableGlobal.value)
+    useUnsavedGuard(isDirty, () => createConfirm('You have unsaved data. Continue?'), enableGlobal.value)
 
 </script>
 

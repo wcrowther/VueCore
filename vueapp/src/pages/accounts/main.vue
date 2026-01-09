@@ -1,11 +1,5 @@
 
-<script setup>
-
-    // const appStore                  = useAppStore()
-    // const { sideBarHidden }         = storeToRefs(appStore)
-
-</script>
-
+<script setup></script>
 
 <template>
     <div class="flex" id="accounts-main">
