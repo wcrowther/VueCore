@@ -74,26 +74,26 @@
 /* Custom classes (only for css beyond what can be done in TailwindCss) primary: #99b3cf */
 @layer components 
 {
-	strong 			{ @apply text-color-red; }
-	.main-width 	{ @apply min-w-[380px] max-w-[1230px] md:mx-5 }
+	strong 			{ @apply text-color-red }
+	.main-width 	{ @apply min-w-[380px] max-w-[1230px] md:mx-5 xl:mx-auto }
 	.flex-center 	{ @apply flex justify-center items-center }
 	.link-underline { @apply cursor-pointer hover:underline hover:text-color-blue underline-offset-4 }
 
 	.v-select { 
 		@apply w-full border border-color-dark-gray rounded-md px-3 py-1 
-			shadow-smfocus:border-orange focus:ring-orange;
+			shadow-smfocus:border-orange focus:ring-orange
 	}
 	.btn-delete, .btn-disable, .btn-cancel, .btn-primary:disabled { 
 		@apply bg-color-mid-gray text-color-dark-gray select-none text-sm 
-			hover:bg-warm-100 tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit; 
+			hover:bg-warm-100 tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit 
 	}
 	.btn-primary { 
 		@apply bg-color-primary text-[#121639] hover:bg-white select-none text-sm outline-color-blue-gray
-			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit;
+			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit
 	}
 	.btn-secondary { 
 		@apply bg-transparent border border-[#121639] text-[#121639] opacity-70 text-sm select-none
-			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit hover:opacity-100 hover:bg-white;
+			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit hover:opacity-100 hover:bg-white
 	}
 	.badge-button {
 		@apply rounded-full h-5 px-2 text-xs leading-[1.3rem] tracking-wider cursor-pointer
