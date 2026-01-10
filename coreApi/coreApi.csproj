@@ -74,7 +74,7 @@
 		<Content Update="wwwroot\docs\favicon-16x16.png" CopyToOutputDirectory="PreserveNewest" />
 		<Content Update="wwwroot\docs\favicon-32x32.png" CopyToOutputDirectory="PreserveNewest" />
 		<Content Update="wwwroot\docs\favicon-48x48.png" CopyToOutputDirectory="PreserveNewest" />
-		<Content Update="wwwroot\docs\VueCorp_sans.png">
+		<Content Update="wwwroot\docs\VueCore_sans.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="wwwroot\swagger-ui\custom.css">

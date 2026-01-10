@@ -29,7 +29,7 @@
 		"ASPNETCORE_ENVIRONMENT": "Development"
 	  }
 	},
-	"QA VueCorp": {
+	"QA VueCore": {
 	  "commandName": "Project",
 	  "dotnetRunMessages": true,
 	  "launchBrowser": true,

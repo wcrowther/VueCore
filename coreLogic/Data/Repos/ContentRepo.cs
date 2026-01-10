@@ -17,7 +17,7 @@ public class ContentRepo : IContentRepo
 {
 	public List<Image> GetImages()
 	{
-		string directoryPath	= @"C:\Git\VueCorp\vueapp\public\images";
+		string directoryPath	= @"C:\Git\VueCore\vueapp\public\images";
 		string[] fileExtensions	= [".png", ".jpg", ".gif", ".webp"];
 		var imageFiles			= new DirectoryInfo(directoryPath)
 									.GetFiles("*", SearchOption.TopDirectoryOnly)
