@@ -1,10 +1,9 @@
 	
 <script setup>
 
-    const appStore   			= useAppStore()
-    const {  sideBarHidden, 
-		 layoutEscapeKeyOn, }	= storeToRefs(appStore)
-	const { setInfoLevel }		= appStore
+    const appStore   							= useAppStore()
+    const {  sideBarHidden, layoutEscapeKeyOn } = storeToRefs(appStore)
+	const { setInfoLevel }						= appStore
 
     // Keyboard Listeners & AutoRefreshAuth  ========================================================
 
@@ -31,7 +30,7 @@
 			class="fixed top-0 bottom-0 left-0 right-0 bg-gradient-back">
 		</div>
 
-		<div class="main-width mx-auto mb-10 relative z-0 h-full">
+		<div class="main-width mb-10 relative z-0 h-full">
 
 			<!-- Debugging variable here if needed
 			<div class="text-white p-3">layoutEscapeKeyOn: {{ layoutEscapeKeyOn }}</div> -->
@@ -43,16 +42,12 @@
 				<BrandLogo />
 			</BrandBar>
 
-			<MainNavBar class="shadow-theme-layout" />
-
 			<MainContent>
 				<slot></slot>
 			</MainContent>
 			
 			<FooterBox class="shadow-theme-layout" />
 
-			<NotificationControl></NotificationControl>
-			
 		</div>
 
 	</div> 
