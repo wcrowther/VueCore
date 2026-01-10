@@ -24,6 +24,16 @@
 
             <ol class="ol-list">
                 <li>
+                    <span>Utilizes the .slnx Solution format</span> 
+                    The solution uses the new human-readable, streanlined .slnx (Xml Solution File) solution format 
+                    which simplifies the code and reduces it to 1/3 the size.
+                </li>
+                <li>
+                    <span>Utilizes the .esproj Javascript Project format</span> 
+                    The Vuejs project uses new javascript .esproj project format. This allows the code to be nested inside 
+                    a Visual Studio Solution as a discreet project instead of just content in a folder.
+                </li>
+                <li>
                     <span>One-Click Start</span>
                     You can run both projects in <b>Visual Studio 2022</b> using a normal
                     <b>Start</b> command that deploys both projects to a single web site.
@@ -44,7 +54,7 @@
                     Deploy the C# Asp.net project using the Visual Studio 2022 <b>Publish</b> feature
                     and the Vuejs project is built and deployed as a single web site.
                 </li>
-                <li>
+                 <li>
                     <span>API Documentation</span> 
                     The C# code deploys a Swagger API documentation page that lists all the endpoints
                     and how to call them. This can be configured to not display in Production.
