@@ -1,7 +1,7 @@
 <script setup>
 
-	const appStore        = useAppStore()
-	const { infoLevel, }  = storeToRefs(appStore)
+	const appStore      = useAppStore()
+	const { infoLevel } = storeToRefs(appStore)
 
     const props = defineProps(
 	{
@@ -9,7 +9,7 @@
         pin:  { type: Boolean, default: false },
 	});
 
-    const helpClick = () => { if(!props.pin){ infoLevel=2 } }
+    const helpClick = () => { if(!props.pin){ infoLevel.value = 2 } }
 
 </script>
 
