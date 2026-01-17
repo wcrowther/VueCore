@@ -10,7 +10,7 @@
                 Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
                 Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
             </HelpBox> -->
-
+            
             <h3 class="font-bold text-lg">Vue / Asp.net Combined Solution</h3>
 
             <p class="w-full">
@@ -30,7 +30,7 @@
                 </li>
                 <li>
                     <span>Utilizes the .esproj Javascript Project format</span> 
-                    The Vuejs project uses new javascript .esproj project format. This allows the code to be nested inside 
+                    The Vuejs project uses the javascript .esproj project format. This allows the code to be nested inside 
                     a Visual Studio Solution as a discreet project instead of just content in a folder.
                 </li>
                 <li>
@@ -52,7 +52,7 @@
                 <li>
                     <span>EZ Publish</span>
                     Deploy the C# Asp.net project using the Visual Studio 2022 <b>Publish</b> feature
-                    and the Vuejs project is built and deployed as a single web site.
+                    and the Vuejs project is built in Release mode and deployed to a single web site.
                 </li>
                  <li>
                     <span>API Documentation</span> 

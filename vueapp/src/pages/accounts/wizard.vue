@@ -29,7 +29,8 @@
 				</FloaterControl>
 				-->
 
-				<WizardControl class="mb-10" :tabList="['First', 'Second', 'Third', 'Fourth', 'Fifth']">
+				<WizardControl class="mb-10" :useKeyControls="true" 
+					:tabList="['First', 'Second', 'Third', 'Fourth', 'Fifth']">
 
 					<template #First>
 						<WizardFirst /> 

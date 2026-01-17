@@ -84,16 +84,19 @@
 			shadow-smfocus:border-orange focus:ring-orange
 	}
 	.btn-delete, .btn-disable, .btn-cancel, .btn-primary:disabled { 
-		@apply bg-color-mid-gray text-color-dark-gray select-none text-sm 
-			hover:bg-warm-100 tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit 
+		@apply bg-color-mid-gray text-color-dark-gray select-none text-sm border border-transparent
+			tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit transition-colors duration-100
+			hover:bg-warm-100 hover:border-warm-500
 	}
 	.btn-primary { 
-		@apply bg-color-primary text-[#121639] hover:bg-white select-none text-sm outline-color-blue-gray
-			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit
+		@apply bg-color-primary text-[#121639] select-none text-sm outline-color-blue-gray border border-transparent
+			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit transition-colors duration-100
+			hover:bg-white hover:border-color-primary 
 	}
 	.btn-secondary { 
 		@apply bg-transparent border border-[#121639] text-[#121639] opacity-70 text-sm select-none
-			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit hover:opacity-100 hover:bg-white
+			font-sans tracking-wide font-bold rounded-md px-4 pt-[4px] pb-[3px] w-fit hover:opacity-100
+			hover:bg-white
 	}
 	.badge-button {
 		@apply rounded-full h-5 px-2 text-xs leading-[1.3rem] tracking-wider cursor-pointer

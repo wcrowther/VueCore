@@ -1,7 +1,9 @@
 <script setup>
 
+    const appStore                  = useAppStore()
     const usersStore                = useUsersStore()
     const toastStore                = useToastStore()
+    const {  showJsonEntities }     = storeToRefs(appStore)
     const {  user,  detailUserId }  = storeToRefs(usersStore)
     const {  getUserDetailData,
         addNewUser, saveUser }      = usersStore
@@ -142,6 +144,9 @@
             Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
             Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
         </HelpBox>
+
+        <JsonTreeControl v-if="showJsonEntities" :json="user" class="w-full" 
+            label="User Detail Json" :isOpen="false" />
 
         <div v-if="(!user || user.UserId === 0)  && !isAddingUser" class="w-[300px] font-bold">
             No User to display

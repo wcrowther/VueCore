@@ -43,18 +43,7 @@
             <!-- <ConfirmControl v-if="showConfirm" :message="confirmMessage"  @confirmResult="onConfirm"  /> -->
         </div>
 
-
-        <SidebarControl>
-
-            <template #sidebar>
-                <div class="bg-orange w-full flex-1 p-5">sidebar</div>
-            </template>
-
-            <template #default>
-                <div class="bg-yellow w-full flex-1 p-5">default</div>
-            </template>
-
-        </SidebarControl>	 
+        <SwipeLeftRight />
 
     </LayoutMain>
 

@@ -16,9 +16,10 @@
             showPrevNext, 
             showBreakpoints, 
             showNotification,
-            //showNewChatMessages, 
             altTheme, 
-            pagerDebugger}          = storeToRefs(appStore) 
+            pagerDebugger,
+            showJsonEntities }      = storeToRefs(appStore) 
+            
     const { resetLocalStorage   }   = appStore
 
     const showPopout        = ref(false)
@@ -125,6 +126,7 @@
                         title="JWT token expiration date">Last Request:</div>
                     <div class="label-value">{{ dateTimeFormat(lastRequestDatetime) || '---' }}</div>
                 </div>
+                <!-- 
                 <div class="label-row">
                     <div class="label-title" 
                         title="JWT Token">Token:</div>
@@ -132,7 +134,8 @@
                         <IconSymbol class="text-color-mid-blue ml-2 hover:text-gray-700" title="Copy JWT Token" 
                             @click="tokenToClipboard()" width="16px" icon="heroicons:clipboard-20-solid" />
                     </div>
-                </div>
+                </div> 
+                -->
                 <div class="label-row">
                     <div class="label-title" 
                         title="Prev/Next buttons for mobile pager (only show at low res)">Prev / Next:</div>
@@ -168,7 +171,13 @@
                         <CheckboxInput labelName="" v-model="showNotification" />
                     </div>
                 </div>
-
+                <div class="label-row">
+                    <div class="label-title" 
+                        title="Show main entites as Json">Show Json Entities:</div>
+                    <div class="label-value">
+                        <CheckboxInput labelName="" v-model="showJsonEntities" />
+                    </div>
+                </div>
                 <div class="label-row">
                     <div class="label-title" 
                         title="Persist search on page load">Persist Search</div>

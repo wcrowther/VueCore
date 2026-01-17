@@ -2,6 +2,7 @@
 
     const listValue = ref(0)
     const animalValue = ref(0)
+    const colorValue = ref(0)
     const rangeList = ['0','1','2','3','4','5','6','7','8','9']
     const animalList = ['Cats','Dogs','Tigers','Bears','Lions']
     const colorList = ['Red','Yellow','Blue','Green','Orange']
@@ -14,13 +15,16 @@
     <div class="flex gap-1 mb-5">
         <ListRangeButton v-model="listValue" />
         <ListRangeButton v-model="animalValue" :rangeList="animalList" />
-        <ListRangeButton :rangeList="colorList" />
+        <ListRangeButton v-model="colorValue" :rangeList="colorList" />
     </div>
     <div class="">
-        ListValue: {{ listValue+1 }}
+        List Value: {{ listValue+1 }}
     </div>
     <div class="">
-        AnimalValue: {{ animalValue+1 }}
+        Anima lValue: {{ animalValue+1 }}
+    </div>
+    <div class="">
+        Color Value: {{ colorValue+1 }}
     </div>
 
     <GridControl :rows="5" :cols="7" 

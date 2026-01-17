@@ -1,16 +1,30 @@
 <script setup>
 
-    import { ref } from 'vue'
+import { ref } from 'vue'
 
     const props = defineProps({
         id: { type: String, default: 'WizardControl' },        
-		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] } 
+		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] },
+        useKeyControls: { type: Boolean, default: true }
 	})
 
     const activeTab     = ref(props.tabList[0])
     const isActive	    = (tab) => tab === activeTab.value
-    const currentIndex  = computed(() => props.tabList.indexOf(activeTab.value)+1 ?? 1)
+    const currentIndex  = computed(() => props.tabList.indexOf(activeTab.value)+1 ?? 1) // 1-based 
+    const prevTab       = () => activeTab.value = props.tabList[currentIndex.value <= 1  ? props.tabList.length-1  : currentIndex.value-2];
     const nextTab       = () => activeTab.value = props.tabList[currentIndex.value >= props.tabList.length ? 0 : currentIndex.value]
+
+    if(props.useKeyControls)
+    {
+        const keys = function (e)  
+	    {
+	    	// console.log(e.code);    
+	    	if      (e.code === 'ArrowLeft')  { prevTab(); e.preventDefault();}
+	    	else if (e.code === 'ArrowRight') { nextTab(); e.preventDefault();}
+	    }
+
+	    KeyboardListeners(keys);
+    }
 
 </script>
 
@@ -43,7 +57,7 @@
 
            <slot>
                 <div @click="nextTab" class="text-right font-bold absolute w-fit
-                    flex justify-end top-5 right-5 hover:text-orange">
+                    flex justify-end top-5 right-5 select-none hover:text-orange">
                     Next
                 </div>
            </slot>

@@ -1,7 +1,6 @@
 <script setup>
 
     const homeTitle     = ref("Welcome to VueCore Dev Starter")
-    const appStore      = useAppStore()
 
 </script>
 
@@ -50,33 +49,8 @@
                 </HelpBox>
             </div>
 
-            <div class="w-full grow italic flex flex-col border-color-light-blue
-                border bg-gradient-source sm:flex-row md:flex-col md:w-1/3 md:border-0" >
+            <HomeSidebarView />
 
-                <div class="w-full p-5 pb-0 md:pb-5 sm:w-1/2 md:w-full">
-                    <div class="font-bold">Example website:</div>
-                    <a class="block font-bold link-underline text-blue break-words lg:break-normal"
-                        :href="appStore.vueCoreUrl" target="_blank" ref="noopener">
-                        {{ appStore.vueCoreUrl }}
-                    </a>
-                </div>
-
-                <div class="w-full p-5 pb-0 md:pb-5 md:pt-0 sm:w-1/2 md:w-full">
-                    <div class="font-bold">Customized Swagger:</div>
-                    <a class="block font-bold link-underline text-blue break-words lg:break-normal"
-                        :href="appStore.apiDocsUrl">
-                        VueCore API DotNet Documentation
-                    </a>
-                </div>
-
-                <div class="w-full p-5 md:pt-0 sm:w-1/2 md:w-full sm:text-right md:text-left">
-                    <div>VueCore Source: </div>
-                    <a class="block font-bold link-underline text-blue break-all lg:break-normal"
-                        :href="appStore.vueCoreSourceUrl" target="_blank">
-                        {{ appStore.vueCoreSourceUrl }}
-                    </a>
-                </div>                
-            </div>
         </div>
 
     </div>  

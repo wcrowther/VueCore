@@ -11,6 +11,7 @@ export const useAppStore = defineStore('AppStore', () =>
     const showBreakpoints       = useLocalStorage('showBreakpoints', false)
     const showNotification      = useLocalStorage('showNotification', true)
     const showNewChatMessages   = useLocalStorage('showNewChatMessages', true)
+    const showJsonEntities      = useLocalStorage('showJsonEntities', false)
     const persistSearch         = useLocalStorage('persistSearch', false)
     const altTheme              = useLocalStorage('altTheme', false)
     const infoLevel             = useLocalStorage('infoLevel', 2)
@@ -81,6 +82,7 @@ export const useAppStore = defineStore('AppStore', () =>
         showBreakpoints,
         showNotification,
         showNewChatMessages,
+        showJsonEntities,
         persistSearch,
         altTheme,
         infoLevel,

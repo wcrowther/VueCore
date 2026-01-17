@@ -59,6 +59,7 @@ namespace coreApi
 					WriteLine($"{body.MaskJsonSecrets("password","secret","token")}");
 				}
 			}
+
 			// Call the next middleware delegate in the pipeline 
 			await _next.Invoke(httpContext);
 		}

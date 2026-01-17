@@ -1,7 +1,7 @@
 <script setup>
 
     const router = useRouter()
-    router.replace('/home/intro')
+    router.replace('/admin/users')
 
 </script>
 

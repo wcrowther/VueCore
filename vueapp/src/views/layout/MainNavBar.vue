@@ -24,7 +24,7 @@
 		</template> 
 		-->
 
-		<NavTab to="/" class="group">
+		<NavTab to="/home" class="group">
 			<IconSymbol width="18px" class="text-[#bddaef] block xs:hidden
 				group-hover:text-navy group-hover:opacity-100" icon="heroicons-solid:home" />
 			<span class="hidden xs:block">Home</span>

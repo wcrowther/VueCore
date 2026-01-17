@@ -2,6 +2,7 @@
 
     import postsArrayJson       from '@/datalists/30posts.json'
     import simpleExampleJson    from '@/datalists/simpleExample.json'
+    // import {usStatesList}    from '@/datalists/usStatesList.js'
 
     const useSimple     = ref(true)
     const treeRef       = useTemplateRef('treeRef')

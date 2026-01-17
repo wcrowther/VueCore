@@ -1,23 +1,33 @@
 <script setup>
 
-    const toastStore                    = useToastStore()
-    const accountsStore                 = useAccountsStore()
+    const appStore                  = useAppStore()    
+    const toastStore                = useToastStore()
+    const accountsStore             = useAccountsStore()
+
+    const { showJsonEntities }      = storeToRefs(appStore)
+    const { account,    
+            detailAccountId,    
+            accountIsDirty  }       = storeToRefs(accountsStore)
+    const { getAccountDetailData,   
+            addNewAccount,  
+            saveAccount,    
+            resetAccount }          = accountsStore
+        
+    const isAddingAccount           = ref(false)
+    const showConfirmControl        = ref(false)
+
+    //const swipe                     = ref('')
+    //const accountDetailRef          = useTemplateRef('accountDetail');
     
-    const { account, detailAccountId,
-            accountIsDirty  }           = storeToRefs(accountsStore)
-    const { getAccountDetailData,  
-            addNewAccount, 
-            saveAccount,  
-            resetAccount }              = accountsStore
-
-    const isAddingAccount               = ref(false)
-    const showConfirmControl            = ref(false)
-
 	// const rules = computed(() => accountValidator) -- if you want validates to be dynamic
   
 	const v$ = useVuelidate(accountValidator, account)
 
-    const accountTitle = computed(() => isAddingAccount.value ? 'Add new Account' : (hasKeys(account.value) ? account.value.AccountName : 'Accounts') )
+    const accountTitle = computed(() => { 
+        return isAddingAccount.value
+            ? 'Add new Account' 
+            : (hasKeys(account.value) ? account.value?.AccountName : 'Accounts') 
+    }) 
 
     const getAccountDetail = async () =>
     {
@@ -77,9 +87,9 @@
         // else if (e.code === 'End')  { detailInput.value.focusInput();    e.preventDefault();} 
     }
 
-	KeyboardListeners(keys)
+	KeyboardListeners(keys)    
 
-    // Lifecycle & Watches  ==========================================================================
+    // Lifecycle & Watches  ===================================================================
 
     onMounted(() => 
     { 
@@ -94,9 +104,21 @@
         getAccountDetail()  
     });
 
-    // Unsaved Guard   ===============================================================================
-    // -- stops navigation away if there are unsaved changes
+    // EXPERIMENTAL BELOW
 
+    // Swipe Left / Right =====================================================================
+    // import { useSwipe } from '@vueuse/core';
+    // const handleSwiped = (event, direction) => 
+    // {
+	// 	if (direction === 'RIGHT') 
+	// 		swipe.value = '-->'
+	// 	else if (direction === 'LEFT') 
+	// 		swipe.value = '<--'    
+    // }
+    // useSwipe(accountDetailRef, { onSwipeEnd: handleSwiped, threshold: 50 });
+
+    // Unsaved Guard   ========================================================================
+    // -- stops navigation away if there are unsaved changes
     // const { createConfirm } = useConfirmControl();
     // let customMessage = 'You have unsaved changes to this Account. Leave the page?'
     // 
@@ -105,7 +127,7 @@
 </script>
 
 <template>
-    <div class="flex flex-wrap gap-5" id="AccountDetailView">
+    <div class="flex flex-wrap gap-5" id="AccountDetailView" ref="accountDetail">
         
         <ConfirmControl v-if="showConfirmControl" v-model="showConfirmControl"
 			message="Save Account Data?" @confirmResult="saveAccountDetail"  />
@@ -147,6 +169,9 @@
             Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
         </HelpBox>
 
+        <JsonTreeControl v-if="showJsonEntities" :json="account" class="w-full" 
+            label="Account Detail Json" :isOpen="false" :showRawJson="true" />
+
         <div v-if="(!account || account.AccountId === 0)  && !isAddingAccount" 
             class="w-[300px] font-bold">
             No Account to display
@@ -161,6 +186,8 @@
             </TitleBox>
 
             <CreatorBox v-if="!isAddingAccount" :IAuditable="account" />
+
+            <!-- <DateInput  labelName="Created Date" v-model="account.CreatedDate" :v$ /> -->
 
             <TextInput  labelName="Account Name" v-model="account.AccountName" :v$ />
             <TextInput  labelName="Main Email" ruleName="AccountEmail" v-model="account.AccountEmail" :v$ />
