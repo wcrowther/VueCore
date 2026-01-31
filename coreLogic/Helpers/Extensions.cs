@@ -22,6 +22,9 @@ namespace coreLogic.Helpers
 
 		public static string[] Split(this string str, string separator, bool removeEmptyEntries, bool trimEntries = true)
 		{
+			if (str.IsNullOrEmpty())
+				return [];
+			
 			StringSplitOptions options = trimEntries ? StringSplitOptions.TrimEntries : StringSplitOptions.None;
 			options |= removeEmptyEntries ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None;
 

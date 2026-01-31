@@ -26,8 +26,8 @@
         <PrimaryButton @click="useSimple=!useSimple" class="ml-2">Toggle Content</PrimaryButton>
     </div>
     <div class="mt-5 pb-5">
-        <JsonTreeControl :json="jsonTree" :label="jsonName" ref="treeRef" 
-            class="border-b-[3px] border-color-primary" />
+        <JsonTreeControl :label="jsonName" ref="treeRef" 
+            :json="jsonTree" :showRawJson="false" />
     </div>
 
 </template>

@@ -1,11 +1,24 @@
 
-<script setup></script>
+<script setup>
+
+    // const route = useRoute()
+    // const urlSearch = computed(() => route.params.search || null)
+    // 
+    // const searchFilter = useLocalStorage('accountsSearchFilterDefault', '')
+    // 
+    // onMounted(() => 
+    //     searchFilter.value = urlSearch
+    // )
+
+</script>
 
 <template>
-    <div class="flex" id="accounts-main">
+    <div class="flex flex-wrap" id="accounts-main">
 
+        <!-- <div class="w-full">{{ urlSearch }}</div> -->
+        
         <MainSidebar>
-            <AccountsList />
+            <AccountsList  />
         </MainSidebar>     
         
         <MainRight class="bg-gradient-main">

@@ -24,10 +24,9 @@
                 <p class="mb-8 text-lg">
                     <b>VueCore</b> is an educational open source project to promote using <b>Vue.js</b> with a
                     <b>DotNet</b> backend to create a simple yet powerful application environment. 
-                    We combined a <b>VueJs </b> SPA project (.esproj) built using <b>Vite</b> with a 
-                    separate <b>.Net Minimal API </b> project for the backend that is 
-                    integrated so that it can be built into a single deployment 
-                    with a simple Visual Studio <b>Publish</b>.
+                    We integrated a <b>VueJs </b> SPA project (.esproj) built using <b>Vite</b> with a 
+                    separate backend <b>.Net Minimal API </b> project so that it can be easily built into
+                    a single deployment with a simple Visual Studio <b>Publish</b>.
                 </p> 
                 <p class="mb-3">    
                     We've included real-world examples demonstrating how to integrate client-side <b>Pinia</b> stores using 

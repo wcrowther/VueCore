@@ -1,15 +1,23 @@
 <script setup>
 
 	const modelValue = defineModel({ type: Boolean, default: false })
-
+	const props = defineProps({
+		icon: { type: String, default: 'heroicons:bars-3'}
+	})
 </script>
 
 <template>
-	<span class="block transition duration-300" :class="{ 'rotate-90' : modelValue }"
-		title="props.title" @click="modelValue = !modelValue">
-		<IconSymbol width="26px" class="text-color-dark-gray hover:text-color-mid-gray" icon="heroicons:bars-4" />
-	</span> 
+
+  <span :class="['inline-flex items-center justify-center ' + 
+  	'transform transition-transform duration-300', { 'rotate-90': modelValue }]" 
+    @click="modelValue = !modelValue">
+
+    <IconSymbol class="block text-color-dark-gray hover:text-color-mid-gray"
+    	width="26px" :icon="props.icon" />
+  </span>
+
 </template>
+
 
 <!-- RotateButton USAGE
 	const sideBarHidden = ref(0)

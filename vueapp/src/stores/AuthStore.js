@@ -84,14 +84,14 @@ export const useAuthStore = defineStore('AuthStore',
                 const result  = await apiPost(`/authenticate/refreshAuth`, authRefreshRequest)
 
                 if(result.success) 
-                {
                     this.authUser = result.data
-                    useToastStore().showInfo(`Refresh Token updated at ${timeFormat(Date.now())}`)
-                }
+
+                return result.success
             }
             catch(err)
             {
-                useToastStore().showError(err.message)   
+                useToastStore().showError(err.message) 
+                return false 
             }
         },
     }

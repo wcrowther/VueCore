@@ -66,7 +66,7 @@ public class AccountRepo(CoreApiDataContext coreApiDataContext) : IAccountRepo
 
 		var predicate		= search ? PredicateBuilder.New<Account>(true) : PredicateBuilder.New<Account>();
 		string filterType	= pager.Search.FilterType.ToLower();
-		string[] filters	= pager.Search.Filter.Split(",", true, true);
+		string[] filters	= pager.Search?.Filter.Split(",", true, true) ?? [];
 
 		foreach (string filter in filters)
 		{

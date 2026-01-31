@@ -1,7 +1,10 @@
 
 const authStore     	= useAuthStore()
+const toastStore		= useToastStore()
+
 const { refreshAuth }   = authStore
 const { authUser  } 	= storeToRefs(authStore)
+const { showInfo }		= toastStore
 
 export function AutoRefreshAuth()
 {
@@ -17,8 +20,11 @@ export function AutoRefreshAuth()
 		
 		console.log(`AutoRefreshAuth.refreshToken UserId(${authUser.value.UserId}).`)
 
-		let authRefreshRequest = new AuthRefreshRequest(authUser.value.UserId)
-		refreshAuth(authRefreshRequest)
+		let authRefreshRequest 	= new AuthRefreshRequest(authUser.value.UserId)
+		let success 			= refreshAuth(authRefreshRequest)
+
+		if(success) 
+            showInfo(`Refresh Token updated at ${timeFormat(Date.now())}`)
 	}
 
     // Lifecycle & Watches  ==========================================================================

@@ -43,7 +43,7 @@ declare module 'vue-router/auto/routes' {
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/accounts': RouteRecordInfo<'/accounts', '/accounts', Record<never, never>, Record<never, never>>,
     '/accounts/': RouteRecordInfo<'/accounts/', '/accounts', Record<never, never>, Record<never, never>>,
-    '/accounts/main': RouteRecordInfo<'/accounts/main', '/accounts/main', Record<never, never>, Record<never, never>>,
+    '/accounts/main/[[search]]': RouteRecordInfo<'/accounts/main/[[search]]', '/accounts/main/:search?', { search?: ParamValueZeroOrOne<true> }, { search?: ParamValueZeroOrOne<false> }>,
     '/accounts/messages': RouteRecordInfo<'/accounts/messages', '/accounts/messages', Record<never, never>, Record<never, never>>,
     '/accounts/view': RouteRecordInfo<'/accounts/view', '/accounts/view', Record<never, never>, Record<never, never>>,
     '/accounts/wizard': RouteRecordInfo<'/accounts/wizard', '/accounts/wizard', Record<never, never>, Record<never, never>>,

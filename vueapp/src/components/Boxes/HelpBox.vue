@@ -7,7 +7,7 @@
 	{
 		compact: { type: Boolean, default: false },
         pin:  { type: Boolean, default: false },
-	});
+	})
 
     const helpClick = () => { if(!props.pin){ infoLevel.value = 2 } }
 

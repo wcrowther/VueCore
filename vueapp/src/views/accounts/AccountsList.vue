@@ -12,6 +12,12 @@
 
     const showAdvSearch = ref(false)
 
+    const route = useRoute()
+    // optional param from URL
+    const searchFromUrl = computed(() => route.params.search || null)
+    console.log('Search from URL:', searchFromUrl.value)
+
+
 	// Use the generic pagedList composable
 	const pagedList = usePagedList(
 	{
@@ -24,9 +30,8 @@
 		detailKeyName: 'AccountId',
 		pageSizeDefaultName: 'accountsPageSizeDefault',
 		searchFilterDefaultName: 'accountsSearchFilterDefault',
-		createSearchModel: () => new SearchForAccount(''),   // 👈 specific Search
+		createSearchModel: () => new SearchForAccount(searchFromUrl.value),  
 	})
-
 
     // Keyboard handlers =======================================================
 

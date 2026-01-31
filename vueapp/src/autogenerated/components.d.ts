@@ -36,6 +36,7 @@ declare module 'vue' {
     ImageUpload: typeof import('./../views/content/ImageUpload.vue')['default']
     InfoBox: typeof import('./../components/boxes/InfoBox.vue')['default']
     InfoButton: typeof import('./../components/buttons/InfoButton.vue')['default']
+    JsonFormatted: typeof import('./../components/misc/JsonFormatted.vue')['default']
     JsonTreeControl: typeof import('./../components/controls/JsonTreeControl.vue')['default']
     LayoutAuth: typeof import('./../layouts/LayoutAuth.vue')['default']
     LayoutMain: typeof import('./../layouts/LayoutMain.vue')['default']
