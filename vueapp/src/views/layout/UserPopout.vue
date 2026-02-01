@@ -2,9 +2,7 @@
 
     const authStore	        = useAuthStore()
     const appStore          = useAppStore()
-    const toastStore        = useToastStore()
 
-    const { copy                }   = useClipboard()
     const { logout, refreshAuth }   = authStore
 	const { firstInitial, 
             authUser, 
@@ -33,12 +31,6 @@
         logout()
     }  
 
-    const tokenToClipboard = () => 
-    { 
-        copy(authUser.value.Token); 
-        toastStore.showInfo('Value copied to the clipboard.'); 
-    }
-
     const refreshAuthToken = () =>
     {
         let authRefreshRequest = new AuthRefreshRequest(authUser.value.UserId)
@@ -46,12 +38,6 @@
     }
 
     const fullName = computed(() => authUser.value.LastName ? `${authUser.value.FirstName} ${authUser.value.LastName}` : '---')
-
-    const tokenDisplay = computed(() => 
-    {
-        let token = authUser.value.Token
-        return token ? `${token.slice(0,6)}...${token.slice(token.length - 6)}` : '---'
-    })
 
     // const numbers           = ref()
     // const filteredToNumbers = computed(

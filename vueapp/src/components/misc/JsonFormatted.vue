@@ -7,10 +7,13 @@
 		isOpen: { type: Boolean, default: true }
 	})
 
-	const emit = defineEmits(['toggle-siblings'])
+	const emit = defineEmits(['toggle-siblings', 'update:isOpen'])
 
 	const open 			= ref(props.isOpen)
 	const childrenRefs 	= ref([])
+
+	watch(() => props.isOpen, (v) => open.value = v)
+	watch(open, (v) => emit('update:isOpen', v))
 
 	const isObject 	= computed(() => typeof props.json === "object" && props.json !== null)
 	const isArray 	= computed(() => Array.isArray(props.json))
@@ -54,11 +57,11 @@
 
 <template>
 
-	<div :class="['bg-transparent', {'border-b-[3px] border-color-primary': level === 0}]"
+	<div :class="['bg-transparent', {'border-b-[3px] select-none border-color-primary': level === 0}]"
 		:style="{ marginLeft: level * 10 + 'px' }">
 
 		<div @contextmenu="onRightClick"
-  			:class="[rowClasses, 'cursor-pointer select-none flex items-center group']"
+  			:class="[rowClasses, 'cursor-pointer flex items-center group']"
 			:title="`Right-click to toggle siblings for ${levelHint}`">
 
 			<RotateButton v-if="isObject" v-model="open" icon="material-symbols-light:play-arrow" /> 
