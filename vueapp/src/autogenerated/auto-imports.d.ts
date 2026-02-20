@@ -13,6 +13,7 @@ declare global {
   const DisableLayoutEscapeKey: typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']
   const Draggable: typeof import('@vueuse/core')['useDraggable']
   const EffectScope: typeof import('vue')['EffectScope']
+  const EventModel: typeof import('../models/EventModel.js')['default']
   const IAuditable: typeof import('../models/IAuditable.js')['IAuditable']
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
   const KeyboardListeners: typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']
@@ -143,6 +144,9 @@ declare global {
   export type { AuthRequest } from '../models/AuthRequest.js'
   import('../models/AuthRequest.js')
   // @ts-ignore
+  export type { EventModel } from '../models/EventModel.js'
+  import('../models/EventModel.js')
+  // @ts-ignore
   export type { UserModel } from '../models/UserModel.js'
   import('../models/UserModel.js')
 }
@@ -159,6 +163,7 @@ declare module 'vue' {
     readonly DisableLayoutEscapeKey: UnwrapRef<typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']>
     readonly Draggable: UnwrapRef<typeof import('@vueuse/core')['useDraggable']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly EventModel: UnwrapRef<typeof import('../models/EventModel.js')['default']>
     readonly IAuditable: UnwrapRef<typeof import('../models/IAuditable.js')['IAuditable']>
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
     readonly KeyboardListeners: UnwrapRef<typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']>

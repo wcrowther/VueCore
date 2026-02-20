@@ -18,7 +18,7 @@
         The code also shows how to call public methods on controls like 'expandAll' and 'collapseAll'.
     </div>
     <div class="flex justify-start mb-4">
-        <PrimaryButton @click="useSimple=!useSimple">Toggle Content</PrimaryButton>
+        <PrimaryButton class="bg-color-light-blue" @click="useSimple=!useSimple">Toggle Content</PrimaryButton>
     </div>
     <div class="mt-5 pb-5">
         <JsonTreeControl :label="jsonName" :json="jsonTree" :showRawJson="false" />

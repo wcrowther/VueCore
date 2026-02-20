@@ -3,38 +3,48 @@
 
 	const props = defineProps(
 	{
-		rangeList: { type: Array, default: () => ['One', 'Two', 'Three'] }
+		rangeList: 	{ type: Array, default: () => ['One', 'Two', 'Three'] },
+		wrapBack: 	{ type: Boolean, default: true },
+		textName:   { type: String, default: null}
 	})
 
 	const min  = 0 
 	const max  = computed(() => props.rangeList.length-1)
 
+	// Index of item
 	const modelValue = defineModel (
 	{
-		type: Number,
-		default: 0
+		type: Number, default: 0
 	})
-
-	watch (
-		[modelValue, max], () => 
-		{
-			if (modelValue.value < min) 
-			{
-				modelValue.value = max.value
-			} 
-			else if (modelValue.value > max.value) 
-			{
-				modelValue.value = min
-			}
-		},{ immediate: true }
-	)
 
 	const setRangeValue = (delta) => 
 	{
-		modelValue.value += delta
+		let val = modelValue.value + delta
+
+		if (val < min) 
+			val = props.wrapBack ? max.value : min
+		else if (val > max.value) 
+			val = props.wrapBack ? min : max.value
+
+		modelValue.value = val
 	}
 
-	const rangeText = computed(() => props.rangeList[modelValue.value])
+	const rangeText = computed(() => 
+	{
+		const item = props.rangeList[modelValue.value]
+		if(typeof item === 'object' && item !== null)
+		{
+			if(props.textName !== null && item[props.textName] !== null)
+			{
+				return item[props.textName]
+			}
+			return Object.values(item)[0]
+		}
+		else
+		{
+			return item
+		}
+	})
 
 </script>
 

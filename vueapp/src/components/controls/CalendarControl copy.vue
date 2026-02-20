@@ -1,0 +1,133 @@
+<script setup>
+
+	const props = defineProps(
+	{
+		dateInMonth: { type: [Date, String], required: true },
+		weeks: { type: Number, default: 5 }
+	})
+
+	const emit = defineEmits(['drop'])
+
+	const firstOfMonth 	= ref(normalize(props.dateInMonth))
+	const timeZone 		= Intl.DateTimeFormat().resolvedOptions().timeZone
+	const monthYear 	= computed(() =>
+		firstOfMonth.value.toLocaleDateString(undefined, 
+		{
+			month: 'long', year: 'numeric', timeZone
+		})
+	)
+
+	// Calendar Cells  ===================================================================
+
+	const days = 7
+
+	const cells = computed(() => 
+	{
+		const result = []
+		const base = new Date(firstOfMonth.value)
+
+		for (let w = 0; w < props.weeks; w++) {
+			for (let d = 0; d < days; d++) {
+				const date = new Date(base)
+				date.setDate(base.getDate() + w * days + d)
+				result.push({ date })
+			}
+		}
+
+		return result
+	})
+
+	const onDrop = (e, date) => 
+	{
+		const eventId = e.dataTransfer.getData('event-id')
+		emit('drop', { eventId, date })
+	}
+
+	// Date Helpers  ===================================================================
+
+	function toLocalDate(input) 
+	{
+
+		// If already Date → extract Y/M/D in LOCAL calendar terms
+		if (input instanceof Date) 
+		{
+			return new Date(
+				input.getFullYear(),
+				input.getMonth(),
+				input.getDate(),
+				12, 0, 0, 0
+			)
+		}
+
+		// YYYY-MM-DD (date only)
+		if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) 
+		{
+			const [y, m, d] = input.split('-').map(Number)
+			return new Date(y, m - 1, d, 12, 0, 0, 0)
+		}
+
+		// ISO string with timezone
+		const temp = new Date(input)
+
+		return new Date( temp.getFullYear(), temp.getMonth(), temp.getDate(), 12, 0, 0, 0)
+	}
+
+	function normalize(date) {
+		const d = toLocalDate(date)
+		return new Date( d.getFullYear(), d.getMonth(), 1, 12, 0, 0, 0)
+	}
+
+	function addMonths(date, amount) 
+	{
+		const d = new Date(date)
+		return new Date(d.getFullYear(), d.getMonth() + amount, 1, 12, 0, 0, 0)
+	}
+
+	function prevMonth() 
+	{
+		firstOfMonth.value = addMonths(firstOfMonth.value, -1)
+	}
+
+	function nextMonth() 
+	{
+		console.log('nextM')
+		firstOfMonth.value = addMonths(firstOfMonth.value, 1)
+	}
+
+	function toToday() 
+	{
+		firstOfMonth.value = normalize(new Date())
+	}
+
+	defineExpose({ prevMonth, nextMonth, toToday })
+
+</script>
+
+<template>
+	<div class="bg-white">
+
+		<slot name="title" :monthYear :timeZone :firstOfMonth 
+			:prevMonth :nextMonth :toToday >
+			<!-- Default Title can be modified using custom title slot -->
+			<div class="text-center">
+				<div class="text-lg font-bold">
+					{{ monthYear }}
+				</div>
+				<div class="text-xs text-gray-500">
+					{{ timeZone }}
+				</div>
+			</div>
+		</slot>
+
+		<!-- Calendar Grid -->
+		<div class="border grid grid-cols-7 grid-rows-5 gap-px bg-slate-300">
+			<div v-for="cell in cells" 
+				:key="cell.date.toISOString()" 
+				class="bg-white p-2 min-h-[100px]"
+				@dragover.prevent @drop="onDrop($event, cell.date)">
+				<slot :date="cell.date" :time-zone="timeZone" />
+			</div>
+		</div>
+
+	</div>
+</template>
