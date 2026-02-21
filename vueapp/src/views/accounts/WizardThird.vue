@@ -1,7 +1,7 @@
 <script setup>
 
-    const showEventEditModal = ref(false)  
-    const selectedEvent      = ref(null) 
+    const showCalendarDay = ref(false)  
+    const selectedDay = ref(null) 
 
     onMounted(() => console.log('Accounts Wizard Third Mounted'))
 
@@ -55,8 +55,8 @@
 
     const handleEventModalClick = () => 
     { 
-        selectedEvent.value = new EventModel(new Date('2026-02-01')); 
-        console.log('handleEventModalClick') 
+        showCalendarDay.value = true
+        console.log('handleEventModalClick', showCalendarDay.value) 
     }
 
 </script>
@@ -113,6 +113,8 @@
 
     </CalendarControl>
 
-    <EventEditModal v-if="selectedEvent" v-model:eventModel="selectedEvent" />
+    <CalendarDayModal 
+        v-model:showCalendarDay="showCalendarDay" 
+        v-model:calendarDay="selectedDay" />
 
 </template>

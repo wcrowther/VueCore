@@ -13,7 +13,7 @@
 </script>
 
 <template>
-    <div class="flex flex-wrap" id="accounts-main">
+    <div class="flex" id="accounts-main">
 
         <!-- <div class="w-full">{{ urlSearch }}</div> -->
         

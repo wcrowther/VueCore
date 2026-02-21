@@ -55,7 +55,7 @@
 					<!-- Content -->
 					<div class="pb-8 h-full items-stretch scrollbar-thin" 
 						v-bind="$attrs"
-						><slot>Default body</slot></div>
+						><slot><div class="p-5 pb-0">Default content</div></slot></div>
 
 					<div class="shrink-0 p-4 pb-6 w-full h-18 flex justify-end gap-2 select-none">
 						<slot name="footer">
