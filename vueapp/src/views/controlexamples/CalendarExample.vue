@@ -1,6 +1,7 @@
 <script setup>
 
     const selectedDate      = ref(null)
+    const selectedEventId   = ref(null)
 
     onMounted(() => console.log('Calendar Example Mounted'))
 
@@ -53,11 +54,24 @@
         }
     }
 
-    const selectDay = (date) => 
+    const selectDay = (param) => 
     { 
-        selectedDate.value = date
+        if (typeof param === 'number') // eventId
+        {
+            const event = events.value.find(e => e.id == param)
+            if (event) 
+            {
+                selectedDate.value = new Date(event.date)
+                selectedEventId.value = param
+            }
+        } 
+        else // date
+        {   
+            selectedDate.value      = param
+            selectedEventId.value   = null
+        }
 
-        console.log('handleEventModalClick', dateFormat(selectedDate.value)) 
+        console.log('selectDay', dateFormat(selectedDate.value), selectedEventId.value) 
     }
 
     const dayEvents = computed(() => 
@@ -84,8 +98,8 @@
 
         <!-- Calendar header -->
         <template #title="{monthYear, timeZone, prevMonth, nextMonth, toToday}">
-        	<div class="flex justify-between items-center bg-color-light-blue p-5">
 
+        	<div class="flex justify-between items-center bg-color-light-blue p-5">
                 <button @click="prevMonth" class="text-blue">◀</button>
                 <button @click="toToday" class="border border-blue-400 px-3 py-[2px] rounded-full">Today</button>
                 <div class="text-lg text-center font-bold w-1/5">
@@ -95,9 +109,9 @@
                     <div>Timezone:</div>
                     <div>{{ timeZone }}</div>
                 </div>
-                <button @click="nextMonth" class="text-blue">▶</button>
-                {{ selectedDate ? dateISO(selectedDate) :'' }}
+                <button @click="nextMonth" class="text-blue">▶</button>           
 			</div>
+
         </template>
         
         <!-- Template for single day -->
@@ -111,12 +125,9 @@
 
             <!-- Events -->
             <div class="space-y-1">
-
                 <template v-for="event in eventsByDate(date)" :key="event.id" >
-                    <CalendarEvent :event="event" 
-                        @dragstart="onDragStart" @delete="deleteEvent" @select="selectDay" />
+                    <CalendarEvent :event @select="selectDay" @dragstart="onDragStart" @delete="deleteEvent"  />          
                 </template>
-
             </div>
 
         </template>
@@ -124,6 +135,6 @@
     </CalendarControl>
 
     <CalendarDayModal v-if="selectedDate"
-        v-model:calendarDate="selectedDate" v-model:dayEvents="dayEvents" />
+        v-model:calendarDate="selectedDate" v-model:dayEvents="dayEvents" v-model:selectedEventId="selectedEventId" />
 
 </template>

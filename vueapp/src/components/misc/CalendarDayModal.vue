@@ -7,6 +7,7 @@
                                     default: [],
                                     validator: (value) => value.every(item => item.value instanceof EventModel)
                                 })
+    const selectedEventId    = defineModel('selectedEventId', { type: Number, default: null })
 
 	const addEvent  = () => console.log('Add an Event')
     const showModal = computed(() => calendarDate ? true : false)
@@ -32,7 +33,8 @@
 
         
         <div class="p-5 pb-0">
-            <div v-if="dayEvents && dayEvents.length > 0" v-for="event in dayEvents">
+            <div v-if="dayEvents && dayEvents.length > 0" v-for="event in dayEvents" 
+                :class="event.id === selectedEventId ? 'bg-yellow-200' : ''">
                 {{ event.id }} {{ event.date }} {{ event.title }}
             </div>
         </div> 

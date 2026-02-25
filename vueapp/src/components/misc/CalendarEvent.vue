@@ -7,7 +7,7 @@
 <template>
     <div draggable="true"
         @dragstart="$emit('dragstart', $event, event)"
-        @click="$emit('select', event.date)"
+        @click="$emit('select', event.id)"
         class="bg-blue-500 text-white text-xs whitespace-nowrap pl-3 py-[2px] h-5 overflow-hidden
             rounded-full cursor-move flex items-center justify-between relative">
         {{ event.title }}
