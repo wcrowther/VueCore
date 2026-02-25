@@ -1,23 +1,23 @@
 <script setup>
 
-    const showCalendarDay   = defineModel('showCalendarDay', { type: Boolean, required: true })
+    const calendarDate      = defineModel('calendarDate', { type: Date, default: null })
     const dayEvents         = defineModel('dayEvents', 
                                 {   
                                     type: Array, 
-                                    required: true,
-                                    validator: (value) => value.every(item => item instanceof EventModel)
+                                    default: [],
+                                    validator: (value) => value.every(item => item.value instanceof EventModel)
                                 })
 
 	const addEvent  = () => console.log('Add an Event')
-    const showModal = computed(() => calendarDay ? true : false)
-    
+    const showModal = computed(() => calendarDate ? true : false)
+
     // Keyboard Listeners  ================================================
 
-	DisableLayoutEscapeKey(calendarDay.value) // disable Esc key if modal is showing
+	DisableLayoutEscapeKey(calendarDate) // disable Esc key if modal is showing
 
 	const keys = function (e)   
     {
-		if (e.code === 'Escape'){ calendarDay.value=null; e.preventDefault(); } 
+		if (e.code === 'Escape'){ calendarDate.value=null; e.preventDefault(); } 
     }
 
 	KeyboardListeners(keys)
@@ -27,20 +27,20 @@
 <template>   
 
 	<ModalControl id="EventModal" :showModal
-        title="Add an Event" height="500px" width="500px" 
-        @closeModal="showCalendarDay=false" >
+        :title="`Date: ${dateFormat(calendarDate)}`" height="500px" width="500px" 
+        @closeModal="calendarDate=null" >
 
-        <!-- 
+        
         <div class="p-5 pb-0">
-            <TextInput labelName="Title" placeholder="Event Name" 
-                v-model="eventModel.title" 
-                title="Update the event name." />
+            <div v-if="dayEvents && dayEvents.length > 0" v-for="event in dayEvents">
+                {{ event.id }} {{ event.date }} {{ event.title }}
+            </div>
         </div> 
-        -->
+        
 
         <template #footer>
             <button class="btn-primary" @click="addEvent">Add</button>
-            <button class="btn-delete"  @click="showCalendarDay=false">Close</button>
+            <button class="btn-delete"  @click="calendarDate=null">Close</button>
         </template>
 
 	</ModalControl>

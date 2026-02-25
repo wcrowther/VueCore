@@ -18,12 +18,13 @@
 	// ================================================================
 
 	const block		  		= computed(() => newestFirst.value ? 'end' : 'start')
+	const enableSendButton	= computed(() => message.value?.MessageText?.length ?? 0 > 0) 
 
 	const isCurrentUser		= (userId) =>  userId === currentUserId.value  
 	const setSelectedMsgRef = (el) => newestMsg.value = el
 	const scrollToNewestMsg = (behavior) => 
 	{
-		console.log('scrollToNewestMsg')
+		// console.log('scrollToNewestMsg')
 		
 		if(lockScroll.value)
 			return
@@ -37,7 +38,7 @@
 		await nextTick() 
 		scrollToNewestMsg()
 	}
-
+	
 	// ====================================================================
 	
 	onMounted( async () =>    
@@ -65,7 +66,8 @@
 				placeholder="Message" labelName="Message" />
 
 			<TextInput v-model.trim="serverMaxMessageId" labelName="MaxId" />
-			<PrimaryButton title="Send" @click="sendMessage" />
+			<PrimaryButton title="Send" @click="sendMessage" :disabled="!enableSendButton" />
+			{{ !enableSendButton }}
 		</div>
 
 		<div class="p-4 w-full md:w-1/2 lg:w-3/4">

@@ -95,7 +95,7 @@ declare global {
   const useAppStore: typeof import('./stores/AppStore.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('./stores/AuthStore.js')['useAuthStore']
-  const useChatHub: typeof import('./composables/ChatHub.js')['useChatHub']
+  const useChatHub: typeof import('./composables/UseChatHub.js')['useChatHub']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useConfirmControl: typeof import('./composables/UseConfirmControl.js')['useConfirmControl']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -104,7 +104,7 @@ declare global {
   const useId: typeof import('vue')['useId']
   const useImagesStore: typeof import('./stores/ImagesStore.js')['useImagesStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
-  const useMessageStore: typeof import('./stores/MessageStore.js')['useMessageStore']
+  const useMessageStore: typeof import('./stores/xxxMessageStore.js')['useMessageStore']
   const useMessagesStore: typeof import('./stores/MessagesStore.js')['useMessagesStore']
   const useModel: typeof import('vue')['useModel']
   const usePagedList: typeof import('./composables/UsePagedList.js')['usePagedList']
@@ -238,7 +238,7 @@ declare module 'vue' {
     readonly useAppStore: UnwrapRef<typeof import('./stores/AppStore.js')['useAppStore']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('./stores/AuthStore.js')['useAuthStore']>
-    readonly useChatHub: UnwrapRef<typeof import('./composables/ChatHub.js')['useChatHub']>
+    readonly useChatHub: UnwrapRef<typeof import('./composables/UseChatHub.js')['useChatHub']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useConfirmControl: UnwrapRef<typeof import('./composables/UseConfirmControl.js')['useConfirmControl']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
@@ -247,7 +247,7 @@ declare module 'vue' {
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImagesStore: UnwrapRef<typeof import('./stores/ImagesStore.js')['useImagesStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
-    readonly useMessageStore: UnwrapRef<typeof import('./stores/MessageStore.js')['useMessageStore']>
+    readonly useMessageStore: UnwrapRef<typeof import('./stores/xxxMessageStore.js')['useMessageStore']>
     readonly useMessagesStore: UnwrapRef<typeof import('./stores/MessagesStore.js')['useMessagesStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly usePagedList2: UnwrapRef<typeof import('./composables/UsePagedList2.js')['usePagedList2']>

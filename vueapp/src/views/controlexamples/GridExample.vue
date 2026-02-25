@@ -1,4 +1,4 @@
-    <script setup>
+<script setup>
 
     const listIndex     = ref(0)
     const animal        = ref(0)

@@ -18,6 +18,7 @@
 			</template>
 
 			<div class="pr-5">
+			
 				<router-link to="/accounts/main"  linkName="AccountsMain"
 					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
 					Main
@@ -30,12 +31,6 @@
 					Messages
 				</router-link>
 
-				<span class="px-1 text-gray-300">|</span>
-
-				<router-link to="/accounts/wizard" linkName="AccountsWizard" 
-					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
-					Wizard
-				</router-link>
 			</div>
 
 		</SubNavBar>

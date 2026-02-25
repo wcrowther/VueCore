@@ -46,7 +46,7 @@ import { ref } from 'vue'
         </div>
 
         <!-- Content -->
-        <div class="relative border border-black p-5 z-10 h-full min-h-60 opacity-100 pb-3
+        <div class="relative border border-black p-7 z-10 h-full min-h-60 opacity-100 pb-3
             overflow-y-auto scrollbar-thin box-border">
 
            <template v-for="(tab,idx) in props.tabList" :key="idx">
@@ -57,7 +57,7 @@ import { ref } from 'vue'
 
            <slot>
                 <div @click="nextTab" class="text-right font-bold absolute w-fit
-                    flex justify-end top-5 right-5 select-none hover:text-orange">
+                    flex justify-end top-7 right-7 select-none hover:text-orange">
                     Next
                 </div>
            </slot>

@@ -1,6 +1,6 @@
 <script setup>
 
-    const pageTitle  = ref('Wizard')
+    const pageTitle  = ref('Control Examples')
 
 </script>
 
@@ -30,31 +30,31 @@
 				-->
 
 				<WizardControl class="mb-10" :useKeyControls="true" 
-					:tabList="['First', 'Second', 'Third', 'Fourth', 'Fifth']">
+					:tabList="['Wizard', 'Calendar', 'Grid', 'JsonTree', 'Composable']">
 
-					<template #First>
-						<WizardFirst /> 
-					</template>
-
-					<template #Second>
-						<WizardSecond />
-					</template>
-
-					<template #Third>
-						<WizardThird />
-					</template>
-				
-					<template #Fourth>
-						<WizardFourth />
-					</template>
-				
-					<template #Fifth>
+					<template #Wizard>
 						<div class="font-bold mb-3">Wizard 	Example with inline template</div>
 						<div class="">
 							Aspernatur maiores odio possimus 
 							tempore accusamus asperiores! Minus sit enim sapiente id fugiat rem optio! Perferendis recusandae 
 							corporis odio, modi sunt nulla?
 						</div>
+					</template>
+			
+					<template #Calendar>
+						<CalendarExample />
+					</template>
+				
+					<template #Grid>
+						<GridExample />
+					</template>
+
+					<template #JsonTree>
+						<JsonTreeExample /> 
+					</template>
+
+					<template #Composable>
+						<ComposableExample />
 					</template>
 
 				</WizardControl>
