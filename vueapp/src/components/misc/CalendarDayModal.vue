@@ -37,7 +37,6 @@
             </div>
         </div> 
         
-
         <template #footer>
             <button class="btn-primary" @click="addEvent">Add</button>
             <button class="btn-delete"  @click="calendarDate=null">Close</button>

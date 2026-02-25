@@ -114,7 +114,7 @@
 
                 <template v-for="event in eventsByDate(date)" :key="event.id" >
                     <CalendarEvent :event="event" 
-                        @dragstart="onDragStart" @delete="deleteEvent" />
+                        @dragstart="onDragStart" @delete="deleteEvent" @select="selectDay" />
                 </template>
 
             </div>
