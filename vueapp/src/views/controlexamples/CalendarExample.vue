@@ -1,5 +1,7 @@
 <script setup>
 
+    const { createConfirm } = useConfirmControl()
+
     const selectedDate      = ref(null)
     const selectedEventId   = ref(null)
 
@@ -7,17 +9,17 @@
 
     const events = ref(
         [
-            new EventModel(1, '2026-02-01', 'Standup'),
-            new EventModel(2, '2026-02-28', 'Standup 2'),
-            new EventModel(3, '2026-02-05', 'Design Review'),
-            new EventModel(4, '2026-02-05', 'Followup Meeting'),
-            new EventModel(5, '2026-02-13', 'Release')
+            new EventModel(1, '2026-02-01', '08:00', 'Standup'),
+            new EventModel(2, '2026-02-28', '11:30', 'Standup 2'),
+            new EventModel(3, '2026-02-05', '10:00', 'Design Review'),
+            new EventModel(4, '2026-02-05', '16:45', 'Followup Meeting'),
+            new EventModel(5, '2026-02-13', '20:00', 'Release')
         ])
 
     const eventsByDate = (date) => 
     {
         let days =  events.value.filter (e => e.date === dateISO(date))
-        console.log(`eventsByDate ${dateISO(date)}`, days)
+        // console.log(`eventsByDate ${dateISO(date)}`, days)
         return days
     }
 
@@ -46,7 +48,11 @@
         })
     }
 
-    const deleteEvent = (eventId) => {
+    const deleteEvent = async (eventId) => 
+    {
+        const confirmed = await createConfirm('Delete this event?')
+        if(!confirmed) return
+         
         const index = events.value.findIndex(e => e.id === eventId)
         if (index !== -1) 
         {
@@ -54,21 +60,16 @@
         }
     }
 
-    const selectDay = (param) => 
+    const selectDay = (date, eventId) => 
     { 
-        if (typeof param === 'number') // eventId
-        {
-            const event = events.value.find(e => e.id == param)
-            if (event) 
-            {
-                selectedDate.value = new Date(event.date)
-                selectedEventId.value = param
-            }
-        } 
-        else // date
-        {   
-            selectedDate.value      = param
-            selectedEventId.value   = null
+        if (eventId) {
+            // From event click: date is event.date (string), eventId is number
+            selectedDate.value = new Date(date)
+            selectedEventId.value = eventId
+        } else {
+            // From day click: date is Date object, eventId is null
+            selectedDate.value = date
+            selectedEventId.value = null
         }
 
         console.log('selectDay', dateFormat(selectedDate.value), selectedEventId.value) 
@@ -93,8 +94,7 @@
         Illum officia corporis dignissimos nam consequatur!
     </div>
 
-    <CalendarControl @drop="onDropEvent" class="border border-gray mb-10"
-        :dateInMonth>
+    <CalendarControl :dateInMonth @drop="onDropEvent" class="border border-gray mb-10">
 
         <!-- Calendar header -->
         <template #title="{monthYear, timeZone, prevMonth, nextMonth, toToday}">
@@ -119,14 +119,16 @@
 
             <!-- Day number -->
             <div class="text-sm font-bold mb-1 select-none hover:opacity-50 z-50"
-                @click="selectDay(date)">
+                @click="selectDay(date, null)">
                 {{ date.getDate() }}
             </div>
 
             <!-- Events -->
             <div class="space-y-1">
                 <template v-for="event in eventsByDate(date)" :key="event.id" >
-                    <CalendarEvent :event @select="selectDay" @dragstart="onDragStart" @delete="deleteEvent"  />          
+                    <CalendarEvent :event :title="`EventId: ${event.id}`" 
+                        @select="(data) => selectDay(data.date, data.eventId)" 
+                        @dragstart="onDragStart" @delete="deleteEvent" />          
                 </template>
             </div>
 

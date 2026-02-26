@@ -1,14 +1,23 @@
 <script setup>
 
-import { ref } from 'vue'
-
-    const props = defineProps({
+    const props = defineProps(
+    {
         id: { type: String, default: 'WizardControl' },        
 		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] },
-        useKeyControls: { type: Boolean, default: true }
+        useKeyControls: { type: Boolean, default: true },
+        persistActiveTab: { type: Boolean, default: true },
 	})
 
-    const activeTab     = ref(props.tabList[0])
+    const activeTab = props.persistActiveTab 
+        ? useLocalStorage(`${props.id}-activeTab`, props.tabList[0]) 
+        : ref(props.tabList[0])
+    
+    // Ensure activeTab is still valid in tabList
+    if (props.persistActiveTab && !props.tabList.includes(activeTab.value)) 
+    {
+        activeTab.value = props.tabList[0]
+    }
+
     const isActive	    = (tab) => tab === activeTab.value
     const currentIndex  = computed(() => props.tabList.indexOf(activeTab.value)+1 ?? 1) // 1-based 
     const prevTab       = () => activeTab.value = props.tabList[currentIndex.value <= 1  ? props.tabList.length-1  : currentIndex.value-2];

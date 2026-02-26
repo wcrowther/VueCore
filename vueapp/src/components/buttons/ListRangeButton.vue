@@ -50,7 +50,7 @@
 
 <template>
 	
-	<div class="badge-button cursor-pointer text-white bg-color-primary hover:bg-orange"
+	<div class="badge-button flex items-center cursor-pointer text-white bg-color-primary hover:bg-orange"
 		@click="setRangeValue(1)"  @click.right.prevent="setRangeValue(-1)">
 		{{ rangeText }}
 	</div>  

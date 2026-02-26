@@ -1,16 +1,19 @@
 <script setup>
 
     const { createConfirm } = useConfirmControl()
-    const showConfirmedText     = ref(false)
+    const showConfirmedText = ref(false)
 
 	async function tryConfirm() 
 	{
 		const confirmed = await createConfirm('Confirm this record?')
 
-		if (confirmed) {
+		if (confirmed) 
+        {
 			console.log('Confirmed by User')
             showConfirmedText.value = true
-        } else {
+        } 
+        else 
+        {
 			console.log('Canceled by User')
         }
 	}	

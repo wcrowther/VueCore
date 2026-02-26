@@ -74,12 +74,12 @@
 
 			<div v-if="isArray" 
 				class="py-1 text-gray-400">
-				[ Array ]
+				[ Array ] 
 			</div>
 
 			<div v-else-if="isObject" 
 				class="py-1 text-gray-400">
-				{ Object }
+				{ Object } 
 			</div>
 
 			<div v-else 

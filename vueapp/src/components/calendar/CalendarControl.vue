@@ -40,7 +40,7 @@
 
 		const currentMonthIndex = firstOfMonth.value.getMonth()
 
-		const totalCells = props.weeks * 7
+		const totalCells = props.weeks * days
 
 		for (let i = 0; i < totalCells; i++) {
 
@@ -93,7 +93,8 @@
 		return new Date( temp.getFullYear(), temp.getMonth(), temp.getDate(), 12, 0, 0, 0)
 	}
 
-	function normalize(date) {
+	function normalize(date) 
+	{
 		const d = toLocalDate(date)
 		return new Date( d.getFullYear(), d.getMonth(), 1, 12, 0, 0, 0)
 	}
@@ -153,7 +154,7 @@
 				:key="cell.date.toISOString()" 
 				:class="['bg-white p-2 min-h-[100px]',
 				    cell.isCurrentMonth ? 'bg-white' : 'bg-gray-200 text-gray-400',
-    				cell.isToday ? 'ring-1 ring-blue-400 bg-blue-100' : '']"
+    				cell.isToday ? 'ring-1 ring-blue-400 bg-blue-50' : '']"
 				@dragover.prevent @drop="onDrop($event, cell.date)">
 				<slot :date="cell.date" :time-zone="timeZone" />
 			</div>
