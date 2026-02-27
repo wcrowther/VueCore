@@ -30,7 +30,7 @@
 				-->
 
 				<WizardControl class="mb-10" :useKeyControls="true" 
-					:tabList="['Wizard', 'Calendar', 'Grid', 'JsonTree', 'Composable']">
+					:tabList="['Wizard', 'Calendar', 'Grid', 'Json', 'Composable']">
 
 					<template #Wizard>
 						<div class="font-bold mb-3">Wizard 	Example with inline template</div>

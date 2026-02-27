@@ -22,7 +22,7 @@
         The code also shows how to call public methods on controls like 'expandAll' and 'collapseAll'.
     </div>
     <div class="flex justify-start mb-4">
-        <ListRangeButton v-model="sourceIndex" :rangeList="jsonSource" class="py-4 px-5" />
+        <ListIndexButton v-model="sourceIndex" :rangeList="jsonSource" class="py-4 px-5" />
     </div>
     <div class="mt-5 pb-5">
         <JsonTreeControl :label="jsonSource[sourceIndex].name" 

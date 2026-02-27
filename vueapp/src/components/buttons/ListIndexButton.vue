@@ -60,6 +60,6 @@
 <!-- USAGE
 
 	const rangeValue = ref(0)
-	<ListRangeButton v-model="rangeValue" />
+	<ListIndexButton v-model="rangeValue" />
 -->
 

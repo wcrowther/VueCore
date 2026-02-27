@@ -13,7 +13,7 @@
 
 <template>
 
-	<div class="w-fit mx-auto grid gap-0 border-4 border-gray-600 mb-5" 
+	<div class="w-fit grid gap-0 border-4 border-gray-600" 
 		:style="{ gridTemplateRows: `repeat(${props.cols}, 1fr)`, 
 		gridTemplateColumns: `repeat(${props.rows}, 1fr)`}">
 
