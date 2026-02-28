@@ -4,6 +4,8 @@
 
     const selectedDate      = ref(null)
     const selectedEventId   = ref(null)
+    const editingEventId    = ref(null)
+    const nextEventId       = ref(1)
 
     onMounted(() => console.log('Calendar Example Mounted'))
 
@@ -39,13 +41,16 @@
 
     const dateInMonth = computed(() => new Date() )
 
+    // keep a running next-id so that consumers can rely on a simple count
+    watch(events, (arr) => {
+        // next id is number of events + 1; use Math.max too just in case
+        const max = arr.length ? Math.max(...arr.map(e => e.id)) : 0
+        nextEventId.value = max + 1
+    }, { immediate: true, deep: true })
+
     const addEvent = (date) => {
-        const newId = Math.max(...events.value.map(e => e.id), 0) + 1
-        events.value.push({
-            id: newId,
-            date: date.toISOString().slice(0, 10),
-            title: 'New Event'
-        })
+        // create using the nextEventId computed by the watcher
+        events.value.push(new EventModel(nextEventId.value, date.toISOString().slice(0, 10), '00:00', 'New Event'))
     }
 
     const deleteEvent = async (eventId) => 
@@ -74,6 +79,11 @@
 
         console.log('selectDay', dateFormat(selectedDate.value), selectedEventId.value) 
     }
+
+    // when a child starts editing we also select the row so it's highlighted
+    watch(editingEventId, (id) => {
+        selectedEventId.value = id
+    })
 
     const dayEvents = computed(() => 
     {
@@ -137,6 +147,10 @@
     </CalendarControl>
 
     <CalendarDayModal v-if="selectedDate"
-        v-model:calendarDate="selectedDate" v-model:dayEvents="dayEvents" v-model:selectedEventId="selectedEventId" />
+        v-model:calendarDate="selectedDate"
+        v-model:dayEvents="dayEvents"
+        v-model:selectedEventId="selectedEventId"
+        v-model:editingEventId="editingEventId"
+        @add="addEvent" />
 
 </template>

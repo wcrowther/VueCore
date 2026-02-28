@@ -1,16 +1,27 @@
-<script setup>
+ <script setup>
 
     const event = defineModel('event', { type: Object, required: true })
 	const props = defineProps(
 	{ 
 		selectedEventId: { type: Number, default: null},	
+		editingEventId: { type: Number, default: null }
 	})
 
-	const isEdit = ref(false)
+	const isEdit = computed(() => props.editingEventId === event.value.id)
 
-	defineEmits(['select'])
+	const emit = defineEmits(['select','edit'])
 
-	const editEvent = () => { isEdit.value = !isEdit.value; console.log('Edit DayEvent') }
+	const editEvent = (e) => 
+	{ 
+		const id = event.value.id
+
+		console.log('editEvent', id)
+
+		e.stopPropagation();
+
+		emit('edit', id);
+		emit('select', id);
+	}
 
 </script>
 
@@ -26,9 +37,21 @@
 			<span class="mr-2">{{ event.time }}</span>
 			{{ event.title }}
 		</div>
-		<IconSymbol @click="editEvent" class="hidden group-hover:block text-color-dark-gray mr-1" icon="heroicons:pencil-square-solid" />
+		<IconSymbol @click.stop="editEvent" class="hidden group-hover:block text-color-dark-gray mr-1" icon="heroicons:pencil-square-solid" />
+
 	</div>
-	<div v-if="isEdit" class="border-blue-200 border-x p-3 text-center">
-		Edit controls here.
+	<!-- inline editing form -->
+	<div v-if="isEdit" class="border-blue-200 border-x p-3">
+		<div class="mb-2">
+			<input type="text" v-model="event.title" class="input w-full" />
+		</div>
+		<div class="flex gap-2 mb-2">
+			<div class="w-1/2">
+				<input type="date" v-model="event.date" class="input" />
+			</div>
+			<div class="w-1/2">
+				<input type="time" v-model="event.time" class="input" />
+			</div>
+		</div>
 	</div>
 </template>

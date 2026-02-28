@@ -2,6 +2,7 @@
 
     const calendarDate      = defineModel('calendarDate', { type: Date, default: null })
     const selectedEventId   = defineModel('selectedEventId', { type: Number, default: null })
+    const editingEventId    = defineModel('editingEventId', { type: Number, default: null })
     const dayEvents         = defineModel('dayEvents', 
                               {   
                                   type: Array, 
@@ -9,7 +10,15 @@
                                   validator: (value) => value.every(item => item instanceof EventModel )
                               })
 
-	const addEvent  = () => console.log('Add an Event')
+    const emit = defineEmits(['add'])
+
+	// when the Add button is clicked we propagate the selected date to the parent
+	const addEvent  = () => {
+        if (calendarDate.value) {
+            emit('add', calendarDate.value)
+        }
+    }
+
     const showModal = computed(() => calendarDate ? true : false)
 
     // Keyboard Listeners  ================================================
@@ -23,11 +32,14 @@
 
 	KeyboardListeners(keys)
 
+
+
 </script> 
 
 <template>   
 
 	<ModalControl id="EventModal" :showModal title="Events"
+        class="overflow-auto"
         height="500px" width="500px" @closeModal="calendarDate=null" >
 
         <div v-if="dayEvents && dayEvents.length > 0" class="p-5">
@@ -36,20 +48,20 @@
         <div v-else>
             {{`You have no events for ${dateFormat(calendarDate)}.`}}
         </div>
-
-        <div class="p-5 ">
+        <div class="p-5 h-fit">
             <div v-if="dayEvents && dayEvents.length > 0"
                 class="border-b border-blue-200">
-                
+        
                 <template v-for="event in dayEvents" :key="event.id">
-                    <CalendarDayEvent :event="event" 
-                        :selectedEventId="selectedEventId" 
-                        @select="selectedEventId = $event" />
+                    <CalendarDayEvent :event="event"
+                        :selectedEventId="selectedEventId"
+                        :editingEventId="editingEventId"
+                        @select="selectedEventId = $event"
+                        @edit="editingEventId = $event" />
                 </template>
 
             </div>
-            <div v-else></div>
-        </div> 
+        </div>
         
         <template #footer>
             <button class="btn-primary" @click="addEvent">Add</button>
