@@ -4,6 +4,7 @@
     {
         labelName:  { type: String }, 
         ruleName:   { type: String }, 
+        step:       { type: Number,  default: 300}, // seconds - 5 mins
         v$:         { type: Object }
     })
 
@@ -17,7 +18,7 @@
     <div class="mb-3">
 
         <div class="pb-1 flex justify-between items-baseline">
-            <label v-if="props.labelName" 
+            <label v-if="props.labelName"
                 class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
                 :for="props.labelName">
                 {{props.labelName}}
@@ -32,8 +33,8 @@
 
         <div class="flex justify-center items-center relative">
             <input :class="['w-full text-sm', {'border-red': hasErrors}]" 
-                type="date" :id="props.labelName" :name="props.labelName"
-                v-model="modelValue" v-bind="$attrs"  />
+                type="time" :id="props.labelName" :name="props.labelName"
+                v-model="modelValue" v-bind="$attrs" :step="props.step" />
         </div>
 
     </div>
@@ -41,6 +42,6 @@
 
 <!-- 
 EXAMPLES:
-    <DateInput labelName="DateCreated" v-model="account.DateCreated" :v$ />
+    <TimeInput labelName="Time" v-model="event.time" :v$ />
 -->
 

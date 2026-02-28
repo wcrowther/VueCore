@@ -1,7 +1,6 @@
 <script setup>
 
     const calendarDate      = defineModel('calendarDate', { type: Date, default: null })
-    const selectedEventId   = defineModel('selectedEventId', { type: Number, default: null })
     const editingEventId    = defineModel('editingEventId', { type: Number, default: null })
     const dayEvents         = defineModel('dayEvents', 
                               {   
@@ -12,9 +11,10 @@
 
     const emit = defineEmits(['add'])
 
-	// when the Add button is clicked we propagate the selected date to the parent
-	const addEvent  = () => {
-        if (calendarDate.value) {
+	const addEvent  = () => 
+    {
+        if (calendarDate.value) 
+        {
             emit('add', calendarDate.value)
         }
     }
@@ -45,18 +45,16 @@
         <div v-if="dayEvents && dayEvents.length > 0" class="p-5">
             {{`You have the following events for ${dateFormat(calendarDate)}:`}}
         </div>
-        <div v-else>
+        <div v-else class="p-5">
             {{`You have no events for ${dateFormat(calendarDate)}.`}}
         </div>
-        <div class="p-5 h-fit">
+        <div class="pb-5 px-5 h-fit">
             <div v-if="dayEvents && dayEvents.length > 0"
                 class="border-b border-blue-200">
         
                 <template v-for="event in dayEvents" :key="event.id">
                     <CalendarDayEvent :event="event"
-                        :selectedEventId="selectedEventId"
                         :editingEventId="editingEventId"
-                        @select="selectedEventId = $event"
                         @edit="editingEventId = $event" />
                 </template>
 

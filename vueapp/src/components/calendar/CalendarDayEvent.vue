@@ -3,7 +3,6 @@
     const event = defineModel('event', { type: Object, required: true })
 	const props = defineProps(
 	{ 
-		selectedEventId: { type: Number, default: null},	
 		editingEventId: { type: Number, default: null }
 	})
 
@@ -20,7 +19,6 @@
 		e.stopPropagation();
 
 		emit('edit', id);
-		emit('select', id);
 	}
 
 </script>
@@ -28,10 +26,10 @@
 <template>
 	<div @click="$emit('select', event.id)" :title="`EventId: ${event.id}`" 
 		:class="['group border border-b-0 border-blue-200 p-2 flex justify-between items-center',
-		event.id === selectedEventId ? 'bg-blue-100' : '']">
+		event.id === editingEventId ? 'bg-blue-100' : '']">
 		<div class="flex justify-center items-center">
 			<span class="size-5 mr-1">
-				<IconSymbol v-if="event.id === selectedEventId" width="20px" 
+				<IconSymbol v-if="event.id === editingEventId" width="20px" 
 					class="text-blue-400" icon="material-symbols-light:play-arrow" />
 			</span>
 			<span class="mr-2">{{ event.time }}</span>
@@ -41,16 +39,16 @@
 
 	</div>
 	<!-- inline editing form -->
-	<div v-if="isEdit" class="border-blue-200 border-x p-3">
+	<div v-if="isEdit" class="border-blue-200 border-x pt-2 px-2">
 		<div class="mb-2">
-			<input type="text" v-model="event.title" class="input w-full" />
+			<TextInput v-model="event.title" placeholder="Title" class="input w-full" />
 		</div>
-		<div class="flex gap-2 mb-2">
+		<div class="flex gap-2">
 			<div class="w-1/2">
-				<input type="date" v-model="event.date" class="input" />
+				<DateInput v-model="event.date" />
 			</div>
 			<div class="w-1/2">
-				<input type="time" v-model="event.time" class="input" />
+				<TimeInput v-model="event.time" />
 			</div>
 		</div>
 	</div>

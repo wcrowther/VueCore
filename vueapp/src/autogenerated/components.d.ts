@@ -25,7 +25,6 @@ declare module 'vue' {
     CheckboxInput: typeof import('./../components/inputs/CheckboxInput.vue')['default']
     ComposableExample: typeof import('./../views/controlexamples/ComposableExample.vue')['default']
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']
-    copy: typeof import('./../components/misc/CalendarDayModal copy.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     FloaterControl: typeof import('./../components/controls/FloaterControl.vue')['default']
@@ -52,7 +51,6 @@ declare module 'vue' {
     ListIndexButton: typeof import('./../components/buttons/ListIndexButton.vue')['default']
     ListPager: typeof import('./../components/pager/ListPager.vue')['default']
     ListPagerDebugger: typeof import('./../components/pager/ListPagerDebugger.vue')['default']
-    ListRangeButton: typeof import('../components/buttons/ListIndexButton.vue')['default']
     LivePic: typeof import('./../components/misc/LivePic.vue')['default']
     LoginView: typeof import('./../views/auth/LoginView.vue')['default']
     MainContent: typeof import('./../views/layout/MainContent.vue')['default']
@@ -86,6 +84,7 @@ declare module 'vue' {
     TabControl: typeof import('./../components/controls/TabControl.vue')['default']
     TestUser: typeof import('./../views/auth/TestUser.vue')['default']
     TextInput: typeof import('./../components/inputs/TextInput.vue')['default']
+    TimeInput: typeof import('./../components/inputs/TimeInput.vue')['default']
     TitleBox: typeof import('./../components/boxes/TitleBox.vue')['default']
     UserPopout: typeof import('./../views/layout/UserPopout.vue')['default']
     UsersAdvSearch: typeof import('./../views/admin/UsersAdvSearch.vue')['default']
@@ -94,7 +93,5 @@ declare module 'vue' {
     UsersList: typeof import('./../views/admin/UsersList.vue')['default']
     UsersSearch: typeof import('./../views/admin/UsersSearch.vue')['default']
     WizardControl: typeof import('./../components/controls/WizardControl.vue')['default']
-    WizardFourth: typeof import('../views/controlexamples/GridExample.vueault']
-    WizardSecond: typeof import('./../views/controlexamples/WizardSecond.vue')['default']
   }
 }

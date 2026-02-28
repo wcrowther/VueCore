@@ -3,7 +3,6 @@
     const { createConfirm } = useConfirmControl()
 
     const selectedDate      = ref(null)
-    const selectedEventId   = ref(null)
     const editingEventId    = ref(null)
     const nextEventId       = ref(1)
 
@@ -41,15 +40,15 @@
 
     const dateInMonth = computed(() => new Date() )
 
-    // keep a running next-id so that consumers can rely on a simple count
-    watch(events, (arr) => {
-        // next id is number of events + 1; use Math.max too just in case
+    watch(events, (arr) => 
+    {
         const max = arr.length ? Math.max(...arr.map(e => e.id)) : 0
         nextEventId.value = max + 1
-    }, { immediate: true, deep: true })
+    }, 
+    { immediate: true, deep: true })
 
-    const addEvent = (date) => {
-        // create using the nextEventId computed by the watcher
+    const addEvent = (date) => 
+    {
         events.value.push(new EventModel(nextEventId.value, date.toISOString().slice(0, 10), '00:00', 'New Event'))
     }
 
@@ -67,23 +66,19 @@
 
     const selectDay = (date, eventId) => 
     { 
-        if (eventId) {
-            // From event click: date is event.date (string), eventId is number
+        if (eventId) 
+        {   // From event click: date is event.date (string), eventId is number
             selectedDate.value = new Date(date)
-            selectedEventId.value = eventId
-        } else {
-            // From day click: date is Date object, eventId is null
+            editingEventId.value = eventId
+        } 
+        else 
+        {   // From day click: date is Date object, eventId is null
             selectedDate.value = date
-            selectedEventId.value = null
+            editingEventId.value = null
         }
 
-        console.log('selectDay', dateFormat(selectedDate.value), selectedEventId.value) 
+        console.log('selectDay', dateFormat(selectedDate.value), editingEventId.value) 
     }
-
-    // when a child starts editing we also select the row so it's highlighted
-    watch(editingEventId, (id) => {
-        selectedEventId.value = id
-    })
 
     const dayEvents = computed(() => 
     {
@@ -136,8 +131,8 @@
             <!-- Events -->
             <div class="space-y-1">
                 <template v-for="event in eventsByDate(date)" :key="event.id" >
-                    <CalendarEvent :event :title="`EventId: ${event.id}`" 
-                        @select="(data) => selectDay(data.date, data.eventId)" 
+                    <CalendarEvent :event 
+                        @select="(d) => selectDay(d.date, d.eventId)" 
                         @dragstart="onDragStart" @delete="deleteEvent" />          
                 </template>
             </div>
@@ -149,7 +144,6 @@
     <CalendarDayModal v-if="selectedDate"
         v-model:calendarDate="selectedDate"
         v-model:dayEvents="dayEvents"
-        v-model:selectedEventId="selectedEventId"
         v-model:editingEventId="editingEventId"
         @add="addEvent" />
 

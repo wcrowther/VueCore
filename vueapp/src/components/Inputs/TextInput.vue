@@ -2,10 +2,11 @@
 
     const props = defineProps (
     {
-        labelName:  { type: String, required: true }, 
-        ruleName:   { type: String }, 
-        spellCheck: { type: Boolean },
-        v$:         { type: Object }
+        labelName:   { type: String }, 
+        placeholder: { type: String }, 
+        ruleName:    { type: String }, 
+        spellCheck:  { type: Boolean },
+        v$:          { type: Object }
     })
 
     const modelValue = defineModel()
@@ -18,7 +19,8 @@
     <div class="mb-3">
 
         <div class="pb-1 flex justify-between items-baseline">
-            <label class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
+            <label v-if="props.labelName"
+                class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
                 :for="props.labelName">
                 {{props.labelName}}
             </label>
@@ -33,7 +35,8 @@
         <div class="flex justify-center items-center relative">
             <input :class="['w-full text-sm', {'border-red': hasErrors}]" 
                 type="text" :id="props.labelName" :name="props.labelName"
-                v-model="modelValue" v-bind="$attrs" :spellcheck="props.spellCheck" />
+                v-model="modelValue" v-bind="$attrs" 
+                :placeholder="props.placeholder" :spellcheck="props.spellCheck" />
         </div>
 
     </div>

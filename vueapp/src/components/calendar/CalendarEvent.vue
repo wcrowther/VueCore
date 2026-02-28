@@ -7,6 +7,7 @@
 
 <template>
     <div draggable="true"
+        :title="`Time: ${event.time} EventId: ${event.id}`" 
         @dragstart="$emit('dragstart', $event, event)"
         @click="$emit('select', { date: event.date, eventId: event.id })"
         class="bg-blue-500 text-white text-xs whitespace-nowrap pl-3 py-[2px] h-5 overflow-hidden

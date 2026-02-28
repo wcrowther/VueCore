@@ -154,7 +154,7 @@
 				:key="cell.date.toISOString()" 
 				:class="['bg-white p-2 min-h-[100px]',
 				    cell.isCurrentMonth ? 'bg-white' : 'bg-gray-200 text-gray-400',
-    				cell.isToday ? 'ring-1 ring-blue-400 bg-blue-50' : '']"
+    				cell.isToday ? 'ring-1 ring-blue-400 bg-blue-200' : '']"
 				@dragover.prevent @drop="onDrop($event, cell.date)">
 				<slot :date="cell.date" :time-zone="timeZone" />
 			</div>
