@@ -55,7 +55,7 @@
 
     const deleteEvent = async (eventId) => 
     {
-        console.log('Delete:', eventId)
+        console.log(`Delete Event: ${eventId}`)
         
         const confirmed = await createConfirm('Delete this event?')
         if(!confirmed) return

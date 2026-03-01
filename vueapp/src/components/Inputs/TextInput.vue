@@ -12,7 +12,14 @@
     const modelValue = defineModel()
     const rule       = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ',''))
     const hasErrors  = computed(() => props.v$ && props.v$[rule.value] && props.v$[rule.value]?.$errors.length > 0 )
+    const textInput  = ref(null)
+    const focus      = () => 
+    { 
+        textInput.value.focus();
+        textInput.value.setSelectionRange(0,0)
+    }
 
+    defineExpose({ focus })
 </script>
 
 <template>
@@ -35,7 +42,7 @@
         <div class="flex justify-center items-center relative">
             <input :class="['w-full text-sm', {'border-red': hasErrors}]" 
                 type="text" :id="props.labelName" :name="props.labelName"
-                v-model="modelValue" v-bind="$attrs" 
+                v-model="modelValue" v-bind="$attrs" ref="textInput"
                 :placeholder="props.placeholder" :spellcheck="props.spellCheck" />
         </div>
 

@@ -9,7 +9,7 @@
                                   validator: (value) => value.every(item => item instanceof EventModel )
                               })
 
-    const emit = defineEmits(['add'])
+    const emit = defineEmits(['add','delete'])
 
 	const addEvent  = () => 
     {
@@ -50,7 +50,8 @@
         
                 <template v-for="event in dayEvents" :key="event.id">
                     <CalendarDayEvent :event="event"
-                        v-model:editingEventId="editingEventId" />
+                        v-model:editingEventId="editingEventId" 
+                        @delete="$emit('delete', data)"/>
                 </template>
 
             </div>

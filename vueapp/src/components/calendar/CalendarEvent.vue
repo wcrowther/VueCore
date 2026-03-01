@@ -15,7 +15,7 @@
         <div>
             <span class="mr-1">{{ event.time }}</span> {{ event.title }}
         </div>
-        <span @click.stop="$emit('delete', event.date, event.id)" 
+        <span @click.stop="$emit('delete', event.id)" 
             class="text-xs leading-5 cursor-pointer bg-blue-500 size-5 absolute right-0 z-50
             rounded-full text-center text-white/80 hover:text-white/100">×</span>
     </div>
