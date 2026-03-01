@@ -34,7 +34,7 @@
 
 			<div v-if="showModal" id="ModalOverlay"
 				@click.self="props.overlayClickCloses && closeModal"
-                class="flex fixed z-[9999] top-0 left-0 w-full h-full bg-black 
+                class="flex fixed z-[999] top-0 left-0 w-full h-full bg-black 
 					bg-opacity-30 transition-opacity ease-in-out duration-75">
 
 				<div class="flex flex-col m-auto  max-w-screen transition-all relative 

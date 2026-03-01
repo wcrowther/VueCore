@@ -1,30 +1,45 @@
  <script setup>
 
+	const { createConfirm } = useConfirmControl()
+
     const event = defineModel('event', { type: Object, required: true })
 	const props = defineProps(
 	{ 
 		editingEventId: { type: Number, default: null }
 	})
 
-	const isEdit = computed(() => props.editingEventId === event.value.id)
-
 	const emit = defineEmits(['select','edit'])
 
+	const isEdit = computed(() => props.editingEventId === event.value.id)
 	const editEvent = (e) => 
 	{ 
 		const id = event.value.id
-
 		console.log('editEvent', id)
 
-		e.stopPropagation();
+		if (isEdit.value)
+			emit('edit', null)
+		else
+			emit('edit', id)
+	}
 
-		emit('edit', id);
+	const tempDate = ref(event.value.date)
+	const confirmDateMove = async () => 
+	{
+		if(tempDate.value === event.value.date) 
+			return
+
+		const confirmed = await createConfirm(`Move this event to ${tempDate.value}?`)
+
+		if(confirmed) 
+			event.value.date = tempDate.value  // apply change
+		else
+			tempDate.value = event.value.date  // revert back
 	}
 
 </script>
 
 <template>
-	<div @click="$emit('select', event.id)" :title="`EventId: ${event.id}`" 
+	<div @click="editEvent" :title="`EventId: ${event.id}`" 
 		:class="['group border border-b-0 border-blue-200 p-2 flex justify-between items-center',
 		event.id === editingEventId ? 'bg-blue-100' : '']">
 		<div class="flex justify-center items-center">
@@ -45,7 +60,7 @@
 		</div>
 		<div class="flex gap-2">
 			<div class="w-1/2">
-				<DateInput v-model="event.date" />
+				<DateInput v-model="tempDate" @mouseleave="confirmDateMove" />
 			</div>
 			<div class="w-1/2">
 				<TimeInput v-model="event.time" />

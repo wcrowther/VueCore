@@ -5,7 +5,8 @@ let container = null;
 
 export function useConfirmControl() 
 {
-	if (!instance) {
+	if (!instance) 
+	{
 		container = document.createElement('div')
 		document.body.appendChild(container)
 
@@ -13,7 +14,8 @@ export function useConfirmControl()
 
 		instance = createApp(
 		{
-			setup() {
+			setup() 
+			{
 				return () => h(ConfirmControl, { ref: exposedRef })
 			},
 
@@ -44,7 +46,7 @@ export function useConfirmControl()
 			console.log('Confirmed by User')
 		else 
 			console.log('Cancelled by User')
-	}	
+	} 	
 
 	// In template:
 	<button @click="tryConfirm">Try Confirm</button>

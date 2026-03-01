@@ -5,7 +5,8 @@
 	{
 		message: 		{ type: String, default: 'Confirm your changes?' }, 
 		confirmText:	{ type: String, default: 'Confirm' }, 
-		cancelText: 	{ type: String, default: 'Cancel' } 
+		cancelText: 	{ type: String, default: 'Cancel' },
+		zIndex:         { type: Number, default: 1000 }
 	});
 
 	const showConfirm 	= defineModel({ type: Boolean, default: false })
@@ -65,27 +66,30 @@
 
 <template>
 
-	<div v-if="showConfirm"
-		class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100]">
+	<Teleport to="body">
+		<div v-if="showConfirm"
+			class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+			:style="{ zIndex: props.zIndex }">
 
-		<div class="bg-white p-5 pb-7 rounded shadow-md">
+			<div class="bg-white p-5 pb-7 rounded shadow-md">
 
-			<div class="mb-5 w-full">{{ message }}</div>
-			<div class="flex justify-end">
+				<div class="mb-5 w-full">{{ message }}</div>
+				<div class="flex justify-end">
 
-				<button @click="onConfirm" v-focus @keydown.enter.prevent.stop="onConfirm"  
-					class="mr-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 focus:outline-none">
-					{{props.confirmText}}
-				</button>
+					<button @click="onConfirm" v-focus @keydown.enter.prevent.stop="onConfirm"  
+						class="mr-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 focus:outline-none">
+						{{props.confirmText}}
+					</button>
 
-				<button @click="onCancel" @keydown.enter.prevent.stop="onCancel"  
-					class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none">
-					{{props.cancelText}}
-				</button>
+					<button @click="onCancel" @keydown.enter.prevent.stop="onCancel"  
+						class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none">
+						{{props.cancelText}}
+					</button>
 
+				</div>
 			</div>
 		</div>
-	</div>
+	</Teleport>
 
 </template>
 

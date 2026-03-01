@@ -14,9 +14,7 @@
 	const addEvent  = () => 
     {
         if (calendarDate.value) 
-        {
             emit('add', calendarDate.value)
-        }
     }
 
     const showModal = computed(() => calendarDate ? true : false)
@@ -31,8 +29,6 @@
     }
 
 	KeyboardListeners(keys)
-
-
 
 </script> 
 
