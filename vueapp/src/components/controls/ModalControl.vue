@@ -1,7 +1,11 @@
 <script setup>
 
-	const props = defineProps({
-		showModal:          Boolean, 
+	import { useScrollLock } from '@/composables/useScrollLock'
+
+	const showModal = defineModel({ type: Boolean })
+
+	const props = defineProps(
+	{
 		title:            	String,
 		teleportToBody:   	{ type: Boolean, default: true },
 		height:           	{ type: String, default: '300px' },
@@ -11,20 +15,7 @@
 
 	defineOptions({ inheritAttrs: false })
 
-	const emits 		= defineEmits(["closeModal"])
-	const closeModal 	= () =>  emits('closeModal')
-	
-	onMounted(() =>   { document.body.style.overflow = 'hidden'; })
-	onUnmounted(() => { document.body.style.overflow = 'auto'; })
-
-    watch(() => props.showModal, (newVal) => 
-    {
-		// Prevents scrolling behind overlay. 
-		document.body.style.overflow    = newVal ? 'hidden': 'auto'
-
-		// code: document.body.style.marginRight = newVal ? '16px': 'initial'
-    })
-
+	useScrollLock(showModal)
 
 </script>
 
@@ -46,13 +37,13 @@
 						<slot name="header">
 							<span>{{title || 'Title'}}</span>
 							<div class="h-7 w-7 bg-white hover:bg-color-light-blue rounded-full flex-center" 
-								@click="closeModal">
+								@click="showModal=false">
 								<IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons-solid:x" />
 							</div>
 						</slot>
 					</div>
 					
-					<!-- Content -->
+					<!-- Content - Gets ModalControls attributes ($attrs) on this div -->
 					<div class="pb-8 h-full items-stretch scrollbar-thin" 
 						v-bind="$attrs"
 						><slot><div class="p-5 pb-0">Default content</div></slot></div>
@@ -86,10 +77,5 @@
 
 <!-- Usage: 
 
-    <AccountAdvSearch v-if="showAdvSearch" 
-        v-model:showModal="showAdvSearch" v-model:listPager="listPager" @getListData="getListData" />
-
-	NOTE: 'v-if' above is used to ensure the modal is only initialized when it is actually needed,
-	preventing it from mounting on page load. Removing v-if would cause lifecycle hooks like onMounted 
-	(e.g., keyboard listeners) to run immediately, which could override the LayoutEscapeKey behavior.
+    <ModalControl v-if="showAdvSearch" v-model="showAdvSearch"  />
 -->

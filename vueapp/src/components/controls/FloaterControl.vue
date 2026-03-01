@@ -1,8 +1,6 @@
 <script setup>
 
-
     import { useDraggable } from '@vueuse/core'    
-    import { ref } from 'vue'
 
     const appStore              = useAppStore()
     const { activeFloater  }    = storeToRefs(appStore)

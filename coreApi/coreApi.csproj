@@ -85,6 +85,10 @@
 		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Uploads\" />
+	</ItemGroup>
+
 	<!-- Custom publish file copy -->
 	<Target Name="CopyCustomFiles" BeforeTargets="Publish">
 		<ItemGroup>

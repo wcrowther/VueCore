@@ -19,7 +19,7 @@
 					Vuejs
 				</router-link>
 				
-				<!-- .NET page not yet worked on.
+				<!-- .NET Notes page not yet worked on.
 
 				<span class="px-1 text-gray-300">|</span>
 				

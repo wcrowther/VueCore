@@ -6,7 +6,7 @@ export default class EventModel
 		this.id			= id || 0
 		this.date		= this.parseDate(date),
 		this.time		= time || '00:00'
-		this.title		= title || 'New Event'
+		this.title		= title || ''
     }
 
 	parseDate(value) 

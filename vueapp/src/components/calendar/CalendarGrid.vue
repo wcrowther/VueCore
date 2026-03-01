@@ -112,7 +112,6 @@
 
 	function nextMonth() 
 	{
-		console.log('nextM')
 		firstOfMonth.value = addMonths(firstOfMonth.value, 1)
 	}
 
@@ -147,16 +146,23 @@
 				</div>
 			</div>
 		</slot>
-
-		<!-- Calendar Grid -->
+		<div class="grid grid-cols-7 gap-px bg-blue-200">
+			<div class="p-1 text-center bg-blue-100">Sunday</div>
+			<div class="p-1 text-center bg-blue-100">Monday</div>
+			<div class="p-1 text-center bg-blue-100">Tuesday</div>
+			<div class="p-1 text-center bg-blue-100">Wednesday</div>
+			<div class="p-1 text-center bg-blue-100">Thursday</div>
+			<div class="p-1 text-center bg-blue-100">Friday</div>
+			<div class="p-1 text-center bg-blue-100">Saturday</div>
+		</div>
 		<div class="border grid grid-cols-7 grid-rows-5 gap-px bg-slate-300">
 			<div v-for="cell in cells" 
 				:key="cell.date.toISOString()" 
-				:class="['bg-white p-2 min-h-[100px]',
-				    cell.isCurrentMonth ? 'bg-white' : 'bg-gray-200 text-gray-400',
-    				cell.isToday ? 'ring-1 ring-blue-400 bg-blue-200' : '']"
+				:class="['bg-white min-h-[100px]',
+					cell.isToday ? '!bg-blue-50 ring-1 ring-blue-400' : '',
+				    cell.isCurrentMonth ? 'bg-white' : 'bg-gray-200 text-gray-400']"
 				@dragover.prevent @drop="onDrop($event, cell.date)">
-				<slot :date="cell.date" :time-zone="timeZone" />
+				<slot :date="cell.date" :time-zone="timeZone"></slot>
 			</div>
 		</div>
 

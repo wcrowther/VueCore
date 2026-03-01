@@ -2,27 +2,22 @@
 
 	const { createConfirm } = useConfirmControl()
 
-    const event = defineModel('event', { type: Object, required: true })
-	const props = defineProps(
-	{ 
-		editingEventId: { type: Number, default: null }
-	})
+    const event 		 = defineModel('event', { type: Object, required: true })
+	const editingEventId = defineModel('editingEventId', { type: Number, required: false })
+ 	const eventTitle	 = ref(null)
 
-	const emit = defineEmits(['select','edit'])
+	const tempDate 		= ref(event.value.date)
+	const isEdit 		= computed(() => editingEventId?.value === event?.value.id ? true : false)
+	const nullEvent 	= (e) => {e.stopPropagation()} // stops click from propagation
+	const toggleEvent 	= () => { if(isEdit.value) editingEventId.value = null; 
+								  else editingEventId.value = event.value.id }
 
-	const isEdit = computed(() => props.editingEventId === event.value.id)
-	const editEvent = (e) => 
-	{ 
-		const id = event.value.id
-		console.log('editEvent', id)
+    watch(() => editingEventId.value, (newVal, oldVal) => 
+    {
+        if(newVal === oldVal) return
+        nextTick(() => { if (eventTitle.value) eventTitle.value.focus() })
+    });
 
-		if (isEdit.value)
-			emit('edit', null)
-		else
-			emit('edit', id)
-	}
-
-	const tempDate = ref(event.value.date)
 	const confirmDateMove = async () => 
 	{
 		if(tempDate.value === event.value.date) 
@@ -36,35 +31,55 @@
 			tempDate.value = event.value.date  // revert back
 	}
 
+	defineEmits(['deleteEvent'])
+
+	onMounted(() => 
+	{ 
+		nextTick(() => { if (eventTitle.value) eventTitle.value.focus() })
+	})
+
 </script>
 
 <template>
-	<div @click="editEvent" :title="`EventId: ${event.id}`" 
-		:class="['group border border-b-0 border-blue-200 p-2 flex justify-between items-center',
-		event.id === editingEventId ? 'bg-blue-100' : '']">
-		<div class="flex justify-center items-center">
-			<span class="size-5 mr-1">
-				<IconSymbol v-if="event.id === editingEventId" width="20px" 
-					class="text-blue-400" icon="material-symbols-light:play-arrow" />
-			</span>
-			<span class="mr-2">{{ event.time }}</span>
-			{{ event.title }}
-		</div>
-		<IconSymbol @click.stop="editEvent" class="hidden group-hover:block text-color-dark-gray mr-1" icon="heroicons:pencil-square-solid" />
+	<div>
 
-	</div>
-	<!-- inline editing form -->
-	<div v-if="isEdit" class="border-blue-200 border-x pt-2 px-2">
-		<div class="mb-2">
-			<TextInput v-model="event.title" placeholder="Title" class="input w-full" />
-		</div>
-		<div class="flex gap-2">
-			<div class="w-1/2">
-				<DateInput v-model="tempDate" @mouseleave="confirmDateMove" />
+		<div @click="toggleEvent" :title="`EventId: ${event.id}`"
+			@keydown.enter.prevent.stop="toggleEvent"  
+			:class="['group border border-blue-400 p-2 flex items-center',
+			isEdit ? 'bg-gradient-to-b from-blue-100 to-white border-b-0' : '']">
+			<!-- <div class="w-full bg-green">ss</div> -->
+			<div class="flex items-center grow">
+				<span class="size-5 mr-1">
+					<IconSymbol v-if="isEdit" width="20px"
+						class="text-blue-400" icon="material-symbols-light:play-arrow" />
+				</span>
+				<div v-if="isEdit" class="grow mr-2">
+					<TextInput ref="eventTitle" v-model="event.title"
+						placeholder="Title" @click="nullEvent"
+						labelName="Title" :hideLabel="true"
+						class="w-full !mb-0" />
+				</div>
+				<div v-else class="select-none">
+					<span class="mr-2 select-none">{{ event.time }}</span>
+					{{ event.title || 'No Title' }}
+				</div>
 			</div>
-			<div class="w-1/2">
-				<TimeInput v-model="event.time" />
+			<IconSymbol @click.stop="$emit('deleteEvent', event.id)"
+				class="text-color-dark-gray ml-auto mr-1" icon="heroicons:x-circle-20-solid"/>
+		</div>
+
+		<div v-if="isEdit"
+			@keydown.enter.prevent.stop="toggleEvent"  
+			class="border-blue-400 border-x border-b px-8">
+			<div class="flex gap-2">
+				<div class="w-1/2">
+					<TimeInput v-model="event.time" :step="900" />
+				</div>
+				<div class="w-1/2">
+					<DateInput v-model="tempDate" @mouseleave="confirmDateMove" />
+				</div>
 			</div>
 		</div>
+
 	</div>
 </template>

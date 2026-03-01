@@ -44,7 +44,7 @@
 
 <template>   
 
-	<ModalControl id="AccountAdvSearch" :showModal="showModal" 
+	<ModalControl id="AccountAdvSearch" v-model="showModal" 
         title="Advanced Search" height="500px" width="500px" 
         @closeModal="showModal=false" >
 

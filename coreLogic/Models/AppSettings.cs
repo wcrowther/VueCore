@@ -15,4 +15,6 @@ public class AppSettings
 	public int RefreshTokenExpirationDays { get; set; }
 
 	public bool ShowJsonPostDebug { get; set; }
+
+	public string FoldersRoot { get; set; }
 }

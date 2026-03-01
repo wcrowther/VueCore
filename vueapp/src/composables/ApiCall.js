@@ -1,12 +1,15 @@
 
 import axios from 'axios'
 
-export async function apiGet(url){ 			return apiCall('GET',  url, true)  }
-export async function apiPost(url, body){ 	return apiCall('POST', url, true, body) }
+export async function apiGet(url, signal){                         return apiCall('GET',  url, true, null,  false, null,       signal) }
+export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null,       signal) }
+export async function apiPut(url, body, signal){                   return apiCall('PUT',  url, true, body,  false, null,       signal) }
+export async function apiDelete(url, body, signal){                return apiCall('DELETE', url, true, body, false, null,      signal) }
+export async function apiFormPost(url, body, onProgress, signal){  return apiCall('POST', url, true, body,  true,  onProgress, signal) }
 
 // ==================================================================================
 
-export async function apiCall(methodType, url, useAuth, body) 
+export async function apiCall(methodType, url, useAuth, body, isFormData, onProgress, signal) 
 {
 	const appStore     	= useAppStore()
 	const authStore     = useAuthStore()
@@ -35,11 +38,21 @@ export async function apiCall(methodType, url, useAuth, body)
 	{
 		// logJson('apiCall', JSON.stringify(body))  // DEBUGGING
 
-		request.headers['Content-Type'] = 'application/json'
-		request.headers['Access-Control-Allow-Private-Network'] = 'true'
-		
-		request.data = JSON.stringify(body)
+		if (isFormData === true)
+		{	
+			request.data = body // Let axios/browser set multipart boundaries automatically.
+			if (onProgress) 
+				request.onUploadProgress = (e) => onProgress(Math.round((e.loaded * 100) / e.total))
+		}
+		else
+		{
+			request.headers['Content-Type'] = 'application/json'
+			request.data = JSON.stringify(body)
+		}
 	}
+
+	if (signal)
+		request.signal = signal
 
 	if (!!useAuth === true && authStore.authUser && authStore.authUser.Token) 
 	{
@@ -61,7 +74,11 @@ export async function apiCall(methodType, url, useAuth, body)
 
 		result.error = err
 
-		if(err.code === 'ERR_NETWORK')
+		if (err.code === 'ERR_CANCELED')
+		{
+			return result  // Swallow — intentional abort, no toast
+		}
+		else if(err.code === 'ERR_NETWORK')
 		{
 			result.message		 = 'Not able to communicate with the server. Please try again later.'
 		}
@@ -94,10 +111,12 @@ export async function apiCall(methodType, url, useAuth, body)
 	return result
 }
 
-// ==================================================================================
-// EXAMPLE CODE: 
-// ==================================================================================
-// const result      = await apiGet(`/accounts/getAccountById/${accountId}`)
-// this.account      = result.data
-// ==================================================================================
+/*
+==================================================================================
+EXAMPLE CODE: 
+==================================================================================
+const result      = await apiGet(`/accounts/getAccountById/${accountId}`)
+this.account      = result.data
+==================================================================================
+*/
 

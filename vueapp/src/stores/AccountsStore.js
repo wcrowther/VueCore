@@ -32,9 +32,7 @@ export const useAccountsStore = defineStore('AccountsStore', () =>
         {
             const response = await apiGet(`/accounts/getAllAccounts`)
             if (response.success)
-            {
                 accountsList.value = response.data.Result.ListItems
-            }
         }
         catch (err)
         {

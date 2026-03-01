@@ -38,7 +38,7 @@ export function useConfirmControl()
 
 	const { createConfirm } = useConfirmControl()
 
-	async function tryConfirm() 
+	const tryConfirm = async () =>
 	{
 		const confirmed = await createConfirm('Confirm this record?')
 

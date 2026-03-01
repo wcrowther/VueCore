@@ -43,8 +43,8 @@ declare module 'vue-router/auto/routes' {
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/accounts': RouteRecordInfo<'/accounts', '/accounts', Record<never, never>, Record<never, never>>,
     '/accounts/': RouteRecordInfo<'/accounts/', '/accounts', Record<never, never>, Record<never, never>>,
+    '/accounts/chat': RouteRecordInfo<'/accounts/chat', '/accounts/chat', Record<never, never>, Record<never, never>>,
     '/accounts/main/[[search]]': RouteRecordInfo<'/accounts/main/[[search]]', '/accounts/main/:search?', { search?: ParamValueZeroOrOne<true> }, { search?: ParamValueZeroOrOne<false> }>,
-    '/accounts/messages': RouteRecordInfo<'/accounts/messages', '/accounts/messages', Record<never, never>, Record<never, never>>,
     '/accounts/view': RouteRecordInfo<'/accounts/view', '/accounts/view', Record<never, never>, Record<never, never>>,
     '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
@@ -59,6 +59,7 @@ declare module 'vue-router/auto/routes' {
     '/home/dotnetnotes': RouteRecordInfo<'/home/dotnetnotes', '/home/dotnetnotes', Record<never, never>, Record<never, never>>,
     '/home/intro': RouteRecordInfo<'/home/intro', '/home/intro', Record<never, never>, Record<never, never>>,
     '/home/vuenotes': RouteRecordInfo<'/home/vuenotes', '/home/vuenotes', Record<never, never>, Record<never, never>>,
+    '/menu': RouteRecordInfo<'/menu', '/menu', Record<never, never>, Record<never, never>>,
     '/panzoom': RouteRecordInfo<'/panzoom', '/panzoom', Record<never, never>, Record<never, never>>,
     '/test': RouteRecordInfo<'/test', '/test', Record<never, never>, Record<never, never>>,
   }

@@ -1,6 +1,7 @@
 <script setup>
 
-	const props = defineProps({
+	const props = defineProps(
+	{
 		json: { type: [Object, Array, String, Number, Boolean, null], required: true },
 		label: { type: [Object, Array, String, Number, Boolean, null], default: "" },
 		level: { type: Number, default: 0 },
@@ -32,9 +33,7 @@
 
 	const toggleChildren = (shouldOpen) => 
 	{
-		childrenRefs.value.forEach(child =>
-			shouldOpen ? child?.openAll?.() : child?.closeAll?.()
-		)
+		childrenRefs.value.forEach(child => shouldOpen ? child?.openAll?.() : child?.closeAll?.() )
 	}
 
 	const onRightClick = (e) => 
@@ -51,7 +50,101 @@
 
 	const levelHint = computed(() => `level ${props.level}`)
 
+	const getObjectPreview = (obj) =>
+	{
+		if (!obj || typeof obj !== 'object' || Array.isArray(obj))
+		{
+			return '{Object}'
+		}
+
+		const entries = Object.entries(obj)
+		if (!entries.length)
+		{
+			return '{}'
+		}
+
+		const [firstKey, firstValue] = entries[0]
+		return `${firstKey}: ${formatPreviewValue(firstValue)}`
+	}
+
+	const getArrayPreview = (arr) =>
+	{
+		if (!Array.isArray(arr))
+		{
+			return '[Array]'
+		}
+
+		if (!arr.length)
+		{
+			return '[]'
+		}
+
+		const firstValue = arr[0]
+		if (firstValue && typeof firstValue === 'object' && !Array.isArray(firstValue))
+		{
+			return getObjectPreview(firstValue)
+		}
+
+		return `0: ${formatPreviewValue(firstValue)}`
+	}
+
+	const formatPreviewValue = (value) =>
+	{
+		if (value === null)
+		{
+			return 'null'
+		}
+
+		if (Array.isArray(value))
+		{
+			return `[ ${getArrayPreview(value)} ]`
+		}
+
+		if (typeof value === 'object')
+		{
+			return `{ ${getObjectPreview(value)} }`
+		}
+
+		if (typeof value === 'string')
+		{
+			return `"${value}"`
+		}
+
+		return String(value)
+	}
+
+	const firstObjectEntryPreview = computed(() =>
+	{
+		if (!isObject.value || isArray.value)
+		{
+			return ''
+		}
+
+		return getObjectPreview(props.json)
+	})
+
+	const firstArrayEntryPreview = computed(() =>
+	{
+		if (!isArray.value)
+		{
+			return ''
+		}
+
+		return getArrayPreview(props.json)
+	})
+
 	defineExpose({ openAll, closeAll })
+
+	const onRowClick = () =>
+	{
+		if (props.level === 0 && (isObject.value || isArray.value))
+		{
+			open.value = !open.value
+		}
+	}
+
+	// on top level the whole bar toggles so turn button click off
+	const buttonClickOff = props.level === 0 ? true : false 
 
 </script>
 
@@ -60,14 +153,15 @@
 	<div :class="['bg-transparent', {'border-b-[3px] select-none border-color-primary': level === 0}]"
 		:style="{ marginLeft: level * 10 + 'px' }">
 
-		<div @contextmenu="onRightClick"
+		<div @click="onRowClick"
+			@contextmenu="onRightClick"
   			:class="[rowClasses, 'cursor-pointer flex items-center group']"
 			:title="`Right-click to toggle siblings for ${levelHint}`">
 
-			<RotateButton v-if="isObject" v-model="open" icon="material-symbols-light:play-arrow" /> 
+			<RotateButton v-if="isObject" v-model="open" :noClick="buttonClickOff" icon="material-symbols-light:play-arrow" /> 
 
 			<div class="font-bold p-1 whitespace-break-spaces inline-flex">
-				{{ label }}
+				{{ label  }}
 				<span v-if="level !== 0"
 					class="mr-2">:</span>
 			</div>
@@ -75,15 +169,23 @@
 			<div v-if="isArray" 
 				class="py-1 text-gray-400">
 				[ Array ] 
+				<span v-if="!open && level !== 0 && firstArrayEntryPreview"
+					class="ml-2 text-gray-500">
+					{{ firstArrayEntryPreview }}
+				</span>
 			</div>
 
 			<div v-else-if="isObject" 
 				class="py-1 text-gray-400">
 				{ Object } 
+				<span v-if="!open && level !== 0 && firstObjectEntryPreview"
+					class="ml-2 text-gray-500">
+					{{ firstObjectEntryPreview }}
+				</span>
 			</div>
 
 			<div v-else 
-				class="py-1">
+				class="py-1 select-all" >
 				{{ json }}
 			</div>
 		</div>

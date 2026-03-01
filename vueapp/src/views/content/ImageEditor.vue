@@ -21,7 +21,7 @@
 
 <template>   
 
-	<ModalControl :showModal="showModal" title="ImageEditor" id="ImageEditor" 
+	<ModalControl v-model="showModal" title="ImageEditor" id="ImageEditor" 
         height="90%" width="90%" class="p-6 pb-10 overflow-hidden" @closeModal="showModal=false">
 
         <!-- overflow-y-auto scrollbar-thin -->

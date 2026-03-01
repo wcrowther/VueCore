@@ -65,7 +65,15 @@ export const dateTimeFormat     = (date, format) => dayjs(date).format(format ||
 export const dateFormat         = (date) => dayjs(date).format("MM-DD-YYYY")
 export const dateTimeISO        = (date) => dayjs(date).toISOString()
 export const dateISO            = (date) => dayjs(date).toISOString().slice(0,10)
+export const weekdayFull        = (date) => dayjs(date).format('dddd - MMMM D, YYYY')
 export const timeFormat         = (date) => dayjs(date).format("HH:mm:ss")
+export const addDays            = (date, days) => 
+{
+    const newDate = new Date(date); 
+    newDate.setDate(newDate.getDate() + days);
+    return newDate; 
+}
+
 
 export const IsDuplicateMessage = (message, self)  =>
 {

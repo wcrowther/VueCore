@@ -5,7 +5,7 @@ export function useChatHub()
     const authStore	                                    = useAuthStore()
     const { userId: currentUserId }                     = storeToRefs(authStore) 
 
-    const messageStore                                  = useMessagesStore()
+    const messageStore                                  = useChatStore()
     const { message, messages, messagesCount,
             clientMaxMessageId, serverMaxMessageId }    = storeToRefs(messageStore) 
     const { addNewMessage, getAllMessages, 

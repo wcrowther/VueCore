@@ -1,11 +1,31 @@
-
-export function KeyboardListeners(keys)
+export function KeyboardListeners(keys, enabled = true) 
 {
-	const addKeyListeners     = () => document.addEventListener('keydown', keys, false)
-	const removeKeyListeners  = () => document.removeEventListener('keydown', keys, false)
-	
-	onMounted(()   => addKeyListeners())
-	onUnmounted(() => removeKeyListeners())
+	const isEnabled = isRef(enabled) ? enabled : ref(enabled)
+
+	let isAttached = false
+
+	const addKeyListeners = () => 
+	{
+		if (isAttached) return
+		document.addEventListener('keydown', keys, false)
+		isAttached = true
+	}
+
+	const removeKeyListeners = () => 
+	{
+		if (!isAttached) return
+		document.removeEventListener('keydown', keys, false)
+		isAttached = false
+	}
+
+	onMounted(() => { if (isEnabled.value) addKeyListeners() })
+	onUnmounted(() => { removeKeyListeners() })
+
+	watch(isEnabled, (newVal, oldVal) => 
+	{
+		if (newVal === oldVal) return
+		newVal ? addKeyListeners() : removeKeyListeners()
+	})
 }
 
 /* EXAMPLE CODE:
@@ -23,5 +43,5 @@ export function KeyboardListeners(keys)
 		else if (e.code === 'PageUp')    { listPager.value.goToNextPage();     e.preventDefault();} 
 	}
 
-	KeyboardListeners(keys);
+	KeyboardListeners(keys, enabled); // enabled defaults to true - is optional
 */

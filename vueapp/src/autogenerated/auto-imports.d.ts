@@ -29,12 +29,17 @@ declare global {
   const SetHtmlHeadBody: typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']
   const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
+  const addDays: typeof import('../helpers/global.js')['addDays']
   const apiCall: typeof import('../composables/ApiCall.js')['apiCall']
+  const apiDelete: typeof import('../composables/ApiCall.js')['apiDelete']
+  const apiFormPost: typeof import('../composables/ApiCall.js')['apiFormPost']
   const apiGet: typeof import('../composables/ApiCall.js')['apiGet']
   const apiPost: typeof import('../composables/ApiCall.js')['apiPost']
+  const apiPut: typeof import('../composables/ApiCall.js')['apiPut']
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
   const computed: typeof import('vue')['computed']
+  const constants: typeof import('../datalists/env.js')['constants']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
   const dateFormat: typeof import('../helpers/global.js')['dateFormat']
@@ -47,6 +52,7 @@ declare global {
   const definePage: typeof import('unplugin-vue-router/runtime')['_definePage']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
+  const env: typeof import('../datalists/env.js')['env']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
@@ -84,6 +90,7 @@ declare global {
   const ref: typeof import('vue')['ref']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const rolesList: typeof import('../datalists/roleList.js')['rolesList']
+  const sampleCalendarEvents: typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
@@ -98,10 +105,13 @@ declare global {
   const usPhoneFormat: typeof import('../helpers/global.js')['usPhoneFormat']
   const usStatesList: typeof import('../datalists/usStatesList.js')['usStatesList']
   const useAccountsStore: typeof import('../stores/AccountsStore.js')['useAccountsStore']
+  const useAlertControl: typeof import('../composables/UseAlertControl.js')['useAlertControl']
   const useAppStore: typeof import('../stores/AppStore.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('../stores/AuthStore.js')['useAuthStore']
+  const useCalendarStore: typeof import('../stores/CalendarStore.js')['useCalendarStore']
   const useChatHub: typeof import('../composables/UseChatHub.js')['useChatHub']
+  const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -110,13 +120,12 @@ declare global {
   const useId: typeof import('vue')['useId']
   const useImagesStore: typeof import('../stores/ImagesStore.js')['useImagesStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
-  const useMessageStore: typeof import('../stores/xxxMessageStore.js')['useMessageStore']
-  const useMessagesStore: typeof import('../stores/MessagesStore.js')['useMessagesStore']
   const useModel: typeof import('vue')['useModel']
   const usePagedList: typeof import('../composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('../composables/UsePagedList2.js')['usePagedList2']
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
+  const useScrollLock: typeof import('../composables/useScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
@@ -130,6 +139,7 @@ declare global {
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
   const watchSyncEffect: typeof import('vue')['watchSyncEffect']
+  const weekdayFull: typeof import('../helpers/global.js')['weekdayFull']
 }
 // for type re-export
 declare global {
@@ -181,9 +191,13 @@ declare module 'vue' {
     readonly SetHtmlHeadBody: UnwrapRef<typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']>
     readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
+    readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
     readonly apiCall: UnwrapRef<typeof import('../composables/ApiCall.js')['apiCall']>
+    readonly apiDelete: UnwrapRef<typeof import('../composables/ApiCall.js')['apiDelete']>
+    readonly apiFormPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiFormPost']>
     readonly apiGet: UnwrapRef<typeof import('../composables/ApiCall.js')['apiGet']>
     readonly apiPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPost']>
+    readonly apiPut: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPut']>
     readonly authRequestValidator: UnwrapRef<typeof import('../helpers/validators.js')['authRequestValidator']>
     readonly authSignupValidator: UnwrapRef<typeof import('../helpers/validators.js')['authSignupValidator']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
@@ -199,6 +213,7 @@ declare module 'vue' {
     readonly definePage: UnwrapRef<typeof import('unplugin-vue-router/runtime')['_definePage']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly env: UnwrapRef<typeof import('../datalists/env.js')['env']>
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -236,6 +251,7 @@ declare module 'vue' {
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly rolesList: UnwrapRef<typeof import('../datalists/roleList.js')['rolesList']>
+    readonly sampleCalendarEvents: UnwrapRef<typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
@@ -250,10 +266,13 @@ declare module 'vue' {
     readonly usPhoneFormat: UnwrapRef<typeof import('../helpers/global.js')['usPhoneFormat']>
     readonly usStatesList: UnwrapRef<typeof import('../datalists/usStatesList.js')['usStatesList']>
     readonly useAccountsStore: UnwrapRef<typeof import('../stores/AccountsStore.js')['useAccountsStore']>
+    readonly useAlertControl: UnwrapRef<typeof import('../composables/UseAlertControl.js')['useAlertControl']>
     readonly useAppStore: UnwrapRef<typeof import('../stores/AppStore.js')['useAppStore']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('../stores/AuthStore.js')['useAuthStore']>
+    readonly useCalendarStore: UnwrapRef<typeof import('../stores/CalendarStore.js')['useCalendarStore']>
     readonly useChatHub: UnwrapRef<typeof import('../composables/UseChatHub.js')['useChatHub']>
+    readonly useChatStore: UnwrapRef<typeof import('../stores/ChatStore.js')['useChatStore']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['useConfirmControl']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
@@ -262,13 +281,12 @@ declare module 'vue' {
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImagesStore: UnwrapRef<typeof import('../stores/ImagesStore.js')['useImagesStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
-    readonly useMessageStore: UnwrapRef<typeof import('../stores/xxxMessageStore.js')['useMessageStore']>
-    readonly useMessagesStore: UnwrapRef<typeof import('../stores/MessagesStore.js')['useMessagesStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('../composables/UsePagedList.js')['usePagedList']>
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
+    readonly useScrollLock: UnwrapRef<typeof import('../composables/useScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
@@ -282,5 +300,6 @@ declare module 'vue' {
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
     readonly watchSyncEffect: UnwrapRef<typeof import('vue')['watchSyncEffect']>
+    readonly weekdayFull: UnwrapRef<typeof import('../helpers/global.js')['weekdayFull']>
   }
 }
