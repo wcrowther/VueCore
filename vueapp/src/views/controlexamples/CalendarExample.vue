@@ -10,11 +10,11 @@
 
     const events = ref(
         [
-            new EventModel(1, '2026-02-01', '08:00', 'Standup'),
-            new EventModel(2, '2026-02-28', '11:30', 'Standup 2'),
-            new EventModel(3, '2026-02-05', '10:00', 'Design Review'),
-            new EventModel(4, '2026-02-05', '16:45', 'Followup Meeting'),
-            new EventModel(5, '2026-02-13', '20:00', 'Release')
+            new EventModel(1, '2026-03-01', '08:00', 'Standup'),
+            new EventModel(2, '2026-03-28', '11:30', 'Standup 2'),
+            new EventModel(3, '2026-03-05', '10:00', 'Design Review'),
+            new EventModel(4, '2026-03-05', '16:45', 'Followup Meeting'),
+            new EventModel(5, '2026-03-13', '20:00', 'Release')
         ])
 
     const eventsByDate = (date) => 
@@ -49,11 +49,14 @@
 
     const addEvent = (date) => 
     {
-        events.value.push(new EventModel(nextEventId.value, date.toISOString().slice(0, 10), '00:00', 'New Event'))
+        events.value.push(new EventModel(nextEventId.value, date.toISOString().slice(0, 10), '00:00', ''))
+        editingEventId.value = nextEventId.value
     }
 
     const deleteEvent = async (eventId) => 
     {
+        console.log('Delete:', eventId)
+        
         const confirmed = await createConfirm('Delete this event?')
         if(!confirmed) return
          
@@ -76,16 +79,9 @@
             selectedDate.value = date
             editingEventId.value = null
         }
-
-        console.log('selectDay', dateFormat(selectedDate.value), editingEventId.value) 
     }
 
-    const dayEvents = computed(() => 
-    {
-        let days = selectedDate.value ? eventsByDate(selectedDate.value) : null
-        // console.log('dayEvents', days)
-        return days
-    })
+    const dayEvents = computed(() => selectedDate.value ? eventsByDate(selectedDate.value) : null)
 
 </script>
 

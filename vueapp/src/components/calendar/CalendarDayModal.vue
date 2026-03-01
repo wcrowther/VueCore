@@ -50,8 +50,7 @@
         
                 <template v-for="event in dayEvents" :key="event.id">
                     <CalendarDayEvent :event="event"
-                        :editingEventId="editingEventId"
-                        @edit="editingEventId = $event" />
+                        v-model:editingEventId="editingEventId" />
                 </template>
 
             </div>

@@ -112,7 +112,6 @@
 
 	function nextMonth() 
 	{
-		console.log('nextM')
 		firstOfMonth.value = addMonths(firstOfMonth.value, 1)
 	}
 

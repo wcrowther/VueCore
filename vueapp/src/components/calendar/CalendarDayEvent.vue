@@ -2,27 +2,12 @@
 
 	const { createConfirm } = useConfirmControl()
 
-    const event = defineModel('event', { type: Object, required: true })
-	const props = defineProps(
-	{ 
-		editingEventId: { type: Number, default: null }
-	})
+    const event 		 = defineModel('event', { type: Object, required: true })
+	const editingEventId = defineModel('editingEventId', { type: Number, required: false })
 
-	const emit = defineEmits(['select','edit'])
-
-	const isEdit = computed(() => props.editingEventId === event.value.id)
-	const editEvent = (e) => 
-	{ 
-		const id = event.value.id
-		console.log('editEvent', id)
-
-		if (isEdit.value)
-			emit('edit', null)
-		else
-			emit('edit', id)
-	}
-
-	const tempDate = ref(event.value.date)
+	const tempDate 	= ref(event.value.date)
+	const isEdit 	= computed(() => editingEventId?.value === event?.value.id ? true : false)
+	const editEvent = () => isEdit.value ? editingEventId.value = null : editingEventId.value = event.value.id
 	const confirmDateMove = async () => 
 	{
 		if(tempDate.value === event.value.date) 
@@ -41,16 +26,16 @@
 <template>
 	<div @click="editEvent" :title="`EventId: ${event.id}`" 
 		:class="['group border border-b-0 border-blue-200 p-2 flex justify-between items-center',
-		event.id === editingEventId ? 'bg-blue-100' : '']">
+		isEdit ? 'bg-blue-100' : '']">
 		<div class="flex justify-center items-center">
 			<span class="size-5 mr-1">
-				<IconSymbol v-if="event.id === editingEventId" width="20px" 
+				<IconSymbol v-if="isEdit" width="20px" 
 					class="text-blue-400" icon="material-symbols-light:play-arrow" />
 			</span>
 			<span class="mr-2">{{ event.time }}</span>
 			{{ event.title }}
 		</div>
-		<IconSymbol @click.stop="editEvent" class="hidden group-hover:block text-color-dark-gray mr-1" icon="heroicons:pencil-square-solid" />
+		<IconSymbol class="hidden group-hover:block text-color-dark-gray mr-1" icon="heroicons:pencil-square-solid" />
 
 	</div>
 	<!-- inline editing form -->
