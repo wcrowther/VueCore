@@ -16,8 +16,8 @@
 
 <template>
 
-    <div class="font-bold mb-4">JsonTree Control Example</div>
-    <div class="mb-4">
+    <div class="font-bold mb-5">JsonTree Control Example</div>
+    <div class="mb-5">
         This control is designed to display Json in a nicely-formated collapsable hiearchy.
         The code also shows how to call public methods on controls like 'expandAll' and 'collapseAll'.
     </div>

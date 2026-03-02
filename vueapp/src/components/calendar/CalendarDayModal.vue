@@ -34,27 +34,27 @@
 
 <template>   
 
-	<ModalControl id="EventModal" :showModal title="Events"
+	<ModalControl id="EventModal" :showModal 
+        :title="weekdayFull(calendarDate)"
         class="overflow-auto"
         height="500px" width="500px" @closeModal="calendarDate=null" >
 
-        <div v-if="dayEvents && dayEvents.length > 0" class="p-5">
-            {{`You have the following events for ${dateFormat(calendarDate)}:`}}
-        </div>
-        <div v-else class="p-5">
+        <div v-if="!dayEvents || dayEvents.length === 0" class="p-5 text-center">
             {{`You have no events for ${dateFormat(calendarDate)}.`}}
         </div>
-        <div class="pb-5 px-5 h-fit">
-            <div v-if="dayEvents && dayEvents.length > 0"
-                class="border-b border-blue-200">
-        
-                <template v-for="event in dayEvents" :key="event.id">
-                    <CalendarDayEvent :event="event"
-                        v-model:editingEventId="editingEventId" 
-                        @deleteEvent="$emit('deleteEvent', $event)"/>
-                </template>
+        <div v-else class="p-5">
+            <InfoBox class="text-center">
+                Click on the Event to edit and save by pressing the Enter key.
+            </InfoBox>
+        </div>
 
-            </div>
+        <div v-if="dayEvents && dayEvents.length > 0"
+            class="pb-5 px-5 h-fit">
+            <template v-for="event in dayEvents" :key="event.id">
+                <CalendarDayEvent :event="event" class="mb-3"
+                    v-model:editingEventId="editingEventId" 
+                    @deleteEvent="$emit('deleteEvent', $event)"/>
+            </template>
         </div>
         
         <template #footer>

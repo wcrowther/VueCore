@@ -25,6 +25,7 @@ declare module 'vue' {
     CheckboxInput: typeof import('./../components/inputs/CheckboxInput.vue')['default']
     ComposableExample: typeof import('./../views/controlexamples/ComposableExample.vue')['default']
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']
+    copy: typeof import('./../views/controlexamples/ComposableExample copy.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     FloaterControl: typeof import('./../components/controls/FloaterControl.vue')['default']
@@ -93,5 +94,6 @@ declare module 'vue' {
     UsersList: typeof import('./../views/admin/UsersList.vue')['default']
     UsersSearch: typeof import('./../views/admin/UsersSearch.vue')['default']
     WizardControl: typeof import('./../components/controls/WizardControl.vue')['default']
+    WizardExample: typeof import('./../views/controlexamples/WizardExample.vue')['default']
   }
 }

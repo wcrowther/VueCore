@@ -6,6 +6,7 @@
         placeholder: { type: String }, 
         ruleName:    { type: String }, 
         spellCheck:  { type: Boolean },
+        hideLabel:   { tupe: Boolean, default: false },
         v$:          { type: Object }
     })
 
@@ -25,8 +26,8 @@
 <template>
     <div class="mb-3">
 
-        <div class="pb-1 flex justify-between items-baseline">
-            <label v-if="props.labelName"
+        <div :class="['flex justify-between items-baseline', {'pb-1': !props.hideLabel } ]">
+            <label v-if="props.labelName && !props.hideLabel"
                 class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
                 :for="props.labelName">
                 {{props.labelName}}
@@ -39,12 +40,10 @@
             </template>
         </div>
 
-        <div class="flex justify-center items-center relative">
-            <input :class="['w-full text-sm', {'border-red': hasErrors}]" 
-                type="text" :id="props.labelName" :name="props.labelName"
-                v-model="modelValue" v-bind="$attrs" ref="textInput"
-                :placeholder="props.placeholder" :spellcheck="props.spellCheck" />
-        </div>
+        <input :class="['w-full text-sm', {'border-red': hasErrors}]" 
+            type="text" :id="props.labelName" :name="props.labelName"
+            v-model="modelValue" v-bind="$attrs" ref="textInput"
+            :placeholder="props.placeholder" :spellcheck="props.spellCheck" />
 
     </div>
 </template>

@@ -41,6 +41,7 @@ declare global {
   const dateISO: typeof import('../helpers/global.js')['dateISO']
   const dateTimeFormat: typeof import('../helpers/global.js')['dateTimeFormat']
   const dateTimeISO: typeof import('../helpers/global.js')['dateTimeISO']
+  const dateWeekdayFull: typeof import('../helpers/global.js')['dateWeekdayFull']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineLoader: typeof import('vue-router/auto')['defineLoader']
@@ -130,6 +131,7 @@ declare global {
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
   const watchSyncEffect: typeof import('vue')['watchSyncEffect']
+  const weekdayFull: typeof import('../helpers/global.js')['weekdayFull']
 }
 // for type re-export
 declare global {
@@ -282,5 +284,6 @@ declare module 'vue' {
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
     readonly watchSyncEffect: UnwrapRef<typeof import('vue')['watchSyncEffect']>
+    readonly weekdayFull: UnwrapRef<typeof import('../helpers/global.js')['weekdayFull']>
   }
 }

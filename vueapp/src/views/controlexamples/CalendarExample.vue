@@ -87,9 +87,9 @@
 
 <template>
 
-    <div class="font-bold mb-3">Calendar Control</div>
+    <div class="font-bold mb-5">CalendarControl Example</div>
 
-    <div class="mb-4">
+    <div class="mb-5">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident 
         dolor ullam voluptas error esse necessitatibus quis deleniti nesciunt? 
         Illum officia corporis dignissimos nam consequatur!
@@ -112,7 +112,6 @@
                 </div>
                 <button @click="nextMonth" class="text-blue">▶</button>           
 			</div>
-            {{ nextEventId }}
         </template>
         
         <!-- Template for single day -->

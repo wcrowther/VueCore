@@ -6,7 +6,7 @@
 
 <template>
 
-    <div class="relative" id="messages-page">
+    <div class="relative" id="admincontrols">
 
         <div class="z-0 bg-gradient-main h-[500px] absolute top-0 left-0 right-0"></div>
 
@@ -18,7 +18,7 @@
 
 			<div class="w-full min-h-[400px] relative">
 
-				<InfoBox class="mb-5">
+				<InfoBox class="mb-7">
 					This page is a demonstration of a Wizard Control.
 				</InfoBox>
 
@@ -29,16 +29,11 @@
 				</FloaterControl>
 				-->
 
-				<WizardControl class="mb-10" :useKeyControls="true" 
+				<WizardControl class="mb-10" :useKeyControls="false" 
 					:tabList="['Wizard', 'Calendar', 'Grid', 'Json', 'Composable']">
 
 					<template #Wizard>
-						<div class="font-bold mb-3">Wizard 	Example with inline template</div>
-						<div class="">
-							Aspernatur maiores odio possimus 
-							tempore accusamus asperiores! Minus sit enim sapiente id fugiat rem optio! Perferendis recusandae 
-							corporis odio, modi sunt nulla?
-						</div>
+						<WizardExample />
 					</template>
 			
 					<template #Calendar>

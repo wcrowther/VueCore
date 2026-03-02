@@ -28,7 +28,7 @@
 
     <div class="flex flex-wrap">
 
-        <div class="font-bold mb-5 basis-full flex-none">Grid Control</div>
+        <div class="font-bold mb-5 basis-full flex-none">GridControl Example</div>
 
         <div class="mb-5 basis-full flex-none">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident 

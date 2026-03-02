@@ -22,8 +22,8 @@
 
 <template>
 
-    <div class="font-bold mb-3">UseConfirmControl Composable</div>
-    <div class="mt-3">
+    <div class="font-bold mb-5">UseConfirmControl Composable</div>
+    <div class="mb-5">
         This is a sample of how to programmatically create Confirm Control using the 
         <b>UseConfirmControl Composable</b>. See the messages in the browser console.
     </div>
