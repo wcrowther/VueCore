@@ -10,6 +10,8 @@
 	const isEdit 	= computed(() => editingEventId?.value === event?.value.id ? true : false)
 	const editEvent = () => 
 	{
+		console.log('editingEventId.value', editingEventId.value)
+		
 		if(!isEdit.value) 
 		{
 			editingEventId.value = event.value.id
@@ -34,7 +36,12 @@
 			tempDate.value = event.value.date  // revert back
 	}
 
-	defineEmits(['delete'])
+	defineEmits(['deleteEvent'])
+
+	onMounted(() => 
+	{ 
+		nextTick(() => { if (eventTitle.value) eventTitle.value.focus() })
+	})
 
 </script>
 
@@ -50,12 +57,13 @@
 			<span class="mr-2">{{ event.time }}</span>
 			{{ event.title }}
 		</div>
-		<IconSymbol @click.stop="$emit('delete', event.value.id)" 
+		<IconSymbol @click.stop="$emit('deleteEvent', event.id)" 
 			class="text-color-dark-gray" icon="heroicons:x-circle-20-solid"/>
 	</div>
 
 	<!-- inline editing form -->
-	<div v-if="isEdit" class="border-blue-200 border-x pt-2 px-2">
+	<div v-if="isEdit" 
+		class="border-blue-200 border-x pt-2 px-2">
 		<div class="mb-2">
 			<TextInput ref="eventTitle" v-model="event.title" 
 				placeholder="Title" class="input w-full" />
@@ -65,7 +73,7 @@
 				<DateInput v-model="tempDate" @mouseleave="confirmDateMove" />
 			</div>
 			<div class="w-1/2">
-				<TimeInput v-model="event.time" />
+				<TimeInput v-model="event.time" :step="900" />
 			</div>
 		</div>
 	</div>

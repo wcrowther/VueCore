@@ -9,12 +9,12 @@
                                   validator: (value) => value.every(item => item instanceof EventModel )
                               })
 
-    const emit = defineEmits(['add','delete'])
+    const emit = defineEmits(['addEvent','deleteEvent'])
 
 	const addEvent  = () => 
     {
         if (calendarDate.value) 
-            emit('add', calendarDate.value)
+            emit('addEvent', calendarDate.value)
     }
 
     const showModal = computed(() => calendarDate ? true : false)
@@ -51,7 +51,7 @@
                 <template v-for="event in dayEvents" :key="event.id">
                     <CalendarDayEvent :event="event"
                         v-model:editingEventId="editingEventId" 
-                        @delete="$emit('delete', data)"/>
+                        @deleteEvent="$emit('deleteEvent', $event)"/>
                 </template>
 
             </div>

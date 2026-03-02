@@ -1,19 +1,27 @@
 
 // Prefixes the Swagger Authorize modal JWT Token with 'Bearer ' if needed.
-(() => {
-    const patchAuthorizeInputs = () => {
-	   const inputs = document.querySelectorAll("input[placeholder='Bearer <token>']");
-	   inputs.forEach(input => {
-		  input.addEventListener("change", () => {
-			 let value = input.value.trim();
-			 if (value && !value.toLowerCase().startsWith("bearer ")) {
-				input.value = "Bearer " + value;
-			 }
-		  });
-	   });
-    };
+(function () {
+    const interval = setInterval(() =>
+    {
+        if (!window.ui?.authActions?.authorize) return;
 
-    // Run it when Swagger UI loads
-    const observer = new MutationObserver(patchAuthorizeInputs);
-    observer.observe(document.body, { childList: true, subtree: true });
+        clearInterval(interval);
+
+        const original = window.ui.authActions.authorize;
+
+        window.ui.authActions.authorize = function (auth)
+        {
+            for (const key in auth)
+            {
+                let value = auth[key]?.value ?? "";
+
+                if (value && !value.toLowerCase().startsWith("bearer "))
+                {
+                    auth[key].value = "Bearer " + value.trim();
+                }
+            }
+
+            return original.call(this, auth);
+        };
+    }, 200);
 })();

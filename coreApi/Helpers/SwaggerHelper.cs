@@ -93,7 +93,6 @@ public static class SwaggerHelper
 		{
 			options.RoutePrefix = "docs";
 
-			options.EnableTryItOutByDefault();
 			options.SwaggerEndpoint("/docs/v1/docs.json", "VueCore V1");
 			options.EnableTryItOutByDefault();
 			options.InjectStylesheet("/swagger-ui/custom.css");

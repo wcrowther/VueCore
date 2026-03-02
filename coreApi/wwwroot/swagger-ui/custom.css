@@ -88,5 +88,14 @@ body {
 	width: 100%;
 	max-width: 100%;
 }
+.auth-container h6 {
+    font-size: 24px;
+    margin: 0 0 10px;
+    color: green;
+}
+.auth-btn-wrapper .btn {
+    margin-right: 10px;
+}
+
 
 

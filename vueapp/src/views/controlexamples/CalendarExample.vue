@@ -6,7 +6,11 @@
     const editingEventId    = ref(null)
     const nextEventId       = ref(1)
 
-    onMounted(() => console.log('Calendar Example Mounted'))
+    // onMounted(() => console.log('Calendar Example Mounted'))
+
+    
+    const dateInMonth = computed(() => new Date() )
+    const dayEvents = computed(() => selectedDate.value ? eventsByDate(selectedDate.value) : null)
 
     const events = ref(
         [
@@ -37,8 +41,6 @@
 
         event.date = date.toISOString().slice(0, 10)
     }
-
-    const dateInMonth = computed(() => new Date() )
 
     watch(events, (arr) => 
     {
@@ -81,8 +83,6 @@
         }
     }
 
-    const dayEvents = computed(() => selectedDate.value ? eventsByDate(selectedDate.value) : null)
-
 </script>
 
 <template>
@@ -112,7 +112,7 @@
                 </div>
                 <button @click="nextMonth" class="text-blue">▶</button>           
 			</div>
-
+            {{ nextEventId }}
         </template>
         
         <!-- Template for single day -->
@@ -129,7 +129,7 @@
                 <template v-for="event in eventsByDate(date)" :key="event.id" >
                     <CalendarEvent :event 
                         @select="(d) => selectDay(d.date, d.eventId)" 
-                        @dragstart="onDragStart" @delete="deleteEvent" />          
+                        @dragstart="onDragStart" @deleteEvent="deleteEvent" />          
                 </template>
             </div>
 
@@ -141,6 +141,7 @@
         v-model:calendarDate="selectedDate"
         v-model:dayEvents="dayEvents"
         v-model:editingEventId="editingEventId"
-        @add="addEvent" />
+        @addEvent="addEvent"
+        @deleteEvent="deleteEvent" />
 
 </template>

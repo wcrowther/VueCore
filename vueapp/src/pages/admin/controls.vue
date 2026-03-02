@@ -49,7 +49,7 @@
 						<GridExample />
 					</template>
 
-					<template #JsonTree>
+					<template #Json>
 						<JsonTreeExample /> 
 					</template>
 
