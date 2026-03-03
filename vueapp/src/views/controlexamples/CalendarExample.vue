@@ -8,7 +8,6 @@
 
     // onMounted(() => console.log('Calendar Example Mounted'))
 
-    
     const dateInMonth = computed(() => new Date() )
     const dayEvents = computed(() => selectedDate.value ? eventsByDate(selectedDate.value) : null)
 
@@ -21,12 +20,7 @@
             new EventModel(5, '2026-03-13', '20:00', 'Release')
         ])
 
-    const eventsByDate = (date) => 
-    {
-        let days =  events.value.filter (e => e.date === dateISO(date))
-        // console.log(`eventsByDate ${dateISO(date)}`, days)
-        return days
-    }
+    const eventsByDate = (date) => events.value.filter (e => e.date === dateISO(date))
 
     const onDragStart = (e, event) => 
     {
@@ -41,13 +35,6 @@
 
         event.date = date.toISOString().slice(0, 10)
     }
-
-    watch(events, (arr) => 
-    {
-        const max = arr.length ? Math.max(...arr.map(e => e.id)) : 0
-        nextEventId.value = max + 1
-    }, 
-    { immediate: true, deep: true })
 
     const addEvent = (date) => 
     {
@@ -72,16 +59,23 @@
     const selectDay = (date, eventId) => 
     { 
         if (eventId) 
-        {   // From event click: date is event.date (string), eventId is number
+        {   
             selectedDate.value = new Date(date)
             editingEventId.value = eventId
         } 
         else 
-        {   // From day click: date is Date object, eventId is null
+        {   
             selectedDate.value = date
             editingEventId.value = null
         }
     }
+
+    watch(events, (arr) => 
+    {
+        const max = arr.length ? Math.max(...arr.map(e => e.id)) : 0
+        nextEventId.value = max + 1
+    }, 
+    { immediate: true, deep: true })
 
 </script>
 
@@ -102,7 +96,7 @@
         <template #title="{monthYear, timeZone, prevMonth, nextMonth, toToday}">
 
         	<div class="flex justify-between items-center bg-blue-200 p-5">
-                <button @click="prevMonth" class="text-blue">◀</button>
+                <button @click="prevMonth" class="text-blue select-none">◀</button>
                 <button @click="toToday" class="border border-blue-400 px-3 py-[2px] rounded-full">Today</button>
                 <div class="text-lg text-center font-bold w-1/5">
                     {{ monthYear }} 
@@ -111,7 +105,7 @@
                     <div>Timezone:</div>
                     <div>{{ timeZone }}</div>
                 </div>
-                <button @click="nextMonth" class="text-blue">▶</button>           
+                <button @click="nextMonth" class="text-blue select-none">▶</button>           
 			</div>
         </template>
         

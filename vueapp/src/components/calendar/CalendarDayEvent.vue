@@ -6,21 +6,17 @@
 	const editingEventId = defineModel('editingEventId', { type: Number, required: false })
  	const eventTitle	 = ref(null)
 
-	const tempDate 	= ref(event.value.date)
-	const isEdit 	= computed(() => editingEventId?.value === event?.value.id ? true : false)
-	const nullEvent = (e) => {e.stopPropagation()} // stops click from propagation
-	const editEvent = () => 
-	{
-		if(!isEdit.value) 
-		{
-			editingEventId.value = event.value.id
-			nextTick(() => { if (eventTitle.value) eventTitle.value.focus() })
-		} 
-		else
-		{
-			editingEventId.value = null
-		}
-	}
+	const tempDate 		= ref(event.value.date)
+	const isEdit 		= computed(() => editingEventId?.value === event?.value.id ? true : false)
+	const nullEvent 	= (e) => {e.stopPropagation()} // stops click from propagation
+	const toggleEvent 	= () => { if(isEdit.value) editingEventId.value = null; 
+								  else editingEventId.value = event.value.id }
+
+    watch(() => editingEventId.value, (newVal, oldVal) => 
+    {
+        if(newVal === oldVal) return
+        nextTick(() => { if (eventTitle.value) eventTitle.value.focus() })
+    });
 
 	const confirmDateMove = async () => 
 	{
@@ -47,8 +43,8 @@
 <template>
 	<div>
 
-		<div @click="editEvent" :title="`EventId: ${event.id}`"
-			@keydown.enter.prevent.stop="editEvent"  
+		<div @click="toggleEvent" :title="`EventId: ${event.id}`"
+			@keydown.enter.prevent.stop="toggleEvent"  
 			:class="['group border border-blue-400 p-2 flex items-center',
 			isEdit ? 'bg-gradient-to-b from-blue-100 to-white border-b-0' : '']">
 			<!-- <div class="w-full bg-green">ss</div> -->
@@ -73,7 +69,7 @@
 		</div>
 
 		<div v-if="isEdit"
-			@keydown.enter.prevent.stop="editEvent"  
+			@keydown.enter.prevent.stop="toggleEvent"  
 			class="border-blue-400 border-x border-b px-8">
 			<div class="flex gap-2">
 				<div class="w-1/2">

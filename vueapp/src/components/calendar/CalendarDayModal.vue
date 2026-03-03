@@ -11,16 +11,36 @@
 
     const emit = defineEmits(['addEvent','deleteEvent'])
 
+    const toggle = ref(false)
+
 	const addEvent  = () => 
     {
         if (calendarDate.value) 
             emit('addEvent', calendarDate.value)
     }
 
+
+    const goToEvent = (delta) => 
+    {
+        if (!dayEvents.value || dayEvents.value.length === 0) return
+
+        const len = dayEvents.value.length
+        let currentIndex = dayEvents.value.findIndex(e => e.id === editingEventId.value)
+        if (currentIndex === -1) 
+        {
+            editingEventId.value = dayEvents.value[delta > 0 ? 0 : len - 1].id
+            return
+        }
+        let newIndex = (currentIndex + delta) % len
+        if (newIndex < 0) newIndex += len
+        editingEventId.value = dayEvents.value[newIndex].id
+
+    }
+
     const prevDay   = () => calendarDate.value = addDays(calendarDate.value, -1)
     const nextDay   = () => calendarDate.value = addDays(calendarDate.value, 1)
-    const prevEvent = () => console.log('move to the prev event')
-    const nextEvent = () => console.log('move to the next event')
+    const prevEvent = () => goToEvent(-1)
+    const nextEvent = () => goToEvent(1)
 
     const showModal = computed(() => calendarDate ? true : false)
 
@@ -61,6 +81,7 @@
                 @click="calendarDate=null">
                 <IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons-solid:x" />
             </div>
+            <button @click="toggle=!toggle">{{ (toggle ?'Toggle':'Toggle...') }}</button>
         </template>
 
         <div v-if="!dayEvents || dayEvents.length === 0" class="p-5 text-center">
