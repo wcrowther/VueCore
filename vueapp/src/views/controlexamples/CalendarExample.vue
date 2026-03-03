@@ -95,12 +95,13 @@
         Illum officia corporis dignissimos nam consequatur!
     </div>
 
-    <CalendarControl :dateInMonth @drop="onDropEvent" class="border border-gray mb-10">
+    <CalendarControl :dateInMonth @drop="onDropEvent" 
+        class="border border-gray mb-10">
 
         <!-- Calendar header -->
         <template #title="{monthYear, timeZone, prevMonth, nextMonth, toToday}">
 
-        	<div class="flex justify-between items-center bg-color-light-blue p-5">
+        	<div class="flex justify-between items-center bg-blue-200 p-5">
                 <button @click="prevMonth" class="text-blue">◀</button>
                 <button @click="toToday" class="border border-blue-400 px-3 py-[2px] rounded-full">Today</button>
                 <div class="text-lg text-center font-bold w-1/5">

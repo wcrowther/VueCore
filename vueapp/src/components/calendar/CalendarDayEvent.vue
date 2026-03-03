@@ -73,6 +73,7 @@
 		</div>
 
 		<div v-if="isEdit"
+			@keydown.enter.prevent.stop="editEvent"  
 			class="border-blue-400 border-x border-b px-8">
 			<div class="flex gap-2">
 				<div class="w-1/2">

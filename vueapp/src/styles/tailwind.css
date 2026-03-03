@@ -59,7 +59,7 @@
 	.v-select ul
 	{
 		@apply w-full border border-slate-400 rounded-sm px-2 py-1 shadow-sm
-			focus:border-orange focus:ring-orange placeholder-slate-300;
+			focus:border-color-orange focus:ring-color-orange placeholder-slate-300;
 	}
 
 	select { @apply !py-1 }
@@ -67,7 +67,7 @@
 	[type='checkbox'],
 	[type='radio'] {
 		@apply border-color-dark-gray w-5 h-5 text-color-blue-gray focus:ring-transparent
-			focus:ring-orange placeholder-slate-300;
+			focus:ring-color-orange placeholder-slate-300;
 	}
 }
 
@@ -81,7 +81,7 @@
 
 	.v-select { 
 		@apply w-full border border-color-dark-gray rounded-md px-3 py-1 
-			shadow-smfocus:border-orange focus:ring-orange
+			shadow-smfocus:border-orange focus:ring-color-orange
 	}
 	.btn-delete, .btn-disable, .btn-cancel, .btn-primary:disabled { 
 		@apply bg-color-mid-gray text-color-dark-gray select-none text-sm border border-transparent

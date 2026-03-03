@@ -29,6 +29,7 @@ declare global {
   const SetHtmlHeadBody: typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']
   const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
+  const addDays: typeof import('../helpers/global.js')['addDays']
   const apiCall: typeof import('../composables/ApiCall.js')['apiCall']
   const apiGet: typeof import('../composables/ApiCall.js')['apiGet']
   const apiPost: typeof import('../composables/ApiCall.js')['apiPost']
@@ -183,6 +184,7 @@ declare module 'vue' {
     readonly SetHtmlHeadBody: UnwrapRef<typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']>
     readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
+    readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
     readonly apiCall: UnwrapRef<typeof import('../composables/ApiCall.js')['apiCall']>
     readonly apiGet: UnwrapRef<typeof import('../composables/ApiCall.js')['apiGet']>
     readonly apiPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPost']>

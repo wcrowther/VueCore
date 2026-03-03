@@ -82,11 +82,11 @@
 
     const keys = function (e)   
     {
-        if      (e.code === 'ArrowUp')   { listPager.value.goToPrevious();       e.preventDefault();}
-        else if (e.code === 'ArrowDown') { listPager.value.goToNext();           e.preventDefault();}
-        else if (e.code === 'PageDown')  { listPager.value.goToPreviousPage();   e.preventDefault();}
-        else if (e.code === 'PageUp')    { listPager.value.goToNextPage();       e.preventDefault();} 
-        else if (e.code === 'Home')      { searchInput.value.focusInput();     e.preventDefault();} 
+        if      (e.code === 'ArrowUp')   { listPager.value.goToPrevious();      e.preventDefault();}
+        else if (e.code === 'ArrowDown') { listPager.value.goToNext();          e.preventDefault();}
+        else if (e.code === 'PageDown')  { listPager.value.goToPreviousPage();  e.preventDefault();}
+        else if (e.code === 'PageUp')    { listPager.value.goToNextPage();      e.preventDefault();} 
+        else if (e.code === 'Home')      { searchInput.value.focusInput();      e.preventDefault();} 
 
     }
 

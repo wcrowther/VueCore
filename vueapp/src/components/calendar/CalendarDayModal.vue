@@ -17,6 +17,11 @@
             emit('addEvent', calendarDate.value)
     }
 
+    const prevDay   = () => calendarDate.value = addDays(calendarDate.value, -1)
+    const nextDay   = () => calendarDate.value = addDays(calendarDate.value, 1)
+    const prevEvent = () => console.log('move to the prev event')
+    const nextEvent = () => console.log('move to the next event')
+
     const showModal = computed(() => calendarDate ? true : false)
 
     // Keyboard Listeners  ================================================
@@ -25,7 +30,11 @@
 
 	const keys = function (e)   
     {
-		if (e.code === 'Escape'){ calendarDate.value=null; e.preventDefault(); } 
+		if (e.code === 'Escape'){ calendarDate.value=null; e.preventDefault(); }
+        else if (e.code === 'ArrowLeft')  { prevDay();   e.preventDefault();} 
+        else if (e.code === 'ArrowRight') { nextDay();   e.preventDefault();} 
+        else if (e.code === 'ArrowUp')    { prevEvent(); e.preventDefault();} 
+        else if (e.code === 'ArrowDown')  { nextEvent(); e.preventDefault();} 
     }
 
 	KeyboardListeners(keys)
@@ -35,9 +44,24 @@
 <template>   
 
 	<ModalControl id="EventModal" :showModal 
-        :title="weekdayFull(calendarDate)"
         class="overflow-auto"
         height="500px" width="500px" @closeModal="calendarDate=null" >
+
+        <template #header>
+            <div class="flex">
+                <div class="w-60">{{ weekdayFull(calendarDate) }}</div>
+                <button @click="prevDay" class="text-blue hover:opacity-50 ml-4 mr-1 ">
+                    <IconSymbol class="text-blue" icon="material-symbols-light:arrow-back-2" />
+                </button>  
+                <button @click="nextDay" class="text-blue hover:opacity-50">
+                    <IconSymbol class="text-blue" icon="material-symbols-light:play-arrow" />
+                </button>  
+            </div>
+            <div class="h-7 w-7 bg-white hover:bg-color-light-blue rounded-full flex-center" 
+                @click="calendarDate=null">
+                <IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons-solid:x" />
+            </div>
+        </template>
 
         <div v-if="!dayEvents || dayEvents.length === 0" class="p-5 text-center">
             {{`You have no events for ${dateFormat(calendarDate)}.`}}

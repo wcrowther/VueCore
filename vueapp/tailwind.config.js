@@ -106,6 +106,7 @@ export const theme = {
       'color-light-blue': '#b8d7ed ',
       'color-mid-blue': '#6fa2ca',
       'color-blue': '#1c2157',
+      'color-orange': '#f97316',
       'color-dark-blue': '#3e5091',
       'color-theme-footer-text': 'var(--theme-footer-text)',
       'color-theme-nav-tab-text': 'var(--theme-footer-text)',
