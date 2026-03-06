@@ -2,15 +2,19 @@
 
 	const modelValue = defineModel({ type: Boolean, default: false })
 	const props = defineProps({
-		icon: { type: String, default: 'heroicons:bars-3'}
+		icon: { type: String, default: 'heroicons:bars-3'},
+		noClick: {type: Boolean, default: false }
 	})
+
+	const handleClick = () => { if(!props.noClick ) modelValue.value = !modelValue.value }
+
 </script>
 
 <template>
 
   <span :class="['inline-flex items-center justify-center ' + 
   	'transform transition-transform duration-300', { 'rotate-90': modelValue }]" 
-    @click="modelValue = !modelValue">
+    @click="handleClick">
 
     <IconSymbol class="block text-color-dark-gray hover:text-color-mid-gray"
     	width="26px" :icon="props.icon" />

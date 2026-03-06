@@ -1,6 +1,7 @@
 <script setup>
 
 	const toastStore = useToastStore()
+	const { copy }   = useClipboard()
 
 	const isOpen = defineModel('isOpen', { type: Boolean, default: false })
 
@@ -10,11 +11,9 @@
 		label: { type: [Object, Array, String, Number, Boolean, null], default: "" },
 	})
 	
-    const { copy }   = useClipboard()
-
 	const showRawJson 	= ref(false)	
-	const toggleView 	= () =>  showRawJson.value = !showRawJson.value
 
+	const toggleView 	  = () =>  showRawJson.value = !showRawJson.value
 	const jsonToClipboard = () => 
     { 
         copy(JSON.stringify(props.json, null, 5)); 
@@ -30,22 +29,24 @@
 		<div class="absolute right-0 top-1 select-none">
 
 			<IconSymbol v-if="showRawJson" 
-				@click="toggleView" title="Raw Json"
+				@click.stop="toggleView" title="Raw Json"
 				width="24px" class="text-color-dark-gray" 
 				icon="heroicons:code-bracket" />
 			<IconSymbol v-else 
-				@click="toggleView" title="Formatted Json"
+				@click.stop="toggleView" title="Formatted Json"
 				width="24px" class="text-color-dark-gray" 
 				icon="heroicons:bars-3" />
 
-			<IconSymbol @click="jsonToClipboard" title="Copy Json to Clipboard" 
+			<IconSymbol @click.stop="jsonToClipboard" title="Copy Json to Clipboard" 
 				width="20px" class="text-color-dark-gray ml-2 mb-[2px]" 
 				icon="heroicons:clipboard-document" />
 		</div>
 
-		<div v-if="showRawJson" class="border-b-[3px] border-b-color-primary">
+		<div v-if="showRawJson" @click.stop.prevent="isOpen=!isOpen"
+			class="border-b-[3px] border-b-color-primary">
+
 			<div class="bg-transparent border-t-[3px] font-bold select-none flex items-center border-color-primary">
-				<RotateButton v-model="isOpen" icon="material-symbols-light:play-arrow" />
+				<RotateButton v-model="isOpen" :noClick="true" icon="material-symbols-light:play-arrow" />
 				<div class="p-1">{{ label }}
 					<span class="text-gray-400 ml-1">- Raw Json View</span>
 				</div> 

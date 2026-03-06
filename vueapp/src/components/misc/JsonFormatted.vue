@@ -33,9 +33,7 @@
 
 	const toggleChildren = (shouldOpen) => 
 	{
-		childrenRefs.value.forEach(child =>
-			shouldOpen ? child?.openAll?.() : child?.closeAll?.()
-		)
+		childrenRefs.value.forEach(child => shouldOpen ? child?.openAll?.() : child?.closeAll?.() )
 	}
 
 	const onRightClick = (e) => 
@@ -54,6 +52,14 @@
 
 	defineExpose({ openAll, closeAll })
 
+	const onRowClick = () =>
+	{
+		if (props.level === 0 && (isObject.value || isArray.value))
+		{
+			open.value = !open.value
+		}
+	}
+
 </script>
 
 <template>
@@ -61,14 +67,15 @@
 	<div :class="['bg-transparent', {'border-b-[3px] select-none border-color-primary': level === 0}]"
 		:style="{ marginLeft: level * 10 + 'px' }">
 
-		<div @contextmenu="onRightClick"
+		<div @click="onRowClick"
+			@contextmenu="onRightClick"
   			:class="[rowClasses, 'cursor-pointer flex items-center group']"
 			:title="`Right-click to toggle siblings for ${levelHint}`">
 
-			<RotateButton v-if="isObject" v-model="open" icon="material-symbols-light:play-arrow" /> 
+			<RotateButton v-if="isObject" v-model="open" :noClick="true" icon="material-symbols-light:play-arrow" /> 
 
-			<div class="font-bold p-1 whitespace-break-spaces inline-flex select-all">
-				{{ label }}
+			<div class="font-bold p-1 whitespace-break-spaces inline-flex">
+				{{ label  }}
 				<span v-if="level !== 0"
 					class="mr-2">:</span>
 			</div>
@@ -84,7 +91,7 @@
 			</div>
 
 			<div v-else 
-				class="py-1 select-all">
+				class="py-1 select-all" >
 				{{ json }}
 			</div>
 		</div>

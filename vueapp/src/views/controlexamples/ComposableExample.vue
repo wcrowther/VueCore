@@ -33,4 +33,36 @@
         Confirmed!
     </div>
 
+    <AccordionControl :multiple="false" :defaultOpen="[0]" class="mt-5 mb-7">
+
+        <AccordionItem>
+            <template #header>
+                What is Vue?
+            </template>
+            <template #body>
+                Vue is a progressive JavaScript framework.
+            </template>
+        </AccordionItem>
+
+        <AccordionItem>
+            <template #header>
+                What is Tailwind?
+            </template>
+            <template #body>
+                Tailwind is a utility-first CSS framework.
+            </template>
+        </AccordionItem>
+
+        <AccordionItem>
+            <template #header>
+                Why use an accordion?
+            </template>
+            <template #body>
+                Accordions organize large content into collapsible sections.
+            </template>
+        </AccordionItem>
+
+    </AccordionControl>
+
 </template>
+

@@ -7,6 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AccordianControl: typeof import('./../components/controls/AccordianControl.vue')['default']
+    AccordianItem: typeof import('./../components/misc/AccordianItem.vue')['default']
+    AccordionControl: typeof import('./../components/controls/AccordionControl.vue')['default']
+    AccordionItem: typeof import('./../components/misc/AccordionItem.vue')['default']
     AccountAdvSearch: typeof import('./../views/accounts/AccountAdvSearch.vue')['default']
     AccountDetail: typeof import('./../views/accounts/AccountDetail.vue')['default']
     AccountFilters: typeof import('./../views/accounts/AccountFilters.vue')['default']
