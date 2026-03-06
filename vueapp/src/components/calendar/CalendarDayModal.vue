@@ -11,14 +11,11 @@
 
     const emit = defineEmits(['addEvent','deleteEvent'])
 
-    const toggle = ref(false)
-
 	const addEvent  = () => 
     {
         if (calendarDate.value) 
             emit('addEvent', calendarDate.value)
     }
-
 
     const goToEvent = (delta) => 
     {
@@ -57,31 +54,34 @@
         else if (e.code === 'ArrowDown')  { nextEvent(); e.preventDefault();} 
     }
 
-	KeyboardListeners(keys)
+    const keysOn = ref(true)
+
+	KeyboardListeners(keys, keysOn)
 
 </script> 
 
 <template>   
 
-	<ModalControl id="EventModal" :showModal 
-        class="overflow-auto"
-        height="500px" width="500px" @closeModal="calendarDate=null" >
+	<ModalControl id="EventModal" v-model=showModal 
+        class="overflow-auto" height="500px" width="500px" 
+        @closeModal="calendarDate=null" >
 
         <template #header>
             <div class="flex">
-                <div class="w-60">{{ weekdayFull(calendarDate) }}</div>
-                <button @click="prevDay" class="text-blue hover:opacity-50 ml-4 mr-1 ">
-                    <IconSymbol class="text-blue" icon="material-symbols-light:arrow-back-2" />
-                </button>  
-                <button @click="nextDay" class="text-blue hover:opacity-50">
-                    <IconSymbol class="text-blue" icon="material-symbols-light:play-arrow" />
-                </button>  
+                <div class="w-72">{{ weekdayFull(calendarDate) }}</div>
+                <div class="size-7 mr-2 bg-white/50 hover:bg-color-light-blue rounded-full flex-center" 
+                    @click="prevDay">
+                    <IconSymbol width="22px" class="text-blue" icon="material-symbols-light:arrow-back-2" />
+                </div>   
+                <div class="size-7 bg-white/50 hover:bg-color-light-blue rounded-full flex-center" 
+                    @click="nextDay">
+                    <IconSymbol width="22px" class="text-blue" icon="material-symbols-light:play-arrow" />
+                </div>  
             </div>
-            <div class="h-7 w-7 bg-white hover:bg-color-light-blue rounded-full flex-center" 
+            <div class="size-7 bg-white hover:bg-color-light-blue rounded-full flex-center" 
                 @click="calendarDate=null">
                 <IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons-solid:x" />
             </div>
-            <button @click="toggle=!toggle">{{ (toggle ?'Toggle':'Toggle...') }}</button>
         </template>
 
         <div v-if="!dayEvents || dayEvents.length === 0" class="p-5 text-center">
@@ -103,6 +103,10 @@
         </div>
         
         <template #footer>
+            <button class="ml-4 text-xs mr-auto outline-none" @click="keysOn=!keysOn">
+                {{ (keysOn ?'Keys On':'Keys OFF') }}
+            </button>
+
             <button class="btn-primary" @click="addEvent">Add</button>
             <button class="btn-delete"  @click="calendarDate=null">Close</button>
         </template>

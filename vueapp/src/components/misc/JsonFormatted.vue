@@ -1,6 +1,7 @@
 <script setup>
 
-	const props = defineProps({
+	const props = defineProps(
+	{
 		json: { type: [Object, Array, String, Number, Boolean, null], required: true },
 		label: { type: [Object, Array, String, Number, Boolean, null], default: "" },
 		level: { type: Number, default: 0 },
@@ -66,7 +67,7 @@
 
 			<RotateButton v-if="isObject" v-model="open" icon="material-symbols-light:play-arrow" /> 
 
-			<div class="font-bold p-1 whitespace-break-spaces inline-flex">
+			<div class="font-bold p-1 whitespace-break-spaces inline-flex select-all">
 				{{ label }}
 				<span v-if="level !== 0"
 					class="mr-2">:</span>
@@ -83,7 +84,7 @@
 			</div>
 
 			<div v-else 
-				class="py-1">
+				class="py-1 select-all">
 				{{ json }}
 			</div>
 		</div>

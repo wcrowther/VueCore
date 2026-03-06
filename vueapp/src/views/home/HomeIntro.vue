@@ -1,13 +1,11 @@
 <script setup>
-
     const homeTitle     = ref("Welcome to VueCore Dev Starter")
-
 </script>
 
 <template>
 
     <div class="px-5 pt-5 pb-0 grow leading-relaxed h-full bg-gradient-main 
-        sm:px-10 sm:pt-5" id="HomeOneView">
+        sm:px-10 sm:pt-5" id="HomeIntro">
 
         <div class="flex flex-wrap gap-5 mb-7">
             <div class="w-full flex justify-between items-center">
@@ -48,7 +46,7 @@
                 </HelpBox>
             </div>
 
-            <HomeSidebarView />
+            <HomeIntroSidebar />
 
         </div>
 

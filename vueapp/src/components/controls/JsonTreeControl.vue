@@ -2,7 +2,8 @@
 
 	const toastStore = useToastStore()
 
-	const props = defineProps({
+	const props = defineProps(
+	{
 		json: { type: [Object, Array, String, Number, Boolean, null], required: true },
 		label: { type: [Object, Array, String, Number, Boolean, null], default: "" },
 		isOpen: { type: Boolean, default: true }

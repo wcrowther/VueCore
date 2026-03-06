@@ -43,7 +43,7 @@
 
 <template>   
 
-	<ModalControl :showModal="showModal" title="Advanced Search" id="UsersAdvSearch"
+	<ModalControl v-model="showModal" title="Advanced Search" id="UsersAdvSearch"
         height="400px" width="500px" @closeModal="showModal=false">
 
         <div class="p-5 pb-0">

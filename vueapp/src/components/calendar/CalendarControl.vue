@@ -158,11 +158,11 @@
 		<div class="border grid grid-cols-7 grid-rows-5 gap-px bg-slate-300">
 			<div v-for="cell in cells" 
 				:key="cell.date.toISOString()" 
-				:class="['bg-white p-2 min-h-[100px]',
+				:class="['bg-white min-h-[100px]',
 					cell.isToday ? '!bg-blue-50 ring-1 ring-blue-400' : '',
 				    cell.isCurrentMonth ? 'bg-white' : 'bg-gray-200 text-gray-400']"
 				@dragover.prevent @drop="onDrop($event, cell.date)">
-				<slot :date="cell.date" :time-zone="timeZone" />
+				<slot :date="cell.date" :time-zone="timeZone"></slot>
 			</div>
 		</div>
 

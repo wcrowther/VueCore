@@ -170,7 +170,7 @@
         </HelpBox>
 
         <JsonTreeControl v-if="showJsonEntities" :json="account" class="w-full" 
-            label="Account Detail Json" :isOpen="false" :showRawJson="true" />
+            label="Account Detail Json" :isOpen="false" :showRawJson="false" />
 
         <div v-if="(!account || account.AccountId === 0)  && !isAddingAccount" 
             class="w-[300px] font-bold">

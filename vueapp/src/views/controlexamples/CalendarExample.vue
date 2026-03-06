@@ -1,6 +1,8 @@
 <script setup>
 
-    const { createConfirm } = useConfirmControl()
+    const appStore              = useAppStore()   
+    const { createConfirm }     = useConfirmControl()
+    const { showJsonEntities }  = storeToRefs(appStore)
 
     const selectedDate      = ref(null)
     const editingEventId    = ref(null)
@@ -11,14 +13,43 @@
     const dateInMonth = computed(() => new Date() )
     const dayEvents = computed(() => selectedDate.value ? eventsByDate(selectedDate.value) : null)
 
-    const events = ref(
-        [
-            new EventModel(1, '2026-03-01', '08:00', 'Standup'),
-            new EventModel(2, '2026-03-28', '11:30', 'Standup 2'),
-            new EventModel(3, '2026-03-05', '10:00', 'Design Review'),
-            new EventModel(4, '2026-03-05', '16:45', 'Followup Meeting'),
-            new EventModel(5, '2026-03-13', '20:00', 'Release')
-        ])
+    const sampleData =   
+    [
+        new EventModel(1,  '2026-01-01', '08:00', 'Standup'),
+        new EventModel(2,  '2026-01-31', '11:30', 'Vacation'),
+        new EventModel(3,  '2026-01-05', '10:00', 'Design Review'),
+        new EventModel(4,  '2026-01-05', '16:45', 'Followup Meeting'),
+        new EventModel(5,  '2026-01-12', '20:00', 'Release'),
+        new EventModel(6,  '2026-01-05', '10:00', 'Design Review'),
+        new EventModel(7,  '2026-01-13', '16:45', 'Followup Meeting'),
+        new EventModel(8,  '2026-01-05', '20:00', 'Release'),
+        new EventModel(9,  '2026-01-12', '20:00', 'Standup'),
+        new EventModel(10, '2026-01-05', '10:00', 'Design Review'),
+        new EventModel(11, '2026-01-13', '16:45', 'Followup Meeting'),
+        new EventModel(12, '2026-01-05', '20:00', 'Appointment')
+    ]
+
+    const normalizeDataToCurrentMonth = (events) => 
+    {
+        if (!events.length) return events;
+    
+        const now = new Date();
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    
+        return events.map(event => 
+        {
+            const day           = parseInt(event.date.split('-')[2], 10);
+            const clampedDay    = Math.min(day, daysInMonth);
+            const year          = now.getFullYear();
+            const month         = String(now.getMonth() + 1).padStart(2, '0');
+            const normalizedDay = String(clampedDay).padStart(2, '0');
+        
+            return new EventModel(event.id, `${year}-${month}-${normalizedDay}`, event.time, event.title);
+        });
+    }
+
+    const normalizedData = normalizeDataToCurrentMonth(sampleData)
+    const events = ref(normalizedData)
 
     const eventsByDate = (date) => events.value.filter (e => e.date === dateISO(date))
 
@@ -89,6 +120,8 @@
         Illum officia corporis dignissimos nam consequatur!
     </div>
 
+    <JsonTreeControl v-if="showJsonEntities" label="Normalized Data" :json="normalizedData" class="mb-7" />
+
     <CalendarControl :dateInMonth @drop="onDropEvent" 
         class="border border-gray mb-10">
 
@@ -112,19 +145,19 @@
         <!-- Template for single day -->
         <template #default="{ date }">
 
-            <!-- Day number -->
-            <div class="text-sm font-bold mb-1 select-none hover:opacity-50 z-50"
-                @click="selectDay(date, null)">
-                {{ date.getDate() }}
-            </div>
-
-            <!-- Events -->
-            <div class="space-y-1">
-                <template v-for="event in eventsByDate(date)" :key="event.id" >
-                    <CalendarEvent :event 
-                        @select="(d) => selectDay(d.date, d.eventId)" 
-                        @dragstart="onDragStart" @deleteEvent="deleteEvent" />          
-                </template>
+            <div @click.stop="selectDay(date, null)" class="w-full h-full p-2">
+                <!-- Day number -->
+                <div class="text-sm font-bold mb-1 select-none hover:opacity-50 z-50">
+                    {{ date.getDate() }}
+                </div>
+                <!-- Events -->
+                <div class="space-y-1">
+                    <template v-for="event in eventsByDate(date)" :key="event.id" >
+                        <CalendarEvent :event
+                            @select="(d) => selectDay(d.date, d.eventId)"
+                            @dragstart="onDragStart" @deleteEvent="deleteEvent" />
+                    </template>
+                </div>
             </div>
 
         </template>
