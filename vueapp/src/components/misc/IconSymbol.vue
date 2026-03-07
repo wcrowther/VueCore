@@ -13,6 +13,7 @@
     Examples:
 
     <IconSymbol class="text-color-red" icon="heroicons:chevron-right-solid" />
+    <IconSymbol class="text-color-red" icon="heroicons:chevron-down-solid" />
     <IconSymbol width="28px" class="text-warm" @click="deleteProp" icon="heroicons:x-circle-20-solid" />
     <IconSymbol width="32px" class="text-color-dark-gray" icon="heroicons:bars-3" />
     <IconSymbol width="28px" class="text-color-dark-gray" icon="heroicons:cog-8-tooth-solid" />

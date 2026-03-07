@@ -36,12 +36,12 @@
             Illum officia corporis dignissimos nam consequatur!
         </div>
         
-        <div class="md:w-1/2 mb-5">                
+        <div class="lg:w-1/2 mb-5">                
             <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" class="w-fit p-3 mb-3" />
             <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
         </div>
 
-        <div class="w-full md:w-1/2 p-5 mb-5 flex flex-wrap gap-1 bg-blue-100 border-b-2">
+        <div class="w-full lg:w-1/2 p-5 mb-5 flex flex-wrap gap-1 bg-blue-100 border-b-2">
             <div class="basis-full font-bold mb-5">
                 List Index Button
             </div>

@@ -42,7 +42,6 @@ declare global {
   const dateISO: typeof import('../helpers/global.js')['dateISO']
   const dateTimeFormat: typeof import('../helpers/global.js')['dateTimeFormat']
   const dateTimeISO: typeof import('../helpers/global.js')['dateTimeISO']
-  const dateWeekdayFull: typeof import('../helpers/global.js')['dateWeekdayFull']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineLoader: typeof import('vue-router/auto')['defineLoader']

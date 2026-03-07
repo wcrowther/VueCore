@@ -112,7 +112,7 @@
 
 <template>
 
-    <div class="font-bold mb-5">CalendarControl Example</div>
+    <div class="font-bold mb-5">CalendarGrid Example</div>
 
     <div class="mb-5">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident 
@@ -122,7 +122,7 @@
 
     <JsonTreeControl v-if="showJsonEntities" label="Normalized Data" :json="normalizedData" class="mb-7" />
 
-    <CalendarControl :dateInMonth @drop="onDropEvent" 
+    <CalendarGrid :dateInMonth @drop="onDropEvent" 
         class="border border-gray mb-10">
 
         <!-- Calendar header -->
@@ -162,7 +162,7 @@
 
         </template>
 
-    </CalendarControl>
+    </CalendarGrid>
 
     <CalendarDayModal v-if="selectedDate"
         v-model:calendarDate="selectedDate"

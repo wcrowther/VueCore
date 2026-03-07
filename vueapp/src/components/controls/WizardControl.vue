@@ -59,9 +59,9 @@
             overflow-y-auto scrollbar-thin box-border">
 
            <template v-for="(tab,idx) in props.tabList" :key="idx">
-                <div v-show="activeTab == tab">
+                <template v-if="activeTab == tab">
                     <slot :name="tab"></slot>
-                </div>
+                </template>
            </template>  
 
            <slot>

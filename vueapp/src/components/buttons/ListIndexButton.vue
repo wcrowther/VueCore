@@ -50,13 +50,17 @@
 
 <template>
 	
-	<div class="flex items-center cursor-pointer rounded-full text-white bg-color-primary hover:bg-orange"
+	<div class="flex items-center cursor-pointer rounded-full px-4 py-2 h-6 text-xs leading-[1.3rem] select-none
+		text-white font-bold tracking-wider align-middle text-center bg-color-primary hover:bg-orange"
 		@click="setRangeValue(1)"  @click.right.prevent="setRangeValue(-1)">
 		{{ rangeText }}
 	</div>  
 
 </template>
 
+
+		@apply rounded-full h-5 px-2 text-xs leading-[1.3rem] tracking-wider cursor-pointer
+			inline-block font-bold select-none text-center align-middler
 <!-- USAGE
 
 	const rangeValue = ref(0)

@@ -2,7 +2,7 @@
 
 	const props = defineProps(
 	{
-		defaultOpen: { type: Array,default: () => [] },
+		defaultOpen: { type: Array, default: () => [] },
 		multiple: { type: Boolean, default: false }
 	})
 
@@ -17,8 +17,10 @@
 
 		if (props.multiple) 
 		{
-			if (set.has(index)) set.delete(index)
-			else set.add(index)
+			if (set.has(index)) 
+				set.delete(index)
+			else 
+				set.add(index)
 		} 
 		else 
 		{
@@ -35,12 +37,7 @@
 		openSet.value = set
 	}
 
-	provide('accordion', 
-	{
-		openSet,
-		toggle,
-		registerItem
-	})
+	provide('accordion',  { openSet, toggle, registerItem })
 
 </script>
 
