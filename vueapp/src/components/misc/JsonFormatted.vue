@@ -60,6 +60,9 @@
 		}
 	}
 
+	// on top level the whole bar toggles so turn button click off
+	const buttonClickOff = props.level === 0 ? true : false 
+
 </script>
 
 <template>
@@ -72,7 +75,7 @@
   			:class="[rowClasses, 'cursor-pointer flex items-center group']"
 			:title="`Right-click to toggle siblings for ${levelHint}`">
 
-			<RotateButton v-if="isObject" v-model="open" :noClick="true" icon="material-symbols-light:play-arrow" /> 
+			<RotateButton v-if="isObject" v-model="open" :noClick="buttonClickOff" icon="material-symbols-light:play-arrow" /> 
 
 			<div class="font-bold p-1 whitespace-break-spaces inline-flex">
 				{{ label  }}
