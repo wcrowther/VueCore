@@ -50,6 +50,89 @@
 
 	const levelHint = computed(() => `level ${props.level}`)
 
+	const getObjectPreview = (obj) =>
+	{
+		if (!obj || typeof obj !== 'object' || Array.isArray(obj))
+		{
+			return '{Object}'
+		}
+
+		const entries = Object.entries(obj)
+		if (!entries.length)
+		{
+			return '{}'
+		}
+
+		const [firstKey, firstValue] = entries[0]
+		return `${firstKey}: ${formatPreviewValue(firstValue)}`
+	}
+
+	const getArrayPreview = (arr) =>
+	{
+		if (!Array.isArray(arr))
+		{
+			return '[Array]'
+		}
+
+		if (!arr.length)
+		{
+			return '[]'
+		}
+
+		const firstValue = arr[0]
+		if (firstValue && typeof firstValue === 'object' && !Array.isArray(firstValue))
+		{
+			return getObjectPreview(firstValue)
+		}
+
+		return `0: ${formatPreviewValue(firstValue)}`
+	}
+
+	const formatPreviewValue = (value) =>
+	{
+		if (value === null)
+		{
+			return 'null'
+		}
+
+		if (Array.isArray(value))
+		{
+			return `[ ${getArrayPreview(value)} ]`
+		}
+
+		if (typeof value === 'object')
+		{
+			return `{ ${getObjectPreview(value)} }`
+		}
+
+		if (typeof value === 'string')
+		{
+			return `"${value}"`
+		}
+
+		return String(value)
+	}
+
+	const firstObjectEntryPreview = computed(() =>
+	{
+		if (!isObject.value || isArray.value)
+		{
+			return ''
+		}
+
+		return getObjectPreview(props.json)
+	})
+
+	const firstArrayEntryPreview = computed(() =>
+	{
+		if (!isArray.value)
+		{
+			return ''
+		}
+
+		return getArrayPreview(props.json)
+	})
+
 	defineExpose({ openAll, closeAll })
 
 	const onRowClick = () =>
@@ -86,11 +169,19 @@
 			<div v-if="isArray" 
 				class="py-1 text-gray-400">
 				[ Array ] 
+				<span v-if="!open && level !== 0 && firstArrayEntryPreview"
+					class="ml-2 text-gray-500">
+					{{ firstArrayEntryPreview }}
+				</span>
 			</div>
 
 			<div v-else-if="isObject" 
 				class="py-1 text-gray-400">
 				{ Object } 
+				<span v-if="!open && level !== 0 && firstObjectEntryPreview"
+					class="ml-2 text-gray-500">
+					{{ firstObjectEntryPreview }}
+				</span>
 			</div>
 
 			<div v-else 

@@ -15,7 +15,7 @@
 <template>
 
   <span :class="['inline-flex items-center justify-center ' + 
-  	'transform transition-transform duration-300', { [props.rotation] : modelValue }]" 
+  	'transform transition-transform duration-100', { [props.rotation] : modelValue }]" 
     @click="handleClick">
 
     <IconSymbol class="block text-color-dark-gray hover:text-color-mid-gray"
