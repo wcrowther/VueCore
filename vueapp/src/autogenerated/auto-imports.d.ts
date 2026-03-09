@@ -85,6 +85,7 @@ declare global {
   const ref: typeof import('vue')['ref']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const rolesList: typeof import('../datalists/roleList.js')['rolesList']
+  const sampleCalendarEvents: typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
@@ -102,6 +103,7 @@ declare global {
   const useAppStore: typeof import('../stores/AppStore.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('../stores/AuthStore.js')['useAuthStore']
+  const useCalendarStore: typeof import('../stores/CalendarStore.js')['useCalendarStore']
   const useChatHub: typeof import('../composables/UseChatHub.js')['useChatHub']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
@@ -240,6 +242,7 @@ declare module 'vue' {
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly rolesList: UnwrapRef<typeof import('../datalists/roleList.js')['rolesList']>
+    readonly sampleCalendarEvents: UnwrapRef<typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
@@ -257,6 +260,7 @@ declare module 'vue' {
     readonly useAppStore: UnwrapRef<typeof import('../stores/AppStore.js')['useAppStore']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('../stores/AuthStore.js')['useAuthStore']>
+    readonly useCalendarStore: UnwrapRef<typeof import('../stores/CalendarStore.js')['useCalendarStore']>
     readonly useChatHub: UnwrapRef<typeof import('../composables/UseChatHub.js')['useChatHub']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['useConfirmControl']>
@@ -266,7 +270,6 @@ declare module 'vue' {
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImagesStore: UnwrapRef<typeof import('../stores/ImagesStore.js')['useImagesStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
-    readonly useMessageStore: UnwrapRef<typeof import('../stores/xxxMessageStore.js')['useMessageStore']>
     readonly useMessagesStore: UnwrapRef<typeof import('../stores/MessagesStore.js')['useMessagesStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>

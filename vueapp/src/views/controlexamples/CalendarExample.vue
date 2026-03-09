@@ -1,8 +1,13 @@
 <script setup>
 
     const appStore              = useAppStore()   
-    const { createConfirm }     = useConfirmControl()
+    const calendarStore         = useCalendarStore()
+  
     const { showJsonEntities }  = storeToRefs(appStore)
+    const { events }            = storeToRefs(calendarStore)
+    const { eventsByDate }      = calendarStore
+
+    const { createConfirm }     = useConfirmControl()
 
     const selectedDate      = ref(null)
     const editingEventId    = ref(null)
@@ -11,47 +16,47 @@
     // onMounted(() => console.log('Calendar Example Mounted'))
 
     const dateInMonth = computed(() => new Date() )
-    const dayEvents = computed(() => selectedDate.value ? eventsByDate(selectedDate.value) : null)
+    const dayEvents   = computed(() => selectedDate.value ? eventsByDate(selectedDate.value) : null)
 
-    const sampleData =   
-    [
-        new EventModel(1,  '2026-01-01', '08:00', 'Standup'),
-        new EventModel(2,  '2026-01-31', '11:30', 'Vacation'),
-        new EventModel(3,  '2026-01-05', '10:00', 'Design Review'),
-        new EventModel(4,  '2026-01-05', '16:45', 'Followup Meeting'),
-        new EventModel(5,  '2026-01-12', '20:00', 'Release'),
-        new EventModel(6,  '2026-01-05', '10:00', 'Design Review'),
-        new EventModel(7,  '2026-01-13', '16:45', 'Followup Meeting'),
-        new EventModel(8,  '2026-01-05', '20:00', 'Release'),
-        new EventModel(9,  '2026-01-12', '20:00', 'Standup'),
-        new EventModel(10, '2026-01-05', '10:00', 'Design Review'),
-        new EventModel(11, '2026-01-13', '16:45', 'Followup Meeting'),
-        new EventModel(12, '2026-01-05', '20:00', 'Appointment')
-    ]
+    // const sampleData =   
+    // [
+    //     new EventModel(1,  '2026-01-01', '08:00', 'Standup'),
+    //     new EventModel(2,  '2026-01-31', '11:30', 'Vacation'),
+    //     new EventModel(3,  '2026-01-05', '10:00', 'Design Review'),
+    //     new EventModel(4,  '2026-01-05', '16:45', 'Followup Meeting'),
+    //     new EventModel(5,  '2026-01-12', '20:00', 'Release'),
+    //     new EventModel(6,  '2026-01-05', '10:00', 'Design Review'),
+    //     new EventModel(7,  '2026-01-13', '16:45', 'Followup Meeting'),
+    //     new EventModel(8,  '2026-01-05', '20:00', 'Release'),
+    //     new EventModel(9,  '2026-01-12', '20:00', 'Standup'),
+    //     new EventModel(10, '2026-01-05', '10:00', 'Design Review'),
+    //     new EventModel(11, '2026-01-13', '16:45', 'Followup Meeting'),
+    //     new EventModel(12, '2026-01-05', '20:00', 'Appointment')
+    // ]
 
-    const normalizeDataToCurrentMonth = (events) => 
-    {
-        if (!events.length) return events;
-    
-        const now = new Date();
-        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    
-        return events.map(event => 
-        {
-            const day           = parseInt(event.date.split('-')[2], 10);
-            const clampedDay    = Math.min(day, daysInMonth);
-            const year          = now.getFullYear();
-            const month         = String(now.getMonth() + 1).padStart(2, '0');
-            const normalizedDay = String(clampedDay).padStart(2, '0');
-        
-            return new EventModel(event.id, `${year}-${month}-${normalizedDay}`, event.time, event.title);
-        });
-    }
+    // const normalizeDataToCurrentMonth = (events) => 
+    // {
+    //     if (!events.length) return events;
+    // 
+    //     const now = new Date();
+    //     const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    // 
+    //     return events.map(event => 
+    //     {
+    //         const day           = parseInt(event.date.split('-')[2], 10);
+    //         const clampedDay    = Math.min(day, daysInMonth);
+    //         const year          = now.getFullYear();
+    //         const month         = String(now.getMonth() + 1).padStart(2, '0');
+    //         const normalizedDay = String(clampedDay).padStart(2, '0');
+    //     
+    //         return new EventModel(event.id, `${year}-${month}-${normalizedDay}`, event.time, event.title);
+    //     });
+    // }
 
-    const normalizedData = normalizeDataToCurrentMonth(sampleData)
-    const events = ref(normalizedData)
+    //const normalizedData = normalizeDataToCurrentMonth(sampleData)
+    //const events = ref(normalizedData)
 
-    const eventsByDate = (date) => events.value.filter (e => e.date === dateISO(date))
+    // const eventsByDate = (date) => events.value.filter (e => e.date === dateISO(date))
 
     const onDragStart = (e, event) => 
     {

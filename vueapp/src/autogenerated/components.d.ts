@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AccordionControl: typeof import('./../components/controls/AccordionControl.vue')['default']
-    AccordionControl2: typeof import('./../components/controls/AccordionControl2.vue')['default']
     AccordionItem: typeof import('./../components/misc/AccordionItem.vue')['default']
     AccountAdvSearch: typeof import('./../views/accounts/AccountAdvSearch.vue')['default']
     AccountDetail: typeof import('./../views/accounts/AccountDetail.vue')['default']

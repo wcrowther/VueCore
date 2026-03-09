@@ -1,8 +1,9 @@
 <script setup>
 
-    import postsArrayJson       from '@/datalists/30posts.json'
-    import simpleExampleJson    from '@/datalists/simpleExample.json'
-    import { usStatesList }     from '@/datalists/usStatesList.js'
+    import postsArrayJson           from '@/datalists/30posts.json'
+    import simpleExampleJson        from '@/datalists/simpleExample.json'
+    import { usStatesList }         from '@/datalists/usStatesList.js'
+    import { sampleCalendarEvents}  from '@/datalists/sampleCalendarEvents.js'
 
     const sourceIndex  = ref(0)
     const jsonSourceList  =
@@ -10,6 +11,7 @@
         { name: 'Simple Object Json',   json: simpleExampleJson }, 
         { name: 'Array of Posts Json',  json: postsArrayJson },
         { name: 'List of US States',    json: usStatesList },
+        { name: 'Calendar Events',      json: sampleCalendarEvents },
     ]
 
     const jsonSource = computed(() => jsonSourceList[sourceIndex.value] )

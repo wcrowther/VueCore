@@ -1,7 +1,5 @@
 <script setup>
-
     const pageTitle  = ref('Messages')
-
 </script>
 
 <template>

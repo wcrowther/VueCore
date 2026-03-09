@@ -67,7 +67,6 @@
 
 			<TextInput v-model.trim="serverMaxMessageId" labelName="MaxId" />
 			<PrimaryButton title="Send" @click="sendMessage" :disabled="!enableSendButton" />
-			{{ !enableSendButton }}
 		</div>
 
 		<div class="p-4 w-full md:w-1/2 lg:w-3/4">
