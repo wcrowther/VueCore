@@ -22,8 +22,7 @@ public static partial class Endpoints
 		// me (get current user claims for JWT testing)
 		// =========================================================
 
-		endpoints.MapGet("/me", 
-		(	ClaimsPrincipal user) =>
+		endpoints.MapGet("/me", ( ClaimsPrincipal user) =>
 		{
 			return user.Claims.Select(c => new { c.Type, c.Value });
 
@@ -33,10 +32,8 @@ public static partial class Endpoints
 		// login
 		// =========================================================
 
-		endpoints.MapPost("/login", 
-		(	AuthRequest model, 
-			IAuthManager _authManager
-		) =>
+		endpoints.MapPost("/login", ( AuthRequest model, 
+									  IAuthManager _authManager ) =>
 		{
             Returns<AuthUser> returns = _authManager.Authenticate(model);
 
@@ -53,11 +50,8 @@ public static partial class Endpoints
 		// signup 
 		// =========================================================
 
-		endpoints.MapPost("/signup", 
-		(	
-			UserToCreate model, 
-			IAuthManager _authManager									 
-		) =>
+		endpoints.MapPost("/signup", ( UserToCreate model, 
+									   IAuthManager _authManager ) =>
 		{
 			Returns<AuthUser> returns = _authManager.Signup(model);
 
@@ -72,11 +66,8 @@ public static partial class Endpoints
 		// refreshAuth
 		// =========================================================
 
-		endpoints.MapPost("/refreshAuth", 
-		(	
-			AuthRefreshRequest request, 
-			IAuthManager _authManager
-		) =>
+		endpoints.MapPost("/refreshAuth", ( AuthRefreshRequest request, 
+											IAuthManager _authManager ) =>
 		{
 			Returns<AuthUser> returns = _authManager.RefreshAuth(request);
 

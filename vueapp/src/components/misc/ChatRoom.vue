@@ -4,8 +4,8 @@
 
 	const { startChat, messages, message, sendMessage } = useChatHub()  
 
-	const messageStore 				= useMessagesStore()
-    const { serverMaxMessageId } 	= storeToRefs(messageStore) 
+	const chatStore 				= useChatStore()
+    const { serverMaxMessageId } 	= storeToRefs(chatStore) 
 
 	const authStore	   				= useAuthStore()
 	const { userId:currentUserId }	= storeToRefs(authStore)  
@@ -112,7 +112,6 @@
 </template>
 
 <style lang="postcss" scoped>
-    .chat-user { @apply px-2 pt-[3px] pb-[2px] bg-[#f8ac59] text-red rounded-full text-center text-xs font-bold select-none 
-    }
+    .chat-user { @apply px-2 pt-[3px] pb-[2px] bg-[#f8ac59] text-red rounded-full text-center text-xs font-bold select-none }
     .current-user{ @apply text-color-dark-gray }
 </style>

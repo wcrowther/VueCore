@@ -1,5 +1,5 @@
 <script setup>
-    const pageTitle  = ref('Messages')
+    const pageTitle  = ref('Chat')
 </script>
 
 <template>

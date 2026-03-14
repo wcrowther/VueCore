@@ -31,6 +31,7 @@ declare global {
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
   const addDays: typeof import('../helpers/global.js')['addDays']
   const apiCall: typeof import('../composables/ApiCall.js')['apiCall']
+  const apiFormPost: typeof import('../composables/ApiCall.js')['apiFormPost']
   const apiGet: typeof import('../composables/ApiCall.js')['apiGet']
   const apiPost: typeof import('../composables/ApiCall.js')['apiPost']
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
@@ -105,6 +106,7 @@ declare global {
   const useAuthStore: typeof import('../stores/AuthStore.js')['useAuthStore']
   const useCalendarStore: typeof import('../stores/CalendarStore.js')['useCalendarStore']
   const useChatHub: typeof import('../composables/UseChatHub.js')['useChatHub']
+  const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -114,7 +116,7 @@ declare global {
   const useImagesStore: typeof import('../stores/ImagesStore.js')['useImagesStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useMessageStore: typeof import('../stores/xxxMessageStore.js')['useMessageStore']
-  const useMessagesStore: typeof import('../stores/MessagesStore.js')['useMessagesStore']
+  const useMessagesStore: typeof import('../stores/ChatStore.js')['useMessagesStore']
   const useModel: typeof import('vue')['useModel']
   const usePagedList: typeof import('../composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('../composables/UsePagedList2.js')['usePagedList2']
@@ -188,6 +190,7 @@ declare module 'vue' {
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
     readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
     readonly apiCall: UnwrapRef<typeof import('../composables/ApiCall.js')['apiCall']>
+    readonly apiFormPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiFormPost']>
     readonly apiGet: UnwrapRef<typeof import('../composables/ApiCall.js')['apiGet']>
     readonly apiPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPost']>
     readonly authRequestValidator: UnwrapRef<typeof import('../helpers/validators.js')['authRequestValidator']>
@@ -262,6 +265,7 @@ declare module 'vue' {
     readonly useAuthStore: UnwrapRef<typeof import('../stores/AuthStore.js')['useAuthStore']>
     readonly useCalendarStore: UnwrapRef<typeof import('../stores/CalendarStore.js')['useCalendarStore']>
     readonly useChatHub: UnwrapRef<typeof import('../composables/UseChatHub.js')['useChatHub']>
+    readonly useChatStore: UnwrapRef<typeof import('../stores/ChatStore.js')['useChatStore']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['useConfirmControl']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
@@ -270,7 +274,6 @@ declare module 'vue' {
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImagesStore: UnwrapRef<typeof import('../stores/ImagesStore.js')['useImagesStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
-    readonly useMessagesStore: UnwrapRef<typeof import('../stores/MessagesStore.js')['useMessagesStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('../composables/UsePagedList.js')['usePagedList']>

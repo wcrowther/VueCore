@@ -1,12 +1,13 @@
 
 import axios from 'axios'
 
-export async function apiGet(url){ 			return apiCall('GET',  url, true)  }
-export async function apiPost(url, body){ 	return apiCall('POST', url, true, body) }
+export async function apiGet(url){ 			  return apiCall('GET',  url, true)  }
+export async function apiPost(url, body){ 	  return apiCall('POST', url, true, body) }
+export async function apiFormPost(url, body){ return apiCall('POST', url, true, body, true) }
 
 // ==================================================================================
 
-export async function apiCall(methodType, url, useAuth, body) 
+export async function apiCall(methodType, url, useAuth, body, isFormData, onProgress) 
 {
 	const appStore     	= useAppStore()
 	const authStore     = useAuthStore()
@@ -35,10 +36,16 @@ export async function apiCall(methodType, url, useAuth, body)
 	{
 		// logJson('apiCall', JSON.stringify(body))  // DEBUGGING
 
-		request.headers['Content-Type'] = 'application/json'
-		request.headers['Access-Control-Allow-Private-Network'] = 'true'
-		
-		request.data = JSON.stringify(body)
+		if (isFormData === true)
+		{	
+			request.data = body // Let axios/browser set multipart boundaries automatically.
+			request.onUploadProgress = (e) => onProgress(Math.round((e.loaded * 100) / e.total))
+		}
+		else
+		{
+			request.headers['Content-Type'] = 'application/json'
+			request.data = JSON.stringify(body)
+		}
 	}
 
 	if (!!useAuth === true && authStore.authUser && authStore.authUser.Token) 

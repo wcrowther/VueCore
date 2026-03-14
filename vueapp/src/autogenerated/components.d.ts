@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AccordianExample: typeof import('./../views/controlexamples/AccordianExample.vue')['default']
     AccordionControl: typeof import('./../components/controls/AccordionControl.vue')['default']
     AccordionItem: typeof import('./../components/misc/AccordionItem.vue')['default']
     AccountAdvSearch: typeof import('./../views/accounts/AccountAdvSearch.vue')['default']
@@ -29,6 +30,7 @@ declare module 'vue' {
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
+    FileUploadControl: typeof import('./../components/controls/FileUploadControl.vue')['default']
     FloaterControl: typeof import('./../components/controls/FloaterControl.vue')['default']
     FooterBox: typeof import('./../views/layout/FooterBox.vue')['default']
     GridControl: typeof import('./../components/controls/GridControl.vue')['default']

@@ -1,4 +1,4 @@
-export const useMessagesStore = defineStore('MessagesStore',
+export const useChatStore = defineStore('ChatStore',
 {
     state: () => 
     ({

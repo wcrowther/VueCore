@@ -76,6 +76,7 @@ export const useAppStore = defineStore('AppStore', () =>
     // Return ------------------------------------------------------------------
 
     return {
+        // Refs
         sideBarHidden,
         layoutEscapeKeyOn,
         showPrevNext,
@@ -90,6 +91,8 @@ export const useAppStore = defineStore('AppStore', () =>
         pagerDebuggerX,
         pagerDebuggerY,
         activeFloater,
+
+        // Constants
         baseApiUrl,
         apiDocsUrl,
         vueCoreUrl,

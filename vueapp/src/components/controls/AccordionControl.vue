@@ -42,7 +42,7 @@
 </script>
 
 <template>
-	<div class="w-full border divide-y bg-white">
+	<div class="w-full divide-y bg-white">
 		<slot />
 	</div>
 </template>

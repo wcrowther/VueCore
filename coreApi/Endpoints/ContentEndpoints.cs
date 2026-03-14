@@ -36,5 +36,17 @@ public static partial class Endpoints
 						Results.Ok(results);
 		})
 		.WithName("GetPagedImages");
+
+		endpoints.MapPost("/upload", async (IFormFile file) =>
+		{
+			var path = Path.Combine("Uploads", file.FileName);
+
+			using var stream = new FileStream(path, FileMode.Create);
+			await file.CopyToAsync(stream);
+
+			return Results.Ok(new { file = file.FileName });
+		})
+		.DisableAntiforgery()  // WORK ON THIS
+		.WithName("Upload");
 	}
 }

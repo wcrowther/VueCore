@@ -105,7 +105,7 @@ declare global {
   const useImagesStore: typeof import('./stores/ImagesStore.js')['useImagesStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useMessageStore: typeof import('./stores/xxxMessageStore.js')['useMessageStore']
-  const useMessagesStore: typeof import('./stores/MessagesStore.js')['useMessagesStore']
+  const useChatStore: typeof import('./stores/ChatStore.js')['useMessagesStore']
   const useModel: typeof import('vue')['useModel']
   const usePagedList: typeof import('./composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('./composables/UsePagedList2.js')['usePagedList2']
@@ -248,7 +248,7 @@ declare module 'vue' {
     readonly useImagesStore: UnwrapRef<typeof import('./stores/ImagesStore.js')['useImagesStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMessageStore: UnwrapRef<typeof import('./stores/xxxMessageStore.js')['useMessageStore']>
-    readonly useMessagesStore: UnwrapRef<typeof import('./stores/MessagesStore.js')['useMessagesStore']>
+    readonly useMessagesStore: UnwrapRef<typeof import('./stores/ChatStore.js')['useMessagesStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly usePagedList2: UnwrapRef<typeof import('./composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('./composables/UsePagedList.js')['usePagedList']>

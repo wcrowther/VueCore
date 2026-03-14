@@ -43,7 +43,9 @@
 				<BrandLogo />
 			</BrandBar>
 
-			<MainNavBar class="shadow-theme-layout" />
+			<MainNavBar class="shadow-theme-layout">
+				xxxx
+			</MainNavBar>
 
 			<MainContent>
 				<slot></slot>
