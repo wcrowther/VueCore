@@ -13,14 +13,14 @@
         corporis odio, modi sunt nulla?
     </div>
 
-    <div class="font-bold mb-5">FileUploadControl - Bonus</div>
+    <div class="font-bold mb-5">UploadControl - Bonus</div>
     <div class="mb-5">
         Aspernatur maiores odio possimus
         tempore accusamus asperiores! Minus sit enim sapiente id fugiat rem optio! Perferendis recusandae
         corporis odio, modi sunt nulla?
     </div>
 
-    <FileUploadControl url="/content/upload" accept="image/*"
+    <UploadControl url="/content/upload" accept="image/*"
         :maxSizeMB="5" @uploaded="uploaded" class="mb-10" />
 
 </template>

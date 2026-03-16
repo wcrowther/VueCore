@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export async function apiGet(url){ 			  return apiCall('GET',  url, true)  }
 export async function apiPost(url, body){ 	  return apiCall('POST', url, true, body) }
-export async function apiFormPost(url, body){ return apiCall('POST', url, true, body, true) }
+export async function apiFormPost(url, body, onProgress){ return apiCall('POST', url, true, body, true, onProgress) }
 
 // ==================================================================================
 
@@ -39,7 +39,8 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		if (isFormData === true)
 		{	
 			request.data = body // Let axios/browser set multipart boundaries automatically.
-			request.onUploadProgress = (e) => onProgress(Math.round((e.loaded * 100) / e.total))
+			if (onProgress) 
+				request.onUploadProgress = (e) => onProgress(Math.round((e.loaded * 100) / e.total))
 		}
 		else
 		{
@@ -101,10 +102,12 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	return result
 }
 
-// ==================================================================================
-// EXAMPLE CODE: 
-// ==================================================================================
-// const result      = await apiGet(`/accounts/getAccountById/${accountId}`)
-// this.account      = result.data
-// ==================================================================================
+/*
+==================================================================================
+EXAMPLE CODE: 
+==================================================================================
+const result      = await apiGet(`/accounts/getAccountById/${accountId}`)
+this.account      = result.data
+==================================================================================
+*/
 

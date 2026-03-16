@@ -51,15 +51,6 @@
 		{
 			const result = await apiFormPost(props.url, form, (pct) => item.progress = pct)
 
-			// const res = await axios.post(saveToUrl, form, 
-			// {
-			// 	cancelToken: source.token,
-			// 	onUploadProgress(e) 
-			// 	{
-			// 		item.progress = Math.round((e.loaded * 100) / e.total)
-			// 	}
-			// })
-
 			item.status = "done"
 			emit("uploaded", result.data)
 		} 
@@ -95,7 +86,7 @@
 </script>
 
 <template>
-	<div class="w-full">
+	<div class="w-full border border-red">
 
 		<!-- Drop Zone -->
 		<div class="border-2 border-dashed border-gray-500 rounded-lg p-8 text-center cursor-pointer
@@ -107,6 +98,12 @@
 
 			<input ref="fileInput" type="file" multiple class="hidden" :accept="accept" @change="onSelect">
 		</div>
+
+		<!-- Upload All -->
+		<button v-if="uploads.some(f => f.status === 'pending')" @click="uploadAll"
+			class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+			Upload All
+		</button>
 
 		<!-- File List -->
 		<div v-if="uploads.length" class="grid lg:grid-cols-2 2xl:grid-cols-3 gap-3 mt-6">
@@ -173,12 +170,6 @@
 			</div>
 
 		</div>
-
-		<!-- Upload All -->
-		<button v-if="uploads.some(f => f.status === 'pending')" @click="uploadAll"
-			class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-			Upload All
-		</button>
 
 	</div>
 </template>
