@@ -47,7 +47,7 @@
 	})
 
 	const rootParentPath = computed(() => rootNode.value?.name ?? rootNode.value?.Name ?? rootNodeName)
-	const isRootEmpty = computed(() => rootChildren.value.length === 0)
+	const isEditing = ref(false)
 
 	async function load() 
 	{
@@ -69,6 +69,7 @@
 
 		await addFolder(rootParentPath.value, folderName)
 		newRootFolder.value = ""
+		isEditing.value = false
 	}
 
 	onMounted(load)
@@ -81,17 +82,19 @@
 			Folder Explorer
 		</h2>
 
-		<div v-if="isRootEmpty" class="mb-3 flex gap-1">
-			<input v-model="newRootFolder" placeholder="new folder" class="border px-1 text-sm" />
-
-			<button class="text-xs bg-blue-500 text-white px-2" @click="addRootFolder">
-				add
-			</button>
-		</div>
-
 		<FolderNode v-for="(node, idx) in rootChildren" 
 			:key="(node.name ?? node.Name ?? 'node') + '-' + idx" :node="node" :parent-path="rootParentPath" @add="addFolder"
 			@delete="load" />
+
+		<!-- add root-level folder -->
+		<div class="mt-2 flex gap-1">
+			<template v-if="isEditing">
+				<input v-model="newRootFolder" placeholder="new folder" class="border px-1 text-sm" @keyup.enter="addRootFolder" />
+				<button class="text-xs bg-blue-500 text-white px-2" @click="addRootFolder">Save</button>
+				<button class="text-xs bg-gray-400 text-white px-2" @click="() => { isEditing = false; newRootFolder = '' }">Cancel</button>
+			</template>
+			<button v-else class="text-xs bg-gray-500 text-white px-2" @click="isEditing = true">Edit</button>
+		</div>
 
 	</div>
 </template>

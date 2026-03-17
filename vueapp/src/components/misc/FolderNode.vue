@@ -13,6 +13,7 @@
 
 	const expanded = ref(false)
 	const newFolder = ref("")
+	const isEditing = ref(false)
 
 
 	const nodeName 		= computed(() => props.node?.name ?? props.node?.Name ?? "")
@@ -55,6 +56,13 @@
 
 		emit("add", currentPath.value, newFolder.value)
 		newFolder.value = ""
+		isEditing.value = false
+	}
+
+	const cancelEdit = () =>
+	{
+		newFolder.value = ""
+		isEditing.value = false
 	}
 
 	const removeFolder = async () =>
@@ -95,11 +103,12 @@
 
 			<!-- add folder -->
 			<div class="flex gap-1 mb-2">
-				<input v-model="newFolder" placeholder="new folder" class="border px-1 text-sm" />
-
-				<button class="text-xs bg-blue-500 text-white px-2" @click="addFolder">
-					add
-				</button>
+				<template v-if="isEditing">
+					<input v-model="newFolder" placeholder="new folder" class="border px-1 text-sm" @keyup.enter="addFolder" />
+					<button class="text-xs bg-blue-500 text-white px-2" @click="addFolder">Save</button>
+					<button class="text-xs bg-gray-400 text-white px-2" @click="cancelEdit">Cancel</button>
+				</template>
+				<button v-else class="text-xs bg-gray-500 text-white px-2" @click="isEditing = true">Edit</button>
 			</div>
 
 			<!-- children -->
