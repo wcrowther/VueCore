@@ -3,6 +3,7 @@ using coreApi.Data;
 using coreApi.Helpers;
 using coreApi.Models;
 using coreLogic.Helpers;
+using coreLogic.Managers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +22,7 @@ var environment = builder.Environment;
 
 builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.PropertyNamingPolicy = null; });
 builder.Services.AddSingleton(builder.Configuration.GetSection("App").Get<AppSettings>());
+builder.Services.AddSingleton(new FolderManager(builder.Configuration["App:FoldersRoot"]));
 
 builder.Services.AddSignalR().AddJsonProtocol(options =>
 {

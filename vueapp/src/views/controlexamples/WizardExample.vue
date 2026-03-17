@@ -23,4 +23,6 @@
     <UploadControl url="/content/upload" accept="image/*"
         :maxSizeMB="5" @uploaded="uploaded" class="mb-10" />
 
+    <FolderExplorer />
+
 </template>

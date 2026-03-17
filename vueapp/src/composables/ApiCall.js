@@ -1,13 +1,14 @@
 
 import axios from 'axios'
 
-export async function apiGet(url){ 			  return apiCall('GET',  url, true)  }
-export async function apiPost(url, body){ 	  return apiCall('POST', url, true, body) }
-export async function apiFormPost(url, body, onProgress){ return apiCall('POST', url, true, body, true, onProgress) }
+export async function apiGet(url, signal){                        return apiCall('GET',  url, true, null,  false, null,       signal) }
+export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null,       signal) }
+export async function apiDelete(url, body, signal){                return apiCall('DELETE', url, true, body, false, null,      signal) }
+export async function apiFormPost(url, body, onProgress, signal){  return apiCall('POST', url, true, body,  true,  onProgress, signal) }
 
 // ==================================================================================
 
-export async function apiCall(methodType, url, useAuth, body, isFormData, onProgress) 
+export async function apiCall(methodType, url, useAuth, body, isFormData, onProgress, signal) 
 {
 	const appStore     	= useAppStore()
 	const authStore     = useAuthStore()
@@ -49,6 +50,9 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		}
 	}
 
+	if (signal)
+		request.signal = signal
+
 	if (!!useAuth === true && authStore.authUser && authStore.authUser.Token) 
 	{
 		request.headers['Authorization'] = `Bearer ${authStore.authUser.Token}`
@@ -69,7 +73,11 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 
 		result.error = err
 
-		if(err.code === 'ERR_NETWORK')
+		if (err.code === 'ERR_CANCELED')
+		{
+			return result  // Swallow — intentional abort, no toast
+		}
+		else if(err.code === 'ERR_NETWORK')
 		{
 			result.message		 = 'Not able to communicate with the server. Please try again later.'
 		}

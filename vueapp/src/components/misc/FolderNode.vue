@@ -1,0 +1,116 @@
+<script setup>
+
+	import { useConfirmControl } from "@/composables/UseConfirmControl"
+
+	const { createConfirm } = useConfirmControl()
+
+	const props = defineProps({
+		node: Object,
+		parentPath: String
+	})
+
+	const emit = defineEmits(["add", "delete"])
+
+	const expanded = ref(false)
+	const newFolder = ref("")
+
+
+	const nodeName 		= computed(() => props.node?.name ?? props.node?.Name ?? "")
+	const nodeChildren 	= computed(() => 
+	{
+		const children = props.node?.children ?? props.node?.Children ?? []
+		return Array.isArray(children) ? children : []
+	})
+	const normalizedNodeName = computed(() => nodeName.value.toLowerCase().replace(/[\s_-]/g, ""))
+	const normalizedParentPath = computed(() =>
+	{
+		const rawPath = String(props.parentPath ?? "").trim()
+		if (!rawPath) return ""
+
+		const segments = rawPath.split("/").filter(Boolean)
+		if (segments.length === 0) return ""
+
+		const firstSegment = segments[0].toLowerCase().replace(/[\s_-]/g, "")
+		if (firstSegment === "rootfolder" || firstSegment === "folderroot")
+			segments.shift()
+
+		return segments.join("/")
+	})
+	const isRootFolder 	= computed(() => 
+	{
+		return normalizedNodeName.value === "rootfolder" || normalizedNodeName.value === "folderroot"
+	})
+	const showContent 	= computed(() => expanded.value || (isRootFolder.value && nodeChildren.value.length === 0))
+	const currentPath 	= computed(() => 
+	{
+		if (!props.parentPath) return nodeName.value
+		return props.parentPath + "/" + nodeName.value
+	})
+
+	const toggle = () => expanded.value = !expanded.value
+
+	const addFolder = () =>
+	{
+		if (!newFolder.value) return
+
+		emit("add", currentPath.value, newFolder.value)
+		newFolder.value = ""
+	}
+
+	const removeFolder = async () =>
+	{
+		if (isRootFolder.value) return
+
+		const confirmed = await createConfirm(`Delete ${nodeName.value}?`)
+		if (!confirmed) return
+
+		const result = await apiDelete("/content/folders", {
+			parentPath: normalizedParentPath.value,
+			name: nodeName.value
+		})
+
+		if (result.success)
+			emit("delete")
+	}
+
+</script>
+
+<template>
+
+	<div class="ml-3">
+
+		<div class="flex items-center gap-2 py-1">
+
+			<span class="cursor-pointer font-medium" @click="toggle">
+				📁 {{ nodeName }}
+			</span>
+
+			<button v-if="!isRootFolder" class="text-red-500 text-xs" @click="removeFolder">
+				delete
+			</button>
+
+		</div>
+
+		<div v-if="showContent" class="ml-4 border-l pl-3">
+
+			<!-- add folder -->
+			<div class="flex gap-1 mb-2">
+				<input v-model="newFolder" placeholder="new folder" class="border px-1 text-sm" />
+
+				<button class="text-xs bg-blue-500 text-white px-2" @click="addFolder">
+					add
+				</button>
+			</div>
+
+			<!-- children -->
+			<FolderNode v-for="child in nodeChildren" :key="child.name ?? child.Name" :node="child" :parent-path="currentPath"
+				@add="(parentPath, name) => emit('add', parentPath, name)"
+				@delete="() => emit('delete')" />
+
+		</div>
+
+	</div>
+
+</template>
+
+<style scoped></style>

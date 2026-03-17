@@ -1,0 +1,99 @@
+<script setup>
+
+	import FolderNode from "./FolderNode.vue"
+
+	const tree = ref([])
+	const rootNodeName = "FolderRoot"
+	const newRootFolder = ref("")
+
+	const normalized = (value) => String(value ?? "").toLowerCase().replace(/[\s_-]/g, "")
+	const isRootName = (value) =>
+	{
+		const normalizedName = normalized(value)
+		return normalizedName === "rootfolder" || normalizedName === "folderroot"
+	}
+
+	const toApiParentPath = (path) =>
+	{
+		const rawPath = String(path ?? "").trim()
+		if (!rawPath) return ""
+
+		const segments = rawPath.split("/").filter(Boolean)
+		if (segments.length === 0) return ""
+
+		if (isRootName(segments[0]))
+			segments.shift()
+
+		return segments.join("/")
+	}
+
+	const rootNode = computed(() =>
+	{
+		const nodes = Array.isArray(tree.value) ? tree.value : []
+		return nodes.find(node => 
+		{
+			const name = node?.name ?? node?.Name
+			return isRootName(name)
+		})
+	})
+
+	const rootChildren = computed(() =>
+	{
+		if (!rootNode.value)
+			return Array.isArray(tree.value) ? tree.value : []
+
+		const children = rootNode.value?.children ?? rootNode.value?.Children ?? []
+		return Array.isArray(children) ? children : []
+	})
+
+	const rootParentPath = computed(() => rootNode.value?.name ?? rootNode.value?.Name ?? rootNodeName)
+	const isRootEmpty = computed(() => rootChildren.value.length === 0)
+
+	async function load() 
+	{
+		const res = await apiGet("/content/folders")
+		tree.value = Array.isArray(res.data) ? res.data : []
+	}
+
+	async function addFolder(parentPath, name) 
+	{
+		const apiParentPath = toApiParentPath(parentPath)
+		await apiPost("/content/folders", { parentPath: apiParentPath, name })
+		await load()
+	}
+
+	async function addRootFolder()
+	{
+		const folderName = newRootFolder.value.trim()
+		if (!folderName) return
+
+		await addFolder(rootParentPath.value, folderName)
+		newRootFolder.value = ""
+	}
+
+	onMounted(load)
+</script>
+
+<template>
+	<div class="p-4 bg-white rounded shadow w-full max-w-lg">
+
+		<h2 class="text-lg font-bold mb-3">
+			Folder Explorer
+		</h2>
+
+		<div v-if="isRootEmpty" class="mb-3 flex gap-1">
+			<input v-model="newRootFolder" placeholder="new folder" class="border px-1 text-sm" />
+
+			<button class="text-xs bg-blue-500 text-white px-2" @click="addRootFolder">
+				add
+			</button>
+		</div>
+
+		<FolderNode v-for="(node, idx) in rootChildren" 
+			:key="(node.name ?? node.Name ?? 'node') + '-' + idx" :node="node" :parent-path="rootParentPath" @add="addFolder"
+			@delete="load" />
+
+	</div>
+</template>
+
+<style scoped></style>

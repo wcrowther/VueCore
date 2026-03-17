@@ -3,6 +3,7 @@ using coreApi.Logic.Interfaces;
 using coreApi.Models;
 using coreApi.Models.Generic;
 using coreLogic.Interfaces;
+using coreLogic.Managers;
 using coreLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 using WildHare.Extensions;
@@ -46,7 +47,24 @@ public static partial class Endpoints
 
 			return Results.Ok(new { file = file.FileName });
 		})
-		.DisableAntiforgery()  // WORK ON THIS
+		.DisableAntiforgery()  // WORK ON THIS. This required for current security implementation.
 		.WithName("Upload");
+
+		endpoints.MapGet("/folders", (FolderManager service) =>
+		{
+			return Results.Ok(service.GetTree());
+		});
+
+		endpoints.MapPost("/folders", ([FromBody] FolderRequest req, [FromServices] FolderManager folderManager) =>
+		{
+			folderManager.CreateFolder(req.ParentPath, req.Name);
+			return Results.Ok();
+		});
+
+		endpoints.MapDelete("/folders", ([FromBody] FolderRequest req, [FromServices] FolderManager folderManager) =>
+		{
+			folderManager.DeleteFolder(req.ParentPath, req.Name);
+			return Results.Ok();
+		});
 	}
 }

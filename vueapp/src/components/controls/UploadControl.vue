@@ -1,7 +1,5 @@
 <script setup>
 
-	import axios from "axios"
-
 	const props = defineProps(
 	{
 		url: { type: String, required: true },
@@ -18,7 +16,6 @@
 	const prevent 		= (e) => e.preventDefault()
 	const onDrop 		= (e) => 
 	{
-		// console.log('OnDrop', e.dataTransfer.files)
 		prevent(e)
 		addFiles(Array.from(e.dataTransfer.files))
 	}
@@ -34,8 +31,7 @@
 			}
 
 			const preview = file.type.startsWith("image/") ? URL.createObjectURL(file) : null
-			uploads.value.push({ file, preview, progress: 0, 
-				status: "pending", cancelSource: null })
+			uploads.value.push({ file, preview, progress: 0, status: "pending", controller: null })
 		})
 	}
 	const uploadFile = async (item) =>
@@ -43,20 +39,20 @@
 		const form = new FormData()
 		form.append("file", item.file)
 
-		//const source 		= axios.CancelToken.source()
-		//item.cancelSource 	= source
-		item.status 		= "uploading"
+		const controller  = new AbortController()
+		item.controller   = controller
+		item.status       = "uploading"
 
 		try 
 		{
-			const result = await apiFormPost(props.url, form, (pct) => item.progress = pct)
+			const result = await apiFormPost(props.url, form, (pct) => item.progress = pct, controller.signal)
 
 			item.status = "done"
 			emit("uploaded", result.data)
 		} 
 		catch (err) 
 		{
-			if (axios.isCancel(err)) 
+			if (err.code === 'ERR_CANCELED' || err.name === 'AbortError') 
 			{
 				item.status = "cancelled"
 			} 
@@ -74,7 +70,7 @@
 			.filter(f => f.status === "pending")
 			.forEach(uploadFile)
 	}
-	const cancel 	= (item) => item.cancelSource?.cancel()
+	const cancel 	= (item) => item.controller?.abort()
 	const retry 	= (item) =>
 	{
 		item.progress = 0
@@ -82,11 +78,12 @@
 		uploadFile(item)
 	}
 	const remove = (index) => uploads.value.splice(index, 1)
+	const clearDoneUploads = () => uploads.value = uploads.value.filter(item => item.status !== "done")
 
 </script>
 
 <template>
-	<div class="w-full border border-red">
+	<div class="w-full">
 
 		<!-- Drop Zone -->
 		<div class="border-2 border-dashed border-gray-500 rounded-lg p-8 text-center cursor-pointer
@@ -99,17 +96,25 @@
 			<input ref="fileInput" type="file" multiple class="hidden" :accept="accept" @change="onSelect">
 		</div>
 
-		<!-- Upload All -->
-		<button v-if="uploads.some(f => f.status === 'pending')" @click="uploadAll"
-			class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-			Upload All
-		</button>
+		<div class="flex gap-3">
+			<!-- Upload All -->
+			<button v-if="uploads.some(f => f.status === 'pending')"
+				@click="uploadAll"
+				class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+				Upload All
+			</button>
+			<button v-if="uploads.some(f => f.status === 'done')"
+				@click="clearDoneUploads"
+				class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+				Clear Done
+			</button>
+		</div>
 
 		<!-- File List -->
 		<div v-if="uploads.length" class="grid lg:grid-cols-2 2xl:grid-cols-3 gap-3 mt-6">
 
 			<div v-for="(item, index) in uploads" :key="index" 
-				class="flex items-center gap-4 p-3 
+				class="flex items-start gap-4 p-3 
 					border border-gray-500 rounded-lg">
 
 				<!-- Preview -->
@@ -143,6 +148,8 @@
 					<div v-if="item.status === 'error'" class="text-xs text-red-500">
 						{{ item.error }}
 					</div>
+
+					<div v-if="item.status === 'done'" class="text-xs font-bold text-green-500">Done</div>
 
 				</div>
 
