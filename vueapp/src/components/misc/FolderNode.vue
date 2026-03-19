@@ -99,7 +99,7 @@
 
 		</div>
 
-		<div v-if="showContent" class="ml-4 border-l pl-3">
+		<div v-if="showContent" class="ml-4 border-l border-gray-300 pl-3">
 
 			<!-- add folder -->
 			<div class="flex gap-1 mb-2">
@@ -108,11 +108,17 @@
 					<button class="text-xs bg-blue-500 text-white px-2" @click="addFolder">Save</button>
 					<button class="text-xs bg-gray-400 text-white px-2" @click="cancelEdit">Cancel</button>
 				</template>
-				<button v-else class="text-xs bg-gray-500 text-white px-2" @click="isEditing = true">Edit</button>
+				<div v-else 
+					class="textsm border border-gray-400 p-[5px] size-6 rounded-full flex justify-center items-center" 
+					@click="isEditing = true">
+					<IconSymbol class="text-color-dark-gray"
+						icon="heroicons:pencil-square-solid" />
+				</div>
 			</div>
 
 			<!-- children -->
-			<FolderNode v-for="child in nodeChildren" :key="child.name ?? child.Name" :node="child" :parent-path="currentPath"
+			<FolderNode v-for="child in nodeChildren" :key="child.name ?? child.Name" 
+				:node="child" :parent-path="currentPath"
 				@add="(parentPath, name) => emit('add', parentPath, name)"
 				@delete="() => emit('delete')" />
 

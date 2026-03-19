@@ -4,5 +4,3 @@
     router.replace('/home/intro')
 
 </script>
-
-<template></template>

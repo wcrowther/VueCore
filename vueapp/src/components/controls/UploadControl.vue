@@ -86,7 +86,7 @@
 	<div class="w-full">
 
 		<!-- Drop Zone -->
-		<div class="border-2 border-dashed border-gray-500 rounded-lg p-8 text-center cursor-pointer
+		<div class="border-2 border-dashed border-gray-400 rounded-lg p-8 text-center cursor-pointer
             hover:bg-gray-50 transition" @click="openDialog" 
 			@dragover="prevent" @dragenter="prevent" @drop="onDrop">
 			<p class="text-gray-400">

@@ -1,10 +1,10 @@
 <script setup>
 
-	import FolderNode from "./FolderNode.vue"
-
-	const tree = ref([])
 	const rootNodeName = "FolderRoot"
+
+	const tree 			= ref([])
 	const newRootFolder = ref("")
+	const isEditing 	= ref(false)
 
 	const normalized = (value) => String(value ?? "").toLowerCase().replace(/[\s_-]/g, "")
 	const isRootName = (value) =>
@@ -27,6 +27,8 @@
 		return segments.join("/")
 	}
 
+	const rootParentPath = computed(() => rootNode.value?.name ?? rootNode.value?.Name ?? rootNodeName)
+
 	const rootNode = computed(() =>
 	{
 		const nodes = Array.isArray(tree.value) ? tree.value : []
@@ -46,23 +48,20 @@
 		return Array.isArray(children) ? children : []
 	})
 
-	const rootParentPath = computed(() => rootNode.value?.name ?? rootNode.value?.Name ?? rootNodeName)
-	const isEditing = ref(false)
-
-	async function load() 
+	const load = async () =>
 	{
 		const res = await apiGet("/content/folders")
 		tree.value = Array.isArray(res.data) ? res.data : []
 	}
 
-	async function addFolder(parentPath, name) 
+	const addFolder = async (parentPath, name) =>
 	{
 		const apiParentPath = toApiParentPath(parentPath)
 		await apiPost("/content/folders", { parentPath: apiParentPath, name })
 		await load()
 	}
 
-	async function addRootFolder()
+	const addRootFolder = async () =>
 	{
 		const folderName = newRootFolder.value.trim()
 		if (!folderName) return
@@ -73,30 +72,42 @@
 	}
 
 	onMounted(load)
+	
 </script>
 
 <template>
-	<div class="p-4 bg-white rounded shadow w-full max-w-lg">
+
+	<div class="p-4 bg-white w-full max-w-lg">
 
 		<h2 class="text-lg font-bold mb-3">
 			Folder Explorer
 		</h2>
 
-		<FolderNode v-for="(node, idx) in rootChildren" 
-			:key="(node.name ?? node.Name ?? 'node') + '-' + idx" :node="node" :parent-path="rootParentPath" @add="addFolder"
-			@delete="load" />
-
 		<!-- add root-level folder -->
-		<div class="mt-2 flex gap-1">
+		<div class="mt-2 mb-5 flex gap-1">
+
 			<template v-if="isEditing">
-				<input v-model="newRootFolder" placeholder="new folder" class="border px-1 text-sm" @keyup.enter="addRootFolder" />
-				<button class="text-xs bg-blue-500 text-white px-2" @click="addRootFolder">Save</button>
-				<button class="text-xs bg-gray-400 text-white px-2" @click="() => { isEditing = false; newRootFolder = '' }">Cancel</button>
+
+				<input v-model="newRootFolder" placeholder="new folder" 
+					class="border px-1 text-sm" @keyup.enter="addRootFolder" />
+
+				<button class="text-xs bg-blue-500 text-white px-2" 
+					@click="addRootFolder">Save</button>
+
+				<button class="text-xs bg-gray-400 text-white px-2" 
+					@click="() => { isEditing = false; newRootFolder = '' }">Cancel</button>
+
 			</template>
-			<button v-else class="text-xs bg-gray-500 text-white px-2" @click="isEditing = true">Edit</button>
+
+			<button v-else class="text-xs bg-gray-500 text-white px-2" 
+				@click="isEditing = true">Edit</button>
 		</div>
 
-	</div>
-</template>
+		<FolderNode v-for="(node, idx) in rootChildren" 
+			:key="(node.name ?? node.Name ?? 'node') + '-' + idx" 
+			:node="node" :parent-path="rootParentPath" 
+			@add="addFolder" @delete="load" />
 
-<style scoped></style>
+	</div> 
+
+</template>

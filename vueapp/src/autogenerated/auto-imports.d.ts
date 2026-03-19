@@ -102,6 +102,7 @@ declare global {
   const usPhoneFormat: typeof import('../helpers/global.js')['usPhoneFormat']
   const usStatesList: typeof import('../datalists/usStatesList.js')['usStatesList']
   const useAccountsStore: typeof import('../stores/AccountsStore.js')['useAccountsStore']
+  const useAlertControl: typeof import('../composables/UseAlertControl.js')['useAlertControl']
   const useAppStore: typeof import('../stores/AppStore.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('../stores/AuthStore.js')['useAuthStore']
@@ -260,6 +261,7 @@ declare module 'vue' {
     readonly usPhoneFormat: UnwrapRef<typeof import('../helpers/global.js')['usPhoneFormat']>
     readonly usStatesList: UnwrapRef<typeof import('../datalists/usStatesList.js')['usStatesList']>
     readonly useAccountsStore: UnwrapRef<typeof import('../stores/AccountsStore.js')['useAccountsStore']>
+    readonly useAlertControl: UnwrapRef<typeof import('../composables/UseAlertControl.js')['useAlertControl']>
     readonly useAppStore: UnwrapRef<typeof import('../stores/AppStore.js')['useAppStore']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('../stores/AuthStore.js')['useAuthStore']>

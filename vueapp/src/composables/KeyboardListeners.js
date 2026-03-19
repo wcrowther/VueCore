@@ -43,17 +43,5 @@ export function KeyboardListeners(keys, enabled = true)
 		else if (e.code === 'PageUp')    { listPager.value.goToNextPage();     e.preventDefault();} 
 	}
 
-	KeyboardListeners(keys, enabled); // enabled defaults to is optional
+	KeyboardListeners(keys, enabled); // enabled defaults to true - is optional
 */
-
-/*
-export function KeyboardListeners(keys, enabled = true)
-{
-	const addKeyListeners     = () => document.addEventListener('keydown', keys, false)
-	const removeKeyListeners  = () => document.removeEventListener('keydown', keys, false)
-	
-	console.log('KeyboardListeners enabled: ', enabled)
-
-	onMounted(()   => addKeyListeners())
-	onUnmounted(() => removeKeyListeners())
-}*/

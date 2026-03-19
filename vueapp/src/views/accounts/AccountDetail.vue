@@ -187,8 +187,6 @@
 
             <CreatorBox v-if="!isAddingAccount" :IAuditable="account" />
 
-            <!-- <DateInput  labelName="Created Date" v-model="account.CreatedDate" :v$ /> -->
-
             <TextInput  labelName="Account Name" v-model="account.AccountName" :v$ />
             <TextInput  labelName="Main Email" ruleName="AccountEmail" v-model="account.AccountEmail" :v$ />
             <PhoneInput labelName="Main Phone" ruleName="AccountPhone" v-model="account.AccountPhone" :v$ />
@@ -204,11 +202,11 @@
         <div v-if="account && account.AccountId > 0 || isAddingAccount"  
             class="w-[300px] flex-1 border border-color-blue-gray bg-white p-5 min-w-[200px] grow">
 
-            <!-- 
+            <!-- -->
             <TitleBox class="bg-transparent">
                 <span>Account Address</span>
             </TitleBox> 
-            -->
+            
 
             <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
             <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
