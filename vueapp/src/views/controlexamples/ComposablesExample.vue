@@ -43,8 +43,6 @@
     
     <PrimaryButton class="mt-5" @click="tryConfirm">Try Confirm</PrimaryButton>
 
-    <button @click="createAlert('Alert!')">Show Alert</button>
-
     <div v-if="showConfirmedText" @click="showConfirmedText=false"
         class="mt-5 font-bold text-orange" title="Click to reset">
         Confirmed!

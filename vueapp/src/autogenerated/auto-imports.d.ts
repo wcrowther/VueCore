@@ -38,6 +38,7 @@ declare global {
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
   const computed: typeof import('vue')['computed']
+  const constants: typeof import('../datalists/constants.js')['constants']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
   const dateFormat: typeof import('../helpers/global.js')['dateFormat']
