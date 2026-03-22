@@ -20,12 +20,13 @@
             corporis odio, modi sunt nulla?
         </div>
 
-        <div class="flex flex-wrap gap-5">
-
-            <FolderExplorer class="!w-1/2 border border-gray-400" />
+        <div class="flex flex-wrap gap-3 lg:flex-row-reverse">
 
             <UploadControl url="/content/upload" accept="image/*"
-                :maxSizeMB="5" @uploaded="uploaded" class="mb-10 !w-1/2" />
+                :maxSizeMB="5" @uploaded="uploaded" class="w-full lg:flex-1" />
+
+            <FolderExplorer class="w-full lg:flex-[2] border border-gray-400" />
+
         </div>
     </div>
 

@@ -77,7 +77,7 @@
 
 <template>
 
-	<div class="p-4 bg-white w-full max-w-lg">
+	<div class="p-4 bg-white w-full">
 
 		<h2 class="text-lg font-bold mb-3">
 			Folder Explorer
