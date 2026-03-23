@@ -71,6 +71,12 @@
 		isEditing.value = false
 	}
 
+	const cancelEdit = () =>
+	{
+		newRootFolder.value = ""
+		isEditing.value = false
+	}
+
 	onMounted(load)
 	
 </script>
@@ -79,28 +85,24 @@
 
 	<div class="p-4 bg-white w-full">
 
-		<h2 class="text-lg font-bold mb-3">
+		<h2 class="flex items-center text-lg font-bold mb-3">
 			Folder Explorer
+			<div class="text-sm ml-[10px] border border-gray-400 size-4
+					rounded-full flex justify-center items-center"
+				@click="isEditing=!isEditing">
+				<IconSymbol class="text-color-dark-gray" width="20px" icon="heroicons:plus-20-solid" />
+			</div>
 		</h2>
 
 		<!-- add root-level folder -->
-		<div class="mt-2 mb-5 flex gap-1">
+		<div v-if="isEditing"
+			class="flex flex-wrap items-center gap-1 mb-3">
 
-			<template v-if="isEditing">
-
-				<input v-model="newRootFolder" placeholder="new folder" 
-					class="border px-1 text-sm" @keyup.enter="addRootFolder" />
-
-				<button class="text-xs bg-blue-500 text-white px-2" 
-					@click="addRootFolder">Save</button>
-
-				<button class="text-xs bg-gray-400 text-white px-2" 
-					@click="() => { isEditing = false; newRootFolder = '' }">Cancel</button>
-
-			</template>
-
-			<button v-else class="text-xs bg-gray-500 text-white px-2" 
-				@click="isEditing = true">Edit</button>
+			<TextInput name="addFolder" v-model="newRootFolder" hideLabel
+				class="ml-[2px] !mb-0 h-6 px-2 py-0" placeholder="new folder" 
+				@keyup.enter="addRootFolder" />
+			<PrimaryButton compact @click="addRootFolder">Add Folder</PrimaryButton>
+			<PrimaryButton compact @click="cancelEdit">Cancel</PrimaryButton>
 		</div>
 
 		<FolderNode v-for="(node, idx) in rootChildren" 

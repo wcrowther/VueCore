@@ -97,6 +97,7 @@ declare module 'vue' {
     TimeInput: typeof import('./../components/inputs/TimeInput.vue')['default']
     TitleBox: typeof import('./../components/boxes/TitleBox.vue')['default']
     UploadControl: typeof import('./../components/controls/UploadControl.vue')['default']
+    UploadExample: typeof import('./../views/controlexamples/UploadExample.vue')['default']
     UserPopout: typeof import('./../views/layout/UserPopout.vue')['default']
     UsersAdvSearch: typeof import('./../views/admin/UsersAdvSearch.vue')['default']
     UsersDetail: typeof import('./../views/admin/UsersDetail.vue')['default']

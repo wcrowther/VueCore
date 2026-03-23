@@ -2,11 +2,11 @@
 
     const props = defineProps (
     {
+        hideLabel:   Boolean,
         labelName:   { type: String }, 
         placeholder: { type: String }, 
         ruleName:    { type: String }, 
         spellCheck:  { type: Boolean },
-        hideLabel:   { tupe: Boolean, default: false },
         v$:          { type: Object }
     })
 

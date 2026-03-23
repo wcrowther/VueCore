@@ -3,6 +3,7 @@
 	const props = defineProps(
 	{
 		url: { type: String, required: true },
+		uploadMessage: { type: String, default: 'Drag files here or click to upload'},
 		maxSizeMB: { type: Number, default: 10 },
 		accept: { type: String, default: "*" }
 	})
@@ -90,7 +91,7 @@
             hover:bg-gray-50 transition" @click="openDialog" 
 			@dragover="prevent" @dragenter="prevent" @drop="onDrop">
 			<p class="text-gray-400">
-				Drag files here or click to upload
+				{{ props.uploadMessage }}
 			</p>
 
 			<input ref="fileInput" type="file" multiple class="hidden" :accept="accept" @change="onSelect">
@@ -111,7 +112,7 @@
 		</div>
 
 		<!-- File List -->
-		<div v-if="uploads.length" class="grid lg:grid-cols-2 2xl:grid-cols-3 gap-3 mt-6">
+		<div v-if="uploads.length" class="grid  gap-3 mt-6">
 
 			<div v-for="(item, index) in uploads" :key="index" 
 				class="flex items-start gap-4 p-3 

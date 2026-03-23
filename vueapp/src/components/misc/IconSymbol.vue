@@ -21,6 +21,10 @@
     <IconSymbol class="text-blue" icon="material-symbols-light:arrow-back-2" />
     <IconSymbol class="text-color-dark-gray" icon="heroicons:pencil-square-solid" />
 
+    <IconSymbol v-if="modelValue && modelValue.length > 0" 
+        class="xs:hidden sm:block text-color-dark-gray hover:text-color-mid-gray" 
+        width="22px" icon="heroicons:x-mark" />
+
     <IconSymbol width="18px" class="mt-[10px] mr-1 text-color-dark-gray
 		group-hover:text-white group-hover:opacity-100" icon="heroicons-solid:home" />
 

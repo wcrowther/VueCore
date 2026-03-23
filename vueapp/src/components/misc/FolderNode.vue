@@ -85,35 +85,37 @@
 
 <template>
 
-	<div class="ml-3">
+	<div class="ml-3 mb-1">
 
-		<div class="flex items-center gap-2 py-1">
+		<div class="flex items-center gap-1 py-1">
 
-			<span class="cursor-pointer font-medium" @click="toggle">
-				📁 {{ nodeName }}
+			<span class="flex items-center cursor-pointer font-medium" @click="toggle">
+				<IconSymbol width="20px" class="text-color-mid-blue mr-2" icon="fa7-solid:folder" />
+				{{ nodeName }}
 			</span>
 
-			<button v-if="!isRootFolder" class="text-red-500 text-xs" @click="removeFolder">
-				delete
+			<div class="ml-2 text-sm border border-gray-400 size-4 rounded-full flex justify-center items-center" 
+				@click="isEditing=!isEditing">
+				<IconSymbol class="text-color-dark-gray" width="20px" icon="heroicons:plus-20-solid" />
+			</div>
+
+			<button v-if="!isRootFolder" 
+				class="text-red-500 p-[2px] text-xs border border-red-500 size-4 rounded-full flex justify-center items-center" 
+				@click="removeFolder">
+				<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark" />
 			</button>
 
 		</div>
 
 		<div v-if="showContent" class="ml-4 border-l border-gray-300 pl-3">
 
-			<!-- add folder -->
-			<div class="flex gap-1 mb-2">
-				<template v-if="isEditing">
-					<input v-model="newFolder" placeholder="new folder" class="border px-1 text-sm" @keyup.enter="addFolder" />
-					<button class="text-xs bg-blue-500 text-white px-2" @click="addFolder">Save</button>
-					<button class="text-xs bg-gray-400 text-white px-2" @click="cancelEdit">Cancel</button>
-				</template>
-				<div v-else 
-					class="textsm border border-gray-400 p-[5px] size-6 rounded-full flex justify-center items-center" 
-					@click="isEditing = true">
-					<IconSymbol class="text-color-dark-gray"
-						icon="heroicons:pencil-square-solid" />
-				</div>
+			<div v-if="isEditing"
+				class="flex flex-wrap gap-1 items-center">
+					<TextInput name="addFolder" v-model="newFolder" hideLabel
+						class="!mb-0 h-6 px-2 py-0" placeholder="new folder" 
+						@keyup.enter="addFolder" />
+					<PrimaryButton compact @click="addFolder">Add Folder</PrimaryButton>
+					<PrimaryButton compact @click="cancelEdit">Cancel</PrimaryButton>
 			</div>
 
 			<!-- children -->
