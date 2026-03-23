@@ -23,7 +23,7 @@
         <UploadControl url="/content/upload" accept="image/*"
             :maxSizeMB="5" @uploaded="uploaded" class="w-full lg:flex-1" />
 
-        <FolderExplorer class="w-full lg:flex-1 border border-gray-400" />
+        <!-- <FolderExplorer class="w-full lg:flex-1 border border-gray-400" /> -->
     </div>
 
 </template>

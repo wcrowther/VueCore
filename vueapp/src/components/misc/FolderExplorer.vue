@@ -102,7 +102,7 @@
 		const oldPathFull   = currentPath
 		const newPathFull   = parentPath + "/" + trimmed
 
-		await apiPut("/content/folders", { parentPath: apiParentPath, oldName, newName: trimmed })
+		await apiPut("/content/renamefolder", { parentPath: apiParentPath, oldName, newName: trimmed })
 		await load()
 
 		if (selectedPath.value === oldPathFull)

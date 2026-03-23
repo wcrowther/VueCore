@@ -32,7 +32,9 @@ namespace coreApi
 				WriteLine($"DebugMiddleware ({httpContext.Request.Method}) {env.EnvironmentName} request for {httpContext.Request.Path} ");
 				WriteLine($"Received ({httpContext.Request.ContentLength ?? 0} bytes) at {DateTime.Now}");
 
-				if (app.ShowJsonPostDebug && httpContext.Request.Method == HttpMethods.Post && IsJsonRequest(httpContext))
+				if (app.ShowJsonPostDebug && 
+					(httpContext.Request.Method == HttpMethods.Post || httpContext.Request.Method == HttpMethods.Put)
+					&& IsJsonRequest(httpContext))
 				{
 					// Enable buffering so the body can be read multiple times
 					httpContext.Request.EnableBuffering();

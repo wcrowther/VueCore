@@ -46,6 +46,24 @@ namespace coreLogic.Managers
 				Directory.Delete(path, true);
 		}
 
+		public void RenameFolder(string parentPath, string oldName, string newName)
+		{
+			ValidateName(oldName);
+			ValidateName(newName);
+
+			var fullParent = ResolvePath(parentPath);
+			var oldPath = Path.Combine(fullParent, oldName);
+			var newPath = Path.Combine(fullParent, newName);
+
+			if (!Directory.Exists(oldPath))
+				throw new DirectoryNotFoundException($"Folder '{oldName}' not found");
+
+			if (Directory.Exists(newPath))
+				throw new IOException($"Folder '{newName}' already exists");
+
+			Directory.Move(oldPath, newPath);
+		}
+
 		// =============================================================================
 
 		private List<FolderNode> GetChildren(string path)

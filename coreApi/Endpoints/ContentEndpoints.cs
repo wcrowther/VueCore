@@ -66,5 +66,11 @@ public static partial class Endpoints
 			folderManager.DeleteFolder(req.ParentPath, req.Name);
 			return Results.Ok();
 		});
+
+		endpoints.MapPut("/renamefolder", ([FromBody] RenameFolderRequest request, [FromServices] FolderManager folderManager) =>
+		{
+			folderManager.RenameFolder(request.ParentPath, request.OldName, request.NewName);
+			return Results.Ok();
+		});
 	}
 }
