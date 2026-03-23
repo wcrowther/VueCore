@@ -8,7 +8,9 @@
 	const isEditing 	= computed(() => editingPath.value === "root")
 	const selectedPath  = ref("")
 
+	const renamingPath = ref(null)
 	provide("folderEditingPath", editingPath)
+	provide("folderRenamingPath", renamingPath)
 
 	const normalized = (value) => String(value ?? "").toLowerCase().replace(/[\s_-]/g, "")
 	const isRootName = (value) =>
@@ -88,6 +90,25 @@
 		const apiParentPath = toApiParentPath(parentPath)
 		await apiPost("/content/folders", { parentPath: apiParentPath, name })
 		await load()
+		selectedPath.value = parentPath + "/" + name
+	}
+
+	const renameFolder = async (currentPath, parentPath, oldName, newName) =>
+	{
+		const trimmed = newName.trim()
+		if (!trimmed || trimmed === oldName) return
+
+		const apiParentPath = toApiParentPath(parentPath)
+		const oldPathFull   = currentPath
+		const newPathFull   = parentPath + "/" + trimmed
+
+		await apiPut("/content/folders", { parentPath: apiParentPath, oldName, newName: trimmed })
+		await load()
+
+		if (selectedPath.value === oldPathFull)
+			selectedPath.value = newPathFull
+		else if (selectedPath.value.startsWith(oldPathFull + "/"))
+			selectedPath.value = newPathFull + selectedPath.value.slice(oldPathFull.length)
 	}
 
 	const toggleRootEdit = () => editingPath.value = editingPath.value === "root" ? null : "root"
@@ -108,6 +129,15 @@
 		editingPath.value = null
 	}
 
+	const displaySelectedPath = computed(() =>
+	{
+		if (!selectedPath.value) return ""
+		const segments = selectedPath.value.split("/").filter(Boolean)
+		if (segments.length > 0 && isRootName(segments[0]))
+			segments.shift()
+		return "/" + segments.join("/")
+	})
+
 	const selectFolder = (path) => selectedPath.value = String(path ?? "")
 
 	onMounted(load)
@@ -118,17 +148,17 @@
 
 	<div class="p-4 bg-white w-full">
 
-		<h2 class="flex items-center text-lg font-bold mb-3">
+		<h4 class="flex items-center text-xl font-bold mb-3">
 			Folder Explorer
 			<div class="text-sm ml-[10px] border border-gray-400 size-4
 					rounded-full flex justify-center items-center"
 				@click="toggleRootEdit">
 				<IconSymbol class="text-color-dark-gray" width="20px" icon="heroicons:plus-20-solid" />
 			</div>
-		</h2>
+		</h4>
 
-		<p class="text-sm text-color-dark-gray mb-3">
-			{{ selectedPath ? `Selected Folder: ${selectedPath}` : "Selected Folder: (none)" }}
+		<p class="text-lg text-color-dark-gray mb-3">
+			{{ displaySelectedPath ? `Selected: ${displaySelectedPath}` : "Selected Folder: none" }}
 		</p>
 
 		<!-- add root-level folder -->
@@ -145,7 +175,7 @@
 		<FolderNode v-for="(node, idx) in rootChildren" 
 			:key="(node.name ?? node.Name ?? 'node') + '-' + idx" 
 			:node="node" :parent-path="rootParentPath" :selected-path="selectedPath"
-			@add="addFolder" @delete="load" @select="selectFolder" />
+			@add="addFolder" @delete="load" @select="selectFolder" @rename="renameFolder" />
 
 	</div> 
 

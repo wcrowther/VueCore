@@ -35,6 +35,7 @@ declare global {
   const apiFormPost: typeof import('../composables/ApiCall.js')['apiFormPost']
   const apiGet: typeof import('../composables/ApiCall.js')['apiGet']
   const apiPost: typeof import('../composables/ApiCall.js')['apiPost']
+  const apiPut: typeof import('../composables/ApiCall.js')['apiPut']
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
   const computed: typeof import('vue')['computed']
@@ -196,6 +197,7 @@ declare module 'vue' {
     readonly apiFormPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiFormPost']>
     readonly apiGet: UnwrapRef<typeof import('../composables/ApiCall.js')['apiGet']>
     readonly apiPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPost']>
+    readonly apiPut: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPut']>
     readonly authRequestValidator: UnwrapRef<typeof import('../helpers/validators.js')['authRequestValidator']>
     readonly authSignupValidator: UnwrapRef<typeof import('../helpers/validators.js')['authSignupValidator']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>

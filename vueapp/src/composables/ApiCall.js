@@ -3,6 +3,7 @@ import axios from 'axios'
 
 export async function apiGet(url, signal){                         return apiCall('GET',  url, true, null,  false, null,       signal) }
 export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null,       signal) }
+export async function apiPut(url, body, signal){                   return apiCall('PUT',  url, true, body,  false, null,       signal) }
 export async function apiDelete(url, body, signal){                return apiCall('DELETE', url, true, body, false, null,      signal) }
 export async function apiFormPost(url, body, onProgress, signal){  return apiCall('POST', url, true, body,  true,  onProgress, signal) }
 

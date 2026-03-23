@@ -10,11 +10,13 @@
 		selectedPath: String
 	})
 
-	const emit = defineEmits(["add", "delete", "select"])
+	const emit = defineEmits(["add", "delete", "select", "rename"])
 
 	const expanded = ref(false)
 	const newFolder = ref("")
 	const editingPath = inject("folderEditingPath", ref(null))
+	const renamingPath = inject("folderRenamingPath", ref(null))
+	const renameName = ref("")
 
 
 	const nodeName 		= computed(() => props.node?.name ?? props.node?.Name ?? "")
@@ -49,6 +51,7 @@
 		return props.parentPath + "/" + nodeName.value
 	})
 	const isEditing = computed(() => editingPath.value === currentPath.value)
+	const isRenaming = computed(() => renamingPath.value === currentPath.value)
 	const isSelected = computed(() => currentPath.value === props.selectedPath)
 	const isParentOfSelected = computed(() =>
 	{
@@ -59,16 +62,48 @@
 
 	const toggle = () => expanded.value = !expanded.value
 	const selectNode = () => emit("select", currentPath.value)
+
+	let clickTimer = null
+
 	const onNodeClick = () =>
 	{
-		selectNode()
-
-		// If this node is a parent of the selected folder and already expanded,
-		// keep it open when switching selection to the parent.
-		if (isParentOfSelected.value && expanded.value)
+		if (clickTimer)
+		{
+			clearTimeout(clickTimer)
+			clickTimer = null
 			return
+		}
+		clickTimer = setTimeout(() =>
+		{
+			clickTimer = null
+			selectNode()
+			// If this node is a parent of the selected folder and already expanded,
+			// keep it open when switching selection to the parent.
+			if (isParentOfSelected.value && expanded.value) return
+			toggle()
+		}, 250)
+	}
 
-		toggle()
+	const startRename = () =>
+	{
+		if (isRootFolder.value) return
+		renameName.value = nodeName.value
+		renamingPath.value = currentPath.value
+	}
+
+	const saveRename = () =>
+	{
+		const trimmed = renameName.value.trim()
+		if (!trimmed) return
+		emit("rename", currentPath.value, props.parentPath, nodeName.value, trimmed)
+		renamingPath.value = null
+		renameName.value = ""
+	}
+
+	const cancelRename = () =>
+	{
+		renamingPath.value = null
+		renameName.value = ""
 	}
 
 	const addFolder = () =>
@@ -117,30 +152,46 @@
 		<div class="folder-row flex items-center gap-1 py-1"
 			:class="isSelected ? 'folder-row-selected text-black' : 'folder-row-unselected'">
 
-			<span class="flex items-center cursor-pointer font-medium"
-				:class="isSelected ? 'text-black' : ''"
-				@click="onNodeClick">
+			<template v-if="!isRenaming">
+				<span class="flex items-center cursor-pointer font-medium"
+					:class="isSelected ? 'text-black' : ''"
+					@click="onNodeClick"
+					@dblclick="startRename">
+					<IconSymbol width="20px"
+						:class="isSelected ? 'text-black mr-2' : 'text-color-mid-blue mr-2'"
+						:icon="expanded ? 'fa7-solid:folder-open' : 'fa7-solid:folder'" />
+					{{ nodeName }}
+				</span>
+
+				<div v-if="isSelected"
+					class="ml-2 text-sm border border-gray-400 size-4 rounded-full flex justify-center items-center" 
+					@click="toggleAddEditor">
+					<IconSymbol class="text-color-dark-gray" width="20px" icon="heroicons:plus-20-solid" />
+				</div>
+
+				<button v-if="isSelected && !isRootFolder" 
+					class="text-red-500 p-[2px] text-xs border border-red-500 size-4 rounded-full flex justify-center items-center" 
+					@click="removeFolder">
+					<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark" />
+				</button>
+			</template>
+
+			<template v-else>
 				<IconSymbol width="20px"
-					:class="isSelected ? 'text-black mr-2' : 'text-color-mid-blue mr-2'"
+					class="text-color-mid-blue mr-2 shrink-0"
 					:icon="expanded ? 'fa7-solid:folder-open' : 'fa7-solid:folder'" />
-				{{ nodeName }}
-			</span>
-
-			<div v-if="isSelected"
-				class="ml-2 text-sm border border-gray-400 size-4 rounded-full flex justify-center items-center" 
-				@click="toggleAddEditor">
-				<IconSymbol class="text-color-dark-gray" width="20px" icon="heroicons:plus-20-solid" />
-			</div>
-
-			<button v-if="isSelected && !isRootFolder" 
-				class="text-red-500 p-[2px] text-xs border border-red-500 size-4 rounded-full flex justify-center items-center" 
-				@click="removeFolder">
-				<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark" />
-			</button>
+				<div class="flex flex-wrap gap-1 items-center">
+					<TextInput name="renameFolder" v-model="renameName" hideLabel
+						class="!mb-0 h-6 px-2 py-0" placeholder="folder name"
+						@keyup.enter="saveRename" @keyup.escape="cancelRename" />
+					<PrimaryButton compact @click="saveRename">Save</PrimaryButton>
+					<PrimaryButton compact @click="cancelRename">Cancel</PrimaryButton>
+				</div>
+			</template>
 
 		</div>
 
-		<div v-if="showContent" class="ml-4 border-l border-gray-300 pl-3">
+		<div v-if="showContent" class="ml-4 border-l border-color-mid-blue pl-3">
 
 			<div v-if="isEditing"
 				class="flex flex-wrap gap-1 items-center">
@@ -156,7 +207,8 @@
 				:node="child" :parent-path="currentPath" :selected-path="selectedPath"
 				@add="(parentPath, name) => emit('add', parentPath, name)"
 				@delete="() => emit('delete')"
-				@select="(path) => emit('select', path)" />
+				@select="(path) => emit('select', path)"
+				@rename="(cp, pp, on, nn) => emit('rename', cp, pp, on, nn)" />
 
 		</div>
 
