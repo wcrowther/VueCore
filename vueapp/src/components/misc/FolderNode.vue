@@ -6,14 +6,15 @@
 
 	const props = defineProps({
 		node: Object,
-		parentPath: String
+		parentPath: String,
+		selectedPath: String
 	})
 
-	const emit = defineEmits(["add", "delete"])
+	const emit = defineEmits(["add", "delete", "select"])
 
 	const expanded = ref(false)
 	const newFolder = ref("")
-	const isEditing = ref(false)
+	const editingPath = inject("folderEditingPath", ref(null))
 
 
 	const nodeName 		= computed(() => props.node?.name ?? props.node?.Name ?? "")
@@ -47,8 +48,28 @@
 		if (!props.parentPath) return nodeName.value
 		return props.parentPath + "/" + nodeName.value
 	})
+	const isEditing = computed(() => editingPath.value === currentPath.value)
+	const isSelected = computed(() => currentPath.value === props.selectedPath)
+	const isParentOfSelected = computed(() =>
+	{
+		const selected = String(props.selectedPath ?? "")
+		if (!selected) return false
+		return selected.startsWith(currentPath.value + "/")
+	})
 
 	const toggle = () => expanded.value = !expanded.value
+	const selectNode = () => emit("select", currentPath.value)
+	const onNodeClick = () =>
+	{
+		selectNode()
+
+		// If this node is a parent of the selected folder and already expanded,
+		// keep it open when switching selection to the parent.
+		if (isParentOfSelected.value && expanded.value)
+			return
+
+		toggle()
+	}
 
 	const addFolder = () =>
 	{
@@ -56,13 +77,19 @@
 
 		emit("add", currentPath.value, newFolder.value)
 		newFolder.value = ""
-		isEditing.value = false
+		editingPath.value = null
 	}
 
 	const cancelEdit = () =>
 	{
 		newFolder.value = ""
-		isEditing.value = false
+		editingPath.value = null
+	}
+
+	const toggleAddEditor = () =>
+	{
+		expanded.value = true
+		editingPath.value = editingPath.value === currentPath.value ? null : currentPath.value
 	}
 
 	const removeFolder = async () =>
@@ -87,19 +114,25 @@
 
 	<div class="ml-3 mb-1">
 
-		<div class="flex items-center gap-1 py-1">
+		<div class="folder-row flex items-center gap-1 py-1"
+			:class="isSelected ? 'folder-row-selected text-black' : 'folder-row-unselected'">
 
-			<span class="flex items-center cursor-pointer font-medium" @click="toggle">
-				<IconSymbol width="20px" class="text-color-mid-blue mr-2" icon="fa7-solid:folder" />
+			<span class="flex items-center cursor-pointer font-medium"
+				:class="isSelected ? 'text-black' : ''"
+				@click="onNodeClick">
+				<IconSymbol width="20px"
+					:class="isSelected ? 'text-black mr-2' : 'text-color-mid-blue mr-2'"
+					:icon="expanded ? 'fa7-solid:folder-open' : 'fa7-solid:folder'" />
 				{{ nodeName }}
 			</span>
 
-			<div class="ml-2 text-sm border border-gray-400 size-4 rounded-full flex justify-center items-center" 
-				@click="isEditing=!isEditing">
+			<div v-if="isSelected"
+				class="ml-2 text-sm border border-gray-400 size-4 rounded-full flex justify-center items-center" 
+				@click="toggleAddEditor">
 				<IconSymbol class="text-color-dark-gray" width="20px" icon="heroicons:plus-20-solid" />
 			</div>
 
-			<button v-if="!isRootFolder" 
+			<button v-if="isSelected && !isRootFolder" 
 				class="text-red-500 p-[2px] text-xs border border-red-500 size-4 rounded-full flex justify-center items-center" 
 				@click="removeFolder">
 				<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark" />
@@ -112,7 +145,7 @@
 			<div v-if="isEditing"
 				class="flex flex-wrap gap-1 items-center">
 					<TextInput name="addFolder" v-model="newFolder" hideLabel
-						class="!mb-0 h-6 px-2 py-0" placeholder="new folder" 
+						class="ml-1 !mb-0 h-6 px-2 py-0" placeholder="new folder" 
 						@keyup.enter="addFolder" />
 					<PrimaryButton compact @click="addFolder">Add Folder</PrimaryButton>
 					<PrimaryButton compact @click="cancelEdit">Cancel</PrimaryButton>
@@ -120,9 +153,10 @@
 
 			<!-- children -->
 			<FolderNode v-for="child in nodeChildren" :key="child.name ?? child.Name" 
-				:node="child" :parent-path="currentPath"
+				:node="child" :parent-path="currentPath" :selected-path="selectedPath"
 				@add="(parentPath, name) => emit('add', parentPath, name)"
-				@delete="() => emit('delete')" />
+				@delete="() => emit('delete')"
+				@select="(path) => emit('select', path)" />
 
 		</div>
 

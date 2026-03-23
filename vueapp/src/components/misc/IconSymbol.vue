@@ -17,9 +17,13 @@
     <IconSymbol width="28px" class="text-warm" @click="deleteProp" icon="heroicons:x-circle-20-solid" />
     <IconSymbol width="32px" class="text-color-dark-gray" icon="heroicons:bars-3" />
     <IconSymbol width="28px" class="text-color-dark-gray" icon="heroicons:cog-8-tooth-solid" />
+    <IconSymbol width="28px" class="text-color-dark-gray" icon="fa7-solid:folder" />
+    <IconSymbol width="28px" class="text-color-dark-gray" icon="fa7-solid:folder-open" />
     <IconSymbol class="text-blue" icon="material-symbols-light:play-arrow" />
     <IconSymbol class="text-blue" icon="material-symbols-light:arrow-back-2" />
     <IconSymbol class="text-color-dark-gray" icon="heroicons:pencil-square-solid" />
+    <IconSymbol class="text-black group-hover:text-color-mid-gray"
+        title="Advanced Search" width="22px" icon="heroicons:plus-20-solid" />
 
     <IconSymbol v-if="modelValue && modelValue.length > 0" 
         class="xs:hidden sm:block text-color-dark-gray hover:text-color-mid-gray" 

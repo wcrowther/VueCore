@@ -1,5 +1,6 @@
 ﻿using coreApi.Models;
 using coreLogic.Interfaces;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace coreLogic.Managers
@@ -27,6 +28,8 @@ namespace coreLogic.Managers
 			var fullParent = ResolvePath(parentPath);
 
 			var newPath = Path.Combine(fullParent, name);
+
+			Debug.WriteLine(newPath);
 
 			if (!Directory.Exists(newPath))
 				Directory.CreateDirectory(newPath);

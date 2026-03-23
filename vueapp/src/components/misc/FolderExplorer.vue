@@ -4,7 +4,11 @@
 
 	const tree 			= ref([])
 	const newRootFolder = ref("")
-	const isEditing 	= ref(false)
+	const editingPath 	= ref(null)
+	const isEditing 	= computed(() => editingPath.value === "root")
+	const selectedPath  = ref("")
+
+	provide("folderEditingPath", editingPath)
 
 	const normalized = (value) => String(value ?? "").toLowerCase().replace(/[\s_-]/g, "")
 	const isRootName = (value) =>
@@ -48,10 +52,35 @@
 		return Array.isArray(children) ? children : []
 	})
 
+	const hasPath = (nodes, targetPath, parentPath = "") =>
+	{
+		if (!targetPath) return false
+		const sourceNodes = Array.isArray(nodes) ? nodes : []
+
+		for (const node of sourceNodes)
+		{
+			const name = String(node?.name ?? node?.Name ?? "")
+			if (!name) continue
+
+			const currentPath = parentPath ? `${parentPath}/${name}` : name
+			if (currentPath === targetPath)
+				return true
+
+			const children = node?.children ?? node?.Children ?? []
+			if (hasPath(children, targetPath, currentPath))
+				return true
+		}
+
+		return false
+	}
+
 	const load = async () =>
 	{
 		const res = await apiGet("/content/folders")
 		tree.value = Array.isArray(res.data) ? res.data : []
+
+		if (selectedPath.value && !hasPath(rootChildren.value, selectedPath.value, rootParentPath.value))
+			selectedPath.value = ""
 	}
 
 	const addFolder = async (parentPath, name) =>
@@ -61,6 +90,8 @@
 		await load()
 	}
 
+	const toggleRootEdit = () => editingPath.value = editingPath.value === "root" ? null : "root"
+
 	const addRootFolder = async () =>
 	{
 		const folderName = newRootFolder.value.trim()
@@ -68,14 +99,16 @@
 
 		await addFolder(rootParentPath.value, folderName)
 		newRootFolder.value = ""
-		isEditing.value = false
+		editingPath.value = null
 	}
 
 	const cancelEdit = () =>
 	{
 		newRootFolder.value = ""
-		isEditing.value = false
+		editingPath.value = null
 	}
+
+	const selectFolder = (path) => selectedPath.value = String(path ?? "")
 
 	onMounted(load)
 	
@@ -89,10 +122,14 @@
 			Folder Explorer
 			<div class="text-sm ml-[10px] border border-gray-400 size-4
 					rounded-full flex justify-center items-center"
-				@click="isEditing=!isEditing">
+				@click="toggleRootEdit">
 				<IconSymbol class="text-color-dark-gray" width="20px" icon="heroicons:plus-20-solid" />
 			</div>
 		</h2>
+
+		<p class="text-sm text-color-dark-gray mb-3">
+			{{ selectedPath ? `Selected Folder: ${selectedPath}` : "Selected Folder: (none)" }}
+		</p>
 
 		<!-- add root-level folder -->
 		<div v-if="isEditing"
@@ -107,8 +144,8 @@
 
 		<FolderNode v-for="(node, idx) in rootChildren" 
 			:key="(node.name ?? node.Name ?? 'node') + '-' + idx" 
-			:node="node" :parent-path="rootParentPath" 
-			@add="addFolder" @delete="load" />
+			:node="node" :parent-path="rootParentPath" :selected-path="selectedPath"
+			@add="addFolder" @delete="load" @select="selectFolder" />
 
 	</div> 
 
