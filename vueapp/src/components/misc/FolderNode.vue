@@ -14,6 +14,7 @@
 
 	const expanded = ref(false)
 	const newFolder = ref("")
+	const addFolderInput = ref(null)
 	const editingPath = inject("folderEditingPath", ref(null))
 	const renamingPath = inject("folderRenamingPath", ref(null))
 	const renameName = ref("")
@@ -121,6 +122,22 @@
 		editingPath.value = null
 	}
 
+	watch(() => props.selectedPath, (nextSelectedPath) =>
+	{
+		if (!isEditing.value) return
+		if (nextSelectedPath === currentPath.value) return
+
+		cancelEdit()
+	})
+
+	watch(() => isEditing.value && isSelected.value, async (shouldFocus) =>
+	{
+		if (!shouldFocus) return
+
+		await nextTick()
+		addFolderInput.value?.focus?.()
+	})
+
 	const toggleAddEditor = () =>
 	{
 		expanded.value = true
@@ -153,7 +170,7 @@
 			:class="isSelected ? 'folder-row-selected text-black' : 'folder-row-unselected'">
 
 			<template v-if="!isRenaming">
-				<span class="flex items-center cursor-pointer font-medium"
+				<span class="flex items-center cursor-pointer font-medium select-none"
 					:class="isSelected ? 'text-black' : ''"
 					@click="onNodeClick"
 					@dblclick="startRename">
@@ -182,7 +199,7 @@
 					:icon="expanded ? 'fa7-solid:folder-open' : 'fa7-solid:folder'" />
 				<div class="flex flex-wrap gap-1 items-center">
 					<TextInput name="renameFolder" v-model="renameName" hideLabel
-						class="!mb-0 h-6 px-2 py-0" placeholder="folder name"
+						class="ml-[-2px] !mb-0 h-6 pr-1 py-0" placeholder="folder name"
 						@keyup.enter="saveRename" @keyup.escape="cancelRename" />
 					<PrimaryButton compact @click="saveRename">Save</PrimaryButton>
 					<PrimaryButton compact @click="cancelRename">Cancel</PrimaryButton>
@@ -193,12 +210,12 @@
 
 		<div v-if="showContent" class="ml-4 border-l border-color-mid-blue pl-3">
 
-			<div v-if="isEditing"
+			<div v-if="isEditing && isSelected"
 				class="flex flex-wrap gap-1 items-center">
-					<TextInput name="addFolder" v-model="newFolder" hideLabel
+					<TextInput ref="addFolderInput" name="addFolder" v-model="newFolder" hideLabel
 						class="ml-1 !mb-0 h-6 px-2 py-0" placeholder="new folder" 
 						@keyup.enter="addFolder" />
-					<PrimaryButton compact @click="addFolder">Add Folder</PrimaryButton>
+					<PrimaryButton compact @click="addFolder">Add</PrimaryButton>
 					<PrimaryButton compact @click="cancelEdit">Cancel</PrimaryButton>
 			</div>
 

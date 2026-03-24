@@ -157,8 +157,9 @@
 			</div>
 		</h4>
 
-		<p class="text-lg text-color-dark-gray mb-3">
-			{{ displaySelectedPath ? `Selected: ${displaySelectedPath}` : "Selected Folder: none" }}
+		<p class="text-color-dark-gray mb-3">
+			<span class="font-bold ml-3 mr-1">Path:</span>
+			{{ displaySelectedPath ? displaySelectedPath : "none" }}
 		</p>
 
 		<!-- add root-level folder -->
@@ -168,7 +169,7 @@
 			<TextInput name="addFolder" v-model="newRootFolder" hideLabel
 				class="ml-[2px] !mb-0 h-6 px-2 py-0" placeholder="new folder" 
 				@keyup.enter="addRootFolder" />
-			<PrimaryButton compact @click="addRootFolder">Add Folder</PrimaryButton>
+			<PrimaryButton compact @click="addRootFolder">Add</PrimaryButton>
 			<PrimaryButton compact @click="cancelEdit">Cancel</PrimaryButton>
 		</div>
 

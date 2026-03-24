@@ -18,12 +18,12 @@
 		FolderExplorer and FileList controls are still in progress.
     </div>
 
-    <div class="flex flex-wrap gap-3 lg:flex-row-reverse">
+    <div class="flex flex-wrap gap-3">
 
         <UploadControl url="/content/upload" accept="image/*"
-            :maxSizeMB="5" @uploaded="uploaded" class="w-full lg:flex-1" />
+            :maxSizeMB="5" @uploaded="uploaded" class="w-full" />
 
-        <!-- <FolderExplorer class="w-full lg:flex-1 border border-gray-400" /> -->
+        <FolderExplorer class="w-full border border-gray-400" />
     </div>
 
 </template>
