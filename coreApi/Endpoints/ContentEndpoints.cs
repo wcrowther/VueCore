@@ -15,8 +15,8 @@ public static partial class Endpoints
 	public static void ContentEndpoints(this WebApplication app)
 	{
 		var endpoints = app.MapGroup("/v1/content")
-					  .WithOpenApi()
-					  .WithTags("Content");
+						   .WithOpenApi()
+						   .WithTags("Content");
 
 		endpoints.MapPost("/getimages", (IContentManager _contentManager) =>
 		{
@@ -38,9 +38,12 @@ public static partial class Endpoints
 		})
 		.WithName("GetPagedImages");
 
-		endpoints.MapPost("/upload", async (IFormFile file) =>
+		endpoints.MapPost("/upload", async (IFormFile file, AppSettings appSettings) =>
 		{
-			var path = Path.Combine("Uploads", file.FileName);
+			string uploadsPath = Path.Combine(appSettings.FoldersRoot, "Uploads");
+			var uploadsFolder  = Directory.CreateDirectory(uploadsPath); // Ensure exists
+
+			var path = Path.Combine(uploadsPath, file.FileName);
 
 			using var stream = new FileStream(path, FileMode.Create);
 			await file.CopyToAsync(stream);
@@ -50,9 +53,9 @@ public static partial class Endpoints
 		.DisableAntiforgery()  // WORK ON THIS. This required for current security implementation.
 		.WithName("Upload");
 
-		endpoints.MapGet("/folders", (FolderManager service) =>
+		endpoints.MapGet("/folders", (FolderManager folderManager) =>
 		{
-			return Results.Ok(service.GetTree());
+			return Results.Ok(folderManager.GetTree());
 		});
 
 		endpoints.MapPost("/folders", ([FromBody] FolderRequest req, [FromServices] FolderManager folderManager) =>

@@ -1,8 +1,12 @@
 <script setup>
 
+	const contentStore 			= useContentStore()
+	const { clearDoneUploads } 	= contentStore
+	const { uploads }  			= storeToRefs(contentStore)
+
 	const props = defineProps(
 	{
-		url: { type: String, required: true },
+		// url: { type: String, required: true },
 		uploadMessage: { type: String, default: 'Drag files here or click to upload'},
 		maxSizeMB: { type: Number, default: 10 },
 		accept: { type: String, default: "*" }
@@ -11,75 +15,20 @@
 	const emit = defineEmits(["uploaded", "error"])
 
 	const fileInput = ref(null)
-	const uploads = ref([])
 
 	const openDialog 	= ()  => fileInput.value.click()
 	const prevent 		= (e) => e.preventDefault()
 	const onDrop 		= (e) => 
 	{
 		prevent(e)
-		addFiles(Array.from(e.dataTransfer.files))
+		contentStore.addFiles(Array.from(e.dataTransfer.files), props.maxSizeMB)
 	}
-	const onSelect 		= (e) => addFiles(Array.from(e.target.files))
-	const addFiles 		= (files) =>
-	{
-		files.forEach(file => 
-		{
-			if (file.size > props.maxSizeMB * 1024 * 1024) 
-			{
-				uploads.value.push({ file, status: "error", error: "File too large" })
-				return
-			}
-
-			const preview = file.type.startsWith("image/") ? URL.createObjectURL(file) : null
-			uploads.value.push({ file, preview, progress: 0, status: "pending", controller: null })
-		})
-	}
-	const uploadFile = async (item) =>
-	{
-		const form = new FormData()
-		form.append("file", item.file)
-
-		const controller  = new AbortController()
-		item.controller   = controller
-		item.status       = "uploading"
-
-		try 
-		{
-			const result = await apiFormPost(props.url, form, (pct) => item.progress = pct, controller.signal)
-
-			item.status = "done"
-			emit("uploaded", result.data)
-		} 
-		catch (err) 
-		{
-			if (err.code === 'ERR_CANCELED' || err.name === 'AbortError') 
-			{
-				item.status = "cancelled"
-			} 
-			else 
-			{
-				item.status = "error"
-				item.error = err.message
-				emit("error", err)
-			}
-		}
-	}
-	const uploadAll = () =>
-	{
-		uploads.value
-			.filter(f => f.status === "pending")
-			.forEach(uploadFile)
-	}
-	const cancel 	= (item) => item.controller?.abort()
-	const retry 	= (item) =>
-	{
-		item.progress = 0
-		item.status = "pending"
-		uploadFile(item)
-	}
-	const remove = (index) => uploads.value.splice(index, 1)
-	const clearDoneUploads = () => uploads.value = uploads.value.filter(item => item.status !== "done")
+	const onSelect 			= (e) => contentStore.addFiles(Array.from(e.target.files), props.maxSizeMB)
+	const uploadFile 		= (item) => contentStore.uploadFile(item, data => emit("uploaded", data), err => emit("error", err))
+	const uploadAll 		= () => contentStore.uploadAll( data => emit("uploaded", data), err => emit("error", err))
+	const cancel 			= (item) => contentStore.cancelUpload(item)
+	const retry 			= (item) => contentStore.retryUpload(item, data => emit("uploaded", data), err => emit("error", err))
+	const remove 			= (index) => contentStore.removeUpload(index)
 
 </script>
 
@@ -99,12 +48,12 @@
 
 		<div class="flex gap-3">
 			<!-- Upload All -->
-			<button v-if="uploads.some(f => f.status === 'pending')"
+			<button v-if="contentStore.hasPendingUploads"
 				@click="uploadAll"
 				class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
 				Upload All
 			</button>
-			<button v-if="uploads.some(f => f.status === 'done')"
+			<button v-if="contentStore.hasDoneUploads"
 				@click="clearDoneUploads"
 				class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
 				Clear Done
