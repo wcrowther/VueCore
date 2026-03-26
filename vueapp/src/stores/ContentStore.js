@@ -7,8 +7,9 @@ export const useContentStore = defineStore('ContentStore', () =>
 
     // STATE ------------------------------------------------------------------
 
-    const uploads = ref([])
-    const baseUrl = "/content/upload"
+    const uploads       = ref([])
+    const baseUrl       = "/content/upload"
+    const maxSizeMB     = ref(10)
 
     // GETTERS ----------------------------------------------------------------
 
@@ -22,11 +23,11 @@ export const useContentStore = defineStore('ContentStore', () =>
 
     // ACTIONS ----------------------------------------------------------------
 
-    function addFiles(files, maxSizeMB)
+    const addFiles = (files) =>
     {
         files.forEach(file =>
         {
-            if (file.size > maxSizeMB * 1024 * 1024)
+            if (file.size > (maxSizeMB.value * 1024 * 1024))
             {
                 uploads.value.push({ file, status: 'error', error: 'File too large' })
                 return
@@ -45,7 +46,7 @@ export const useContentStore = defineStore('ContentStore', () =>
         })
     }
 
-    async function uploadFile(item, onUploaded, onError)
+    const uploadFile = async (item) =>
     {
         const form = new FormData()
         form.append('file', item.file)
@@ -61,8 +62,7 @@ export const useContentStore = defineStore('ContentStore', () =>
             item.status = 'done'
             item.error = null
 
-            if (onUploaded)
-                onUploaded(result.data)
+            toastStore.showSuccess(`${item.file.name} uploaded successfully`)
 
             return result
         }
@@ -77,37 +77,34 @@ export const useContentStore = defineStore('ContentStore', () =>
             item.status = 'error'
             item.error = err.message
 
-            if (onError)
-                onError(err)
-            else
-                toastStore.showError(err.message)
+            toastStore.showError(err.message)
 
             return null
         }
     }
 
-    function uploadAll(onUploaded, onError)
+    const uploadAll = () =>
     {
         uploads.value
             .filter(item => item.status === 'pending')
-            .forEach(item => uploadFile(item, onUploaded, onError))
+            .forEach(item => uploadFile(item))
     }
 
-    function cancelUpload(item)
+    const cancelUpload = (item) => 
     {
         item.controller?.abort()
     }
 
-    function retryUpload(item, onUploaded, onError)
+    const retryUpload = (item) =>
     {
         item.progress = 0
         item.status = 'pending'
         item.error = null
 
-        return uploadFile(item, onUploaded, onError)
+        return uploadFile(item)
     }
 
-    function removeUpload(index)
+    const removeUpload = (index) =>
     {
         const item = uploads.value[index]
         if (item?.preview)
@@ -116,7 +113,7 @@ export const useContentStore = defineStore('ContentStore', () =>
         uploads.value.splice(index, 1)
     }
 
-    function clearDoneUploads()
+    const clearDoneUploads = () =>
     {
         uploads.value.forEach(item =>
         {

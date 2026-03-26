@@ -20,7 +20,7 @@
 
     <div class="flex flex-wrap gap-3">
 
-        <UploadControl url="/content/upload" accept="image/*"
+        <UploadControl accept="image/*"
             :maxSizeMB="5" @uploaded="uploaded" class="w-full" />
 
         <FolderExplorer class="w-full border border-gray-400" />
