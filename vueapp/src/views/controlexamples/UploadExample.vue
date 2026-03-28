@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 
 <template>
@@ -10,7 +9,7 @@
 	</div>
 
     <div class="mb-5">
-        These controls ar still in progress. The UploadControl works but the 
+        These controls are still in progress. The UploadControl works but the 
 		FolderExplorer and FileList controls are still in progress.
     </div>
 

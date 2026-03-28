@@ -1,8 +1,9 @@
 <script setup>
 
-	const uploadStore 	= useUploadStore()
-	const { uploads }  	= storeToRefs(uploadStore)
-	const { clearDoneUploads, addFiles, uploadFile, uploadAll,cancelUpload, retryUpload, removeUpload } = uploadStore
+	const uploadStore 											= useUploadStore()
+	const { uploads }  											= storeToRefs(uploadStore)
+	const { clearDoneUploads, addFiles, uploadFile, uploadAll,
+			cancelUpload, retryUpload, removeUpload } 			= uploadStore
 
 	const props = defineProps(
 	{

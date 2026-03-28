@@ -1,24 +1,21 @@
 <script setup>
 
-	import { useConfirmControl } from "@/composables/UseConfirmControl"
-
 	const { createConfirm } = useConfirmControl()
 
-	const props = defineProps({
+	const props = defineProps(
+	{
 		node: Object,
 		parentPath: String,
-		selectedPath: String
 	})
 
-	const emit = defineEmits(["add", "delete", "select", "rename"])
+	const folderStore = useFolderStore()
+	const { editingPath, renamingPath, selectedPath } = storeToRefs(folderStore)
+	const { addFolder, renameFolder, selectFolder, deleteFolder } = folderStore
 
 	const expanded = ref(false)
 	const newFolder = ref("")
 	const addFolderInput = ref(null)
-	const editingPath = inject("folderEditingPath", ref(null))
-	const renamingPath = inject("folderRenamingPath", ref(null))
 	const renameName = ref("")
-
 
 	const nodeName 		= computed(() => props.node?.name ?? props.node?.Name ?? "")
 	const nodeChildren 	= computed(() => 
@@ -27,20 +24,6 @@
 		return Array.isArray(children) ? children : []
 	})
 	const normalizedNodeName = computed(() => nodeName.value.toLowerCase().replace(/[\s_-]/g, ""))
-	const normalizedParentPath = computed(() =>
-	{
-		const rawPath = String(props.parentPath ?? "").trim()
-		if (!rawPath) return ""
-
-		const segments = rawPath.split("/").filter(Boolean)
-		if (segments.length === 0) return ""
-
-		const firstSegment = segments[0].toLowerCase().replace(/[\s_-]/g, "")
-		if (firstSegment === "rootfolder" || firstSegment === "folderroot")
-			segments.shift()
-
-		return segments.join("/")
-	})
 	const isRootFolder 	= computed(() => 
 	{
 		return normalizedNodeName.value === "rootfolder" || normalizedNodeName.value === "folderroot"
@@ -53,16 +36,14 @@
 	})
 	const isEditing = computed(() => editingPath.value === currentPath.value)
 	const isRenaming = computed(() => renamingPath.value === currentPath.value)
-	const isSelected = computed(() => currentPath.value === props.selectedPath)
+	const isSelected = computed(() => currentPath.value === selectedPath.value)
 	const isParentOfSelected = computed(() =>
 	{
-		const selected = String(props.selectedPath ?? "")
-		if (!selected) return false
-		return selected.startsWith(currentPath.value + "/")
+		if (!selectedPath.value) return false
+		return selectedPath.value.startsWith(currentPath.value + "/")
 	})
 
 	const toggle = () => expanded.value = !expanded.value
-	const selectNode = () => emit("select", currentPath.value)
 
 	let clickTimer = null
 
@@ -77,7 +58,7 @@
 		clickTimer = setTimeout(() =>
 		{
 			clickTimer = null
-			selectNode()
+			selectFolder(currentPath.value)
 			// If this node is a parent of the selected folder and already expanded,
 			// keep it open when switching selection to the parent.
 			if (isParentOfSelected.value && expanded.value) return
@@ -92,13 +73,13 @@
 		renamingPath.value = currentPath.value
 	}
 
-	const saveRename = () =>
+	const saveRename = async () =>
 	{
 		const trimmed = renameName.value.trim()
 		if (!trimmed) return
-		emit("rename", currentPath.value, props.parentPath, nodeName.value, trimmed)
 		renamingPath.value = null
 		renameName.value = ""
+		await renameFolder(currentPath.value, props.parentPath, nodeName.value, trimmed)
 	}
 
 	const cancelRename = () =>
@@ -107,13 +88,14 @@
 		renameName.value = ""
 	}
 
-	const addFolder = () =>
+	const addChildFolder = async () =>
 	{
 		if (!newFolder.value) return
 
-		emit("add", currentPath.value, newFolder.value)
+		const name = newFolder.value
 		newFolder.value = ""
 		editingPath.value = null
+		await addFolder(currentPath.value, name)
 	}
 
 	const cancelEdit = () =>
@@ -122,7 +104,7 @@
 		editingPath.value = null
 	}
 
-	watch(() => props.selectedPath, (nextSelectedPath) =>
+	watch(selectedPath, (nextSelectedPath) =>
 	{
 		if (!isEditing.value) return
 		if (nextSelectedPath === currentPath.value) return
@@ -151,13 +133,7 @@
 		const confirmed = await createConfirm(`Delete ${nodeName.value}?`)
 		if (!confirmed) return
 
-		const result = await apiDelete("/content/folders", {
-			parentPath: normalizedParentPath.value,
-			name: nodeName.value
-		})
-
-		if (result.success)
-			emit("delete")
+		await deleteFolder(props.parentPath, nodeName.value)
 	}
 
 </script>
@@ -172,8 +148,7 @@
 			<template v-if="!isRenaming">
 				<span class="flex items-center cursor-pointer font-medium select-none"
 					:class="isSelected ? 'text-black' : ''"
-					@click="onNodeClick"
-					@dblclick="startRename">
+					@click="onNodeClick" @dblclick="startRename">
 					<IconSymbol width="20px"
 						:class="isSelected ? 'text-black mr-2' : 'text-color-mid-blue mr-2'"
 						:icon="expanded ? 'fa7-solid:folder-open' : 'fa7-solid:folder'" />
@@ -214,18 +189,14 @@
 				class="flex flex-wrap gap-1 items-center">
 					<TextInput ref="addFolderInput" name="addFolder" v-model="newFolder" hideLabel
 						class="ml-1 !mb-0 h-6 px-2 py-0" placeholder="new folder" 
-						@keyup.enter="addFolder" />
-					<PrimaryButton compact @click="addFolder">Add</PrimaryButton>
+						@keyup.enter="addChildFolder" />
+					<PrimaryButton compact @click="addChildFolder">Add</PrimaryButton>
 					<PrimaryButton compact @click="cancelEdit">Cancel</PrimaryButton>
 			</div>
 
 			<!-- children -->
 			<FolderNode v-for="child in nodeChildren" :key="child.name ?? child.Name" 
-				:node="child" :parent-path="currentPath" :selected-path="selectedPath"
-				@add="(parentPath, name) => emit('add', parentPath, name)"
-				@delete="() => emit('delete')"
-				@select="(path) => emit('select', path)"
-				@rename="(cp, pp, on, nn) => emit('rename', cp, pp, on, nn)" />
+				:node="child" :parent-path="currentPath" />
 
 		</div>
 

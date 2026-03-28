@@ -116,6 +116,7 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
+  const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
   const useImagesStore: typeof import('../stores/ImagesStore.js')['useImagesStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
@@ -278,6 +279,7 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
+    readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImagesStore: UnwrapRef<typeof import('../stores/ImagesStore.js')['useImagesStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
