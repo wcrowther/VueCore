@@ -71,8 +71,9 @@ namespace coreLogic.Managers
 			return Directory.GetDirectories(path)
 				.Select(dir => new FolderNode
 				{
-					Name = Path.GetFileName(dir),
-					Children = GetChildren(dir)
+					Name      = Path.GetFileName(dir),
+					FileCount = Directory.GetFiles(dir).Length,
+					Children  = GetChildren(dir)
 				})
 				.ToList();
 		}

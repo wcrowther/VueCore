@@ -17,8 +17,10 @@
 	const addFolderInput = ref(null)
 	const renameName = ref("")
 
-	const nodeName 		= computed(() => props.node?.name ?? props.node?.Name ?? "")
-	const nodeChildren 	= computed(() => 
+	const nodeName 			= computed(() => props.node?.name ?? props.node?.Name ?? '')
+	const fileCount			= computed(() => props.node?.FileCount ?? 0)
+	const fileCountDisplay	= computed(() => fileCount.value > 0 ? ` (${fileCount.value})` : '')
+	const nodeChildren 		= computed(() => 
 	{
 		const children = props.node?.children ?? props.node?.Children ?? []
 		return Array.isArray(children) ? children : []
@@ -160,7 +162,7 @@
 					<IconSymbol width="20px"
 						:class="isSelected ? 'text-black mr-2' : 'text-color-mid-blue mr-2'"
 						:icon="expanded ? 'fa7-solid:folder-open' : 'fa7-solid:folder'" />
-					{{ nodeName }}
+					<div :class="{'font-bold':isSelected}">{{ nodeName }}{{ fileCountDisplay }}</div>
 				</span>
 
 				<div v-if="isSelected"

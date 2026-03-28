@@ -17,7 +17,7 @@ namespace coreLogic.Managers
 				Directory.CreateDirectory(foldersRoot);
 		}
 
-		public List<FileItem>? GetFiles(string folderPath)
+		public List<FileItem> GetFiles(string folderPath)
 		{
 			var decoded = Uri.UnescapeDataString(folderPath ?? string.Empty);
 
