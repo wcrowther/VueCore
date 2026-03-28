@@ -1,7 +1,7 @@
 
 // Uses Composition Api-style syntax
 
-export const useContentStore = defineStore('ContentStore', () =>
+export const useUploadStore = defineStore('UploadStore', () =>
 {
     const toastStore = useToastStore()
 

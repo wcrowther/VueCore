@@ -1,8 +1,8 @@
 <script setup>
 
-	const contentStore 	= useContentStore()
-	const { uploads }  	= storeToRefs(contentStore)
-	const { clearDoneUploads, addFiles, uploadFile, uploadAll,cancelUpload, retryUpload, removeUpload } = contentStore
+	const uploadStore 	= useUploadStore()
+	const { uploads }  	= storeToRefs(uploadStore)
+	const { clearDoneUploads, addFiles, uploadFile, uploadAll,cancelUpload, retryUpload, removeUpload } = uploadStore
 
 	const props = defineProps(
 	{
@@ -26,13 +26,13 @@
 
 			<!-- Upload All -->
 			<div class="w-full absolute left-0 right-0 top-8 px-8 flex justify-between has-[>:only-child]:justify-end">
-				<button v-if="contentStore.hasDoneUploads"
+				<button v-if="uploadStore.hasDoneUploads"
 					@click.stop ="clearDoneUploads"
 					class="px-4 py-2 bg-white border border-gray-400 rounded
 						text-gray-400 font-bold hover:bg-gray-200 hover:text-gray-700">
 					Clear Done
 				</button>
-				<button v-if="contentStore.hasPendingUploads"
+				<button v-if="uploadStore.hasPendingUploads"
 					@click.stop ="uploadAll()"
 					class="px-4 py-2 bg-blue-600 font-bold tracking-wide text-white rounded hover:bg-blue-700">
 					Upload All

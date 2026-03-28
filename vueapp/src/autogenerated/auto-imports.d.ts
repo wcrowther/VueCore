@@ -113,7 +113,6 @@ declare global {
   const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
-  const useContentStore: typeof import('../stores/ContentStore.js')['useContentStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
@@ -131,6 +130,7 @@ declare global {
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useToastStore: typeof import('../stores/ToastStore.js')['useToastStore']
   const useUnsavedGuard: typeof import('../composables/UseUnsavedGuard.js')['useUnsavedGuard']
+  const useUploadStore: typeof import('../stores/UploadStore.js')['useUploadStore']
   const useUsersStore: typeof import('../stores/UsersStore.js')['useUsersStore']
   const useVuelidate: typeof import('@vuelidate/core')['useVuelidate']
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
@@ -275,7 +275,6 @@ declare module 'vue' {
     readonly useChatStore: UnwrapRef<typeof import('../stores/ChatStore.js')['useChatStore']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['useConfirmControl']>
-    readonly useContentStore: UnwrapRef<typeof import('../stores/ContentStore.js')['useContentStore']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
@@ -293,6 +292,7 @@ declare module 'vue' {
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useToastStore: UnwrapRef<typeof import('../stores/ToastStore.js')['useToastStore']>
     readonly useUnsavedGuard: UnwrapRef<typeof import('../composables/UseUnsavedGuard.js')['useUnsavedGuard']>
+    readonly useUploadStore: UnwrapRef<typeof import('../stores/UploadStore.js')['useUploadStore']>
     readonly useUsersStore: UnwrapRef<typeof import('../stores/UsersStore.js')['useUsersStore']>
     readonly useVuelidate: UnwrapRef<typeof import('@vuelidate/core')['useVuelidate']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
