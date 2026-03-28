@@ -18,6 +18,8 @@ public static partial class Endpoints
 						   .WithOpenApi()
 						   .WithTags("Content");
 
+		// ---- Legacy Image Endpoints  -------------------------------------------------------------------
+
 		endpoints.MapPost("/getimages", (IContentManager _contentManager) =>
 		{
 			var results = _contentManager.GetImages();
@@ -38,10 +40,12 @@ public static partial class Endpoints
 		})
 		.WithName("GetPagedImages");
 
+		// ---- Uploads Endpoints --------------------------------------------------------------------------
+
 		endpoints.MapPost("/upload", async (IFormFile file, AppSettings appSettings) =>
 		{
 			string uploadsPath = Path.Combine(appSettings.FoldersRoot, "Uploads");
-			var uploadsFolder  = Directory.CreateDirectory(uploadsPath); // Ensure exists
+			var uploadsFolder  = Directory.CreateDirectory(uploadsPath); // Ensure Uploads exists
 
 			var path = Path.Combine(uploadsPath, file.FileName);
 
@@ -52,6 +56,8 @@ public static partial class Endpoints
 		})
 		.DisableAntiforgery()  // WORK ON THIS. This required for current security implementation.
 		.WithName("Upload");
+
+		// ---- File Endpoints ------------------------------------------------------------------------------
 
 		endpoints.MapGet("/folders", (FolderManager folderManager) =>
 		{
@@ -76,12 +82,15 @@ public static partial class Endpoints
 			return Results.Ok();
 		});
 
-		// ---- File Endpoints ----
+		// ---- File Endpoints ------------------------------------------------------------------------------
 
-		endpoints.MapPost("/files", ([FromBody] FileRequest req, [FromServices] FileManager fileManager) =>
+		endpoints.MapGet("/files/{*folderPath}", ([FromServices] FileManager fileManager, string folderPath) =>
 		{
-			var results = fileManager.GetFiles(req.FolderPath);
-			return Results.Ok(results);
+			var results = fileManager.GetFiles(folderPath);
+
+			return results is null
+						? Results.NotFound(new { message = "Folder not found" })
+						: Results.Ok(results);
 		})
 		.WithName("GetFiles");
 
