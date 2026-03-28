@@ -50,8 +50,8 @@
 		if (e.code === 'Escape'){ calendarDate.value=null; e.preventDefault(); }
         else if (e.code === 'ArrowLeft')  { prevDay();   e.preventDefault();} 
         else if (e.code === 'ArrowRight') { nextDay();   e.preventDefault();} 
-        else if (e.code === 'ArrowUp')    { prevEvent(); e.preventDefault();} 
-        else if (e.code === 'ArrowDown')  { nextEvent(); e.preventDefault();} 
+        else if (e.code === 'PageUp')    { prevEvent(); e.preventDefault();} 
+        else if (e.code === 'PageDown')  { nextEvent(); e.preventDefault();} 
     }
 
     const keysOn = ref(true)

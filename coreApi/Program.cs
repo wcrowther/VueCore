@@ -23,6 +23,7 @@ var environment = builder.Environment;
 builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.PropertyNamingPolicy = null; });
 builder.Services.AddSingleton(builder.Configuration.GetSection("App").Get<AppSettings>());
 builder.Services.AddSingleton(new FolderManager(builder.Configuration["App:FoldersRoot"]));
+builder.Services.AddSingleton(new FileManager(builder.Configuration["App:FoldersRoot"]));
 
 builder.Services.AddSignalR().AddJsonProtocol(options =>
 {

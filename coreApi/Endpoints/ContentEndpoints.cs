@@ -75,5 +75,28 @@ public static partial class Endpoints
 			folderManager.RenameFolder(request.ParentPath, request.OldName, request.NewName);
 			return Results.Ok();
 		});
+
+		// ---- File Endpoints ----
+
+		endpoints.MapPost("/files", ([FromBody] FileRequest req, [FromServices] FileManager fileManager) =>
+		{
+			var results = fileManager.GetFiles(req.FolderPath);
+			return Results.Ok(results);
+		})
+		.WithName("GetFiles");
+
+		endpoints.MapPut("/renamefile", ([FromBody] RenameFileRequest request, [FromServices] FileManager fileManager) =>
+		{
+			fileManager.RenameFile(request.FolderPath, request.OldName, request.NewName);
+			return Results.Ok();
+		})
+		.WithName("RenameFile");
+
+		endpoints.MapDelete("/files", ([FromBody] DeleteFilesRequest request, [FromServices] FileManager fileManager) =>
+		{
+			fileManager.DeleteFiles(request.FolderPath, request.FileNames);
+			return Results.Ok();
+		})
+		.WithName("DeleteFiles");
 	}
 }

@@ -13,13 +13,8 @@ export const useContentStore = defineStore('ContentStore', () =>
 
     // GETTERS ----------------------------------------------------------------
 
-    const hasPendingUploads = computed(() =>
-        uploads.value.some(item => item.status === 'pending')
-    )
-
-    const hasDoneUploads = computed(() =>
-        uploads.value.some(item => item.status === 'done')
-    )
+    const hasPendingUploads = computed(() => uploads.value.some(item => item.status === 'pending'))
+    const hasDoneUploads    = computed(() => uploads.value.some(item => item.status === 'done'))
 
     // ACTIONS ----------------------------------------------------------------
 
@@ -34,15 +29,7 @@ export const useContentStore = defineStore('ContentStore', () =>
             }
 
             const preview = file.type.startsWith('image/') ? URL.createObjectURL(file) : null
-
-            uploads.value.push({
-                file,
-                preview,
-                progress: 0,
-                status: 'pending',
-                controller: null,
-                error: null
-            })
+            uploads.value.push({ file, preview, progress: 0, status: 'pending', controller: null, error: null })
         })
     }
 
@@ -90,10 +77,7 @@ export const useContentStore = defineStore('ContentStore', () =>
             .forEach(item => uploadFile(item))
     }
 
-    const cancelUpload = (item) => 
-    {
-        item.controller?.abort()
-    }
+    const cancelUpload = (item) => item.controller?.abort()
 
     const retryUpload = (item) =>
     {

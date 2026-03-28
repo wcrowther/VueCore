@@ -1,8 +1,4 @@
 <script setup>
-
-	const { createAlert } = useAlertControl()
-    const uploaded = () => createAlert('Upload Completed.')
-
 </script>
 
 
@@ -20,8 +16,7 @@
 
     <div class="flex flex-wrap gap-3">
 
-        <UploadControl accept="image/*"
-            :maxSizeMB="5" @uploaded="uploaded" class="w-full" />
+        <UploadControl accept="image/*" class="w-full mb-5" />
 
         <FolderExplorer class="w-full border border-gray-400" />
     </div>
