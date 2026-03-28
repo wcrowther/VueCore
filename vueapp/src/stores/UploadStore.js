@@ -8,7 +8,6 @@ export const useUploadStore = defineStore('UploadStore', () =>
     // STATE ------------------------------------------------------------------
 
     const uploads       = ref([])
-    const baseUrl       = "/content/upload"
     const maxSizeMB     = ref(10)
 
     // GETTERS ----------------------------------------------------------------
@@ -44,7 +43,7 @@ export const useUploadStore = defineStore('UploadStore', () =>
 
         try
         {
-            const result = await apiFormPost(baseUrl, form, pct => item.progress = pct, controller.signal )
+            const result = await apiFormPost("/content/upload", form, pct => item.progress = pct, controller.signal )
 
             item.status = 'done'
             item.error = null
@@ -70,7 +69,7 @@ export const useUploadStore = defineStore('UploadStore', () =>
         }
     }
 
-    const uploadAll = () =>
+    const uploadAllFiles = () =>
     {
         uploads.value
             .filter(item => item.status === 'pending')
@@ -121,7 +120,7 @@ export const useUploadStore = defineStore('UploadStore', () =>
         // actions
         addFiles,
         uploadFile,
-        uploadAll,
+        uploadAllFiles,
         cancelUpload,
         retryUpload,
         removeUpload,

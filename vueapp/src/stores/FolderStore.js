@@ -1,7 +1,7 @@
 
 export const useFolderStore = defineStore('FolderStore', () =>
 {
-	const rootNodeName = "FolderRoot"
+	const rootNodeName = "/"
 
 	// STATE ------------------------------------------------------------------
 
@@ -13,30 +13,41 @@ export const useFolderStore = defineStore('FolderStore', () =>
 
 	// PRIVATE HELPERS ---------------------------------------------------------
 
-	const normalized = (value) => String(value ?? "").toLowerCase().replace(/[\s_-]/g, "")
-	const isRootName = (value) =>
+	const isRootName = (value) => String(value ?? "").trim() === "/"
+
+	const toPathSegments = (path) =>
 	{
-		const normalizedName = normalized(value)
-		return normalizedName === "rootfolder" || normalizedName === "folderroot"
+		const rawPath = String(path ?? "").trim()
+		if (!rawPath || rawPath === "/") return []
+
+		return rawPath.split("/").filter(Boolean)
+	}
+
+	const joinPath = (parentPath, name) =>
+	{
+		const parentSegments = toPathSegments(parentPath)
+		const childName = String(name ?? "").trim()
+		if (!childName)
+			return parentSegments.length ? `/${parentSegments.join("/")}` : "/"
+
+		return `/${[...parentSegments, childName].join("/")}`
+	}
+
+	const normalizePath = (path) =>
+	{
+		const segments = toPathSegments(path)
+		return segments.length ? `/${segments.join("/")}` : "/"
 	}
 
 	const toApiParentPath = (path) =>
 	{
-		const rawPath = String(path ?? "").trim()
-		if (!rawPath) return ""
-
-		const segments = rawPath.split("/").filter(Boolean)
-		if (segments.length === 0) return ""
-
-		if (isRootName(segments[0]))
-			segments.shift()
-
-		return segments.join("/")
+		return toPathSegments(path).join("/")
 	}
 
-	const hasPath = (nodes, targetPath, parentPath = "") =>
+	const hasPath = (nodes, targetPath, parentPath = "/") =>
 	{
 		if (!targetPath) return false
+		const normalizedTargetPath = normalizePath(targetPath)
 		const sourceNodes = Array.isArray(nodes) ? nodes : []
 
 		for (const node of sourceNodes)
@@ -44,8 +55,8 @@ export const useFolderStore = defineStore('FolderStore', () =>
 			const name = String(node?.name ?? node?.Name ?? "")
 			if (!name) continue
 
-			const currentPath = parentPath ? `${parentPath}/${name}` : name
-			if (currentPath === targetPath)
+			const currentPath = joinPath(parentPath, name)
+			if (currentPath === normalizedTargetPath)
 				return true
 
 			const children = node?.children ?? node?.Children ?? []
@@ -71,7 +82,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		})
 	})
 
-	const rootParentPath = computed(() => rootNode.value?.name ?? rootNode.value?.Name ?? rootNodeName)
+	const rootParentPath = computed(() => rootNodeName)
 
 	const rootChildren = computed(() =>
 	{
@@ -86,10 +97,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 	{
 		if (!selectedPath.value) return ""
 
-		const segments = selectedPath.value.split("/").filter(Boolean)
-		if (segments.length > 0 && isRootName(segments[0]))
-			segments.shift()
-
+		const segments = toPathSegments(selectedPath.value)
 		return "/" + segments.join("/")
 	})
 
@@ -113,7 +121,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		await apiPost("/content/folders", { parentPath: apiParentPath, name: trimmedName })
 		await load()
 
-		selectedPath.value = `${parentPath}/${trimmedName}`
+		selectedPath.value = joinPath(parentPath, trimmedName)
 	}
 
 	const renameFolder = async (currentPath, parentPath, oldName, newName) =>
@@ -122,8 +130,8 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		if (!trimmed || trimmed === oldName) return
 
 		const apiParentPath = toApiParentPath(parentPath)
-		const oldPathFull   = currentPath
-		const newPathFull   = `${parentPath}/${trimmed}`
+		const oldPathFull   = normalizePath(currentPath)
+		const newPathFull   = joinPath(parentPath, trimmed)
 
 		await apiPut("/content/renamefolder", { parentPath: apiParentPath, oldName, newName: trimmed })
 		await load()
@@ -140,7 +148,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		if (!folderName) return false
 
 		const apiParentPath = toApiParentPath(parentPath)
-		const currentPath = parentPath ? `${parentPath}/${folderName}` : folderName
+		const currentPath = joinPath(parentPath, folderName)
 
 		const result = await apiDelete("/content/folders", 
 		{
@@ -185,7 +193,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		editingPath.value = null
 	}
 
-	const selectFolder = (path) => selectedPath.value = String(path ?? "")
+	const selectFolder = (path) => selectedPath.value = normalizePath(path)
 
 	// EXPOSE PUBLIC API -------------------------------------------------------
 

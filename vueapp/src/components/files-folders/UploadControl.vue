@@ -2,7 +2,7 @@
 
 	const uploadStore 											= useUploadStore()
 	const { uploads }  											= storeToRefs(uploadStore)
-	const { clearDoneUploads, addFiles, uploadFile, uploadAll,
+	const { clearDoneUploads, addFiles, uploadFile, uploadAllFiles,
 			cancelUpload, retryUpload, removeUpload } 			= uploadStore
 
 	const props = defineProps(
@@ -34,8 +34,9 @@
 					Clear Done
 				</button>
 				<button v-if="uploadStore.hasPendingUploads"
-					@click.stop ="uploadAll()"
+					@click.stop ="uploadAllFiles"
 					class="px-4 py-2 bg-blue-600 font-bold tracking-wide text-white rounded hover:bg-blue-700">
+					<!-- <IconSymbol width="16px" class="text-white mt-[2px] -ml-1" icon="fa7-solid:arrow-up" /> -->
 					Upload All
 				</button>
 			</div>
@@ -101,8 +102,9 @@
 						
 						<button v-if="item.status === 'pending'" 
 							@click.stop="uploadFile(item)" 
-							class="text-blue-600 text-sm font-bold">Upload
-							<IconSymbol icon="heroicons:document-arrow-up-16-solid" />
+							class="text-blue-600 text-sm font-bold flex">
+							<!-- <IconSymbol width="16px" class="text-blue-600 mt-[1.5px]" icon="fa7-solid:arrow-up" /> -->
+							Upload
 						</button>
 
 						<button v-if="item.status === 'uploading'" 

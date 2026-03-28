@@ -17,12 +17,14 @@ namespace coreLogic.Managers
 				Directory.CreateDirectory(foldersRoot);
 		}
 
-		public List<FileItem> GetFiles(string folderPath)
+		public List<FileItem>? GetFiles(string folderPath)
 		{
-			var fullPath = ResolvePath(folderPath);
+			var decoded = Uri.UnescapeDataString(folderPath ?? string.Empty);
+
+			var fullPath = ResolvePath(decoded);
 
 			if (!Directory.Exists(fullPath))
-				throw new DirectoryNotFoundException($"Folder not found");
+				return null;
 
 			return Directory.GetFiles(fullPath)
 				.Select(f => new FileInfo(f))

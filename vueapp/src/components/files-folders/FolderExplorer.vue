@@ -14,7 +14,7 @@
 
 	<div class="flex">
 
-		<div class="flex-1 border-r border-gray-400 pt-4 px-4 pb-6">
+		<div class="min-w-[300px] flex-1 border-r border-gray-400 pt-4 px-4 pb-6">
 
 			<h4 class="flex items-center text-xl font-bold mb-3">
 				Folder Explorer
@@ -45,9 +45,9 @@
 				:node="node" :parent-path="rootParentPath" />
 		</div>
 
-		<div class="grow bg-white pt-4 px-4 pb-6">
+		<div class="grow bg-white">
 			<slot>
-				<FileExplorer :selected-path="selectedPath" />
+				<FileExplorer :selectedPath />
 			</slot>
 		</div>
 

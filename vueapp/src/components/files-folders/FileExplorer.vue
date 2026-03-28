@@ -85,7 +85,7 @@
 		}
 
 		isLoading.value = true
-		const result = await apiGet(`/content/files?parentPath=${encodeURIComponent(apiFolderPath.value)}`)
+		const result = await apiGet(`/content/files/${encodeURIComponent(apiFolderPath.value)}`)
 		files.value = Array.isArray(result.data) ? result.data : []
 		isLoading.value = false
 	}
@@ -97,30 +97,23 @@
 <template>
 
 	<div>
-		<h4 class="text-xl font-bold mb-3">Files</h4>
-
-		<p class="text-color-dark-gray mb-3">
-			<span class="font-bold ml-3 mr-1">Path:</span>
-			{{ displaySelectedPath || "none" }}
-		</p>
-
-		<div v-if="!selectedPath" class="text-color-dark-gray ml-3">
+		<div v-if="!selectedPath" class="text-color-dark-gray pt-4 px-4">
 			Select a folder to view files.
 		</div>
 
-		<div v-else-if="isLoading" class="text-color-dark-gray ml-3">
+		<div v-else-if="isLoading" class="text-color-dark-gray pt-4 px-4">
 			Loading files...
 		</div>
 
-		<div v-else-if="fileRows.length === 0" class="text-color-dark-gray ml-3">
+		<div v-else-if="fileRows.length === 0" class="text-color-dark-gray pt-4 px-4">
 			No files found in this folder.
 		</div>
 
 		<div v-else class="overflow-x-auto">
-			<table class="min-w-full text-sm border border-gray-300">
+			<table class="min-w-full text-sm">
 				<thead class="bg-gray-100">
 					<tr>
-						<th class="text-left px-3 py-2 border-b border-gray-300">Name</th>
+						<th class="text-left pl-6 pr-3 py-2 border-b border-gray-300">Name</th>
 						<th class="text-left px-3 py-2 border-b border-gray-300">Extension</th>
 						<th class="text-left px-3 py-2 border-b border-gray-300">Size</th>
 						<th class="text-left px-3 py-2 border-b border-gray-300">Last Modified</th>
@@ -130,7 +123,7 @@
 					<tr v-for="(file, idx) in fileRows"
 						:key="`${file.name}-${idx}`"
 						class="odd:bg-white even:bg-gray-50">
-						<td class="px-3 py-2 border-b border-gray-200">{{ file.name || "-" }}</td>
+						<td class="pl-6 px-3 py-2 border-b border-gray-200">{{ file.name || "-" }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ file.extension || "-" }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ formatSize(file.size) }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ formatDate(file.lastModified) }}</td>

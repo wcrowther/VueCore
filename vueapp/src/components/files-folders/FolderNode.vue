@@ -23,16 +23,24 @@
 		const children = props.node?.children ?? props.node?.Children ?? []
 		return Array.isArray(children) ? children : []
 	})
-	const normalizedNodeName = computed(() => nodeName.value.toLowerCase().replace(/[\s_-]/g, ""))
+	const toPathSegments = (path) => String(path ?? "").split("/").filter(Boolean)
+	const joinPath = (parentPath, name) =>
+	{
+		const parentSegments = toPathSegments(parentPath)
+		const childName = String(name ?? "").trim()
+		if (!childName)
+			return parentSegments.length ? `/${parentSegments.join("/")}` : "/"
+
+		return `/${[...parentSegments, childName].join("/")}`
+	}
 	const isRootFolder 	= computed(() => 
 	{
-		return normalizedNodeName.value === "rootfolder" || normalizedNodeName.value === "folderroot"
+		return nodeName.value === "/"
 	})
 	const showContent 	= computed(() => expanded.value || (isRootFolder.value && nodeChildren.value.length === 0))
 	const currentPath 	= computed(() => 
 	{
-		if (!props.parentPath) return nodeName.value
-		return props.parentPath + "/" + nodeName.value
+		return joinPath(props.parentPath, nodeName.value)
 	})
 	const isEditing = computed(() => editingPath.value === currentPath.value)
 	const isRenaming = computed(() => renamingPath.value === currentPath.value)
