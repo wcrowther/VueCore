@@ -46,7 +46,8 @@
 		</div>
 
 		<div class="grow bg-white">
-			<slot>
+			<!-- Defaults to this FileExplorer but can be overriden in the slot. see example -->
+			<slot :selectedPath>
 				<FileExplorer :selectedPath />
 			</slot>
 		</div>

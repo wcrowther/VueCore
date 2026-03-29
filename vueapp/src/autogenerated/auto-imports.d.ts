@@ -53,6 +53,7 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const env: typeof import('../datalists/env.js')['env']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
+  const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
@@ -116,6 +117,7 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
+  const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
   const useImagesStore: typeof import('../stores/ImagesStore.js')['useImagesStore']
@@ -216,6 +218,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly env: UnwrapRef<typeof import('../datalists/env.js')['env']>
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
+    readonly formatFileSize: UnwrapRef<typeof import('../helpers/global.js')['formatFileSize']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
@@ -279,6 +282,7 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
+    readonly useFileStore: UnwrapRef<typeof import('../stores/FileStore.js')['useFileStore']>
     readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImagesStore: UnwrapRef<typeof import('../stores/ImagesStore.js')['useImagesStore']>

@@ -55,8 +55,25 @@ export const usPhoneFormat = (str) =>
 
         return `${country}(${areacode}) ${prefix}-${line}`
     }
-
     return out
+}
+
+export const formatFileSize = (value) =>
+{
+	const bytes = Number(value)
+
+	if (!Number.isFinite(bytes) || bytes < 0) return "-"
+
+	if (bytes < 1024) return `${bytes} B`
+	    const kb = bytes / 1024
+
+	if (kb < 1024) return `${kb.toFixed(1)} KB`
+	    const mb = kb / 1024
+    
+	if (mb < 1024) return `${mb.toFixed(1)} MB`
+	    const gb = mb / 1024
+
+	return `${gb.toFixed(1)} GB`
 }
 
 // USING DAYJS :  https://day.js.org/docs/en/display/format
@@ -73,7 +90,6 @@ export const addDays            = (date, days) =>
     newDate.setDate(newDate.getDate() + days);
     return newDate; 
 }
-
 
 export const IsDuplicateMessage = (message, self)  =>
 {

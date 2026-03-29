@@ -30,10 +30,14 @@
 				-->
 
 				<WizardControl class="mb-10" :useKeyControls="false" 
-					:tabList="['Wizard', 'Calendar', 'Grid', 'Json', 'Composables']">
+					:tabList="['Wizard', 'Files', 'Calendar', 'Grid', 'Json', 'Misc']">
 
 					<template #Wizard>
 						<WizardExample />
+					</template>
+			
+					<template #Files>
+						<FilesExample />
 					</template>
 			
 					<template #Calendar>
@@ -48,8 +52,8 @@
 						<JsonTreeExample /> 
 					</template>
 
-					<template #Composables>
-						<ComposablesExample />
+					<template #Misc>
+						<MiscExample />
 					</template>
 
 				</WizardControl>

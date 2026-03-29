@@ -9,7 +9,9 @@
             tempore accusamus asperiores! Minus sit enim sapiente id fugiat rem optio! Perferendis recusandae
             corporis odio, modi sunt nulla?
         </div>
-        <UploadExample />
+
+        <ComposablesExample />
+
     </div>
 
 </template>

@@ -47,8 +47,6 @@
         class="mt-5 font-bold text-orange" title="Click to reset">
         Confirmed!
     </div>
-
-    <AccordianExample />
-
+	
 </template>
 

@@ -4,8 +4,7 @@
 <template>
 	
 	<div class="font-bold mb-5">
-		Bonus - UploadControls
-		<span class="font-normal italic">(Still in progress) </span>
+		FileExplorer, FolderExplorer, & UploadControl Example
 	</div>
 
     <div class="mb-5">
@@ -15,9 +14,12 @@
 
     <div class="flex flex-wrap gap-3">
 
-        <UploadControl accept="image/*" class="w-full mb-5" />
+        <UploadControl accept="image/*" class="w-full mb-3" />
 
-        <FolderExplorer class="w-full border border-gray-400" />
+        <FolderExplorer class="w-full border border-gray-400 mb-7" 
+            v-slot="{ selectedPath }">
+            <FileExplorer :selectedPath />
+        </FolderExplorer>
     </div>
 
 </template>

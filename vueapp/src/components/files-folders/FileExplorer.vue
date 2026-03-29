@@ -1,96 +1,15 @@
 <script setup>
 
-	const props = defineProps({
-		selectedPath: {
-			type: String,
-			default: ""
-		}
+	const fileStore = useFileStore()
+	const { selectedPath, fileRows, isLoading, loadError } = storeToRefs(fileStore)
+	const { setSelectedPath } = fileStore
+
+	const props = defineProps (
+	{
+		selectedPath: { type: String, default: "" }
 	})
 
-	const files = ref([])
-	const isLoading = ref(false)
-
-	const normalized = (value) => String(value ?? "").toLowerCase().replace(/[\s_-]/g, "")
-	const isRootName = (value) =>
-	{
-		const normalizedName = normalized(value)
-		return normalizedName === "rootfolder" || normalizedName === "folderroot"
-	}
-
-	const toApiParentPath = (path) =>
-	{
-		const rawPath = String(path ?? "").trim()
-		if (!rawPath) return ""
-
-		const segments = rawPath.split("/").filter(Boolean)
-		if (segments.length === 0) return ""
-
-		if (isRootName(segments[0]))
-			segments.shift()
-
-		return segments.join("/")
-	}
-
-	const currentFolderPath = computed(() => String(props.selectedPath ?? ""))
-	const apiFolderPath = computed(() => toApiParentPath(currentFolderPath.value))
-	const displaySelectedPath = computed(() =>
-	{
-		if (!currentFolderPath.value) return ""
-		const normalizedPath = apiFolderPath.value
-		return normalizedPath ? `/${normalizedPath}` : "/"
-	})
-
-	const formatSize = (value) =>
-	{
-		const bytes = Number(value)
-		if (!Number.isFinite(bytes) || bytes < 0) return "-"
-		if (bytes < 1024) return `${bytes} B`
-
-		const kb = bytes / 1024
-		if (kb < 1024) return `${kb.toFixed(1)} KB`
-
-		const mb = kb / 1024
-		if (mb < 1024) return `${mb.toFixed(1)} MB`
-
-		const gb = mb / 1024
-		return `${gb.toFixed(1)} GB`
-	}
-
-	const formatDate = (value) =>
-	{
-		if (!value) return "-"
-		const parsed = new Date(value)
-		if (Number.isNaN(parsed.getTime())) return "-"
-
-		return parsed.toLocaleString()
-	}
-
-	const fileRows = computed(() =>
-	{
-		const source = Array.isArray(files.value) ? files.value : []
-		return source.map(file => ({
-			name: file?.name ?? file?.Name ?? "",
-			extension: file?.extension ?? file?.Extension ?? "",
-			size: file?.size ?? file?.Size ?? null,
-			lastModified: file?.lastModified ?? file?.LastModified ?? file?.modified ?? file?.Modified ?? null
-		}))
-	})
-
-	const loadFiles = async () =>
-	{
-		if (!currentFolderPath.value || !apiFolderPath.value)
-		{
-			files.value = []
-			return
-		}
-
-		isLoading.value = true
-		const result = await apiGet(`/content/files/${encodeURIComponent(apiFolderPath.value)}`)
-		files.value = Array.isArray(result.data) ? result.data : []
-		isLoading.value = false
-	}
-
-	watch(() => props.selectedPath, loadFiles, { immediate: true })
+	watch(() => props.selectedPath, setSelectedPath, { immediate: true })
 
 </script>
 
@@ -103,6 +22,10 @@
 
 		<div v-else-if="isLoading" class="text-color-dark-gray pt-4 px-4">
 			Loading files...
+		</div>
+
+		<div v-else-if="loadError" class="text-red-700 pt-4 px-4">
+			{{ loadError }}
 		</div>
 
 		<div v-else-if="fileRows.length === 0" class="text-color-dark-gray pt-4 px-4">
@@ -125,8 +48,8 @@
 						class="odd:bg-white even:bg-gray-50">
 						<td class="pl-6 px-3 py-2 border-b border-gray-200">{{ file.name || "-" }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ file.extension || "-" }}</td>
-						<td class="px-3 py-2 border-b border-gray-200">{{ formatSize(file.size) }}</td>
-						<td class="px-3 py-2 border-b border-gray-200">{{ formatDate(file.lastModified) }}</td>
+						<td class="px-3 py-2 border-b border-gray-200">{{ formatFileSize(file.size) }}</td>
+						<td class="px-3 py-2 border-b border-gray-200">{{ dateTimeFormat(file.lastModified) }}</td>
 					</tr>
 				</tbody>
 			</table>
