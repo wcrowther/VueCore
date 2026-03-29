@@ -68,6 +68,49 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		return false
 	}
 
+	const findNodeByPath = (nodes, targetPath, parentPath = "/") =>
+	{
+		if (!targetPath) return null
+
+		const normalizedTargetPath = normalizePath(targetPath)
+		const sourceNodes = Array.isArray(nodes) ? nodes : []
+
+		for (const node of sourceNodes)
+		{
+			const name = String(node?.name ?? node?.Name ?? "")
+			if (!name) continue
+
+			const currentPath = joinPath(parentPath, name)
+			if (currentPath === normalizedTargetPath)
+				return node
+
+			const children = node?.children ?? node?.Children ?? []
+			const foundNode = findNodeByPath(children, normalizedTargetPath, currentPath)
+			if (foundNode)
+				return foundNode
+		}
+
+		return null
+	}
+
+	const hasFilesInSubtree = (node) =>
+	{
+		if (!node) return false
+
+		const directFileCount = Number(node?.FileCount ?? node?.fileCount ?? 0)
+		if (directFileCount > 0)
+			return true
+
+		const children = node?.children ?? node?.Children ?? []
+		for (const child of Array.isArray(children) ? children : [])
+		{
+			if (hasFilesInSubtree(child))
+				return true
+		}
+
+		return false
+	}
+
 	// GETTERS ----------------------------------------------------------------
 
 	const isEditing = computed(() => editingPath.value === "root")
@@ -149,6 +192,10 @@ export const useFolderStore = defineStore('FolderStore', () =>
 
 		const apiParentPath = toApiParentPath(parentPath)
 		const currentPath = joinPath(parentPath, folderName)
+		const nodeToDelete = findNodeByPath(rootChildren.value, currentPath, rootParentPath.value)
+
+		if (nodeToDelete && hasFilesInSubtree(nodeToDelete))
+			return false
 
 		const result = await apiDelete("/content/folders", 
 		{
@@ -173,6 +220,18 @@ export const useFolderStore = defineStore('FolderStore', () =>
 			renamingPath.value = null
 
 		return true
+	}
+
+	const canDeleteFolder = (parentPath, name) =>
+	{
+		const folderName = String(name ?? "").trim()
+		if (!folderName) return false
+
+		const currentPath = joinPath(parentPath, folderName)
+		const nodeToDelete = findNodeByPath(rootChildren.value, currentPath, rootParentPath.value)
+		if (!nodeToDelete) return false
+
+		return !hasFilesInSubtree(nodeToDelete)
 	}
 
 	const toggleRootEdit = () => editingPath.value = editingPath.value === "root" ? null : "root"
@@ -216,6 +275,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		addFolder,
 		renameFolder,
 		deleteFolder,
+		canDeleteFolder,
 		toggleRootEdit,
 		addRootFolder,
 		cancelEdit,

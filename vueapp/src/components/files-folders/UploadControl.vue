@@ -21,7 +21,7 @@
 
 		<!-- Drop Zone -->
 		<div class="border border-gray-400 p-8 text-center cursor-pointer
-            hover:bg-gray-50 transition relative" @click="openDialog" 
+            hover:bg-blue-100 transition relative" @click="openDialog" 
 			@dragover.prevent @dragenter.prevent 
 			@drop.prevent="addFiles(Array.from($event.dataTransfer.files))">
 
@@ -47,10 +47,10 @@
 			</div>
 
 			<!-- File List -->
-			<div v-if="uploads.length" class="grid gap-3 mt-6" @click.stop >
+			<div v-if="uploads.length" class="grid gap-3 mt-6 " @click.stop >
 
 				<div v-for="(item, index) in uploads" :key="index" 
-					class="flex items-start gap-4 p-3 
+					class="flex items-start gap-4 p-3 bg-white/40
 						border-2 border-dashed border-gray-300 rounded-lg">
 
 					<!-- Image / Icon -->

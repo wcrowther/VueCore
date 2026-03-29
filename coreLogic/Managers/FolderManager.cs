@@ -42,8 +42,13 @@ namespace coreLogic.Managers
 			var fullParent = ResolvePath(parentPath);
 			var path = Path.Combine(fullParent, name);
 
-			if (Directory.Exists(path))
-				Directory.Delete(path, true);
+			if (!Directory.Exists(path))
+				return;
+
+			if (ContainsFiles(path))
+				throw new InvalidOperationException($"Cannot delete folder '{name}' because it or its subfolders contain files");
+
+			Directory.Delete(path, true);
 		}
 
 		public void RenameFolder(string parentPath, string oldName, string newName)
@@ -76,6 +81,11 @@ namespace coreLogic.Managers
 					Children  = GetChildren(dir)
 				})
 				.ToList();
+		}
+
+		private bool ContainsFiles(string path)
+		{
+			return Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any();
 		}
 
 		private string ResolvePath(string relative)

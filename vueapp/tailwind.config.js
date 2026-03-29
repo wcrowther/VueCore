@@ -30,7 +30,6 @@ export const theme = {
       'gradient-navbar': 'var(--gradient-navbar)',
       'gradient-back': 'var(--gradient-back)',
       'gradient-footer': 'var(--gradient-footer)',
-
       'gradient-source': 'linear-gradient( 0, transparent 40%, white 60%)', 
       'gradient-modal-bar': 'linear-gradient( 58deg, #e8e8e8 20%, rgb(125 125 125) 100%)',
       'gradient-table-head': 'linear-gradient( 58deg, #dddddd 50%, #bdbdbd 100%)',

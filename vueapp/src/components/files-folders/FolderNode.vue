@@ -1,6 +1,7 @@
 <script setup>
 
 	const { createConfirm } = useConfirmControl()
+		const toastStore = useToastStore()
 
 	const props = defineProps(
 	{
@@ -10,7 +11,7 @@
 
 	const folderStore = useFolderStore()
 	const { editingPath, renamingPath, selectedPath } = storeToRefs(folderStore)
-	const { addFolder, renameFolder, selectFolder, deleteFolder } = folderStore
+	const { addFolder, renameFolder, selectFolder, deleteFolder, canDeleteFolder } = folderStore
 	const fileStore = useFileStore()
 	const { moveSelectedFiles } = fileStore
 
@@ -142,6 +143,11 @@
 	const removeFolder = async () =>
 	{
 		if (isRootFolder.value) return
+		if (!canDeleteFolder(props.parentPath, nodeName.value))
+		{
+			toastStore.showWarning("Cannot delete folder because it contains files (or nested files).")
+			return
+		}
 
 		const confirmed = await createConfirm(`Delete ${nodeName.value}?`)
 		if (!confirmed) return

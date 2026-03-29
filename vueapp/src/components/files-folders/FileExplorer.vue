@@ -76,7 +76,7 @@
 				</thead>
 				<tbody>
 					<tr v-for="(file, idx) in fileRows"
-						:key="`${file.name}-${idx}`"  draggable="true"
+						:key="`${file.name}-${idx}`" draggable="true"
 						class="odd:bg-white even:bg-blue-50 cursor-pointer"
 						:class="selectedIndexSet.has(idx) ? 'bg-blue-100 !text-black' : ''"
 						@click="onRowClick(idx, $event)"

@@ -4,7 +4,7 @@
 <template>
 	
 	<div class="font-bold mb-5">
-		FileExplorer, FolderExplorer, & UploadControl Example
+		FileExplorer, FolderExplorer &amp; UploadControl Examples
 	</div>
 
     <div class="mb-5">
@@ -14,7 +14,7 @@
 
     <div class="flex flex-wrap gap-3">
 
-        <UploadControl accept="image/*" class="w-full mb-3" />
+        <UploadControl accept="image/*" class="w-full mb-3 bg-gradient-main" />
 
         <FolderExplorer class="w-full border border-gray-400 mb-7" 
             v-slot="{ selectedPath }">
