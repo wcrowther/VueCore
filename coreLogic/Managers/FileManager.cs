@@ -76,6 +76,58 @@ namespace coreLogic.Managers
 			}
 		}
 
+		public MoveFilesResult MoveFiles(string sourcePath, string targetPath, List<string> fileNames)
+		{
+			var sourceDir = ResolvePath(sourcePath);
+			var targetDir = ResolvePath(targetPath);
+
+			if (!Directory.Exists(sourceDir))
+				throw new DirectoryNotFoundException($"Source folder not found");
+
+			if (!Directory.Exists(targetDir))
+				throw new DirectoryNotFoundException($"Target folder not found");
+
+			var movedFiles  = new List<string>();
+			var failedFiles = new List<MoveFileFailure>();
+
+			foreach (var fileName in fileNames)
+			{
+				try
+				{
+					ValidateName(fileName);
+
+					var srcFile = Path.Combine(sourceDir, fileName);
+					var dstFile = Path.Combine(targetDir, fileName);
+
+					if (!File.Exists(srcFile))
+					{
+						failedFiles.Add(new MoveFileFailure(fileName, "File not found in source folder"));
+						continue;
+					}
+
+					if (File.Exists(dstFile))
+					{
+						failedFiles.Add(new MoveFileFailure(fileName, "File already exists in target folder"));
+						continue;
+					}
+
+					File.Move(srcFile, dstFile);
+					movedFiles.Add(fileName);
+				}
+				catch (Exception ex)
+				{
+					failedFiles.Add(new MoveFileFailure(fileName, ex.Message));
+				}
+			}
+
+			return new MoveFilesResult(
+				failedFiles.Count == 0,
+				movedFiles.Count,
+				movedFiles,
+				failedFiles
+			);
+		}
+
 		// =============================================================================
 
 		private string ResolvePath(string relative)

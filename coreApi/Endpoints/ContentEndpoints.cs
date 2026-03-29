@@ -107,5 +107,39 @@ public static partial class Endpoints
 			return Results.Ok();
 		})
 		.WithName("DeleteFiles");
+
+		endpoints.MapPost("/movefiles", ([FromBody] MoveFilesRequest request, [FromServices] FileManager fileManager) =>
+		{
+			if (string.IsNullOrWhiteSpace(request.SourcePath))
+				return Results.BadRequest(new { message = "SourcePath is required" });
+
+			if (string.IsNullOrWhiteSpace(request.TargetPath))
+				return Results.BadRequest(new { message = "TargetPath is required" });
+
+			if (request.FileNames is null || request.FileNames.Count == 0)
+				return Results.BadRequest(new { message = "FileNames is required and must not be empty" });
+
+			if (request.SourcePath == request.TargetPath)
+				return Results.BadRequest(new { message = "SourcePath and TargetPath must be different" });
+
+			if (request.SourcePath.Contains("..") || request.TargetPath.Contains(".."))
+				return Results.BadRequest(new { message = "Invalid path" });
+
+			try
+			{
+				var result = fileManager.MoveFiles(request.SourcePath, request.TargetPath, request.FileNames);
+
+				return Results.Ok(result);
+			}
+			catch (DirectoryNotFoundException ex)
+			{
+				return Results.NotFound(new { message = ex.Message });
+			}
+			catch (Exception)
+			{
+				return Results.Problem("An unexpected error occurred", statusCode: 500);
+			}
+		})
+		.WithName("MoveFiles");
 	}
 }
