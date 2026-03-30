@@ -1,7 +1,4 @@
 <script setup>
-
-	RedirectToPage('/admin','/admin/users')
-
     const appStore              = useAppStore()
     const { sideBarHidden }     = storeToRefs(appStore)
 

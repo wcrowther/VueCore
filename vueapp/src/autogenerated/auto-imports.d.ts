@@ -6,10 +6,8 @@
 export {}
 declare global {
   const AccountModel: typeof import('../models/AccountModel.js')['default']
-  const AuthRefreshRequest: typeof import('../models/AuthRefreshRequest.js')['default']
   const AuthRequest: typeof import('../models/AuthRequest.js')['default']
   const AuthUser: typeof import('../models/AuthUser.js')['AuthUser']
-  const AutoRefreshAuth: typeof import('../composables/AutoRefreshAuth.js')['AutoRefreshAuth']
   const DisableLayoutEscapeKey: typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']
   const Draggable: typeof import('@vueuse/core')['useDraggable']
   const EffectScope: typeof import('vue')['EffectScope']
@@ -57,6 +55,7 @@ declare global {
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
+  const handleApiError: typeof import('../composables/ApiErrorHandler.js')['handleApiError']
   const hasKeys: typeof import('../helpers/global.js')['hasKeys']
   const inject: typeof import('vue')['inject']
   const isProxy: typeof import('vue')['isProxy']
@@ -153,9 +152,6 @@ declare global {
   export type { AccountModel } from '../models/AccountModel.js'
   import('../models/AccountModel.js')
   // @ts-ignore
-  export type { AuthRefreshRequest } from '../models/AuthRefreshRequest.js'
-  import('../models/AuthRefreshRequest.js')
-  // @ts-ignore
   export type { AuthRequest } from '../models/AuthRequest.js'
   import('../models/AuthRequest.js')
   // @ts-ignore
@@ -171,10 +167,8 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly AccountModel: UnwrapRef<typeof import('../models/AccountModel.js')['default']>
-    readonly AuthRefreshRequest: UnwrapRef<typeof import('../models/AuthRefreshRequest.js')['default']>
     readonly AuthRequest: UnwrapRef<typeof import('../models/AuthRequest.js')['default']>
     readonly AuthUser: UnwrapRef<typeof import('../models/AuthUser.js')['AuthUser']>
-    readonly AutoRefreshAuth: UnwrapRef<typeof import('../composables/AutoRefreshAuth.js')['AutoRefreshAuth']>
     readonly DisableLayoutEscapeKey: UnwrapRef<typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']>
     readonly Draggable: UnwrapRef<typeof import('@vueuse/core')['useDraggable']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
@@ -222,6 +216,7 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly handleApiError: UnwrapRef<typeof import('../composables/ApiErrorHandler.js')['handleApiError']>
     readonly hasKeys: UnwrapRef<typeof import('../helpers/global.js')['hasKeys']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>

@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import { handleApiError } from '@/composables/ApiErrorHandler'
 
 export async function apiGet(url, signal){                         return apiCall('GET',  url, true, null,  false, null,       signal) }
 export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null,       signal) }
@@ -65,52 +66,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	} 
 	catch (err) 
 	{
-		// console.log(`error: ${err}`)
-
-		result.error = err
-		const authProbeUrls = ['/me', '/authenticate/me', '/authenticate/currentUser', '/authenticate/getCurrentUser']
-		const isAuthProbeRequest = authProbeUrls.some((path) => url === path || url.endsWith(path))
-
-		if (err.code === 'ERR_CANCELED')
-		{
-			return result  // Swallow — intentional abort, no toast
-		}
-		else if(err.code === 'ERR_NETWORK')
-		{
-			result.message		 = 'Not able to communicate with the server. Please try again later.'
-		}
-		else if ([400].includes(err.response.status)) 
-		{
-			result.message		 = err.response.data.detail || err.response.data || err.response.data.error || err.message 
-			result.toastType	 = 'WARNING'
-		}		
-		else if ([401].includes(err.response.status)) // 401 - Unauthorized (unauthenticated)
-		{
-			if (isAuthProbeRequest)
-				return result
-
-			authStore.logout('/auth/login', { callApi: false })
-			result.message		 = 'You need to be authorized for that content. Please log in.'
-			result.toastType	 = 'WARNING'
-		}		
-		else if ([404].includes(err.response.status) && isAuthProbeRequest)
-		{
-			return result
-		}
-		else if ([403].includes(err.response.status)) // Forbidden (known but does not have rights to content)
-		{
-			authStore.redirect('/')
-			result.message		 = err.response.data || "You are not authorized for that content."
-			result.toastType	 = 'WARNING'
-		} 
-		else
-		{
-			result.message		 = err.message
-			result.toastType	 = 'WARNING'
-		}
-
-		if (result.message)
-			toastStore.showToast(result.message, result.toastType)
+		result = await handleApiError({ err, url, authStore, toastStore })
 	}
 
 	return result

@@ -39,15 +39,12 @@ import type {
 
 declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
-    '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/accounts': RouteRecordInfo<'/accounts', '/accounts', Record<never, never>, Record<never, never>>,
-    '/accounts/': RouteRecordInfo<'/accounts/', '/accounts', Record<never, never>, Record<never, never>>,
     '/accounts/chat': RouteRecordInfo<'/accounts/chat', '/accounts/chat', Record<never, never>, Record<never, never>>,
     '/accounts/main/[[search]]': RouteRecordInfo<'/accounts/main/[[search]]', '/accounts/main/:search?', { search?: ParamValueZeroOrOne<true> }, { search?: ParamValueZeroOrOne<false> }>,
     '/accounts/view': RouteRecordInfo<'/accounts/view', '/accounts/view', Record<never, never>, Record<never, never>>,
     '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
-    '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/controls': RouteRecordInfo<'/admin/controls', '/admin/controls', Record<never, never>, Record<never, never>>,
     '/admin/site': RouteRecordInfo<'/admin/site', '/admin/site', Record<never, never>, Record<never, never>>,
     '/admin/users': RouteRecordInfo<'/admin/users', '/admin/users', Record<never, never>, Record<never, never>>,
@@ -55,7 +52,6 @@ declare module 'vue-router/auto/routes' {
     '/content': RouteRecordInfo<'/content', '/content', Record<never, never>, Record<never, never>>,
     '/content/main': RouteRecordInfo<'/content/main', '/content/main', Record<never, never>, Record<never, never>>,
     '/home': RouteRecordInfo<'/home', '/home', Record<never, never>, Record<never, never>>,
-    '/home/': RouteRecordInfo<'/home/', '/home', Record<never, never>, Record<never, never>>,
     '/home/dotnetnotes': RouteRecordInfo<'/home/dotnetnotes', '/home/dotnetnotes', Record<never, never>, Record<never, never>>,
     '/home/intro': RouteRecordInfo<'/home/intro', '/home/intro', Record<never, never>, Record<never, never>>,
     '/home/vuenotes': RouteRecordInfo<'/home/vuenotes', '/home/vuenotes', Record<never, never>, Record<never, never>>,

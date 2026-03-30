@@ -1,7 +1,4 @@
 <script setup>
-
-	// RedirectToPage('/accounts','/accounts/main')
-
     const appStore              = useAppStore()
     const { sideBarHidden }     = storeToRefs(appStore)
 

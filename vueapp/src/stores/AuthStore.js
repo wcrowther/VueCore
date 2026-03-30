@@ -24,6 +24,26 @@ export const useAuthStore = defineStore('AuthStore',
     },
     actions:
     {
+        async navigateTo(route, replace = false)
+        {
+            const target = route || '/'
+            const currentPath = this.router?.currentRoute?.value?.fullPath || ''
+
+            if (currentPath === target)
+                return
+
+            try
+            {
+                if (replace)
+                    await this.router.replace(target)
+                else
+                    await this.router.push(target)
+            }
+            catch
+            {
+                // Ignore navigation duplication/cancellation during rapid route changes.
+            }
+        },
         getCurrentUserEndpoints()
         {
             return ['/authenticate/me']
@@ -95,7 +115,7 @@ export const useAuthStore = defineStore('AuthStore',
 
                 if (this.isAuthenticated)
                 {
-                    this.router.push(this.returnUrl)
+                    await this.navigateTo(this.returnUrl, true)
                     this.returnUrl = '/'  // reset
                 }
             }
@@ -117,7 +137,7 @@ export const useAuthStore = defineStore('AuthStore',
 
                 if (this.isAuthenticated)
                 {
-                    this.router.push(this.returnUrl)
+                    await this.navigateTo(this.returnUrl, true)
                     this.returnUrl = '/'
                 }
             }
@@ -148,12 +168,12 @@ export const useAuthStore = defineStore('AuthStore',
                 this.clearAuthState()
                 this.isAuthChecked = true
                 this.isLoggingOut = false
-                this.router.push(route || '/auth/login')
+                await this.navigateTo(route || '/auth/login', true)
             }
         },
         async redirect (route)
         {
-            this.router.push(route || '/')
+            await this.navigateTo(route || '/', true)
         },        
         async delayedRedirect (route, msdelay)
         {

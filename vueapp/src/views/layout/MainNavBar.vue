@@ -32,11 +32,14 @@
 
 		<!-- <NavTab navText="Content" to="/content" /> -- Hide until Content is complete -->
 
-		<NavTab navText="Accounts" 	to="/accounts" />
+		<NavTab navText="Accounts" 	to="/accounts/main" />
 
-		<NavTab navText="Admin" 	to="/admin"  v-if="adminRoles.includes(authUser.Role)" />
+		<NavTab navText="Admin" 	to="/admin/users"  v-if="adminRoles.includes(authUser.Role)" />
 
 	</NavBar>
 
 </template>
+
+<!-- NOTE: for pages like /account which redirects to /account/main use the direct path, otherwise 
+		   you can get errors when clicking on tabs rapidly while the page is in a redirect. -->	
 

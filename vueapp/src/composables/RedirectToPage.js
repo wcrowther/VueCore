@@ -3,18 +3,17 @@ export function RedirectToPage(path, toPath)
 {
 	onBeforeMount (() => 
 	{
-		const router = useRouter();
+		const router = useRouter()
 
 		if(router.currentRoute.value.path.toLowerCase() === path.toLowerCase())
-			router.replace(toPath); 
+			router.replace(toPath)
 	})
 }
 
 /*
-	NO LONGER USING THIS COMPOSABLE
-	Instead have an empty page like /index.vue or /accounts/index.vue with a 'router.replace'
+	Used by parent/index page routes to redirect to their default child routes
+	in a mount-safe lifecycle hook.
 
-	Redirects to a sub-page when the current path matches a parent route, 
-	e.g., /accounts → /accounts/main. Useful for directing users to default sub-pages.
+	While this works, prefer using 'extendRoutes' redirects. see router.js
 */
 	

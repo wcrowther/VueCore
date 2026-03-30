@@ -7,6 +7,7 @@
 		"build-qa": "vite build --mode qa",
 		"build": "vite build",
 		"preview": "vite preview",
+		"test:api-error": "vitest run src/tests/ApiErrorHandler.test.js",
 		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
 		"predev": "node aspnetcore-https.js",
 		"check-deps": "npm dedupe && npm ls @vue/compiler-sfc vue @vue/runtime-core"
@@ -40,6 +41,7 @@
 		"unplugin-auto-import": "^0.17.5",
 		"unplugin-vue-components": "^0.26.0",
 		"unplugin-vue-router": "^0.7.0",
+		"vitest": "^2.1.9",
 		"vite": "^5.4.15",
 		"vite-plugin-mkcert": "^1.17.3"
 	}

@@ -8,7 +8,38 @@ const DEFAULT_TITLE = 'VueCore';
 const router = createRouter(
 {
 	// linkActiveClass: 'active',
-	// extendRoutes(routes) { routes.push( { path: '/About', name: 'AboutRedirect', redirect: '/About/How' } ) },
+	extendRoutes(routes)
+	{
+		const redirectMapByName =
+		{
+			'/home/': '/home/intro',
+			'/accounts/': '/accounts/main',
+			'/admin/': '/admin/users',
+			'/content': '/content/main'
+		}
+
+		function applyRedirects(routeList)
+		{
+			for (const route of routeList)
+			{
+				if (route?.name && redirectMapByName[route.name])
+					route.redirect = redirectMapByName[route.name]
+
+				if (route?.children?.length)
+					applyRedirects(route.children)
+			}
+		}
+
+		applyRedirects(routes)
+
+		const hasRootPath = routes.some((route) => route?.path === '/')
+		if (!hasRootPath)
+		{
+			routes.unshift({ path: '/', name: 'RootRedirect', redirect: '/home/intro' })
+		}
+
+		return routes
+	},
 	history: createWebHistory()
 })
 	
