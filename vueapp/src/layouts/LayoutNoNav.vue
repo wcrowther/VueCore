@@ -5,7 +5,7 @@
     const {  sideBarHidden, layoutEscapeKeyOn } = storeToRefs(appStore)
 	const { setInfoLevel }						= appStore
 
-    // Keyboard Listeners & AutoRefreshAuth  ========================================================
+	// Keyboard Listeners  ===========================================================================
 
 	const keys = function (e)   
     {
@@ -17,7 +17,6 @@
 	}
 
 	KeyboardListeners(keys)		// Sets Key listeners for all pages using this layout
-	AutoRefreshAuth()			// Refreshes JWT Tokens
 	SetHtmlHeadBody() 			// Sets CSS 'theme' or 'alt-theme' for this layout
 
 </script>

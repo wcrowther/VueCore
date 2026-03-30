@@ -15,6 +15,7 @@ namespace coreLogic.Managers;
 
 public class AuthManager(	IUserManager userManager,
 							ITokenManager tokenManager,
+							ICookieManager cookieManager,
 							IUserClaimsManager userClaimsManager,
 							ILogger<AuthManager> logger,
 							IHttpContextAccessor accessor,
@@ -75,7 +76,7 @@ public class AuthManager(	IUserManager userManager,
 	public Returns<AuthUser> RefreshAuth(AuthRefreshRequest request)
 	{
 		var user			= userManager.GetUserById(request.UserId);
-		var refreshToken	= accessor.HttpContext.Request.Cookies["RefreshToken"];
+		var refreshToken	= accessor.HttpContext.Request.Cookies["refreshToken"];
 		var domain			= accessor.HttpContext.Request.Headers.Origin.ToString();
 		var allowedDomains  = appSettings.AllowedOrigins.Split(";", true);
 
@@ -102,6 +103,8 @@ public class AuthManager(	IUserManager userManager,
 			return null;
 
 		var (token, tokenExpiration) = tokenManager.GenerateJwtToken(user);
+
+		cookieManager.SetAccessTokenCookie(token, tokenExpiration);
 
 		return new AuthUser(user, token, tokenExpiration);
 	}

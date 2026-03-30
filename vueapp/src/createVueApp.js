@@ -16,16 +16,26 @@ pinia.use(({ store }) =>
 
 const head = createHead()
 
-createApp(App)
-    .use(pinia)
-    .use(router)
-    .use(head)
-    .use(Toast, 
-        {   transition: "Vue-Toastification__fade",
-            maxToasts: 10,
-            newestOnTop: true
-        })
-    .mount('#app')
+async function bootstrap()
+{
+    const app = createApp(App)
+        .use(pinia)
+        .use(router)
+        .use(head)
+        .use(Toast,
+            {
+                transition: 'Vue-Toastification__fade',
+                maxToasts: 10,
+                newestOnTop: true
+            })
+
+    const authStore = useAuthStore(pinia)
+    await authStore.fetchCurrentUser()
+
+    app.mount('#app')
+}
+
+bootstrap()
 
         // 'toaster.css' is from from node_modules:
         // 'vue-toastification/dist/index.css'

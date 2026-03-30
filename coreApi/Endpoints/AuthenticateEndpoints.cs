@@ -19,13 +19,28 @@ public static partial class Endpoints
 
 
 		// =========================================================
-		// me (get current user claims for JWT testing)
+		// me (get current authenticated user profile)
 		// =========================================================
 
-		endpoints.MapGet("/me", ( ClaimsPrincipal user) =>
+		endpoints.MapGet("/me", ( IAuthManager _authManager ) =>
 		{
-			return user.Claims.Select(c => new { c.Type, c.Value });
+			Returns<User> returns = _authManager.GetCurrentUser();
 
+			if (!returns.Ok || returns.Data is null)
+				return Results.Unauthorized();
+
+			return Results.Ok(ToProfileResponse(returns.Data));
+		})
+		.RequireAuthorization();
+
+		// =========================================================
+		// logout
+		// =========================================================
+
+		endpoints.MapPost("/logout", ( ICookieManager _cookieManager ) =>
+		{
+			_cookieManager.ClearAuthCookies();
+			return Results.Ok();
 		});
 
 		// =========================================================
@@ -38,11 +53,11 @@ public static partial class Endpoints
             Returns<AuthUser> returns = _authManager.Authenticate(model);
 
 			return	returns.Ok
-					? Results.Ok(returns.Data)
+					? Results.Ok(ToProfileResponse(returns.Data))
 					: Results.Unauthorized();
 		})
 		.Validate<AuthRequest>(false)
-		.Produces<AuthUser>(StatusCodes.Status200OK) 
+		.Produces(StatusCodes.Status200OK) 
 		.Produces(StatusCodes.Status401Unauthorized) 
 		.WithName("Login");
 
@@ -56,7 +71,7 @@ public static partial class Endpoints
 			Returns<AuthUser> returns = _authManager.Signup(model);
 
 			return	returns.Ok 
-					? Results.Ok(returns.Data) 
+					? Results.Ok(ToProfileResponse(returns.Data)) 
 					: Results.BadRequest(returns.Error.Message);
 		})
 		.Validate<UserToCreate>(false)
@@ -72,11 +87,31 @@ public static partial class Endpoints
 			Returns<AuthUser> returns = _authManager.RefreshAuth(request);
 
 			return	returns.Ok 
-					? Results.Ok(returns.Data) 
+					? Results.Ok(ToProfileResponse(returns.Data)) 
 					: Results.BadRequest(returns.Error.Message);
 		})
 		.Validate<AuthRefreshRequest>(false)
 		.WithName("RefreshAuth");
 	}
+
+	private static object ToProfileResponse(User user) => new
+	{
+		user.UserId,
+		user.FirstName,
+		user.LastName,
+		user.UserName,
+		user.UserEmail,
+		user.Role
+	};
+
+	private static object ToProfileResponse(AuthUser user) => new
+	{
+		user.UserId,
+		user.FirstName,
+		user.LastName,
+		user.UserName,
+		user.UserEmail,
+		user.Role
+	};
 }
 

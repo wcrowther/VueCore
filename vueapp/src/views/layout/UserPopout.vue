@@ -3,11 +3,10 @@
     const authStore	        = useAuthStore()
     const appStore          = useAppStore()
 
-    const { logout, refreshAuth }   = authStore
+	const { logout }               = authStore
 	const { firstInitial, 
             authUser, 
             isLoggedIn, 
-            tokenExpiration, 
             lastRequestDatetime }   = storeToRefs(authStore)  
                   
     const { persistSearch,  
@@ -30,12 +29,6 @@
         showPopout.value = false
         logout()
     }  
-
-    const refreshAuthToken = () =>
-    {
-        let authRefreshRequest = new AuthRefreshRequest(authUser.value.UserId)
-        refreshAuth(authRefreshRequest)
-    }
 
     const fullName = computed(() => authUser.value.LastName ? `${authUser.value.FirstName} ${authUser.value.LastName}` : '---')
 
@@ -74,7 +67,6 @@
             <div class="px-7 pt-10 pb-10">
                 <div class="flex gap-x-2 my-5">
                     <button class="btn-delete" title="Log out user" @click="logoutUser">Logout</button>
-                    <button class="btn-delete" title="Refresh user auth token" @click="refreshAuthToken">Refresh Token</button>
                     <button class="btn-delete" title="Reset App preferences" @click="resetLocalStorage">Reset</button>
                 </div>
                 <div class="label-row">
@@ -101,11 +93,6 @@
                     <div class="label-title" 
                         title="User Role">User Role:</div>
                     <div class="label-value">{{ authUser.Role }}</div>
-                </div>
-                <div class="label-row">
-                    <div class="label-title"
-                        title="JWT token expiration date">Expiration:</div>
-                    <div class="label-value">{{ dateTimeFormat(tokenExpiration) }}</div>
                 </div>
                 <div class="label-row">
                     <div class="label-title"

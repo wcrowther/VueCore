@@ -54,11 +54,6 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	if (signal)
 		request.signal = signal
 
-	if (!!useAuth === true && authStore.authUser && authStore.authUser.Token) 
-	{
-		request.headers['Authorization'] = `Bearer ${authStore.authUser.Token}`
-	}
-
 	try 
 	{
 		result 			= await axios(request)
@@ -73,6 +68,8 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		// console.log(`error: ${err}`)
 
 		result.error = err
+		const authProbeUrls = ['/me', '/authenticate/me', '/authenticate/currentUser', '/authenticate/getCurrentUser']
+		const isAuthProbeRequest = authProbeUrls.some((path) => url === path || url.endsWith(path))
 
 		if (err.code === 'ERR_CANCELED')
 		{
@@ -89,10 +86,17 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		}		
 		else if ([401].includes(err.response.status)) // 401 - Unauthorized (unauthenticated)
 		{
-			authStore.logout()
-			result.message		 = "You need to be authorized for that content. Please log in."
+			if (isAuthProbeRequest)
+				return result
+
+			authStore.logout('/auth/login', { callApi: false })
+			result.message		 = 'You need to be authorized for that content. Please log in.'
 			result.toastType	 = 'WARNING'
 		}		
+		else if ([404].includes(err.response.status) && isAuthProbeRequest)
+		{
+			return result
+		}
 		else if ([403].includes(err.response.status)) // Forbidden (known but does not have rights to content)
 		{
 			authStore.redirect('/')
@@ -105,7 +109,8 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 			result.toastType	 = 'WARNING'
 		}
 
-		toastStore.showToast(result.message, result.toastType)   
+		if (result.message)
+			toastStore.showToast(result.message, result.toastType)
 	}
 
 	return result

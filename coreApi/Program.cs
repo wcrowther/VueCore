@@ -67,6 +67,19 @@ builder.Services.AddAuthentication(cfg =>
         IssuerSigningKey    = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["App:AuthSigningKey"])),
 		RoleClaimType		= "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
 	};
+	c.Events = new JwtBearerEvents
+	{
+		OnMessageReceived = context =>
+		{
+			if (string.IsNullOrEmpty(context.Token) &&
+				context.Request.Cookies.TryGetValue("accessToken", out var cookieToken))
+			{
+				context.Token = cookieToken;
+			}
+
+			return Task.CompletedTask;
+		}
+	};
 	c.IncludeErrorDetails   = environment.IsDevelopment();
 });
 
