@@ -12,10 +12,10 @@ const router = createRouter(
 	{
 		const redirectMapByName =
 		{
-			'/home/': '/home/intro',
-			'/accounts/': '/accounts/main',
-			'/admin/': '/admin/users',
-			'/content': '/content/main'
+			'/home': 		'/home/intro',
+			'/accounts': 	'/accounts/main',
+			'/admin': 		'/admin/users',
+			'/content': 	'/content/main'
 		}
 
 		function applyRedirects(routeList)

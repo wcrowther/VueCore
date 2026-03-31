@@ -10,7 +10,7 @@
 
     const isAddingUser      = ref(false)
     const showConfirmSave   = ref(false)
-    const userFullName      = computed(() => user.value.LastName ? `${user.value.FirstName} ${user.value.LastName}` : '---')
+    const userFullName      = computed(() => user.value.LastName ? `${user.value.FirstName} ${user.value.LastName}` : '')
     const userTitle         = computed(() => isAddingUser.value ? 'Add new User' : userFullName.value )
 
     // const rules = computed(() => userValidator) <-- Needed if userValidator is dynamic
@@ -111,7 +111,7 @@
 
         <div class="w-full flex justify-between items-center">
 
-            <h2 class="text-2xl font-display font-bold flex-grow">{{ userTitle }}</h2>
+            <h2 class="text-2xl font-display font-bold flex-grow">{{ userTitle || 'Users'}}</h2>
 
             <span class="flex flex-wrap gap-3">   
 

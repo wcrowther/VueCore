@@ -113,7 +113,7 @@ export function usePagedList(options)
     const router = useRouter()
 
     const searchFromUrl = computed(() => route.params.search || null)
-    console.log('Search from URL:', searchFromUrl.value)
+    // console.log('Search from URL:', searchFromUrl.value)
 
     watchEffect(() => 
 	{
