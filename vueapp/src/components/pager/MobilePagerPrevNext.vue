@@ -11,7 +11,7 @@
 
 <template>
 
-    <Teleport to="body" v-if="appStore.showPrevNext">
+    <Teleport to="#modals" v-if="appStore.showPrevNext">
 
         <!-- Right PREV / NEXT Button for Mobile--> 
 

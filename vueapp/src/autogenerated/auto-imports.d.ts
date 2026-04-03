@@ -25,6 +25,7 @@ declare global {
   const SearchForUser: typeof import('../models/PagerModel.js')['SearchForUser']
   const SearchModel: typeof import('../models/PagerModel.js')['SearchModel']
   const SetHtmlHeadBody: typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']
+  const ShowSideButtonInSubNav: typeof import('../composables/ShowSideButtonInSubNav.js')['ShowSideButtonInSubNav']
   const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
   const addDays: typeof import('../helpers/global.js')['addDays']
@@ -105,6 +106,7 @@ declare global {
   const usStatesList: typeof import('../datalists/usStatesList.js')['usStatesList']
   const useAccountsStore: typeof import('../stores/AccountsStore.js')['useAccountsStore']
   const useAlertControl: typeof import('../composables/UseAlertControl.js')['useAlertControl']
+  const useAlertControlStore: typeof import('../composables/UseAlertControl.js')['useAlertControlStore']
   const useAppStore: typeof import('../stores/AppStore.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('../stores/AuthStore.js')['useAuthStore']
@@ -113,6 +115,7 @@ declare global {
   const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
+  const useConfirmControlStore: typeof import('../composables/UseConfirmControl.js')['useConfirmControlStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
@@ -186,6 +189,7 @@ declare module 'vue' {
     readonly SearchForUser: UnwrapRef<typeof import('../models/PagerModel.js')['SearchForUser']>
     readonly SearchModel: UnwrapRef<typeof import('../models/PagerModel.js')['SearchModel']>
     readonly SetHtmlHeadBody: UnwrapRef<typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']>
+    readonly ShowSideButtonInSubNav: UnwrapRef<typeof import('../composables/ShowSideButtonInSubNav.js')['ShowSideButtonInSubNav']>
     readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
     readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>

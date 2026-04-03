@@ -15,8 +15,6 @@
     const route = useRoute()
     // optional param from URL
     const searchFromUrl = computed(() => route.params.search || null)
-    console.log('Search from URL:', searchFromUrl.value)
-
 
 	// Use the generic pagedList composable
 	const pagedList = usePagedList(

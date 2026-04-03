@@ -35,7 +35,7 @@
 
 <template>
 
-    <Teleport v-if="show" to="body" >
+    <Teleport v-if="show" to="#modals" >
 
         <div :id="props.name" ref="floater" v-bind="$attrs" 
             :style="style" @mousedown="bringToFront"

@@ -10,7 +10,7 @@
 
 <template>
 
-	<Teleport v-if="showNotification" to="body" :id="props.id">
+	<Teleport v-if="showNotification" to="#modals" :id="props.id">
 		<div class="fixed left-5 right-5 bottom-5 z-[1000] ">
 			<div class="relative p-5 main-width bg-color-light-blue">
 				<div class="absolute top-2 right-2" @click="appStore.showNotification = false">

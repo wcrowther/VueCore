@@ -1,5 +1,9 @@
 
-<script setup></script>
+<script setup>
+
+	ShowSideButtonInSubNav()
+    
+</script>
 
 <template>
 

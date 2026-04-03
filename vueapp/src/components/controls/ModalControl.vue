@@ -20,7 +20,7 @@
 </script>
 
 <template>
-	<Teleport to="body" :disabled="!teleportToBody">    
+	<Teleport to="#modals" :disabled="!teleportToBody">    
 		<Transition name="modal">
 
 			<div v-if="showModal" id="ModalOverlay"

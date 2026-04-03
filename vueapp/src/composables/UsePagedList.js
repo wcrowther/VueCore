@@ -106,29 +106,6 @@ export function usePagedList(options)
     })
 
 
-    // UPDATE URL   ==============================================================================
-    // Needs to be put in a composable
-
-    const route = useRoute()
-    const router = useRouter()
-
-    const searchFromUrl = computed(() => route.params.search || null)
-    // console.log('Search from URL:', searchFromUrl.value)
-
-    watchEffect(() => 
-	{
-        if (listPager.value.Search.Filter !== searchFromUrl.value)
-        {
-            // Put in 1 second delay
-            console.log('SearchFilter and searchFromUrl not the same.')      
-            router.push({path: '/accounts/main'})
-        }
- 
-    })
-
-    //  ==============================================================================
-
-
     return {
         // state
         currentPage,

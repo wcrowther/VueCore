@@ -9,7 +9,7 @@
 </script>
 
 <template>
-    <Teleport to="body" v-if="showBreakpoints" >
+    <Teleport to="#modals" v-if="showBreakpoints" >
         <div class="fixed left-4 bottom-4" @click="showWinWidth=!showWinWidth">
             <div class="capsule hidden xxs:block xs:hidden"  
                 title="436px+">

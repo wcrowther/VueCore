@@ -13,14 +13,14 @@
 
     // Keyboard Listeners  ================================================
 	
-	DisableLayoutEscapeKey(showAlert.value) // disable global Esc key if confirm is showing
+	DisableLayoutEscapeKey(showAlert) // disable global Esc key if confirm is showing
 
     const keys = function (e)   
     {
 		if (e.code === 'Escape'){ onClose(); e.preventDefault(); } 
     }
 
-	KeyboardListeners(keys)
+	KeyboardListeners(keys, showAlert)
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
 
@@ -53,11 +53,18 @@
 		emits('alertResult', true)
 	}
 
+	// Clean up ========================================================================
+
+	onBeforeUnmount(() => 
+	{
+    	resolvePromise?.(false)
+	})
+
 </script>
 
 <template>
 
-	<Teleport to="body">
+	<Teleport to="#modals">
 		<div v-if="showAlert"
 			class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
 			:style="{ zIndex: props.zIndex }">
@@ -67,7 +74,7 @@
 				<div class="mb-5 w-full">{{ message }}</div>
 				<div class="flex justify-end">
 
-					<button @click="onClose" v-focus @keydown.enter.prevent.stop="onConfirm"  
+					<button @click="onClose" v-focus @keydown.enter.prevent.stop="onClose"  
 						class="mr-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 focus:outline-none">
 						{{props.closeText}}
 					</button>

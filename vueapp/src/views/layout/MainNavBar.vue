@@ -34,7 +34,7 @@
 
 		<NavTab navText="Accounts" to="/accounts" />
 
-		<NavTab navText="Admin" to="/admin" /> <!-- v-show="adminRoles.includes(authUser.Role)" -->
+		<NavTab navText="Admin" to="/admin" v-show="adminRoles.includes(authUser.Role)" />
 
 	</NavBar>
 

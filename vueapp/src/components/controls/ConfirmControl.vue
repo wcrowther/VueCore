@@ -14,14 +14,14 @@
 
     // Keyboard Listeners  ================================================
 	
-	DisableLayoutEscapeKey(showConfirm.value) // disable global Esc key if confirm is showing
+	DisableLayoutEscapeKey(showConfirm) // disable global Esc key if confirm is showing
 
     const keys = function (e)   
     {
 		if (e.code === 'Escape'){ onCancel(); e.preventDefault(); } 
     }
 
-	KeyboardListeners(keys)
+	KeyboardListeners(keys, showConfirm)
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
 
@@ -62,11 +62,18 @@
 		emits('confirmResult', false)
 	}
 
+	// Clean up ========================================================================
+
+	onBeforeUnmount(() => 
+	{
+    	resolvePromise?.(false)
+	})
+
 </script>
 
 <template>
 
-	<Teleport to="body">
+	<Teleport to="#modals">
 		<div v-if="showConfirm"
 			class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
 			:style="{ zIndex: props.zIndex }">

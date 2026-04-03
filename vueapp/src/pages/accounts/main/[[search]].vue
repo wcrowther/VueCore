@@ -1,6 +1,8 @@
 
 <script setup>
 
+	ShowSideButtonInSubNav()
+
     // const route = useRoute()
     // const urlSearch = computed(() => route.params.search || null)
     // 
@@ -18,7 +20,7 @@
         <!-- <div class="w-full">{{ urlSearch }}</div> -->
         
         <MainSidebar>
-            <AccountsList  />
+            <AccountsList />
         </MainSidebar>     
         
         <MainRight class="bg-gradient-main">

@@ -6,6 +6,7 @@ export const useAppStore = defineStore('AppStore', () =>
     // State ------------------------------------------------------------------
     
     const sideBarHidden         = ref(false)
+    const showSideButton        = ref(false)
     const layoutEscapeKeyOn     = ref(true)
     const showPrevNext          = useLocalStorage('showPrevNext', true)
     const showBreakpoints       = useLocalStorage('showBreakpoints', false)
@@ -78,6 +79,7 @@ export const useAppStore = defineStore('AppStore', () =>
     return {
         // Refs
         sideBarHidden,
+        showSideButton,
         layoutEscapeKeyOn,
         showPrevNext,
         showBreakpoints,

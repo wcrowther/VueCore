@@ -72,7 +72,7 @@
 </script>
 
 <template>
-	<Teleport to="body">
+	<Teleport to="#modals">
 
 		<div v-if="visible" :style="{ top: y + 'px', left: x + 'px' }"
 			class="fixed z-[9999] bg-white border border-gray-200 rounded-xl shadow-lg min-w-[200px] py-1">

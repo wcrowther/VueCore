@@ -65,7 +65,8 @@
 				@keydown.enter.prevent.stop="sendMessage"  
 				placeholder="Message" labelName="Message" />
 
-			<TextInput v-model.trim="serverMaxMessageId" labelName="MaxId" />
+			<!-- <TextInput v-model.trim="serverMaxMessageId" labelName="MaxId" /> -->
+			<div class="mt-2 mb-3">MaxId: {{ serverMaxMessageId }}</div>
 			<PrimaryButton title="Send" @click="sendMessage" :disabled="!enableSendButton" />
 		</div>
 
