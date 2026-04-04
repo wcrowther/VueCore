@@ -32,7 +32,6 @@ export function useChatHub()
                 if (!alreadyInList)
                 {
                     messages.value.push(message)
-                    clientMaxMessageId.value = message.MessageId
                     serverMaxMessageId.value = message.MessageId
                 }
             })
@@ -69,6 +68,9 @@ export function useChatHub()
     const sendMessage = async () => 
     {
         var messageSaved = await saveMessage(message.value)
+
+        if (!messageSaved)
+            return
 
         console.log('ChatHub.sendMessage()', messageSaved.CreatorId, messageSaved.MessageText)
 

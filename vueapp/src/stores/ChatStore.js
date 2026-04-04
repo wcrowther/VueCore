@@ -22,6 +22,10 @@ export const useChatStore = defineStore('ChatStore',
     },
     actions:
     {
+        markMessagesRead()
+        {
+            this.clientMaxMessageId = this.serverMaxMessageId
+        },
         async addNewMessage(userId, messageText)
         {
             this.message = new MessageModel(userId, messageText)

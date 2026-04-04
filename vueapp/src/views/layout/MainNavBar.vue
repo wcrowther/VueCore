@@ -5,8 +5,9 @@
 	const { authUser  } 		= storeToRefs(authStore)
 	const adminRoles 			= ['Admin', 'SuperAdmin']
 
-	// const appStore   			 = useAppStore()
-    // const { showNewChatMessages } = storeToRefs(appStore)
+	const appStore   			  = useAppStore()
+    const { showNewChatMessages } = storeToRefs(appStore)
+	
 	// onMounted(() => console.log('MainNavBar onMounted'))
 
 </script>
@@ -15,14 +16,9 @@
 
     <NavBar id="nav-bar" class="bg-gradient-navbar md:ml-3">
 
-		<!-- 
-		====================================
-		NOT WORKING YET
-		====================================
 		<template v-if="showNewChatMessages" #leftalign>
 			<NewChatMessages class="self-center" />
 		</template> 
-		-->
 
 		<NavTab to="/home" class="group">
 			<IconSymbol width="18px" class="text-[#bddaef] block xs:hidden

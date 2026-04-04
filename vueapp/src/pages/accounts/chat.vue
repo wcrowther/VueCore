@@ -1,5 +1,11 @@
 <script setup>
     const pageTitle  = ref('Chat')
+    const messageStore = useChatStore()
+
+    onMounted(() => 
+    {
+        messageStore.markMessagesRead()
+    })
 </script>
 
 <template>

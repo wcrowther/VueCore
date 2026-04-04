@@ -5,7 +5,7 @@
 	const { startChat, messages, message, sendMessage } = useChatHub()  
 
 	const chatStore 				= useChatStore()
-    const { serverMaxMessageId } 	= storeToRefs(chatStore) 
+    const { serverMaxMessageId, clientMaxMessageId } 	= storeToRefs(chatStore) 
 
 	const authStore	   				= useAuthStore()
 	const { userId:currentUserId }	= storeToRefs(authStore)  
@@ -53,6 +53,17 @@
 			await nextTick()
 			scrollToNewestMsg()
 		}, 
+	)
+
+	watch(
+		() => message.value?.MessageText,
+		(newText, oldText) =>
+		{
+			const startedReply = !oldText?.trim() && !!newText?.trim()
+
+			if(startedReply && serverMaxMessageId.value > clientMaxMessageId.value)
+				chatStore.markMessagesRead()
+		}
 	)
 
 </script>
