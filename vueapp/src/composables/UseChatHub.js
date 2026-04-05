@@ -5,11 +5,11 @@ export function useChatHub()
     const authStore	                                    = useAuthStore()
     const { userId: currentUserId }                     = storeToRefs(authStore) 
 
-    const messageStore                                  = useChatStore()
+    const chatStore                                     = useChatStore()
     const { message, messages, messagesCount,
-            clientMaxMessageId, serverMaxMessageId }    = storeToRefs(messageStore) 
+            clientMaxMessageId, serverMaxMessageId }    = storeToRefs(chatStore) 
     const { addNewMessage, getAllMessages, 
-            saveMessage, getMaxMessageId }              = messageStore
+            saveMessage, getMaxMessageId }              = chatStore
 
     const { isConnectedRef, startConnection,
             registerEvent }                             = useSignalR()

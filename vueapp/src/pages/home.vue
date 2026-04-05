@@ -28,7 +28,7 @@
 					.Net
 				</router-link>  
 				-->
-
+				<PlatformInfo />
 			</div>
 
 		</SubNavBar>

@@ -80,6 +80,7 @@ declare module 'vue' {
     PanZoomView: typeof import('./../views/panzoom/PanZoomView.vue')['default']
     PasswordInput: typeof import('./../components/inputs/PasswordInput.vue')['default']
     PhoneInput: typeof import('./../components/inputs/PhoneInput.vue')['default']
+    PlatformInfo: typeof import('./../components/misc/PlatformInfo.vue')['default']
     PrimaryButton: typeof import('./../components/buttons/PrimaryButton.vue')['default']
     ReverseCorner: typeof import('./../components/misc/ReverseCorner.vue')['default']
     RotateButton: typeof import('./../components/buttons/RotateButton.vue')['default']
