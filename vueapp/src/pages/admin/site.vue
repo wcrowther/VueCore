@@ -15,15 +15,30 @@
 
     <div class="relative" id="adminSite">
 
-        <div class="z-0 bg-gradient-main h-[500px] absolute top-0 left-0 right-0"></div>
+		<BackGradation />
 
         <div class="p-5 pt-5 pb-14 sm:p-10 sm:pt-5">
 
             <div class="flex justify-between items-center mb-7 relative z-20">
                 <h2 class="text-2xl font-display font-bold flex-grow">{{ pageTitle }}</h2>
             </div>
-            
-            <div class="flex flex-wrap gap-y-5 mb-5 relative">
+
+            <InfoBox class="mb-5 relative z-20">
+                The <b>Site Map</b> below is dynamically generated at runtime by reading the structure from the pages folder.
+            </InfoBox>
+
+            <HelpBox class="mb-5 relative z-20">
+                Internally, the SiteMap component calls <code>router.getRoutes()</code> to retrieve all registered routes,
+                filters out parameterized paths (e.g. <code>/accounts/:id</code>) that represent dynamic detail views,
+                then sorts the remaining routes alphabetically. Each link is indented based on its depth in the URL 
+                hierarchy — top-level routes are flush left, while nested routes are indented proportionally.
+                Because it reads directly from the router, any new page added to the <code>/pages</code> folder 
+                will automatically appear here without any changes to this component.
+            </HelpBox>
+
+            <SiteMap class="z-50 relative p-5 mb-7 border border-color-primary" />
+         
+            <div class="flex flex-wrap gap-y-5 relative">
 
                 <div class="w-1/2">
                     <span class="font-bold">Mode: </span>
@@ -61,8 +76,6 @@
                 </div>  
 
             </div>
-
-            <SiteMap class="z-50 relative p-5 border border-color-primary" />
 
         </div>
 

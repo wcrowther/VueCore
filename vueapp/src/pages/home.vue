@@ -18,7 +18,7 @@
 					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
 					Vuejs
 				</router-link>
-				
+
 				<!-- .NET Notes page not yet worked on.
 
 				<span class="px-1 text-gray-300">|</span>
@@ -28,11 +28,10 @@
 					.Net
 				</router-link>  
 				-->
-				<PlatformInfo />
 			</div>
 
 		</SubNavBar>
-		
+
 		<router-view /> 
 	
 	</LayoutMain>

@@ -28,7 +28,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	{
 		baseURL: 			appStore.baseApiUrl,
 		url:				url,
-		method: 			`${methodType}`, 				// POST, GET, etc
+		method: 			`${methodType}`, 		// POST, GET, etc
 		headers: 			{},
 		withCredentials: 	true  					// Sends Auth cookie
 	}	

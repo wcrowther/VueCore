@@ -77,12 +77,14 @@
 
 <template>
 
-    <div class="font-bold mb-5">CalendarGrid Example</div>
+    <div class="font-bold mb-7">CalendarGrid Example</div>
 
     <div class="mb-5">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident 
-        dolor ullam voluptas error esse necessitatibus quis deleniti nesciunt? 
-        Illum officia corporis dignissimos nam consequatur!
+        A fully interactive monthly calendar built with slot-based customization. Events can be 
+        <b>dragged and dropped</b> between days, and clicking a day opens a <b>day detail modal</b> 
+        where events can be added, edited, or deleted (with a confirm prompt before deletion). 
+        The calendar header exposes navigation slots for previous/next month and a Today button. 
+        Both the header and each day cell are fully templatable via named slots.
     </div>
 
     <JsonTreeControl v-if="showJsonEntities" label="Normalized Data" :json="normalizedData" class="mb-7" />

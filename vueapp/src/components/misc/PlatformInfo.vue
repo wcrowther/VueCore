@@ -2,37 +2,50 @@
 
     import { usePlatform } from '@/composables/UsePlatform'
 
+    const appStore              = useAppStore()
+    const { showPlatformInfo }  = storeToRefs(appStore) 
+
     const platform = usePlatform()
-    const props = defineProps(
-    {
-        show:  { type: Boolean, default: true }
-    })
 
 </script>
 
 <template>
 
-    <FloaterControl :show name="PlatformInfo" 
-        class="w-[200px] pb-3 mb-1 drop-shadow-xl text-sm/loose leading-[25px] bg-white border"> 
+    <FloaterControl :show="showPlatformInfo" name="PlatformInfo" 
+        class="w-[200px] pb-3 mb-1 drop-shadow-xl text-sm/loose 
+        leading-[25px] bg-white border"> 
 
-        <div class="p-3 font-mono">
-            <div><strong>Platform:</strong> {{ platform.platform }}</div>
-            <div><strong>Browser:</strong> {{ platform.browser }}</div>
-            <div><strong>Device:</strong> {{ platform.deviceType }}</div>
-            <div><strong>Touch:</strong> {{ platform.hasTouch }}</div>
+        <div class="p-2 bg-color-blue text-white font-bold select-none flex 
+            justify-between items-center">
+            Platform Info
+            <div class="size-4 bg-white hover:bg-color-light-blue rounded-full flex-center" 
+				@click="showPlatformInfo=false">
+				<IconSymbol width="12px" class="text-color-dark-gray" icon="heroicons-solid:x" />
+			</div>
+        </div>
 
-            <hr />
+        <div class="p-3">
+            <div><b>Platform:</b> {{ platform.platform }}</div>
+            <div><b>Browser:</b> {{ platform.browser }}</div>
+            <div><b>Device:</b> {{ platform.deviceType }}</div>
+            <div><b>Touch:</b> {{ platform.hasTouch }}</div>
+        </div>
 
-            <div>isMobile: {{ platform.isMobile }}</div>
-            <div>isTablet: {{ platform.isTablet }}</div>
-            <div>isDesktop: {{ platform.isDesktop }}</div>
+        <hr class="border-2 border-gray-300"/>
 
-            <hr />
+        <div class="p-3">
+            <div><b>isMobile:</b> {{ platform.isMobile }}</div>
+            <div><b>isTablet:</b> {{ platform.isTablet }}</div>
+            <div><b>isDesktop:</b> {{ platform.isDesktop }}</div>
+        </div>
 
-            <div>Chrome: {{ platform.isChrome }}</div>
-            <div>Firefox: {{ platform.isFirefox }}</div>
-            <div>Safari: {{ platform.isSafari }}</div>
-            <div>Edge: {{ platform.isEdge }}</div>
+        <hr class="border-2 border-gray-300"/>
+
+        <div class="p-3">
+            <div><b>Chrome:</b> {{ platform.isChrome }}</div>
+            <div><b>Firefox:</b> {{ platform.isFirefox }}</div>
+            <div><b>Safari:</b> {{ platform.isSafari }}</div>
+            <div><b>Edge:</b> {{ platform.isEdge }}</div>
         </div>
 
     </FloaterControl>

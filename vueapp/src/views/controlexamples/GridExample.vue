@@ -30,10 +30,10 @@
 
         <div class="font-bold mb-5 basis-full flex-none">GridControl Example</div>
 
-        <div class="mb-5 basis-full flex-none">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident 
-            dolor ullam voluptas error esse necessitatibus quis deleniti nesciunt? 
-            Illum officia corporis dignissimos nam consequatur!
+        <div class="mb-7 basis-full flex-none">
+            The <b>GridControl</b> renders a configurable grid of selectable cells. Use the 
+            <b>ListIndexButton</b> above to switch between preset grid sizes (4×4 up to 10×10) 
+            and observe how the grid re-renders reactively.
         </div>
         
         <div class="lg:w-1/2 mb-5">                
@@ -46,9 +46,10 @@
                 List Index Button
             </div>
             <div class="mb-5 basis-full flex-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident 
-                dolor ullam voluptas error esse necessitatibus quis deleniti nesciunt? 
-                Illum officia corporis dignissimos nam consequatur!
+                The <b>ListIndexButton</b> is a lightweight prev/next navigator for stepping through any array. 
+                It binds to a zero-based index via <code>v-model</code> and accepts any array as <code>:rangeList</code>. 
+                By default it displays the item's <code>name</code> property, but you can override this with the 
+                <code>textName</code> prop. Set <code>:wrapBack="false"</code> to prevent cycling past the first or last item.
             </div>
             <div class="basis-full mb-5">
                 <ListIndexButton v-model="listIndex" :rangeList class="w-fit mb-2" />

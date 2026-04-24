@@ -12,7 +12,7 @@
 
         <div class="w-full p-5 pb-0 md:pb-5 sm:w-1/2 md:w-full">
             <div class="font-bold text-[#455393]">
-            We will finalize the last .NET 9 release in March 2026, after which we will 
+            We will finalize the last .NET 9 release in April or May 2026, after which we will 
             shift our focus to the .NET 10 release, which will include features such as 
             Tailwind 4.1 support and native model validation.</div>
         </div>

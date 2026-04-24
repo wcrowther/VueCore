@@ -15,6 +15,7 @@
 
 		let ctrl = navigator.userAgentData.platform.match("Mac") ? e.metaKey : e.ctrlKey   
         if (e.code === 'KeyH' && ctrl ){ setInfoLevel(1); e.preventDefault() }
+        if (e.code === 'F1' ){ setInfoLevel(1); e.preventDefault() }
 	}
 
 	KeyboardListeners(keys)		// Sets Key listeners for all pages using this layout
@@ -50,7 +51,9 @@
 			
 			<FooterBox class="shadow-theme-layout" />
 
-			<NotificationControl></NotificationControl>
+			<NotificationControl />
+			
+			<PlatformInfo />
 			
 		</div>
 

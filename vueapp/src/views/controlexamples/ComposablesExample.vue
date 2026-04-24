@@ -33,12 +33,6 @@
 
 <template>
 
-    <div class="font-bold mb-5">UseAlertControl and UseConfirmControl Composables</div>
-    <div class="mb-5">
-        This is a sample of how to programmatically create the <b>AlertControl</b> and <b>ConfirmControl</b> controls using the 
-        UseAlertControl and UseConfirmControl composables. See the messages in the browser console.
-    </div>
-
     <PrimaryButton class="mt-5 mr-3" @click="showAlert">Show Alert</PrimaryButton>
     
     <PrimaryButton class="mt-5" @click="tryConfirm">Try Confirm</PrimaryButton>

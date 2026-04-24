@@ -70,12 +70,19 @@
             </div>
 
             <InfoBox class="mb-3">
-                Enter search text for the start of an Account Name or Id. 
+                Enter search text matching the start of an Account Name or numeric Account Id. 
+                Results update automatically as you page through the list.
             </InfoBox>
 
             <HelpBox class="mb-3" :compact="true">
-                You can add multiple conditions separated by a comma.
-                Click on the + sign to get an Advanced Search with additional options.
+                <b>Multiple conditions:</b> Separate search terms with a comma (e.g. <i>Acme, Smith</i>) to match 
+                accounts containing any of those values.
+                <br /><br />
+                <b>Advanced Search:</b> Click the <b>+</b> icon next to the search box to open the Advanced Search panel, 
+                which provides additional filter options such as Active status and invoice settings.
+                <br /><br />
+                <b>Keyboard shortcuts:</b> Use <b>↑ / ↓</b> arrow keys to move between accounts in the list, 
+                <b>Page Up / Page Down</b> to jump between pages, and the <b>Home</b> key to jump back to the search box.
             </HelpBox>
             
             <MobilePagerPrevNext :pager="listPager" />
@@ -89,7 +96,7 @@
                 <tr>
                     <th class="w-6 sm:w-8 py-5 bg-[#ddd]"></th>
                     <th class="hidden md:table-cell pr-4 select-none bg-[#ddd]">Id</th>
-                    <th class="pr-4 min-w-[100px]">Account</th>
+                    <th class="min-w-[100px]">Account</th>
                 </tr>
             </thead>
 
@@ -103,7 +110,7 @@
                         <div v-if="pagedList.isActiveItem(a.AccountId)" class="active-arrow">&nbsp;</div>
                     </td>
 
-                    <td class="hidden md:table-cell pr-4 py-1 text-sm">
+                    <td class="hidden md:table-cell py-1 text-sm">
                         {{ a.AccountId }}
                     </td>
 

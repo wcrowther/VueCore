@@ -157,14 +157,22 @@
         </div>
 
         <InfoBox>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
-            Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+            This panel displays the details for a single Account, including contact information and billing address.
+            Use the <b>Add</b> button to create a new Account, or select an existing Account from the list to view and edit it.
+            Changes are tracked automatically — the <b>Save</b> button activates when unsaved edits are detected.
         </InfoBox>
 
         <HelpBox>
-            Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
-            Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+            <b>Keyboard Shortcuts:</b> Press <b>Ctrl+S</b> (or <b>Cmd+S</b> on Mac) to save the current record at any time.
+            Press <b>Esc</b> to collapse the left navigation panel and give yourself more working space.
+            <br /><br />
+            <b>Saving &amp; Resetting:</b> The <b>Save</b> button only becomes active once you've made a change to the record — 
+            this prevents accidental saves. If you've made changes and want to discard them, click the <b>Reset</b> (↩) button 
+            to revert all fields back to the last saved state. A confirmation prompt will appear before any save is committed.
+            <br /><br />
+            <b>Adding Accounts:</b> Click <b>Add</b> to create a new Account. Fill in the required fields — Account Name, 
+            Email, and Phone — then save. Click <b>Cancel</b> at any time to discard the new entry and return to the 
+            previously selected account.
         </HelpBox>
 
         <JsonTreeControl v-if="showJsonEntities" :json="account" class="w-full" 
@@ -188,6 +196,7 @@
             <TextInput  labelName="Account Name" v-model="account.AccountName" :v$ />
             <TextInput  labelName="Main Email" ruleName="AccountEmail" v-model="account.AccountEmail" :v$ />
             <PhoneInput labelName="Main Phone" ruleName="AccountPhone" v-model="account.AccountPhone" :v$ />
+            <TextAreaInput labelName="Notes" ruleName="Notes" v-model="account.Notes" :v$ />
 
             <div class="mt-7 flex flex-wrap justify-between gap-5 mb-3">
                 <CheckboxInput labelName="Is Active"  v-model="account.IsActive" />

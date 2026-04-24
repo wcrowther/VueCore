@@ -23,7 +23,7 @@
 
 <template>
 
-	<div id="layout-main">
+	<div id="layout-no-nav">
 
 		<div id="background-div" 
 			class="fixed top-0 bottom-0 left-0 right-0 bg-gradient-back">
@@ -40,6 +40,8 @@
 				<UserPopout />
 				<BrandLogo />
 			</BrandBar>
+
+			<NavBar class="bg-gradient-navbar md:ml-3"></NavBar>	
 
 			<MainContent>
 				<slot></slot>

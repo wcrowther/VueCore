@@ -51,5 +51,8 @@ public class Account : IAuditable
 	[NotMapped]
 	public string ModifierName { get; set; }
 
+	[MaxLength(1000)]
+	public string Notes { get; set; }
+
 	public override string ToString() => $"{AccountName} AccountId: {AccountId}";
 }

@@ -6,7 +6,7 @@
 
     <div class="relative" id="dotnetNotes">
 
-        <div class="z-0 bg-gradient-main h-[500px] absolute top-0 left-0 right-0"></div>
+        <BackGradation />
 
         <div class="relative p-5 pt-5 sm:p-10 sm:pt-5 pb-14">
 

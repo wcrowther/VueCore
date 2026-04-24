@@ -17,7 +17,8 @@ export const accountValidator =
     PostalCode:         { required, minLength: minLength(5), maxLength: maxLength(10) },
     IsActive:           {},
     IsAutoPay:          {},
-    IsInvoiceAccount:   {}
+    IsInvoiceAccount:   {},
+    Notes:              { maxLength: maxLength(1000) }
 }
 
 export const authRequestValidator = 

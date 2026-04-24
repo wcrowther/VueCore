@@ -15,7 +15,8 @@
             showNotification,
             altTheme, 
             pagerDebugger,
-            showJsonEntities }      = storeToRefs(appStore) 
+            showJsonEntities,
+            showPlatformInfo }      = storeToRefs(appStore) 
             
     const { resetLocalStorage   }   = appStore
 
@@ -158,7 +159,15 @@
                         <CheckboxInput labelName="" v-model="persistSearch" />
                     </div>
                 </div>    
-                
+            
+                <div class="label-row">
+                    <div class="label-title" 
+                        title="Persist search on page load">Show Platform Info</div>
+                    <div class="label-value">
+                        <CheckboxInput labelName="" v-model="showPlatformInfo" />
+                    </div>
+                </div>   
+
                <!--  
                 <div class="label-row">
                     <div class="label-title" 

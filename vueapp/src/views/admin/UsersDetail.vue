@@ -135,14 +135,21 @@
         </div>
 
         <InfoBox>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
-            Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+            This panel displays the details for a single User, including their name, email, role, and account status.
+            Use the <b>Add</b> button to create a new User, or select an existing User from the list to view and edit their profile.
+            Changes must be saved explicitly — a confirmation prompt will appear before any save is committed.
         </InfoBox>
 
         <HelpBox>
-            Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
-            Iusto dicta nulla error. Fugit aspernatur odit voluptate, quo libero id minus.
+            <b>Keyboard Shortcuts:</b> Press <b>Ctrl+S</b> (or <b>Cmd+S</b> on Mac) to trigger a save at any time.
+            Press <b>Esc</b> to collapse the left navigation panel for more working space.
+            <br /><br />
+            <b>Validation:</b> Required fields such as First Name, Last Name, and Email are validated before saving.
+            If any field is invalid a toast notification will indicate the issue and the save will be blocked until corrected.
+            <br /><br />
+            <b>Adding Users:</b> Click <b>Add</b> to create a new User. Fill in the required fields, assign a Role,
+            and set the account to Active before saving. Click <b>Cancel</b> at any time to discard the new entry
+            and return to the previously selected user.
         </HelpBox>
 
         <JsonTreeControl v-if="showJsonEntities" :json="user" class="w-full" 

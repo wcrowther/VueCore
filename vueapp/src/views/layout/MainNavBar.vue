@@ -14,7 +14,7 @@
 
 <template>
 
-    <NavBar id="nav-bar" class="bg-gradient-navbar md:ml-3">
+    <NavBar id="navBar" class="bg-gradient-navbar md:ml-3">
 
 		<template v-if="showNewChatMessages" #leftalign>
 			<NewChatMessages class="self-center" />

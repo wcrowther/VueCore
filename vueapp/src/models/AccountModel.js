@@ -20,5 +20,6 @@ export default class AccountModel
         this.ModifierId = 0;
         this.CreatorName = '';
         this.ModifierName = '';
+        this.Notes = '';
     }
 }

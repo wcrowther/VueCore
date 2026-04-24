@@ -153,12 +153,19 @@
             </div>
 
             <InfoBox class="mb-3">
-                Enter a UserId or search text for the start of an User First or Last Name.
+                Enter a numeric User Id or search text matching the start of a user's First or Last Name.
+                Results update automatically as you navigate through the list.
             </InfoBox>
 
             <HelpBox :compact="true">
-                You can add multiple conditions separated by a comma. 
-                Click on the + sign for the Advanced Search with additional options.
+                <b>Multiple conditions:</b> Separate search terms with a comma (e.g. <i>Smith, Jones</i>) to match
+                users containing any of those values.
+                <br /><br />
+                <b>Advanced Search:</b> Click the <b>+</b> icon next to the search box to open the Advanced Search panel,
+                which offers additional filters such as Role and Active status.
+                <br /><br />
+                <b>Keyboard shortcuts:</b> Use <b>↑ / ↓</b> arrow keys to move between users in the list,
+                <b>Page Up / Page Down</b> to jump between pages, and the <b>Home</b> key to return focus to the search box.
             </HelpBox>
 
             <MobilePagerPrevNext :pager="listPager" />

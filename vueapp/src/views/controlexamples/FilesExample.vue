@@ -7,10 +7,10 @@
 		FileExplorer, FolderExplorer &amp; UploadControl Examples
 	</div>
 
-    <div class="mb-5">
+    <InfoBox class="mb-7">
         These controls are still in progress. The UploadControl works but the 
 		FolderExplorer and FileList controls are still in progress.
-    </div>
+    </InfoBox>
 
     <div class="flex flex-wrap gap-3">
 

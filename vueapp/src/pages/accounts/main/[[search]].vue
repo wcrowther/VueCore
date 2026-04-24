@@ -5,17 +5,13 @@
 
     // const route = useRoute()
     // const urlSearch = computed(() => route.params.search || null)
-    // 
     // const searchFilter = useLocalStorage('accountsSearchFilterDefault', '')
-    // 
-    // onMounted(() => 
-    //     searchFilter.value = urlSearch
-    // )
+    // onMounted(() => searchFilter.value = urlSearch)
 
 </script>
 
 <template>
-    <div class="flex" id="accounts-main">
+    <div class="flex" id="accountsMain">
 
         <!-- <div class="w-full">{{ urlSearch }}</div> -->
         
