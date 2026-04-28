@@ -43,17 +43,11 @@ public static partial class Endpoints
 
 		// ---- Uploads Endpoints --------------------------------------------------------------------------
 
-		endpoints.MapPost("/upload", async (IFormFile file, AppSettings appSettings) =>
+		endpoints.MapPost("/upload", async (IFormFile file, [FromServices] FileManager fileManager) =>
 		{
-			string uploadsPath = Path.Combine(appSettings.FoldersRoot, "Uploads");
-			var uploadsFolder  = Directory.CreateDirectory(uploadsPath); // Ensure Uploads exists
+			var fileName = await fileManager.UploadFile(file);
 
-			var path = Path.Combine(uploadsPath, file.FileName);
-
-			using var stream = new FileStream(path, FileMode.Create);
-			await file.CopyToAsync(stream);
-
-			return Results.Ok(new { file = file.FileName });
+			return Results.Ok(new { file = fileName });
 		})
 		.DisableAntiforgery()  // WORK ON THIS. This required for current security implementation.
 		.WithName("Upload");

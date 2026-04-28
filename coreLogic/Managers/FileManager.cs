@@ -1,4 +1,5 @@
 using coreApi.Models;
+using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 
 namespace coreLogic.Managers
@@ -6,15 +7,20 @@ namespace coreLogic.Managers
 	public class FileManager
 	{
 		private readonly string foldersRoot;
+		private readonly string uploadsPath;
 
 		private static readonly Regex ValidName = new(@"^[a-zA-Z0-9_\-. ]+$", RegexOptions.Compiled);
 
 		public FileManager(string foldersRoot)
 		{
 			this.foldersRoot = foldersRoot ?? @"C:\FoldersRoot";
+			this.uploadsPath = Path.Combine(this.foldersRoot, "Uploads");
 
 			if (!Directory.Exists(foldersRoot))
 				Directory.CreateDirectory(foldersRoot);
+
+			if (!Directory.Exists(uploadsPath))
+				Directory.CreateDirectory(uploadsPath);
 		}
 
 		public List<FileItem> GetFiles(string folderPath)
@@ -74,6 +80,18 @@ namespace coreLogic.Managers
 			{
 				DeleteFile(folderPath, fileName);
 			}
+		}
+
+		public async Task<string> UploadFile(IFormFile file)
+		{
+			ValidateName(file.FileName);
+
+			var path = Path.Combine(uploadsPath, file.FileName);
+
+			using var stream = new FileStream(path, FileMode.Create);
+			await file.CopyToAsync(stream);
+
+			return file.FileName;
 		}
 
 		public MoveFilesResult MoveFiles(string sourcePath, string targetPath, List<string> fileNames)

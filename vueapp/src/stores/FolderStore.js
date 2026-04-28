@@ -1,3 +1,6 @@
+ import { isRootName, toPathSegments, joinPath, 
+		  normalizePath, toApiParentPath, hasPath, 
+		  findNodeByPath, hasFilesInSubtree } 		from '@/helpers/fileFolderHelpers'
 
 export const useFolderStore = defineStore('FolderStore', () =>
 {
@@ -11,109 +14,10 @@ export const useFolderStore = defineStore('FolderStore', () =>
 	const selectedPath 	= ref("")
 	const renamingPath 	= ref(null)
 
-	// PRIVATE HELPERS ---------------------------------------------------------
-
-	const isRootName = (value) => String(value ?? "").trim() === "/"
-
-	const toPathSegments = (path) =>
-	{
-		const rawPath = String(path ?? "").trim()
-		if (!rawPath || rawPath === "/") return []
-
-		return rawPath.split("/").filter(Boolean)
-	}
-
-	const joinPath = (parentPath, name) =>
-	{
-		const parentSegments = toPathSegments(parentPath)
-		const childName = String(name ?? "").trim()
-		if (!childName)
-			return parentSegments.length ? `/${parentSegments.join("/")}` : "/"
-
-		return `/${[...parentSegments, childName].join("/")}`
-	}
-
-	const normalizePath = (path) =>
-	{
-		const segments = toPathSegments(path)
-		return segments.length ? `/${segments.join("/")}` : "/"
-	}
-
-	const toApiParentPath = (path) =>
-	{
-		return toPathSegments(path).join("/")
-	}
-
-	const hasPath = (nodes, targetPath, parentPath = "/") =>
-	{
-		if (!targetPath) return false
-		const normalizedTargetPath = normalizePath(targetPath)
-		const sourceNodes = Array.isArray(nodes) ? nodes : []
-
-		for (const node of sourceNodes)
-		{
-			const name = String(node?.name ?? node?.Name ?? "")
-			if (!name) continue
-
-			const currentPath = joinPath(parentPath, name)
-			if (currentPath === normalizedTargetPath)
-				return true
-
-			const children = node?.children ?? node?.Children ?? []
-			
-			if (hasPath(children, targetPath, currentPath))
-				return true
-		}
-
-		return false
-	}
-
-	const findNodeByPath = (nodes, targetPath, parentPath = "/") =>
-	{
-		if (!targetPath) return null
-
-		const normalizedTargetPath = normalizePath(targetPath)
-		const sourceNodes = Array.isArray(nodes) ? nodes : []
-
-		for (const node of sourceNodes)
-		{
-			const name = String(node?.name ?? node?.Name ?? "")
-			if (!name) continue
-
-			const currentPath = joinPath(parentPath, name)
-			if (currentPath === normalizedTargetPath)
-				return node
-
-			const children = node?.children ?? node?.Children ?? []
-			const foundNode = findNodeByPath(children, normalizedTargetPath, currentPath)
-			if (foundNode)
-				return foundNode
-		}
-
-		return null
-	}
-
-	const hasFilesInSubtree = (node) =>
-	{
-		if (!node) return false
-
-		const directFileCount = Number(node?.FileCount ?? node?.fileCount ?? 0)
-		if (directFileCount > 0)
-			return true
-
-		const children = node?.children ?? node?.Children ?? []
-		for (const child of Array.isArray(children) ? children : [])
-		{
-			if (hasFilesInSubtree(child))
-				return true
-		}
-
-		return false
-	}
-
 	// GETTERS ----------------------------------------------------------------
 
-	const isEditing = computed(() => editingPath.value === "root")
+	const rootParentPath = computed(() => rootNodeName)
+	const isEditing 	 = computed(() => editingPath.value === "root")
 
 	const rootNode = computed(() =>
 	{
@@ -124,8 +28,6 @@ export const useFolderStore = defineStore('FolderStore', () =>
 			return isRootName(name)
 		})
 	})
-
-	const rootParentPath = computed(() => rootNodeName)
 
 	const rootChildren = computed(() =>
 	{
@@ -145,6 +47,8 @@ export const useFolderStore = defineStore('FolderStore', () =>
 	})
 
 	// ACTIONS ----------------------------------------------------------------
+
+	const toggleRootEdit = () => editingPath.value = editingPath.value === "root" ? null : "root"
 
 	const load = async () =>
 	{
@@ -233,8 +137,6 @@ export const useFolderStore = defineStore('FolderStore', () =>
 
 		return !hasFilesInSubtree(nodeToDelete)
 	}
-
-	const toggleRootEdit = () => editingPath.value = editingPath.value === "root" ? null : "root"
 
 	const addRootFolder = async () =>
 	{

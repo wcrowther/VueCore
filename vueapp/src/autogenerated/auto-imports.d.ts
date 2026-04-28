@@ -52,20 +52,26 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const env: typeof import('../datalists/env.js')['env']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
+  const findNodeByPath: typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']
   const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
   const handleApiError: typeof import('../composables/ApiErrorHandler.js')['handleApiError']
+  const hasFilesInSubtree: typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']
   const hasKeys: typeof import('../helpers/global.js')['hasKeys']
+  const hasPath: typeof import('../helpers/fileFolderHelpers.js')['hasPath']
   const inject: typeof import('vue')['inject']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const isRootName: typeof import('../helpers/fileFolderHelpers.js')['isRootName']
+  const joinPath: typeof import('../helpers/fileFolderHelpers.js')['joinPath']
   const logJson: typeof import('../helpers/global.js')['logJson']
   const markRaw: typeof import('vue')['markRaw']
   const nextTick: typeof import('vue')['nextTick']
+  const normalizePath: typeof import('../helpers/fileFolderHelpers.js')['normalizePath']
   const numbersOnly: typeof import('../helpers/global.js')['numbersOnly']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']
@@ -96,6 +102,9 @@ declare global {
   const shallowRef: typeof import('vue')['shallowRef']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const timeFormat: typeof import('../helpers/global.js')['timeFormat']
+  const toApiFolderPath: typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']
+  const toApiParentPath: typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']
+  const toPathSegments: typeof import('../helpers/fileFolderHelpers.js')['toPathSegments']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
@@ -217,20 +226,26 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly env: UnwrapRef<typeof import('../datalists/env.js')['env']>
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
+    readonly findNodeByPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']>
     readonly formatFileSize: UnwrapRef<typeof import('../helpers/global.js')['formatFileSize']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly handleApiError: UnwrapRef<typeof import('../composables/ApiErrorHandler.js')['handleApiError']>
+    readonly hasFilesInSubtree: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']>
     readonly hasKeys: UnwrapRef<typeof import('../helpers/global.js')['hasKeys']>
+    readonly hasPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasPath']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly isRootName: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['isRootName']>
+    readonly joinPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['joinPath']>
     readonly logJson: UnwrapRef<typeof import('../helpers/global.js')['logJson']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
+    readonly normalizePath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['normalizePath']>
     readonly numbersOnly: UnwrapRef<typeof import('../helpers/global.js')['numbersOnly']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
@@ -261,6 +276,9 @@ declare module 'vue' {
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly timeFormat: UnwrapRef<typeof import('../helpers/global.js')['timeFormat']>
+    readonly toApiFolderPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']>
+    readonly toApiParentPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']>
+    readonly toPathSegments: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toPathSegments']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>

@@ -1,3 +1,5 @@
+import { normalizePath } from '@/helpers/fileFolderHelpers'
+
 export const useFileStore = defineStore('FileStore', () =>
 {
 	// STATE ------------------------------------------------------------------
@@ -8,24 +10,6 @@ export const useFileStore = defineStore('FileStore', () =>
 	const loadError = ref("")
 	const selectedFileIndexes = ref([])
 	const lastSelectedIndex = ref(null)
-
-	// PRIVATE HELPERS ---------------------------------------------------------
-
-	const toPathSegments = (path) =>
-	{
-		const rawPath = String(path ?? "").trim()
-		if (!rawPath || rawPath === "/") return []
-
-		return rawPath.split("/").filter(Boolean)
-	}
-
-	const normalizePath = (path) =>
-	{
-		const segments = toPathSegments(path)
-		return segments.length ? `/${segments.join("/")}` : ""
-	}
-
-	const toApiFolderPath = (path) => toPathSegments(path).join("/")
 
 	// GETTERS ----------------------------------------------------------------
 
