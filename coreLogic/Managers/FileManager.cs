@@ -1,4 +1,5 @@
 using coreApi.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 
@@ -11,16 +12,21 @@ namespace coreLogic.Managers
 
 		private static readonly Regex ValidName = new(@"^[a-zA-Z0-9_\-. ]+$", RegexOptions.Compiled);
 
-		public FileManager(string foldersRoot)
+		public FileManager(string foldersRoot, IWebHostEnvironment env)
 		{
-			this.foldersRoot = foldersRoot ?? @"C:\FoldersRoot";
+			foldersRoot ??= @"C:\FoldersRoot";
+
+			this.foldersRoot = Path.IsPathRooted(foldersRoot)
+				? foldersRoot
+				: Path.Combine(env.ContentRootPath, foldersRoot);
+
 			this.uploadsPath = Path.Combine(this.foldersRoot, "Uploads");
 
-			if (!Directory.Exists(foldersRoot))
-				Directory.CreateDirectory(foldersRoot);
+			if (!Directory.Exists(this.foldersRoot))
+				Directory.CreateDirectory(this.foldersRoot);
 
-			if (!Directory.Exists(uploadsPath))
-				Directory.CreateDirectory(uploadsPath);
+			if (!Directory.Exists(this.uploadsPath))
+				Directory.CreateDirectory(this.uploadsPath);
 		}
 
 		public List<FileItem> GetFiles(string folderPath)

@@ -2,6 +2,10 @@
 import axios from 'axios'
 import { handleApiError } from '@/composables/ApiErrorHandler'
 
+// Cache for antiforgery token
+let antiforgeryToken = null
+let tokenPromise = null
+
 export async function apiGet(url, signal){                         return apiCall('GET',  url, true, null,  false, null,       signal) }
 export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null,       signal) }
 export async function apiPut(url, body, signal){                   return apiCall('PUT',  url, true, body,  false, null,       signal) }
@@ -34,6 +38,21 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	}	
 
 	// console.log(`apiCall: ${methodType} (useAuth: ${useAuth}) from Url: ${url}`)
+
+	// Add antiforgery token for state-changing operations
+	if (useAuth && ['POST', 'PUT', 'DELETE'].includes(methodType))
+	{
+		try
+		{
+			const token = await getAntiforgeryToken(appStore)
+			request.headers['X-XSRF-TOKEN'] = token
+		}
+		catch (err)
+		{
+			console.error('Failed to get antiforgery token:', err)
+			// Continue without token - server will reject if required
+		}
+	}
 
 	if (body) 
 	{
@@ -72,12 +91,55 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	return result
 }
 
+// PRIVATE =======================================================================
+
+// Used to prevent Cross-Site Request Forgery (CSRF) attacks
+async function getAntiforgeryToken(appStore)
+{
+	// If token exists and is fresh (less than 10 minutes old), reuse it
+	if (antiforgeryToken?.token && antiforgeryToken.timestamp > Date.now() - 600000)
+		return antiforgeryToken.token
+
+	// If a request is already in flight, wait for it
+	if (tokenPromise)
+		return tokenPromise
+
+	// Fetch new token
+	tokenPromise = (async () => 
+	{
+		try
+		{
+			const response = await axios(
+			{
+				baseURL: appStore.baseApiUrl,
+				url: '/authenticate/antiforgery/token',
+				method: 'GET',
+				withCredentials: true
+			})
+
+			antiforgeryToken = 
+			{
+				token: response.data.token,
+				timestamp: Date.now()
+			}
+
+			return antiforgeryToken.token
+		}
+		finally
+		{
+			tokenPromise = null
+		}
+	})()
+
+	return tokenPromise
+}
+
 /*
 ==================================================================================
 EXAMPLE CODE: 
 ==================================================================================
 const result      = await apiGet(`/accounts/getAccountById/${accountId}`)
-this.account      = result.data
+account.value     = Object.assign(new AccountModel(), result.data.Result)     
 ==================================================================================
 */
 

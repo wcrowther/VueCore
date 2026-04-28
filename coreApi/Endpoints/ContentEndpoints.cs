@@ -49,7 +49,6 @@ public static partial class Endpoints
 
 			return Results.Ok(new { file = fileName });
 		})
-		.DisableAntiforgery()  // WORK ON THIS. This required for current security implementation.
 		.WithName("Upload");
 
 		// ---- File Endpoints ------------------------------------------------------------------------------

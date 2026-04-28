@@ -3,6 +3,7 @@ using coreApi.Models;
 using coreLogic.Interfaces;
 using coreLogic.Models;
 using coreLogic.Models.Generic;
+using Microsoft.AspNetCore.Antiforgery;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using WildHare.Extensions;
@@ -32,6 +33,18 @@ public static partial class Endpoints
 			return Results.Ok(ToProfileResponse(returns.Data));
 		})
 		.RequireAuthorization();
+
+		// =========================================================
+		// antiforgery token
+		// =========================================================
+
+		endpoints.MapGet("/antiforgery/token", (IAntiforgery antiforgery, HttpContext context) =>
+		{
+			var tokens = antiforgery.GetAndStoreTokens(context);
+			return Results.Ok(new { token = tokens.RequestToken });
+		})
+		.RequireAuthorization()
+		.WithName("GetAntiforgeryToken");
 
 		// =========================================================
 		// logout

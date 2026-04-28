@@ -23,7 +23,7 @@ var environment = builder.Environment;
 builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.PropertyNamingPolicy = null; });
 builder.Services.AddSingleton(builder.Configuration.GetSection("App").Get<AppSettings>());
 builder.Services.AddSingleton(new FolderManager(builder.Configuration["App:FoldersRoot"]));
-builder.Services.AddSingleton(new FileManager(builder.Configuration["App:FoldersRoot"]));
+builder.Services.AddSingleton(new FileManager(builder.Configuration["App:FoldersRoot"], builder.Environment));
 
 builder.Services.AddSignalR().AddJsonProtocol(options =>
 {
@@ -92,6 +92,8 @@ builder.Services.AddEndpointsApiExplorer();  // OpenApi
 
 builder.Services.AddMyCustomSwaggerGen();
 
+builder.Services.AddAntiforgery(options => { options.HeaderName = "X-XSRF-TOKEN"; });
+
 builder.Services.AddMyServices();  // Dependency Injection of My Services
 
 // ----------------------------------------------------------------------------------------
@@ -113,6 +115,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<DebugMiddleware>(); // Only runs in Development
+
+app.UseAntiforgery();
 
 app.UseMyEndpoints();
 

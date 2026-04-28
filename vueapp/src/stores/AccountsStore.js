@@ -75,7 +75,7 @@ export const useAccountsStore = defineStore('AccountsStore', () =>
 
                 if (result.success)
                 {
-                    account.value         = result.data.Result
+                    account.value         = Object.assign(new AccountModel(), result.data.Result)              
                     uneditedAccount.value = structuredClone(toRaw(account.value))
                     return
                 }
