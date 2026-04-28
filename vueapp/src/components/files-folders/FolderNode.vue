@@ -225,7 +225,7 @@
 				</div>
 
 				<button v-if="isSelected && !isRootFolder" 
-					class="text-red-500 p-[2px] text-xs border border-red-500 size-4 rounded-full flex justify-center items-center" 
+					class="text-red-500 text-xs border border-red-500 size-4 rounded-full flex justify-center items-center" 
 					@click="removeFolder">
 					<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark-20-solid" />
 				</button>
