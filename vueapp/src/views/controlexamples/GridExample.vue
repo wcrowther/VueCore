@@ -28,7 +28,9 @@
 
     <div class="flex flex-wrap">
 
-        <div class="font-bold mb-5 basis-full flex-none">GridControl Example</div>
+        <div class="text-lg font-bold mb-5 basis-full flex-none">
+            GridControl Example
+        </div>
 
         <div class="mb-7 basis-full flex-none">
             The <b>GridControl</b> renders a configurable grid of selectable cells. Use the 

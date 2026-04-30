@@ -1,17 +1,19 @@
 <script setup>
 	
-	const route = useRoute()
-	const CHATPAGE = "/accounts/chat"
+	const route     = useRoute()
+	const CHATPAGE  = "/accounts/chat"
 	const { messagesCount, 
 			monitorChat } = useChatHub()  
 
-	onMounted(() => { monitorChat() })
+	const chatStore = useChatStore()
+
+	onMounted(() => { if (!chatStore.monitorInitialized) monitorChat();	})
 
 	const clearCountIfOnChatPage = () => 
 	{ 
 		console.log('Clear Count If On Chat Page.')	
 		if (route.path === CHATPAGE)  
-			useChatStore().markMessagesRead() 
+			chatStore.markMessagesRead() 
 	}
 
 </script>

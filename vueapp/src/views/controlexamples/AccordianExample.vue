@@ -1,7 +1,9 @@
 
 <template>
 
-	<div class="font-bold mb-5">AccordionControl</div>
+	<div class="text-lg font-bold mb-5">
+        AccordionControl
+    </div>
     <div class="mb-7">
         This is an example of a fully functioning AccordianControl (utilizing nested AccordianControls), 
         configurable to have either single or multiple open items. By default, the AccordianItem 

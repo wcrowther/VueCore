@@ -14,7 +14,7 @@
 </script>
 
 <template>
-    <div class="mb-3">
+    <div class="mb-3 w-full">
 
         <div class="pb-1 flex justify-between items-baseline">
             <label v-if="props.labelName" 

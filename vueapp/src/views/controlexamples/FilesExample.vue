@@ -3,8 +3,8 @@
 
 <template>
 	
-	<div class="font-bold mb-5">
-		FileExplorer, FolderExplorer &amp; UploadControl Examples
+	<div class="text-lg font-bold mb-5">
+		File, Folder &amp; Upload Control Examples
 	</div>
 
     <InfoBox class="mb-7">

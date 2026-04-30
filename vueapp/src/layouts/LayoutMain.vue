@@ -1,7 +1,8 @@
 	
 <script setup>
 
-    const appStore   			= useAppStore()
+    const { platform }			= usePlatform()
+	const appStore   			= useAppStore()
     const {  sideBarHidden, 
 		 layoutEscapeKeyOn, }	= storeToRefs(appStore)
 	const { setInfoLevel }		= appStore
@@ -13,7 +14,7 @@
 		// Disable global Escape (Esc) key for layout by setting app.layoutEscapeKeyOn to false
 		if (e.code === 'Escape' && layoutEscapeKeyOn.value){ sideBarHidden.value = !sideBarHidden.value; e.preventDefault(); } 
 
-		let ctrl = navigator.userAgentData.platform.match("Mac") ? e.metaKey : e.ctrlKey   
+		let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey   
         if (e.code === 'KeyH' && ctrl ){ setInfoLevel(1); e.preventDefault() }
         if (e.code === 'F1' ){ setInfoLevel(1); e.preventDefault() }
 	}

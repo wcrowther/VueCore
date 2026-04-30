@@ -29,8 +29,6 @@ namespace coreLogic.Managers
 
 			var newPath = Path.Combine(fullParent, name);
 
-			Debug.WriteLine(newPath);
-
 			if (!Directory.Exists(newPath))
 				Directory.CreateDirectory(newPath);
 		}
@@ -95,6 +93,9 @@ namespace coreLogic.Managers
 
 			if (relative.Contains(".."))
 				throw new Exception("Invalid path");
+
+			relative = relative.Trim();
+			relative = relative.Trim('\\', '/');
 
 			var full = Path.GetFullPath(Path.Combine(foldersRoot, relative));
 

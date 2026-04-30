@@ -25,7 +25,11 @@ export const useToastStore = defineStore('ToastStore',
 
         showToast(message, type, duration, hidebar = true) 
         {
-            // console.log(message)
+            if(message?.trim().length === 0)
+            {
+               console.log(`Toast '${type}' message was empty.`)  
+               return      
+            }
             
             if(['DEFAULT', 'SUCCESS', 'INFO', 'WARNING', 'ERROR'].indexOf(type) === 0)
                 type = TYPE.DEFAULT

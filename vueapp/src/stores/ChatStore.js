@@ -5,7 +5,8 @@ export const useChatStore = defineStore('ChatStore',
         message: {},
         messages: [],
         clientMaxMessageId: 0,
-        serverMaxMessageId: 0
+        serverMaxMessageId: 0,
+        monitorInitialized: false
     }),
     getters:
     {

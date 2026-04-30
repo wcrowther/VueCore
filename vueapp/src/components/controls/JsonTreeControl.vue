@@ -32,6 +32,7 @@
 				@click.stop="toggleView" title="Raw Json"
 				width="24px" class="text-color-dark-gray" 
 				icon="heroicons:code-bracket" />
+
 			<IconSymbol v-else 
 				@click.stop="toggleView" title="Formatted Json"
 				width="24px" class="text-color-dark-gray" 
@@ -48,7 +49,7 @@
 			<div class="bg-transparent border-t-[3px] font-bold select-none flex items-center border-color-primary">
 				<RotateButton v-model="isOpen" :noClick="true" icon="material-symbols-light:play-arrow" />
 				<div class="p-1">{{ label }}
-					<span class="text-gray-400 ml-1">- Raw Json View</span>
+					<span class="text-gray-400 ml-1 hidden sm:inline">- Raw Json View</span>
 				</div> 
 			</div>
 			

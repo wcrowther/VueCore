@@ -24,7 +24,7 @@
 </script>
 
 <template>
-    <div class="mb-3">
+    <div class="mb-3 w-full">
 
         <div :class="['flex justify-between items-baseline', {'pb-1': !props.hideLabel } ]">
             <label v-if="props.labelName && !props.hideLabel"

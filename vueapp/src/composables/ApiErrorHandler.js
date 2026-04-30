@@ -49,13 +49,13 @@ export async function handleApiError({ err, url, authStore, toastStore })
 
 		if (isPublicAuthRequest)
 		{
-			result.message = 'Invalid username or password.'
+			result.message   = 'Invalid username or password.'
 			result.toastType = 'WARNING'
 		}
 		else
 		{
 			await authStore.logout('/auth/login', { callApi: false })
-			result.message = 'You need to be authorized for that content. Please log in.'
+			result.message   = 'You need to be authorized for that content. Please log in.'
 			result.toastType = 'WARNING'
 		}
 	}

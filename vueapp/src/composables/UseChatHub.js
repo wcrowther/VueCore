@@ -3,7 +3,7 @@ import { useSignalR } from '@/composables/UseSignalR'
 export function useChatHub() 
 {
     const authStore	                                    = useAuthStore()
-    const { userId: currentUserId }                     = storeToRefs(authStore) 
+    const { userId: currentUserId, isLoggedIn }         = storeToRefs(authStore) 
 
     const chatStore                                     = useChatStore()
     const { message, messages, messagesCount,
@@ -14,8 +14,8 @@ export function useChatHub()
     const { isConnectedRef, startConnection,
             registerEvent }                             = useSignalR()
 
-    onMounted(async ()   => await startConnection())
-    //onUnmounted(async () => await stopConnection()) stopConnection, 
+    onMounted(async () => { if (isLoggedIn.value) await startConnection() })
+    //onUnmounted(async () => await stopConnection()) 
     
     // Activate ChatRoom component
     const startChat = async () => 
@@ -49,8 +49,12 @@ export function useChatHub()
     {
         try 
         {
+            if (!isLoggedIn.value) return
+
             await getMaxMessageId() // set maxMessageIds
-            clientMaxMessageId.value = serverMaxMessageId.value // initialize start id
+
+            clientMaxMessageId.value    = serverMaxMessageId.value // initialize start id
+            chatStore.monitorInitialized = true
             
             registerEvent('ReceiveMaxMessageId', serverMaxId => 
             {

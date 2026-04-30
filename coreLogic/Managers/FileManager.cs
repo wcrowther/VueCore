@@ -22,11 +22,8 @@ namespace coreLogic.Managers
 
 			this.uploadsPath = Path.Combine(this.foldersRoot, "Uploads");
 
-			if (!Directory.Exists(this.foldersRoot))
-				Directory.CreateDirectory(this.foldersRoot);
-
-			if (!Directory.Exists(this.uploadsPath))
-				Directory.CreateDirectory(this.uploadsPath);
+			EnsureFolder(foldersRoot);
+			EnsureFolder(uploadsPath);
 		}
 
 		public List<FileItem> GetFiles(string folderPath)
@@ -90,6 +87,7 @@ namespace coreLogic.Managers
 
 		public async Task<string> UploadFile(IFormFile file)
 		{
+			EnsureFolder(uploadsPath);
 			ValidateName(file.FileName);
 
 			var path = Path.Combine(uploadsPath, file.FileName);
@@ -174,6 +172,12 @@ namespace coreLogic.Managers
 		{
 			if (!ValidName.IsMatch(name))
 				throw new Exception("Invalid file name");
+		}
+
+		private void EnsureFolder(string folderPath)
+		{
+			if (!Directory.Exists(folderPath))
+				Directory.CreateDirectory(folderPath);
 		}
 	}
 }

@@ -6,6 +6,10 @@ import { handleApiError } from '@/composables/ApiErrorHandler'
 let antiforgeryToken = null
 let tokenPromise = null
 
+// ==================================================================================
+// Specific API Methods - Use these if possible, over generic call
+// ==================================================================================
+
 export async function apiGet(url, signal){                         return apiCall('GET',  url, true, null,  false, null,       signal) }
 export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null,       signal) }
 export async function apiPut(url, body, signal){                   return apiCall('PUT',  url, true, body,  false, null,       signal) }
@@ -50,7 +54,6 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		catch (err)
 		{
 			console.error('Failed to get antiforgery token:', err)
-			// Continue without token - server will reject if required
 		}
 	}
 

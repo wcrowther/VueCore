@@ -2,6 +2,9 @@
 
     const pageTitle  = ref('Control Examples')
 
+	const showBorder = ref(false)
+	const toggleBorder = () => showBorder.value = !showBorder.value
+
 </script>
 
 <template>
@@ -24,6 +27,9 @@
 					<b>Files</b> demonstrates file and folder management, <b>Calendar</b> shows event scheduling, 
 					<b>Grid</b> covers data tables, <b>Json</b> displays an interactive JSON tree viewer, 
 					and <b>Misc</b> contains additional utility components.
+					<div @click="toggleBorder" class="font-bold mt-5">
+						Wizard border {{showBorder ? 'On' : 'Off'}}
+					</div>
 				</InfoBox>
 
 				<!-- FloaterControl here 
@@ -33,7 +39,7 @@
 				</FloaterControl>
 				-->
 
-				<WizardControl class="mb-10" :useKeyControls="false" 
+				<WizardControl class="mb-10" :useKeyControls="false" :showBorder
 					:tabList="['Wizard', 'Files', 'Calendar', 'Grid', 'Json', 'Misc']">
 
 					<template #Wizard>

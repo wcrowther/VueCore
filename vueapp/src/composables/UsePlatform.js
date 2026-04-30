@@ -1,5 +1,3 @@
-// import { ref, computed } from 'vue'
-
 export function usePlatform() 
 {
     const ua 			= navigator.userAgent || ''

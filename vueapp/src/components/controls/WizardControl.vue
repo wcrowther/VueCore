@@ -6,6 +6,7 @@
 		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] },
         useKeyControls: { type: Boolean, default: true },
         persistActiveTab: { type: Boolean, default: true },
+        showBorder: { type: Boolean, default: true }
 	})
 
     const activeTab = props.persistActiveTab 
@@ -27,7 +28,6 @@
     {
         const keys = function (e)  
 	    {
-	    	// console.log(e.code);    
 	    	if      (e.code === 'ArrowLeft')  { prevTab(); e.preventDefault();}
 	    	else if (e.code === 'ArrowRight') { nextTab(); e.preventDefault();}
 	    }
@@ -45,7 +45,8 @@
         <div class="flex justify-start gap-px w-fit m-auto mb-5 rounded-full overflow-hidden">
         
             <template v-for="(tab,idx) in props.tabList" :key="idx">
-                <div :class="['py-1 px-2 first:pl-3 last:pr-3 first:xs:pl-5 last:xs:pr-5 xs:px-5 font-bold tracking-wide select-none cursor-pointer', 
+                <div :class="['py-1 px-2 first:pl-3 last:pr-3 first:xs:pl-5 last:xs:pr-5 xs:px-5'+
+                    'font-bold tracking-wide select-none cursor-pointer', 
                     isActive(tab) ? 'bg-color-mid-blue text-white' :'bg-color-light-blue text-black']" 
                     @click="activeTab = tab">
                     <span>{{ tab }}</span>
@@ -55,8 +56,8 @@
         </div>
 
         <!-- Content -->
-        <div class="relative border border-black p-7 z-10 h-full min-h-60 opacity-100 pb-3
-            overflow-y-auto scrollbar-thin box-border">
+        <div :class="['relative z-10 h-full min-h-60 opacity-100 pb-3 bg-transparent',
+            'overflow-y-auto scrollbar-thin box-border', showBorder ? 'border border-black p-7': 'mt-7']">
 
            <template v-for="(tab,idx) in props.tabList" :key="idx">
                 <template v-if="activeTab == tab">
@@ -65,8 +66,8 @@
            </template>  
 
            <slot>
-                <div @click="nextTab" class="text-right font-bold absolute w-fit
-                    flex justify-end top-7 right-7 select-none hover:text-orange">
+                <div @click="nextTab" :class="['text-right font-bold absolute w-fit select-none hover:text-orange flex justify-end ', 
+                    showBorder ? 'top-7 right-7' : 'top-0 right-5']">
                     Next
                 </div>
            </slot>
