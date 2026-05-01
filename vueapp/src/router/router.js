@@ -47,18 +47,21 @@ router.beforeEach(async (to) =>
 {
 	// AuthStore must be created here because we are in .js not .vue file
 
-	const publicPages 	= ['/','/home','/home/intro','/home/vuenotes','/home/dotnetnotes','/auth/login','/panzoom']
-	const authRequired 	= !publicPages.includes(to.path)
-	const authStore		= useAuthStore() 
+    const publicPages   = ['/','/home','/home/intro','/home/vuenotes','/home/dotnetnotes','/auth/login','/panzoom']
+    const authRequired  = !publicPages.includes(to.path)
+    const authStore     = useAuthStore()
 
-	if (!authStore.isAuthChecked)
-		await authStore.fetchCurrentUser()
+    if (authRequired)
+    {
+        if (!authStore.isAuthChecked)
+            await authStore.fetchCurrentUser()
 
-	if (authRequired && !authStore.isLoggedIn) 
-	{
-		authStore.returnUrl = to.fullPath	
-		return '/auth/login'
-	}
+        if (!authStore.isLoggedIn) 
+        {
+            authStore.returnUrl = to.fullPath   
+            return '/auth/login'
+        }
+    }
 });
 
 router.afterEach(() =>  // (to, from)

@@ -1,12 +1,13 @@
 <script setup>
 
+    const { platform }			    = usePlatform()
     const appStore                  = useAppStore()
     const usersStore                = useUsersStore()
     const toastStore                = useToastStore()
-    const {  showJsonEntities }     = storeToRefs(appStore)
-    const {  user,  detailUserId }  = storeToRefs(usersStore)
-    const {  getUserDetailData,
-        addNewUser, saveUser }      = usersStore
+    const { showJsonEntities }      = storeToRefs(appStore)
+    const { user,  detailUserId }   = storeToRefs(usersStore)
+    
+    const { getUserDetailData, addNewUser, saveUser } = usersStore
 
     const isAddingUser      = ref(false)
     const showConfirmSave   = ref(false)
@@ -74,7 +75,7 @@
 
     const keys = function (e)   
     {
-        let ctrl = navigator.userAgentData.platform.match("Mac") ? e.metaKey : e.ctrlKey   
+        let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey 
         if (e.code === 'KeyS' && ctrl) { confirmSave();  e.preventDefault(); }
     }
 

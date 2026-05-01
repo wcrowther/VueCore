@@ -42,12 +42,11 @@
 
 <template>
 	<div>
-
 		<div @click="toggleEvent" :title="`EventId: ${event.id}`"
 			@keydown.enter.prevent.stop="toggleEvent"  
 			:class="['group border border-blue-400 p-2 flex items-center',
 			isEdit ? 'bg-gradient-to-b from-blue-100 to-white border-b-0' : '']">
-			<!-- <div class="w-full bg-green">ss</div> -->
+
 			<div class="flex items-center grow">
 				<span class="size-5 mr-1">
 					<IconSymbol v-if="isEdit" width="20px"

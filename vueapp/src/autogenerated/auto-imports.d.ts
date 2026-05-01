@@ -8,7 +8,7 @@ declare global {
   const AccountModel: typeof import('../models/AccountModel.js')['default']
   const AuthRequest: typeof import('../models/AuthRequest.js')['default']
   const AuthUser: typeof import('../models/AuthUser.js')['AuthUser']
-  const DisableLayoutEscapeKey: typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']
+  const DisableGlobalKeys: typeof import('../composables/DisableGlobalKeys.js')['DisableGlobalKeys']
   const Draggable: typeof import('@vueuse/core')['useDraggable']
   const EffectScope: typeof import('vue')['EffectScope']
   const EventModel: typeof import('../models/EventModel.js')['default']
@@ -115,7 +115,6 @@ declare global {
   const usStatesList: typeof import('../datalists/usStatesList.js')['usStatesList']
   const useAccountsStore: typeof import('../stores/AccountsStore.js')['useAccountsStore']
   const useAlertControl: typeof import('../composables/UseAlertControl.js')['useAlertControl']
-  const useAlertControlStore: typeof import('../composables/UseAlertControl.js')['useAlertControlStore']
   const useAppStore: typeof import('../stores/AppStore.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('../stores/AuthStore.js')['useAuthStore']
@@ -124,7 +123,6 @@ declare global {
   const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
-  const useConfirmControlStore: typeof import('../composables/UseConfirmControl.js')['useConfirmControlStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
@@ -139,7 +137,7 @@ declare global {
   const usePlatform: typeof import('../composables/UsePlatform.js')['usePlatform']
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
-  const useScrollLock: typeof import('../composables/useScrollLock.js')['useScrollLock']
+  const useScrollLock: typeof import('../composables/UseScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
@@ -182,7 +180,7 @@ declare module 'vue' {
     readonly AccountModel: UnwrapRef<typeof import('../models/AccountModel.js')['default']>
     readonly AuthRequest: UnwrapRef<typeof import('../models/AuthRequest.js')['default']>
     readonly AuthUser: UnwrapRef<typeof import('../models/AuthUser.js')['AuthUser']>
-    readonly DisableLayoutEscapeKey: UnwrapRef<typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']>
+    readonly DisableGlobalKeys: UnwrapRef<typeof import('../composables/DisableGlobalKeys.js')['DisableGlobalKeys']>
     readonly Draggable: UnwrapRef<typeof import('@vueuse/core')['useDraggable']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly EventModel: UnwrapRef<typeof import('../models/EventModel.js')['default']>
@@ -311,7 +309,7 @@ declare module 'vue' {
     readonly usePlatform: UnwrapRef<typeof import('../composables/UsePlatform.js')['usePlatform']>
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
-    readonly useScrollLock: UnwrapRef<typeof import('../composables/useScrollLock.js')['useScrollLock']>
+    readonly useScrollLock: UnwrapRef<typeof import('../composables/UseScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>

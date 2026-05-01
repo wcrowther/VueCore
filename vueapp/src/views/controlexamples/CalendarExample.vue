@@ -96,17 +96,14 @@
 
         <!-- Calendar header -->
         <template #title="{monthYear, timeZone, prevMonth, nextMonth, toToday}">
-
-        	<div class="flex justify-between items-center bg-blue-200 p-5">
+            <!-- Custom Implementation -->
+            <div class="flex justify-between items-center bg-blue-200 p-5">
                 <button @click="prevMonth" class="text-blue select-none">◀</button>
-                <button @click="toToday" class="border border-blue-400 px-3 py-[2px] rounded-full">Today</button>
-                <div class="text-lg text-center font-bold w-1/5">
+                <div class="hidden w-14 bg-amber-100"></div>
+                <div class="text-lg text-center font-bold w-3/5">
                     {{ monthYear }} 
                 </div>
-                <div class="text-center text-xs text-gray-500">
-                    <div>Timezone:</div>
-                    <div>{{ timeZone }}</div>
-                </div>
+                <button @click="toToday" class="hidden border border-blue-400 px-3 py-[2px] rounded-full bg-amber-100">Today</button>
                 <button @click="nextMonth" class="text-blue select-none">▶</button>           
 			</div>
         </template>

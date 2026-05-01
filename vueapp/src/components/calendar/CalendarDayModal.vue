@@ -1,13 +1,17 @@
 <script setup>
 
-    const calendarDate      = defineModel('calendarDate', { type: Date, default: null })
-    const editingEventId    = defineModel('editingEventId', { type: Number, default: null })
-    const dayEvents         = defineModel('dayEvents', 
-                              {   
-                                  type: Array, 
-                                  default: [],
-                                  validator: (value) => value.every(item => item instanceof EventModel )
-                              })
+    const {width: windowWidth}  = useWindowSize()
+
+    const calendarDate          = defineModel('calendarDate', { type: Date, default: null })
+    const editingEventId        = defineModel('editingEventId', { type: Number, default: null })
+    const dayEvents             = defineModel('dayEvents', 
+                                {   
+                                    type: Array, 
+                                    default: [],
+                                    validator: (value) => value.every(item => item instanceof EventModel )
+                                })
+                          
+    const keysOn = ref(true)
 
     const emit = defineEmits(['addEvent','deleteEvent'])
 
@@ -31,7 +35,6 @@
         let newIndex = (currentIndex + delta) % len
         if (newIndex < 0) newIndex += len
         editingEventId.value = dayEvents.value[newIndex].id
-
     }
 
     const prevDay   = () => calendarDate.value = addDays(calendarDate.value, -1)
@@ -43,45 +46,51 @@
 
     // Keyboard Listeners  ================================================
 
-	DisableLayoutEscapeKey(calendarDate) // disable Esc key if modal is showing
+	DisableGlobalKeys(calendarDate) // disable Esc key if modal is showing
 
 	const keys = function (e)   
     {
-		if (e.code === 'Escape'){ calendarDate.value=null; e.preventDefault(); }
-        else if (e.code === 'ArrowLeft')  { prevDay();   e.preventDefault();} 
-        else if (e.code === 'ArrowRight') { nextDay();   e.preventDefault();} 
-        else if (e.code === 'PageUp')    { prevEvent(); e.preventDefault();} 
-        else if (e.code === 'PageDown')  { nextEvent(); e.preventDefault();} 
+		if (e.code === 'Escape'){ calendarDate.value=null; e.preventDefault();}
+        else if (e.code === 'ArrowLeft')  { prevDay();     e.preventDefault();} 
+        else if (e.code === 'ArrowRight') { nextDay();     e.preventDefault();} 
+        else if (e.code === 'PageUp')     { prevEvent();   e.preventDefault();} 
+        else if (e.code === 'PageDown')   { nextEvent();   e.preventDefault();} 
     }
 
-    const keysOn = ref(true)
-
 	KeyboardListeners(keys, keysOn)
+
+    const modalWidth = computed(() => windowWidth.value > 500 ? '500px' : `${windowWidth.value}px`)
+
 
 </script> 
 
 <template>   
 
 	<ModalControl id="EventModal" v-model=showModal 
-        class="overflow-auto" height="500px" width="500px" 
+        class="overflow-auto" height="500px" :width="modalWidth" 
         @closeModal="calendarDate=null" >
 
         <template #header>
-            <div class="flex">
-                <div class="w-72">{{ weekdayFull(calendarDate) }}</div>
-                <div class="size-7 mr-2 bg-white/50 hover:bg-color-light-blue rounded-full flex-center" 
-                    @click="prevDay">
-                    <IconSymbol width="22px" class="text-blue" icon="material-symbols-light:arrow-back-2" />
-                </div>   
-                <div class="size-7 bg-white/50 hover:bg-color-light-blue rounded-full flex-center" 
-                    @click="nextDay">
-                    <IconSymbol width="22px" class="text-blue" icon="material-symbols-light:play-arrow" />
-                </div>  
+            <div class="w-full grid items-center grid-cols-8">
+                <div class="col-span-5 text-sm xxs:text-base">{{ weekdayFull(calendarDate) }}</div>
+                <div class="flex justify-center items-center col-span-2">
+                    <div class="size-7 mr-2 bg-white/50 hover:bg-color-light-blue rounded-full flex-center"
+                        @click="prevDay">
+                        <IconSymbol width="22px" class="text-blue" icon="material-symbols-light:arrow-back-2" />
+                    </div>
+                    <div class="size-7 bg-white/50 hover:bg-color-light-blue rounded-full flex-center"
+                        @click="nextDay">
+                        <IconSymbol width="22px" class="text-blue" icon="material-symbols-light:play-arrow" />
+                    </div>
+                </div>
+                <div class="colspan-1 justify-self-end">
+                    <div class="size-7 bg-white/50 hover:bg-color-light-blue rounded-full flex-center"
+                        @click="calendarDate=null">
+                        <IconSymbol width="18px" class="text-color-dark-gray" icon="heroicons-solid:x" />
+                    </div>
+                </div>
             </div>
-            <div class="size-7 bg-white hover:bg-color-light-blue rounded-full flex-center" 
-                @click="calendarDate=null">
-                <IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons-solid:x" />
-            </div>
+
         </template>
 
         <div v-if="!dayEvents || dayEvents.length === 0" class="p-5 text-center">

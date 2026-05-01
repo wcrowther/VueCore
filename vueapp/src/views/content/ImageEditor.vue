@@ -1,14 +1,10 @@
 <script setup>
 
-    // const listPager     = defineModel('listPager')
     const showModal          = defineModel('showModal')
-
-    // const emits         = defineEmits(["getListData"])
-    // const getListData   = () => emits('getListData')
 
     // Keyboard Listeners  ================================================
 	
-	DisableLayoutEscapeKey(showModal.value) // disable Esc key if modal is showing  
+	DisableGlobalKeys(showModal.value) // disable Esc key if modal is showing  
 
     const keys = function (e)   
     {

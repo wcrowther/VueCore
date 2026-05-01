@@ -1,23 +1,24 @@
 	
 <script setup>
 
-    const appStore   							= useAppStore()
-    const {  sideBarHidden, layoutEscapeKeyOn } = storeToRefs(appStore)
-	const { setInfoLevel }						= appStore
+    const { platform }						= usePlatform()
+    const appStore   						= useAppStore()
+    const {  sideBarHidden, globalKeysOn } 	= storeToRefs(appStore)
+	const { setInfoLevel }					= appStore
 
 	// Keyboard Listeners  ===========================================================================
 
 	const keys = function (e)   
     {
-		// Disable global Escape (Esc) key for layout by setting app.layoutEscapeKeyOn to false
-		if (e.code === 'Escape' && layoutEscapeKeyOn.value){ sideBarHidden.value = !sideBarHidden.value; e.preventDefault(); } 
+		// Disable global keys like Escape (Esc) key by toggling globalKeysOn
+		if (e.code === 'Escape'){ sideBarHidden.value = !sideBarHidden.value; e.preventDefault(); } 
 
-		let ctrl = navigator.userAgentData.platform.match("Mac") ? e.metaKey : e.ctrlKey   
+		let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey   
         if (e.code === 'KeyH' && ctrl ){ setInfoLevel(1); e.preventDefault() }
 	}
 
-	KeyboardListeners(keys)		// Sets Key listeners for all pages using this layout
-	SetHtmlHeadBody() 			// Sets CSS 'theme' or 'alt-theme' for this layout
+	KeyboardListeners(keys, globalKeysOn)	// Sets Key listeners for all pages using this layout
+	SetHtmlHeadBody() 						// Sets CSS 'theme' or 'alt-theme' for this layout
 
 </script>
 
@@ -32,7 +33,7 @@
 		<div class="main-width mb-10 relative z-0 h-full">
 
 			<!-- Debugging variable here if needed
-			<div class="text-white p-3">layoutEscapeKeyOn: {{ layoutEscapeKeyOn }}</div> -->
+			<div class="text-white p-3">globalKeysOn: {{ globalKeysOn }}</div> -->
 
 			<BreakPoints />
 			

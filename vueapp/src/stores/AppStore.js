@@ -7,7 +7,7 @@ export const useAppStore = defineStore('AppStore', () =>
     
     const sideBarHidden         = ref(false)
     const showSideButton        = ref(false)
-    const layoutEscapeKeyOn     = ref(true)
+    const globalKeysOn          = ref(true)
     const showPrevNext          = useLocalStorage('showPrevNext', true)
     const showBreakpoints       = useLocalStorage('showBreakpoints', false)
     const showNotification      = useLocalStorage('showNotification', true)
@@ -81,7 +81,6 @@ export const useAppStore = defineStore('AppStore', () =>
         // Refs
         sideBarHidden,
         showSideButton,
-        layoutEscapeKeyOn,
         showPrevNext,
         showBreakpoints,
         showNotification,
@@ -95,6 +94,7 @@ export const useAppStore = defineStore('AppStore', () =>
         pagerDebuggerY,
         showPlatformInfo,
         activeFloater,
+        globalKeysOn,
 
         // Constants
         baseApiUrl,

@@ -1,6 +1,7 @@
+// Used to stop the background from scrolling behind a modeal or floater
+
 export function useScrollLock(showModalRef) 
 {
-
 	let scrollY = 0
 
 	const lock = () => 
@@ -21,15 +22,7 @@ export function useScrollLock(showModalRef)
 		window.scrollTo(0, scrollY)
 	}
 
-	watch (
-		showModalRef,
-		(open) => 
-		{
-			console.log('ScrollLock watch triggered:', open)
-			open ? lock() : unlock()
-		},
-		{ immediate: true }
-	)
+	watch (showModalRef, (open) => { open ? lock() : unlock()}, { immediate: true })
 
 	onUnmounted(unlock)
 }

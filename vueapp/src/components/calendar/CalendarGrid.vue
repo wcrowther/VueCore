@@ -8,6 +8,55 @@
 
 	const emit = defineEmits(['drop'])
 
+	// Date Helpers  ===================================================================
+
+	const toLocalDate = (input) => 
+	{
+		// If already Date → extract Y/M/D in LOCAL calendar terms
+		if (input instanceof Date) 
+		{
+			return new Date(
+				input.getFullYear(),
+				input.getMonth(),
+				input.getDate(),
+				12, 0, 0, 0
+			)
+		}
+
+		// YYYY-MM-DD (date only)
+		if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) 
+		{
+			const [y, m, d] = input.split('-').map(Number)
+			return new Date(y, m - 1, d, 12, 0, 0, 0)
+		}
+
+		// ISO string with timezone
+		const temp = new Date(input)
+
+		return new Date( temp.getFullYear(), temp.getMonth(), temp.getDate(), 12, 0, 0, 0)
+	}
+
+	const normalize = (date) => 
+	{
+		const d = toLocalDate(date)
+		return new Date( d.getFullYear(), d.getMonth(), 1, 12, 0, 0, 0)
+	}
+
+	const addMonths = (date, amount) => 
+	{
+		const d = new Date(date)
+		return new Date(d.getFullYear(), d.getMonth() + amount, 1, 12, 0, 0, 0)
+	}
+
+	const isSameDate = (a, b) => 
+	{
+		return a.getFullYear() === b.getFullYear()
+			&& a.getMonth() === b.getMonth()
+			&& a.getDate() === b.getDate()
+	}
+
+	// ==================================================================================
+
 	const firstOfMonth 	= ref(normalize(props.dateInMonth))
 	const timeZone 		= Intl.DateTimeFormat().resolvedOptions().timeZone
 	const monthYear 	= computed(() =>
@@ -42,12 +91,14 @@
 
 		const totalCells = props.weeks * days
 
-		for (let i = 0; i < totalCells; i++) {
+		for (let i = 0; i < totalCells; i++) 
+		{
 
 			const date = new Date(base)
 			date.setDate(base.getDate() + i)
 
-			result.push({
+			result.push(
+			{
 				date,
 				isCurrentMonth: date.getMonth() === currentMonthIndex,
 				isToday: isSameDate(date, new Date())
@@ -64,67 +115,29 @@
 		emit('drop', { eventId, date })
 	}
 
-	// Date Helpers  ===================================================================
-
-	function toLocalDate(input) 
-	{
-
-		// If already Date → extract Y/M/D in LOCAL calendar terms
-		if (input instanceof Date) 
-		{
-			return new Date(
-				input.getFullYear(),
-				input.getMonth(),
-				input.getDate(),
-				12, 0, 0, 0
-			)
-		}
-
-		// YYYY-MM-DD (date only)
-		if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) 
-		{
-			const [y, m, d] = input.split('-').map(Number)
-			return new Date(y, m - 1, d, 12, 0, 0, 0)
-		}
-
-		// ISO string with timezone
-		const temp = new Date(input)
-
-		return new Date( temp.getFullYear(), temp.getMonth(), temp.getDate(), 12, 0, 0, 0)
-	}
-
-	function normalize(date) 
-	{
-		const d = toLocalDate(date)
-		return new Date( d.getFullYear(), d.getMonth(), 1, 12, 0, 0, 0)
-	}
-
-	function addMonths(date, amount) 
-	{
-		const d = new Date(date)
-		return new Date(d.getFullYear(), d.getMonth() + amount, 1, 12, 0, 0, 0)
-	}
-
-	function prevMonth() 
+	const prevMonth = () => 
 	{
 		firstOfMonth.value = addMonths(firstOfMonth.value, -1)
 	}
 
-	function nextMonth() 
+	const nextMonth = () => 
 	{
 		firstOfMonth.value = addMonths(firstOfMonth.value, 1)
 	}
 
-	function toToday() 
+	const toToday = () => 
 	{
 		firstOfMonth.value = normalize(new Date())
 	}
 
-	function isSameDate(a, b) 
+	const toFirstOfYear = () =>
 	{
-		return a.getFullYear() === b.getFullYear()
-			&& a.getMonth() === b.getMonth()
-			&& a.getDate() === b.getDate()
+		firstOfMonth.value = new Date(firstOfMonth.value.getFullYear(), 0, 1, 12, 0, 0, 0)
+	}
+
+	const toLastOfYear= () =>
+	{
+		firstOfMonth.value = new Date(firstOfMonth.value.getFullYear(), 11, 1, 12, 0, 0, 0)
 	}
 
 	defineExpose({ prevMonth, nextMonth, toToday })
@@ -134,28 +147,42 @@
 <template>
 	<div class="bg-white">
 
-		<slot name="title" :monthYear :timeZone :firstOfMonth 
-			:prevMonth :nextMonth :toToday >
+		<slot name="title" 
+			:monthYear :timeZone :firstOfMonth :prevMonth :nextMonth :toToday >
 			<!-- Default Title can be modified using custom title slot -->
-			<div class="text-center">
-				<div class="text-lg font-bold">
-					{{ monthYear }}
-				</div>
-				<div class="text-xs text-gray-500">
-					{{ timeZone }}
-				</div>
+        	<div class="flex justify-between items-center bg-blue-200 p-5">
+                <button @click="prevMonth" class="text-blue select-none">◀</button>
+                <button @click="toToday" class="border border-blue-400 px-3 py-[2px] rounded-full">Today</button>
+                <div class="text-lg text-center font-bold w-1/5">
+                    {{ monthYear }} 
+                </div>
+                <div class="text-center text-xs text-gray-500">
+                    <div>Timezone:</div>
+                    <div>{{ timeZone }}</div>
+                </div>
+                <button @click="nextMonth" class="text-blue select-none">▶</button>           
 			</div>
 		</slot>
+
+		<slot name="buttons">
+			<div class="grid grid-cols-7 text-xs text-blue-400 tracking-wide font-bold border-y border-blue-300 bg-blue-200">
+				<div class="p-1 col-span-2 text-center border-r border-blue-300" @click="toFirstOfYear">First</div>
+				<div class="p-1 col-span-3 text-center" @click="toToday">Today</div>
+				<div class="p-1 col-span-2 text-center border-l border-blue-300" @click="toLastOfYear">Last</div>
+			</div>
+		</slot> 
+
 		<div class="grid grid-cols-7 gap-px bg-blue-200">
-			<div class="p-1 text-center bg-blue-100">Sunday</div>
-			<div class="p-1 text-center bg-blue-100">Monday</div>
-			<div class="p-1 text-center bg-blue-100">Tuesday</div>
-			<div class="p-1 text-center bg-blue-100">Wednesday</div>
-			<div class="p-1 text-center bg-blue-100">Thursday</div>
-			<div class="p-1 text-center bg-blue-100">Friday</div>
-			<div class="p-1 text-center bg-blue-100">Saturday</div>
+			<div class="p-1 text-center bg-blue-100">Sun<span class="hidden sm:inline">day</span></div>
+			<div class="p-1 text-center bg-blue-100">Mon<span class="hidden sm:inline">day</span></div>
+			<div class="p-1 text-center bg-blue-100">Tue<span class="hidden sm:inline">sday</span></div>
+			<div class="p-1 text-center bg-blue-100">Wed<span class="hidden sm:inline">nesday</span></div>
+			<div class="p-1 text-center bg-blue-100">Thu<span class="hidden sm:inline">rsday</span></div>
+			<div class="p-1 text-center bg-blue-100">Fri<span class="hidden sm:inline">day</span></div>
+			<div class="p-1 text-center bg-blue-100">Sat<span class="hidden sm:inline">urday</span></div>
 		</div>
-		<div class="border grid grid-cols-7 grid-rows-5 gap-px bg-slate-300">
+
+		<div class="border grid grid-cols-7 gap-px bg-slate-300"> <!-- Consider grid-rows-5 ? -->
 			<div v-for="cell in cells" 
 				:key="cell.date.toISOString()" 
 				:class="['bg-white min-h-[100px]',

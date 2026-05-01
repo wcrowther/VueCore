@@ -1,5 +1,7 @@
 <script setup>
 
+	import { useScrollLock } from '@/composables/UseScrollLock'
+
 	const emits = defineEmits(['alertResult'])
 	const props = defineProps(
 	{
@@ -13,7 +15,7 @@
 
     // Keyboard Listeners  ================================================
 	
-	DisableLayoutEscapeKey(showAlert) // disable global Esc key if confirm is showing
+	DisableGlobalKeys(showAlert) // disable global Esc key if confirm is showing
 
     const keys = function (e)   
     {
@@ -43,6 +45,8 @@
 
 	defineExpose({ alertPromise }) // must be after function
 
+	useScrollLock(showAlert)
+
 	// ==================================================================================
 
 	const onClose  = () => 
@@ -55,10 +59,7 @@
 
 	// Clean up ========================================================================
 
-	onBeforeUnmount(() => 
-	{
-    	resolvePromise?.(false)
-	})
+	onBeforeUnmount(() => { resolvePromise?.(false) })
 
 </script>
 

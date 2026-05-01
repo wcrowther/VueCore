@@ -15,7 +15,6 @@
             sideBarHidden.value = false
     });
 
-
 </script>
 
 <template>
@@ -31,6 +30,4 @@
 
 </template>
 
-<!-- 
-    <div class="bg-red h-screen">FAKE CONTENT</div> 
--->
+

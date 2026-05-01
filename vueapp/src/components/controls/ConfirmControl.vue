@@ -1,5 +1,7 @@
 <script setup>
 
+	import { useScrollLock } from '@/composables/UseScrollLock'
+
 	const emits = defineEmits(['confirmResult'])
 	const props = defineProps(
 	{
@@ -14,7 +16,7 @@
 
     // Keyboard Listeners  ================================================
 	
-	DisableLayoutEscapeKey(showConfirm) // disable global Esc key if confirm is showing
+	DisableGlobalKeys(showConfirm) // disable global Esc key if confirm is showing
 
     const keys = function (e)   
     {
@@ -22,6 +24,8 @@
     }
 
 	KeyboardListeners(keys, showConfirm)
+
+	useScrollLock(showConfirm)
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
 

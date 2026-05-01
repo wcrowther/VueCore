@@ -1,6 +1,6 @@
 <script setup>
 
-	import { useScrollLock } from '@/composables/useScrollLock'
+	import { useScrollLock } from '@/composables/UseScrollLock'
 
 	const showModal = defineModel({ type: Boolean })
 
@@ -33,14 +33,16 @@
 					:style="{ height: props.height, width: props.width }">
 
 					<div class="shrink-0 flex justify-between items-center pl-8 pr-5 w-full h-14 
-						text-lg font-bold bg-gradient-modal select-none ">
+						text-lg font-bold bg-gradient-modal select-none">
+
 						<slot name="header">
 							<span>{{title || 'Title'}}</span>
-							<div class="h-7 w-7 bg-white hover:bg-color-light-blue rounded-full flex-center" 
+							<div class="h-7 w-7 bg-white/50 hover:bg-color-light-blue rounded-full flex-center" 
 								@click="showModal=false">
-								<IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons-solid:x" />
+								<IconSymbol width="18px" class="text-color-dark-gray" icon="heroicons-solid:x" />
 							</div>
 						</slot>
+
 					</div>
 					
 					<!-- Content - Gets ModalControls attributes ($attrs) on this div -->

@@ -3,6 +3,7 @@
     const appStore                  = useAppStore()    
     const toastStore                = useToastStore()
     const accountsStore             = useAccountsStore()
+    const { platform }			    = usePlatform()
 
     const { showJsonEntities }      = storeToRefs(appStore)
     const { account,    
@@ -80,9 +81,10 @@
 
     const keys = function (e)   
     {
-        let ctrl = navigator.userAgentData.platform.match("Mac") ? e.metaKey : e.ctrlKey   
-        if (e.code === 'KeyS' && ctrl ){ trySave(); e.preventDefault(); }
-        // else if (e.code === 'End')  { detailInput.value.focusInput();    e.preventDefault();} 
+		let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey  
+
+        if (e.code === 'KeyS' && ctrl ) { trySave(); e.preventDefault(); }
+        else if (e.code === 'End')      { detailInput.value.focusInput(); e.preventDefault();} 
     }
 
 	KeyboardListeners(keys)    
