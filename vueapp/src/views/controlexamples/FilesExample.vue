@@ -4,7 +4,7 @@
 <template>
 	
 	<div class="text-lg font-bold mb-5">
-		File, Folder &amp; Upload Control Examples
+		File, Folder &amp; Upload Examples
 	</div>
 
     <InfoBox class="mb-7">
@@ -14,7 +14,7 @@
 
     <div class="flex flex-wrap gap-3">
 
-        <UploadControl accept="image/*" class="w-full mb-3 bg-gradient-main" />
+        <UploadControl accept="image/*" class="w-full mb-1 bg-gradient-main" />
 
         <FolderExplorer class="w-full border border-gray-400 mb-7" 
             v-slot="{ selectedPath }">

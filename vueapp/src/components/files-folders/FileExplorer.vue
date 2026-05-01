@@ -70,11 +70,11 @@
 			{{ loadError }}
 		</div>
 
-		<div v-else-if="fileRows.length === 0" class="text-color-dark-gray pt-4 px-4">
+		<!-- <div v-else-if="fileRows.length === 0" class="text-color-dark-gray pt-4 px-4">
 			No files found in this folder.
-		</div>
+		</div> -->
 
-		<div v-else class="overflow-x-auto">
+		<div class="overflow-x-auto">
 			<table class="min-w-full text-sm">
 				<thead class="bg-blue-100">
 					<tr>
@@ -88,7 +88,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(file, idx) in fileRows"
+					<tr v-if="fileRows.length === 0">
+						<td colspan="5" class="bg-white p-3 pb-4 text-center">
+							No files found in this folder.
+						</td>
+					</tr>
+					<tr else v-for="(file, idx) in fileRows"
 						:key="`${file.name}-${idx}`" draggable="true"
 						class="odd:bg-white even:bg-blue-50 cursor-pointer"
 						:class="selectedIndexSet.has(idx) ? 'bg-blue-100 !text-black' : ''"

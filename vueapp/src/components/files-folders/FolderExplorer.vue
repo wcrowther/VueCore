@@ -12,9 +12,9 @@
 
 <template>
 
-	<div class="flex">
+	<div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-0">
 
-		<div class="min-w-[300px] flex-1 border-r border-gray-400 pt-4 px-4 pb-6">
+		<div class="border-r border-gray-400 pt-4 px-4 pb-6">
 
 			<h4 class="flex items-center text-xl font-bold mb-3">
 				Folder Explorer
@@ -45,7 +45,7 @@
 				:node="node" :parent-path="rootParentPath" />
 		</div>
 
-		<div class="grow bg-white">
+		<div class="bg-white">
 			<!-- Defaults to this FileExplorer but can be overriden in the slot. see example -->
 			<slot :selectedPath>
 				<FileExplorer :selectedPath />
