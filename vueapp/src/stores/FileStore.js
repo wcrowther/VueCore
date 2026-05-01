@@ -99,6 +99,22 @@ export const useFileStore = defineStore('FileStore', () =>
 		}
 	}
 
+	const deleteFile = async (fileName) =>
+	{
+		if (!fileName || !apiFolderPath.value) return { success: false, message: "Invalid delete request." }
+
+		const result = await apiDelete("/content/files",
+		{
+			folderPath: apiFolderPath.value,
+			fileNames: [fileName]
+		})
+
+		if (result?.success !== false)
+			await loadFiles()
+
+		return result
+	}
+
 	const moveSelectedFiles = async (targetFolderPath, sourceFolderPath = selectedPath.value, explicitFileNames = null) =>
 	{
 		const names = Array.isArray(explicitFileNames)
@@ -152,6 +168,7 @@ export const useFileStore = defineStore('FileStore', () =>
 		clearSelection,
 		selectFileIndex,
 		loadFiles,
+		deleteFile,
 		moveSelectedFiles
 	}
 })

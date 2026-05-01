@@ -2,7 +2,9 @@
 
 	const fileStore = useFileStore()
 	const { selectedPath, fileRows, isLoading, loadError, selectedFileIndexes } = storeToRefs(fileStore)
-	const { setSelectedPath, selectFileIndex } = fileStore
+	const { setSelectedPath, selectFileIndex, deleteFile } = fileStore
+
+	const { createConfirm } = useConfirmControl()
 
 	const props = defineProps (
 	{
@@ -22,6 +24,14 @@
 	const onRowClick = (index, event) =>
 	{
 		selectFileIndex(index, !!event?.shiftKey)
+	}
+
+	const onDeleteClick = async (file, event) =>
+	{
+		event.stopPropagation()
+		const confirmed = await createConfirm(`Delete "${file.name}"?`)
+		if (confirmed)
+			await deleteFile(file.name)
 	}
 
 	const onRowDragStart = (index, file, event) =>
@@ -68,10 +78,13 @@
 			<table class="min-w-full text-sm">
 				<thead class="bg-blue-100">
 					<tr>
-						<th class="text-left pl-6 pr-3 py-2 border-b border-gray-300">Name</th>
-						<th class="text-left px-3 py-2 border-b border-gray-300">Extension</th>
-						<th class="text-left px-3 py-2 border-b border-gray-300">Size</th>
-						<th class="text-left px-3 py-2 border-b border-gray-300">Last Modified</th>
+						<th class="w-24 text-left pl-6 pr-3 py-2 border-b border-gray-300">Name</th>
+						<th class="w-10 text-left px-3 py-2 border-b border-gray-300">Extension</th>
+						<th class="w-10 text-left px-3 py-2 border-b border-gray-300">Size</th>
+						<th class="w-32 text-left px-3 py-2 border-b border-gray-300">Last Modified</th>
+						<th class="w-5 text-left px-3 py-2 border-b border-gray-300">
+							<span class="relative bottom-1">...</span>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -85,6 +98,12 @@
 						<td class="px-3 py-2 border-b border-gray-200">{{ file.extension || "-" }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ formatFileSize(file.size) }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ dateTimeFormat(file.lastModified) }}</td>
+						<td class="px-3 py-2 border-b border-gray-200">
+							<button class="text-red-500 text-xs border border-red-500 size-4 rounded-full
+								 flex justify-center items-center" @click="onDeleteClick(file, $event)">
+								<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark-20-solid" />
+							</button>
+						</td>
 					</tr>
 				</tbody>
 			</table>

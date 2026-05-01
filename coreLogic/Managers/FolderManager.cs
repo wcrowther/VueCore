@@ -97,9 +97,11 @@ namespace coreLogic.Managers
 			relative = relative.Trim();
 			relative = relative.Trim('\\', '/');
 
-			var full = Path.GetFullPath(Path.Combine(foldersRoot, relative));
+			// Ensure foldersRoot is absolute before combining
+			var absoluteRoot = Path.GetFullPath(foldersRoot);
+			var full = Path.GetFullPath(Path.Combine(absoluteRoot, relative));
 
-			if (!full.StartsWith(foldersRoot))
+			if (!full.StartsWith(absoluteRoot, StringComparison.OrdinalIgnoreCase))
 				throw new Exception("Path escape detected");
 
 			return full;
