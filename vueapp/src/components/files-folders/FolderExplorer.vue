@@ -14,7 +14,7 @@
 
 	<div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-0">
 
-		<div class="border-r border-gray-400 pt-4 px-4 pb-6">
+		<div class="md:border-r border-gray-400 pt-4 px-4 pb-6">
 
 			<h4 class="flex items-center text-xl font-bold mb-3">
 				Folder Explorer
@@ -46,7 +46,6 @@
 		</div>
 
 		<div class="bg-white">
-			<!-- Defaults to this FileExplorer but can be overriden in the slot. see example -->
 			<slot :selectedPath>
 				<FileExplorer :selectedPath />
 			</slot>

@@ -88,7 +88,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-if="fileRows.length === 0">
+					<tr if="fileRows.length === 0">
 						<td colspan="5" class="bg-white p-3 pb-4 text-center">
 							No files found in this folder.
 						</td>

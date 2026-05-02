@@ -23,7 +23,17 @@
 
 	const nodeName 			= computed(() => props.node?.name ?? props.node?.Name ?? '')
 	const fileCount			= computed(() => props.node?.FileCount ?? 0)
-	const fileCountDisplay	= computed(() => fileCount.value > 0 ? ` (${fileCount.value})` : '')
+
+	const countAllFiles = (node) =>
+	{
+		const count = node?.FileCount ?? 0
+		const children = node?.children ?? node?.Children ?? []
+		const childArray = Array.isArray(children) ? children : []
+		return count + childArray.reduce((sum, child) => sum + countAllFiles(child), 0)
+	}
+
+	const totalFileCount	= computed(() => countAllFiles(props.node))
+	const fileCountDisplay	= computed(() => totalFileCount.value > 0 ? ` (${totalFileCount.value})` : '')
 	const nodeChildren 		= computed(() => 
 	{
 		const children = props.node?.children ?? props.node?.Children ?? []

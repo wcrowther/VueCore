@@ -4,10 +4,10 @@ export const useFileStore = defineStore('FileStore', () =>
 {
 	// STATE ------------------------------------------------------------------
 
-	const selectedPath = ref("")
+	const selectedPath = ref('/uploads')
 	const files = ref([])
 	const isLoading = ref(false)
-	const loadError = ref("")
+	const loadError = ref('')
 	const selectedFileIndexes = ref([])
 	const lastSelectedIndex = ref(null)
 
