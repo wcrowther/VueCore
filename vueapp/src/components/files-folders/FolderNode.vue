@@ -204,7 +204,13 @@
 		const sourcePath = String(payload?.sourcePath ?? "")
 		if (!sourcePath || sourcePath === currentPath.value) return
 
-		await moveSelectedFiles(currentPath.value, sourcePath, fileNames)
+		const result = await moveSelectedFiles(currentPath.value, sourcePath, fileNames)
+		if (result?.success === false)
+		{
+			toastStore.showWarning(result?.message ?? "Unable to move the selected files because a file with the same name already exists in that folder.")
+			return
+		}
+
 		expanded.value = true
 	}
 

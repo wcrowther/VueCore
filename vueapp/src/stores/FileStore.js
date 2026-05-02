@@ -56,13 +56,45 @@ export const useFileStore = defineStore('FileStore', () =>
 		lastSelectedIndex.value = index
 	}
 
-	const selectFileIndex = (index, shiftKey = false) =>
+	const toggleSelectedIndex = (index) =>
 	{
+		const currentIndexes = Array.isArray(selectedFileIndexes.value)
+			? [...selectedFileIndexes.value]
+			: []
+		const existingIndex = currentIndexes.indexOf(index)
+
+		if (existingIndex >= 0)
+			currentIndexes.splice(existingIndex, 1)
+		else
+			currentIndexes.push(index)
+
+		selectedFileIndexes.value = currentIndexes.sort((left, right) => left - right)
+		lastSelectedIndex.value = index
+	}
+
+	const selectFileIndex = (index, options = {}) =>
+	{
+		const { shiftKey = false, metaKey = false, ctrlKey = false } = options
 		const total = fileRows.value.length
 		if (index < 0 || index >= total) return
+		const currentIndexes = Array.isArray(selectedFileIndexes.value)
+			? selectedFileIndexes.value
+			: []
+
+		if (metaKey || ctrlKey)
+		{
+			toggleSelectedIndex(index)
+			return
+		}
 
 		if (!shiftKey || lastSelectedIndex.value === null)
 		{
+			if (currentIndexes.length === 1 && currentIndexes[0] === index)
+			{
+				clearSelection()
+				return
+			}
+
 			selectSingleIndex(index)
 			return
 		}
@@ -70,6 +102,7 @@ export const useFileStore = defineStore('FileStore', () =>
 		const start = Math.min(lastSelectedIndex.value, index)
 		const end = Math.max(lastSelectedIndex.value, index)
 		selectedFileIndexes.value = Array.from({ length: end - start + 1 }, (_, i) => start + i)
+		lastSelectedIndex.value = index
 	}
 
 	const loadFiles = async () =>
@@ -126,10 +159,13 @@ export const useFileStore = defineStore('FileStore', () =>
 		const names = Array.isArray(explicitFileNames)
 			? explicitFileNames.map(name => String(name ?? "").trim()).filter(Boolean)
 			: selectedFileNames.value
-		if (!names.length) return { success: false, message: "No files selected." }
+
+		if (!names.length) 
+			return { success: false, message: "No files selected." }
 
 		const normalizedSource = normalizePath(sourceFolderPath)
 		const normalizedTarget = normalizePath(targetFolderPath)
+		
 		if (!normalizedSource || !normalizedTarget || normalizedSource === normalizedTarget)
 			return { success: false, message: "Invalid move request." }
 
@@ -138,9 +174,24 @@ export const useFileStore = defineStore('FileStore', () =>
 			targetPath: toApiFolderPath(normalizedTarget),
 			fileNames: names
 		})
+		const moveData = result?.data ?? {}
+		const moveSucceeded = moveData?.Success ?? moveData?.success ?? false
+		const failedFiles = Array.isArray(moveData?.FailedFiles)
+			? moveData.FailedFiles
+			: Array.isArray(moveData?.failedFiles)
+				? moveData.failedFiles
+				: []
+		const firstFailure = failedFiles[0] ?? null
+		const normalizedResult = {
+			success: moveSucceeded,
+			message: firstFailure?.reason ?? firstFailure?.Reason ?? result?.message ?? "Unable to move the selected files.",
+			movedCount: moveData?.MovedCount ?? moveData?.movedCount ?? 0,
+			failedFiles,
+			data: moveData
+		}
 
-		if (!result?.success)
-			return result
+		if (!normalizedResult.success)
+			return normalizedResult
 
 		// Refresh folder counts and visible lists impacted by the move.
 		await folderStore.load()
@@ -149,7 +200,7 @@ export const useFileStore = defineStore('FileStore', () =>
 			await loadFiles()
 
 		clearSelection()
-		return result
+		return normalizedResult
 	}
 
 	// EXPOSE PUBLIC API -------------------------------------------------------

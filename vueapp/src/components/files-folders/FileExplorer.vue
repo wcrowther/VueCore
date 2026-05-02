@@ -16,7 +16,12 @@
 
 	const onRowClick = (index, event) =>
 	{
-		selectFileIndex(index, !!event?.shiftKey)
+		selectFileIndex(index,
+		{
+			shiftKey: !!event?.shiftKey,
+			metaKey: !!event?.metaKey,
+			ctrlKey: !!event?.ctrlKey
+		})
 	}
 
 	const onDeleteClick = async (file, event) =>
@@ -30,7 +35,7 @@
 	const onRowDragStart = (index, file, event) =>
 	{
 		if (!selectedIndexSet.value.has(index))
-			selectFileIndex(index, false)
+			selectFileIndex(index)
 
 		const selectedFiles = selectedIndexes.value
 			.map(idx => fileRows.value[idx]?.name)
@@ -59,10 +64,6 @@
 			{{ loadError }}
 		</div>
 
-		<!-- <div v-else-if="fileRows.length === 0" class="text-color-dark-gray pt-4 px-4">
-			No files found in this folder.
-		</div> -->
-
 		<div class="overflow-x-auto">
 			<table class="min-w-full text-sm">
 				<thead class="bg-blue-100">
@@ -76,16 +77,16 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="h-full">
 					<tr v-if="fileRows.length === 0">
-						<td colspan="5" class="bg-white p-3 pb-4 text-center">
+						<td colspan="5" class="h-[120px] p-3 pb-4 text-center">
 							No files found in this folder.
 						</td>
 					</tr>
 					<tr v-else v-for="(file, idx) in fileRows"
 						:key="`${file.name}-${idx}`" draggable="true"
 						class="odd:bg-white even:bg-blue-50 cursor-pointer"
-						:class="selectedIndexSet.has(idx) ? 'bg-blue-100 !text-black' : ''"
+						:class="selectedIndexSet.has(idx) ? 'odd:!bg-gray-200 even:!bg-blue-200 !text-black' : ''"
 						@click="onRowClick(idx, $event)"
 						@dragstart="onRowDragStart(idx, file, $event)">
 						<td class="pl-6 px-3 py-2 border-b border-gray-200">{{ file.name || "-" }}</td>
