@@ -12,14 +12,12 @@
 		FolderExplorer and FileList controls are still in progress.
     </InfoBox>
 
-    <div class="flex flex-wrap gap-3">
+    <UploadControl accept="image/*" class="bg-gradient-main mb-3" />
 
-        <UploadControl accept="image/*" class="w-full mb-1 bg-gradient-main" />
-
-        <FolderExplorer class="w-full border border-gray-400 mb-7" 
-            v-slot="{ selectedPath }">
-            <FileExplorer :selectedPath />
-        </FolderExplorer>
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 mb-7
+        border border-gray-400 bg-white">
+        <FolderExplorer class="lg:border-r border-gray-400" />
+        <FileExplorer class="" />
     </div>
 
 </template>

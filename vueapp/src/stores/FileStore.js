@@ -1,10 +1,9 @@
-import { normalizePath } from '@/helpers/fileFolderHelpers'
-
 export const useFileStore = defineStore('FileStore', () =>
 {
+	const folderStore = useFolderStore()
+
 	// STATE ------------------------------------------------------------------
 
-	const selectedPath = ref('/uploads')
 	const files = ref([])
 	const isLoading = ref(false)
 	const loadError = ref('')
@@ -13,7 +12,8 @@ export const useFileStore = defineStore('FileStore', () =>
 
 	// GETTERS ----------------------------------------------------------------
 
-	const apiFolderPath = computed(() => toApiFolderPath(selectedPath.value))
+	const apiFolderPath = computed(() => toApiFolderPath(folderStore.selectedFolder))
+	const selectedFolder = computed(() => folderStore.selectedFolder)
 
 	const fileRows = computed(() =>
 	{
@@ -36,11 +36,15 @@ export const useFileStore = defineStore('FileStore', () =>
 
 	// ACTIONS ----------------------------------------------------------------
 
-	const setSelectedPath = async (path) =>
+	watch(() => folderStore.selectedFolder, () =>
 	{
-		selectedPath.value = normalizePath(path)
 		clearSelection()
-		await loadFiles()
+		loadFiles()
+	})
+
+	const setSelectedFolder = (path) =>
+	{
+		folderStore.selectFolder(path)
 	}
 
 	const clearSelection = () =>
@@ -76,7 +80,7 @@ export const useFileStore = defineStore('FileStore', () =>
 		loadError.value = ""
 		clearSelection()
 
-		if (!selectedPath.value || !apiFolderPath.value)
+		if (!folderStore.selectedFolder || !apiFolderPath.value)
 		{
 			files.value = []
 			return
@@ -115,7 +119,7 @@ export const useFileStore = defineStore('FileStore', () =>
 		return result
 	}
 
-	const moveSelectedFiles = async (targetFolderPath, sourceFolderPath = selectedPath.value, explicitFileNames = null) =>
+	const moveSelectedFiles = async (targetFolderPath, sourceFolderPath = folderStore.selectedFolder, explicitFileNames = null) =>
 	{
 		const names = Array.isArray(explicitFileNames)
 			? explicitFileNames.map(name => String(name ?? "").trim()).filter(Boolean)
@@ -137,10 +141,9 @@ export const useFileStore = defineStore('FileStore', () =>
 			return result
 
 		// Refresh folder counts and visible lists impacted by the move.
-		const folderStore = useFolderStore()
 		await folderStore.load()
 
-		if (selectedPath.value === normalizedSource || selectedPath.value === normalizedTarget)
+		if (folderStore.selectedFolder === normalizedSource || folderStore.selectedFolder === normalizedTarget)
 			await loadFiles()
 
 		clearSelection()
@@ -151,7 +154,7 @@ export const useFileStore = defineStore('FileStore', () =>
 
 	return {
 		// state
-		selectedPath,
+		selectedFolder,
 		files,
 		isLoading,
 		loadError,
@@ -164,7 +167,7 @@ export const useFileStore = defineStore('FileStore', () =>
 		selectedFileNames,
 
 		// actions
-		setSelectedPath,
+		setSelectedFolder,
 		clearSelection,
 		selectFileIndex,
 		loadFiles,

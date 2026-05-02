@@ -10,7 +10,7 @@
 	})
 
 	const folderStore = useFolderStore()
-	const { editingPath, renamingPath, selectedPath } = storeToRefs(folderStore)
+	const { editingPath, renamingPath, selectedFolder } = storeToRefs(folderStore)
 	const { addFolder, renameFolder, selectFolder, deleteFolder, canDeleteFolder } = folderStore
 	const fileStore = useFileStore()
 	const { moveSelectedFiles } = fileStore
@@ -60,11 +60,11 @@
 	})
 	const isEditing = computed(() => editingPath.value === currentPath.value)
 	const isRenaming = computed(() => renamingPath.value === currentPath.value)
-	const isSelected = computed(() => currentPath.value === selectedPath.value)
+	const isSelected = computed(() => currentPath.value === selectedFolder.value)
 	const isParentOfSelected = computed(() =>
 	{
-		if (!selectedPath.value) return false
-		return selectedPath.value.startsWith(currentPath.value + "/")
+		if (!selectedFolder.value) return false
+		return selectedFolder.value.startsWith(currentPath.value + "/")
 	})
 
 	const toggle = () => expanded.value = !expanded.value
@@ -128,10 +128,10 @@
 		editingPath.value = null
 	}
 
-	watch(selectedPath, (nextSelectedPath) =>
+	watch(selectedFolder, (nextSelectedFolder) =>
 	{
 		if (!isEditing.value) return
-		if (nextSelectedPath === currentPath.value) return
+		if (nextSelectedFolder === currentPath.value) return
 
 		cancelEdit()
 	})

@@ -39,7 +39,7 @@ export const toApiParentPath = (path) =>
 export const hasPath = (nodes, targetPath, parentPath = "/") =>
 {
 	if (!targetPath) return false
-	const normalizedTargetPath = normalizePath(targetPath)
+	const normalizedTargetPath = normalizePath(targetPath).toLowerCase()
 	const sourceNodes = Array.isArray(nodes) ? nodes : []
 
 	for (const node of sourceNodes)
@@ -48,7 +48,7 @@ export const hasPath = (nodes, targetPath, parentPath = "/") =>
 		if (!name) continue
 
 		const currentPath = joinPath(parentPath, name)
-		if (currentPath === normalizedTargetPath)
+		if (currentPath.toLowerCase() === normalizedTargetPath)
 			return true
 
 		const children = node?.children ?? node?.Children ?? []
@@ -64,7 +64,7 @@ export const findNodeByPath = (nodes, targetPath, parentPath = "/") =>
 {
 	if (!targetPath) return null
 
-	const normalizedTargetPath = normalizePath(targetPath)
+	const normalizedTargetPath = normalizePath(targetPath).toLowerCase()
 	const sourceNodes = Array.isArray(nodes) ? nodes : []
 
 	for (const node of sourceNodes)
@@ -73,7 +73,7 @@ export const findNodeByPath = (nodes, targetPath, parentPath = "/") =>
 		if (!name) continue
 
 		const currentPath = joinPath(parentPath, name)
-		if (currentPath === normalizedTargetPath)
+		if (currentPath.toLowerCase() === normalizedTargetPath)
 			return node
 
 		const children = node?.children ?? node?.Children ?? []

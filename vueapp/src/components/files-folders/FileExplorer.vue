@@ -1,17 +1,17 @@
 <script setup>
 
 	const fileStore = useFileStore()
-	const { selectedPath, fileRows, isLoading, loadError, selectedFileIndexes } = storeToRefs(fileStore)
-	const { setSelectedPath, selectFileIndex, deleteFile } = fileStore
+	const { selectedFolder, fileRows, isLoading, loadError, selectedFileIndexes } = storeToRefs(fileStore)
+	const { setSelectedFolder, selectFileIndex, deleteFile } = fileStore
 
 	const { createConfirm } = useConfirmControl()
 
 	const props = defineProps (
 	{
-		selectedPath: { type: String, default: "" }
+		selectedFolder: { type: String, default: "" }
 	})
 
-	watch(() => props.selectedPath, setSelectedPath, { immediate: true })
+	watch(() => props.selectedFolder, setSelectedFolder, { immediate: true })
 
 	const selectedIndexes = computed(() =>
 	{
@@ -44,7 +44,7 @@
 			.filter(name => !!name)
 
 		const payload = {
-			sourcePath: selectedPath.value,
+			sourcePath: selectedFolder.value,
 			fileNames: selectedFiles
 		}
 
@@ -58,11 +58,7 @@
 <template>
 
 	<div>
-		<div v-if="!selectedPath" class="text-color-dark-gray pt-4 px-4">
-			Select a folder to view files.
-		</div>
-
-		<div v-else-if="isLoading" class="text-color-dark-gray pt-4 px-4">
+		<div v-if="isLoading" class="text-color-dark-gray pt-4 px-4">
 			Loading files...
 		</div>
 
@@ -88,12 +84,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr if="fileRows.length === 0">
+					<tr v-if="fileRows.length === 0">
 						<td colspan="5" class="bg-white p-3 pb-4 text-center">
 							No files found in this folder.
 						</td>
 					</tr>
-					<tr else v-for="(file, idx) in fileRows"
+					<tr v-else v-for="(file, idx) in fileRows"
 						:key="`${file.name}-${idx}`" draggable="true"
 						class="odd:bg-white even:bg-blue-50 cursor-pointer"
 						:class="selectedIndexSet.has(idx) ? 'bg-blue-100 !text-black' : ''"

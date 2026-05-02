@@ -117,8 +117,6 @@
 							class="text-blue-600 text-sm font-bold">Retry
 						</button>
 
-
-
 					</div>
 
 				</div>

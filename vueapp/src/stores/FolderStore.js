@@ -8,11 +8,11 @@ export const useFolderStore = defineStore('FolderStore', () =>
 
 	// STATE ------------------------------------------------------------------
 
-	const tree 			= ref([])
-	const newRootFolder = ref("")
-	const editingPath 	= ref(null)
-	const selectedPath 	= ref("")
-	const renamingPath 	= ref(null)
+	const selectedFolder 	= useLocalStorage('selectedFolder', '/uploads')
+	const tree 				= ref([])
+	const newRootFolder 	= ref('')
+	const editingPath 		= ref(null)
+	const renamingPath 		= ref(null)
 
 	// GETTERS ----------------------------------------------------------------
 
@@ -38,11 +38,11 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		return Array.isArray(children) ? children : []
 	})
 
-	const displaySelectedPath = computed(() =>
+	const displaySelectedFolder = computed(() =>
 	{
-		if (!selectedPath.value) return ""
+		if (!selectedFolder.value) return ""
 
-		const segments = toPathSegments(selectedPath.value)
+		const segments = toPathSegments(selectedFolder.value)
 		return "/" + segments.join("/")
 	})
 
@@ -55,8 +55,8 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		const res = await apiGet("/content/folders")
 		tree.value = Array.isArray(res.data) ? res.data : []
 
-		if (selectedPath.value && !hasPath(rootChildren.value, selectedPath.value, rootParentPath.value))
-			selectedPath.value = ""
+		if (selectedFolder.value && !hasPath(rootChildren.value, selectedFolder.value, rootParentPath.value))
+			selectedFolder.value = ""
 	}
 
 	const addFolder = async (parentPath, name) =>
@@ -68,7 +68,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		await apiPost("/content/folders", { parentPath: apiParentPath, name: trimmedName })
 		await load()
 
-		selectedPath.value = joinPath(parentPath, trimmedName)
+		selectedFolder.value = joinPath(parentPath, trimmedName)
 	}
 
 	const renameFolder = async (currentPath, parentPath, oldName, newName) =>
@@ -83,10 +83,10 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		await apiPut("/content/renamefolder", { parentPath: apiParentPath, oldName, newName: trimmed })
 		await load()
 
-		if (selectedPath.value === oldPathFull)
-			selectedPath.value = newPathFull
-		else if (selectedPath.value.startsWith(oldPathFull + "/"))
-			selectedPath.value = newPathFull + selectedPath.value.slice(oldPathFull.length)
+		if (selectedFolder.value === oldPathFull)
+			selectedFolder.value = newPathFull
+		else if (selectedFolder.value.startsWith(oldPathFull + "/"))
+			selectedFolder.value = newPathFull + selectedFolder.value.slice(oldPathFull.length)
 	}
 
 	const deleteFolder = async (parentPath, name) =>
@@ -112,10 +112,10 @@ export const useFolderStore = defineStore('FolderStore', () =>
 
 		await load()
 
-		if (selectedPath.value === currentPath)
-			selectedPath.value = ""
-		else if (selectedPath.value.startsWith(currentPath + "/"))
-			selectedPath.value = ""
+		if (selectedFolder.value === currentPath)
+			selectedFolder.value = ""
+		else if (selectedFolder.value.startsWith(currentPath + "/"))
+			selectedFolder.value = ""
 
 		if (editingPath.value && (editingPath.value === currentPath || editingPath.value.startsWith(currentPath + "/")))
 			editingPath.value = null
@@ -154,7 +154,7 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		editingPath.value = null
 	}
 
-	const selectFolder = (path) => selectedPath.value = normalizePath(path)
+	const selectFolder = (path) => selectedFolder.value = normalizePath(path)
 
 	// EXPOSE PUBLIC API -------------------------------------------------------
 
@@ -163,14 +163,14 @@ export const useFolderStore = defineStore('FolderStore', () =>
 		tree,
 		newRootFolder,
 		editingPath,
-		selectedPath,
+		selectedFolder,
 		renamingPath,
 
 		// getters
 		isEditing,
 		rootParentPath,
 		rootChildren,
-		displaySelectedPath,
+		displaySelectedFolder,
 
 		// actions
 		load,
