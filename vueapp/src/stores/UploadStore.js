@@ -4,6 +4,7 @@
 export const useUploadStore = defineStore('UploadStore', () =>
 {
     const toastStore = useToastStore()
+    const fileStore = useFileStore()
 
     // STATE ------------------------------------------------------------------
 
@@ -47,6 +48,8 @@ export const useUploadStore = defineStore('UploadStore', () =>
 
             item.status = 'done'
             item.error = null
+
+            await fileStore.refresh()
 
             toastStore.showSuccess(`${item.file.name} uploaded successfully`)
 

@@ -20,7 +20,7 @@
 	<div class="w-full">
 
 		<!-- Drop Zone -->
-		<div class="border border-gray-400 p-8 text-center cursor-pointer
+		<div class="border border-gray-400 p-4 text-center cursor-pointer
             hover:bg-blue-100 transition relative" @click="openDialog" 
 			@dragover.prevent @dragenter.prevent 
 			@drop.prevent="addFiles(Array.from($event.dataTransfer.files))">

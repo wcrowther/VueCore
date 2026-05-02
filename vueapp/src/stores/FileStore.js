@@ -2,6 +2,8 @@ export const useFileStore = defineStore('FileStore', () =>
 {
 	const folderStore = useFolderStore()
 
+	// const { selectedFolder }      = storeToRefs(folderStore)
+
 	// STATE ------------------------------------------------------------------
 
 	const files = ref([])
@@ -41,11 +43,6 @@ export const useFileStore = defineStore('FileStore', () =>
 		clearSelection()
 		loadFiles()
 	})
-
-	const setSelectedFolder = (path) =>
-	{
-		folderStore.selectFolder(path)
-	}
 
 	const clearSelection = () =>
 	{
@@ -101,6 +98,11 @@ export const useFileStore = defineStore('FileStore', () =>
 		{
 			isLoading.value = false
 		}
+	}
+
+	const refresh = async () =>
+	{
+		await loadFiles()
 	}
 
 	const deleteFile = async (fileName) =>
@@ -167,10 +169,10 @@ export const useFileStore = defineStore('FileStore', () =>
 		selectedFileNames,
 
 		// actions
-		setSelectedFolder,
 		clearSelection,
 		selectFileIndex,
 		loadFiles,
+		refresh,
 		deleteFile,
 		moveSelectedFiles
 	}

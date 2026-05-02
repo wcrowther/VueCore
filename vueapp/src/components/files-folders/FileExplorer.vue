@@ -2,16 +2,9 @@
 
 	const fileStore = useFileStore()
 	const { selectedFolder, fileRows, isLoading, loadError, selectedFileIndexes } = storeToRefs(fileStore)
-	const { setSelectedFolder, selectFileIndex, deleteFile } = fileStore
+	const { selectFileIndex, deleteFile } = fileStore
 
 	const { createConfirm } = useConfirmControl()
-
-	const props = defineProps (
-	{
-		selectedFolder: { type: String, default: "" }
-	})
-
-	watch(() => props.selectedFolder, setSelectedFolder, { immediate: true })
 
 	const selectedIndexes = computed(() =>
 	{
