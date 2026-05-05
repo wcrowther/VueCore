@@ -17,7 +17,7 @@
     <div :id="props.id" class="h-full">
 
         <!-- Tabs -->
-        <div class="flex gap-2 justify-start h-10 z-20 pl-5 border-b-2 border-slate-300">
+        <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b-2 border-slate-300">
         
             <template v-for="(tab,idx) in props.tabList" :key="idx">
                 <div :class="[ isActive(tab) ? 'tab-active' :'tab-other' ]" @click="activeTab = tab">
@@ -44,9 +44,9 @@
 
 <style lang="postcss" scoped>
 
-    .tab-active { @apply mt-0 px-4 pt-[.4rem] pb-3 rounded-t-md border-2 bg-white border-slate-300 border-b-0 
-       text-sm font-bold select-none relative bottom-[-2px] }
-    .tab-other { @apply mt-1 mb-[.2rem] px-4 pb-[4px] select-none leading-7 rounded-full border-2 
+    .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border-2 bg-white border-slate-300 border-b-0 
+        text-sm font-bold select-none relative bottom-[-2px] }
+    .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border-2 
         border-transparent text-sm font-bold hover:bg-slate-300 }
 
 </style> 
@@ -58,19 +58,16 @@
     <TabControl class="mb-10" :tabList="['First', 'Second', 'Third']" >
 
         <div class="text-center p-3 border">Default slot</div>
-
         <template #First>       
             <div class="p-5">
                 <div class="font-bold mb-3">First Content</div>
             </div>
         </template>
-
         <template #Second>       
             <div class="p-5">
                 <div class="font-bold mb-3">Second Content</div>
             </div>
         </template>
-
         <template #Third>       
             <div class="p-5">
                 <div class="font-bold text-red mb-3">Important</div>

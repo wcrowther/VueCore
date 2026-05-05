@@ -13,7 +13,11 @@
             Check the browser console to see the resolved values after interacting with each dialog.
         </div>
 
-        <ComposablesExample />
+        <ComposablesExample class="mb-7" />
+
+        <ContentEditor />
+
+        <MultiSelectExample />
 
     </div>
 

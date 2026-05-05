@@ -11,6 +11,7 @@
 		height:           	{ type: String, default: '300px' },
 		width:            	{ type: String, default: '500px' },
 		overlayClickCloses: { type: Boolean, default: false },
+		showFooter: 		{ type: Boolean, default: true },
 	})
 
 	defineOptions({ inheritAttrs: false })
@@ -50,7 +51,8 @@
 						v-bind="$attrs"
 						><slot><div class="p-5 pb-0">Default content</div></slot></div>
 
-					<div class="shrink-0 p-4 pb-6 w-full h-18 flex justify-end gap-2 select-none">
+					<div v-if="showFooter"
+						class="shrink-0 p-4 pb-6 w-full h-18 flex justify-end gap-2 select-none">
 						<slot name="footer">
 							<button class="btn-primary" @click="closeModal">Ok</button>
 						</slot>

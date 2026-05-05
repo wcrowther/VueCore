@@ -14,7 +14,7 @@
 	<div class="pt-4 px-4 pb-6">
 
 		<h4 class="flex items-center text-xl font-bold mb-3">
-			Folder Explorer
+			Explorer
 			<div class="text-sm ml-[10px] border border-gray-400 size-4
 				rounded-full flex justify-center items-center"
 				@click="toggleRootEdit">

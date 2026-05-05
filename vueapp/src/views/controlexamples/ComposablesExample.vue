@@ -33,13 +33,14 @@
 
 <template>
 
-    <PrimaryButton class="mt-5 mr-3" @click="showAlert">Show Alert</PrimaryButton>
-    
-    <PrimaryButton class="mt-5" @click="tryConfirm">Try Confirm</PrimaryButton>
-
-    <div v-if="showConfirmedText" @click="showConfirmedText=false"
-        class="mt-5 font-bold text-orange" title="Click to reset">
-        Confirmed!
+    <div>
+        <PrimaryButton class="mt-5 mr-3" @click="showAlert">Show Alert</PrimaryButton>
+        
+        <PrimaryButton class="mt-5" @click="tryConfirm">Try Confirm</PrimaryButton>
+        <div v-if="showConfirmedText" @click="showConfirmedText=false"
+            class="mt-5 font-bold text-orange" title="Click to reset">
+            Confirmed!
+        </div>
     </div>
 	
 </template>
