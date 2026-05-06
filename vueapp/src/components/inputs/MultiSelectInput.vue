@@ -9,6 +9,7 @@
 		hideSelected:	{ type: Boolean, default: true },
 		placeholder: 	{ type: String,  default: 'Search...' },
 		mode: 			{ type: String,  default: 'comma' }, 	// 'capsule' | 'comma'
+		showAllAndNone:	{ type: Boolean, default: true },		// show 'Select All' and 'Select None'
 		labelName:      { type: String,  required: true },  	// label for select
         ruleName:       { type: String },                   	// rule for valiadation. if not set, uses labelName removing spaces
         v$:             { type: Object }                    	// pass in vuelidate validator (validation ignored if not set)
@@ -162,6 +163,22 @@
 		openDropdown()
 	}
 
+	const selectAllItems = () =>
+	{
+		recentlyCheckedValues.value = []
+		selected.value = [...normalizedItems.value]
+		emitSelected()
+		openDropdown()
+	}
+
+	const clearSelectedItems = () =>
+	{
+		recentlyCheckedValues.value = []
+		selected.value = []
+		emitSelected()
+		openDropdown()
+	}
+
 	const onKeyDown = (e) => 
 	{
 		if (!isOpen.value)
@@ -288,13 +305,13 @@
 
 		<!-- Input container -->
 		<div class="relative flex flex-wrap items-center gap-2 border 
-			border-slate-400 h-[30px] px-2 pr-8"
+			border-slate-400 px-2 py-1 pr-8"
 			@click="openDropdown()" ref="inputContainer">
 
 			<!-- Capsule mode -->
-			<template v-if="mode === 'capsule'">
+			<template v-if="mode !== 'comma'">
 				<span v-for="item in selected" :key="item.value"
-					class="flex items-center bg-blue-100 text-blue-700 px-2 text-sm">
+					class="flex items-center bg-gray-200 text-gray-500 pl-3 px-2 text-sm rounded-full">
 					{{ item.label }}
 					<button class="ml-1 text-xs" @click.stop="removeItem(item)">✕</button>
 				</span>
@@ -302,10 +319,11 @@
 
 			<!-- Input -->
 			<input v-model="search" :placeholder="selected.length && mode === 'comma' ? '' : placeholder"
-				class="text-sm border-none flex-1 h-[28px] outline-none min-w-[120px]" ref="filterInput"
+				class="text-sm border-none flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
+				ring-0 shadow-none focus:outline-none focus:ring-0 focus:shadow-none" ref="filterInput"
 				@focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown"  />
 
-			<div class="absolute top-0 right-0 flex h-full items-center pr-2">
+			<div class="absolute inset-y-0 right-0 flex items-center pr-2">
 				<button v-if="showClearButton" type="button" 
 					class="flex-center text-color-dark-gray hover:text-color-mid-gray"
 					@click.stop="clearSearch()">
@@ -323,14 +341,26 @@
 
 		<Teleport to="body">
 
-			<ul v-if="isOpen && filteredItems.length" 
+			<ul v-if="isOpen && normalizedItems.length" 
 				:style="dropdownStyle" ref="dropdownMenu"
 				class="fixed z-[999] mt-1 bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
+
+				<li v-if="showAllAndNone" class="grid grid-cols-2 border-b">
+					<button type="button"
+						class="px-3 py-1 text-center text-sm text-blue-500 hover:bg-gray-100"
+						@click.stop="selectAllItems()">
+						Select All
+					</button>
+					<button type="button"
+						class="border-l px-3 py-1 text-center text-sm text-blue-500 hover:bg-gray-100"
+						@click.stop="clearSelectedItems()">
+						Select None
+					</button>
+				</li>
 				
 				<li v-for="(item, index) in filteredItems" :key="item.value" 
 					:class="['flex items-center gap-3 px-3 py-2 cursor-pointer',
-					{ 'bg-blue-500 text-white': index === highlightedIndex,
-					  'hover:bg-gray-100': index !== highlightedIndex }]"
+					{ 'bg-gray-200 text-black': index === highlightedIndex }]"
 					@click="selectItem(item)" 
 					@mouseenter="setHighlightedIndex(index)"
 					@mouseleave="setHighlightedIndex(-1)">
@@ -338,7 +368,7 @@
 					<input type="checkbox" :checked="isChecked(item)" tabindex="-1" 
 						class="pointer-events-none h-4 w-4" />
 
-					<span>{{ item.label }}</span>
+					<span class="text-sm">{{ item.label }}</span>
 				</li>
 			</ul>
 

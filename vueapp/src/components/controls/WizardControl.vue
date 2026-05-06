@@ -1,4 +1,5 @@
 <script setup>
+import { useSessionStorage } from '@vueuse/core'
 
     const props = defineProps(
     {
@@ -10,7 +11,7 @@
 	})
 
     const activeTab = props.persistActiveTab 
-        ? useLocalStorage(`${props.id}-activeTab`, props.tabList[0]) 
+        ? useSessionStorage(`${props.id}-activeTab`, props.tabList[0]) 
         : ref(props.tabList[0])
     
     // Ensure activeTab is still valid in tabList
