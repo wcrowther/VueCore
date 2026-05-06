@@ -1,22 +1,31 @@
 <script setup>
 
+	import { onClickOutside, useElementBounding } from '@vueuse/core'
+
 	const props = defineProps(
 	{
-		items: 			{ type: Array, 	default: () => [] }, // [{ label, value }]
-		optionsList:	{ type: Object, 	default: null }, // { value: label }
-		modelValue: 	{ type: Array, 	default: () => [] },
-		placeholder: 	{ type: String, default: 'Search...' },
-		mode: 			{ type: String, default: 'capsule' } // 'capsule' | 'comma'
+		items: 			{ type: Array, 	 default: () => [] }, 	// [{ label, value }]
+		optionsList:	{ type: Object,  default: null }, 		// { value: label }
+		hideSelected:	{ type: Boolean, default: true },
+		placeholder: 	{ type: String,  default: 'Search...' },
+		mode: 			{ type: String,  default: 'comma' }, 	// 'capsule' | 'comma'
+		labelName:      { type: String,  required: true },  	// label for select
+        ruleName:       { type: String },                   	// rule for valiadation. if not set, uses labelName removing spaces
+        v$:             { type: Object }                    	// pass in vuelidate validator (validation ignored if not set)
 	})
 
-	const emit = defineEmits(['update:modelValue'])
+    const modelValue = defineModel()
+    const rule       = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ','') )
+    const hasErrors  = computed(() => props.v$ && props.v$[rule.value] && props.v$[rule.value]?.$errors.length > 0 )
 
-	const search 			= ref('')
-	const isOpen 			= ref(false)
-	const highlightedIndex 	= ref(-1)
-	const selected 			= ref([])
+	const search 				= ref('')
+	const isOpen 				= ref(false)
+	const highlightedIndex 		= ref(-1)
+	const selected 				= ref([])
 	const recentlyCheckedValues = ref([])
-	const filterInput = ref(null)
+	const filterInput 			= ref(null)
+	const dropdownMenu 			= ref(null)
+	const dropdownStyle 		= ref({})
 
 	const normalizedItems = computed(() =>
 	{
@@ -41,7 +50,7 @@
 	})
 
 	const mapModelValueToItems = (value = []) => 
-		value
+		(Array.isArray(value) ? value : [])
 		.map(item =>
 		{
 			if (item && typeof item === 'object')
@@ -58,12 +67,16 @@
 
 	watch 
 	(
-		[() => props.modelValue, normalizedItems],
+		[() => modelValue.value, normalizedItems],
 		([value]) => { selected.value = mapModelValueToItems(value) },{ immediate: true }
 	)
 
 	const selectedValues = computed(() => new Set(selected.value.map(item => item.value)))
-	const hiddenSelectedValues = computed(() => new Set([...selectedValues.value, ...recentlyCheckedValues.value]))
+	const hiddenSelectedValues = computed(() =>
+		props.hideSelected
+			? new Set([...selectedValues.value, ...recentlyCheckedValues.value])
+			: new Set()
+	)
 
 	const filteredItems = computed(() => 
 	{
@@ -72,6 +85,7 @@
 		return normalizedItems.value.filter(item =>
 		{
 			const matchesSearch = !searchValue || item.label.toLowerCase().includes(searchValue)
+			
 			return matchesSearch && !hiddenSelectedValues.value.has(item.value)
 		})
 	})
@@ -82,29 +96,36 @@
 		highlightedIndex.value = -1
 	}
 
+	const el 						= useTemplateRef('inputContainer')
+	const { bottom, left, width } 	= useElementBounding(el)
+	const updateDropdownPosition 	= () =>
+	{
+		dropdownStyle.value = 
+		{
+			left: 	`${left.value}px`,
+			top: 	`${bottom.value}px`,
+			width: 	`${width.value}px`
+		}
+	}
+
 	const openDropdown = () =>
 	{
 		isOpen.value = true
+		nextTick(() => updateDropdownPosition())
 	}
 
-	const clearAll = () =>
+	const clearSearch = () =>
 	{
 		search.value = ''
-		selected.value = []
-		recentlyCheckedValues.value = []
-		emitSelected()
 		filterInput.value?.focus()
 		openDropdown()
 	}
 
 	const emitSelected = () =>
 	{
-		emit(
-			'update:modelValue',
-			props.optionsList
-				? selected.value.map(item => item.value)
-				: selected.value
-		)
+		modelValue.value = props.optionsList
+			? selected.value.map(item => item.value)
+			: selected.value
 	}
 
 	const hideItemAfterFeedback = (item) =>
@@ -116,14 +137,19 @@
 			selected.value = [...selected.value, item]
 			recentlyCheckedValues.value = recentlyCheckedValues.value.filter(value => value !== item.value)
 			emitSelected()
-			search.value = ''
 			openDropdown()
 		}, 120)
 	}
 
 	const selectItem = (item) => 
 	{
-		if (!selectedValues.value.has(item.value) && !recentlyCheckedValues.value.includes(item.value)) 
+		if (selectedValues.value.has(item.value))
+		{
+			removeItem(item)
+			return
+		}
+
+		if (!recentlyCheckedValues.value.includes(item.value)) 
 		{
 			hideItemAfterFeedback(item)
 		}
@@ -202,8 +228,36 @@
 		highlightedIndex.value = index
 	}
 
-	const isChecked = (item) => recentlyCheckedValues.value.includes(item.value)
-	const showClearButton = computed(() => search.value.length > 0 || selected.value.length > 0)
+	const isChecked = (item) => recentlyCheckedValues.value.includes(item.value) || selectedValues.value.has(item.value)
+	const showClearButton = computed(() => search.value.length > 0)
+
+	onClickOutside(el, () =>
+	{
+		if (isOpen.value)
+		{
+			closeDropdown()
+		}
+	}, { ignore: [dropdownMenu] })
+
+	watch(isOpen, (value) =>
+	{
+		if (!value)
+		{
+			return
+		}
+
+		const handleWindowChange = () => updateDropdownPosition()
+		window.addEventListener('resize', handleWindowChange)
+		window.addEventListener('scroll', handleWindowChange, true)
+
+		onWatcherCleanup(() =>
+		{
+			window.removeEventListener('resize', handleWindowChange)
+			window.removeEventListener('scroll', handleWindowChange, true)
+		})
+	})
+
+	onMounted(() => updateDropdownPosition())
 
 	const displayValue = () => 
 	{
@@ -217,16 +271,30 @@
 
 <template>
 
-	<div class="relative w-full">
+	<div class="relative w-full mb-3">
+
+		<!-- Text and Valication -->
+	    <div class="pb-1 flex justify-between items-baseline">
+            <span class="text-color-dark-blue font-bold whitespace-nowrap text-xs">
+                {{props.labelName}}
+            </span>
+            <template v-if="hasErrors">
+                <span v-for="error in v$[rule].$errors" :key="error.$uid"
+                    class="italic font-bold text-right text-xs text-color-red">
+                    {{ error.$message }}
+                </span>
+            </template> 
+        </div>
 
 		<!-- Input container -->
-		<div class="relative flex flex-wrap items-center gap-2 border rounded px-2 py-1 pr-8 focus-within:ring"
-			@click="openDropdown()">
+		<div class="relative flex flex-wrap items-center gap-2 border 
+			border-slate-400 h-[30px] px-2 pr-8"
+			@click="openDropdown()" ref="inputContainer">
 
 			<!-- Capsule mode -->
 			<template v-if="mode === 'capsule'">
 				<span v-for="item in selected" :key="item.value"
-					class="flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-sm">
+					class="flex items-center bg-blue-100 text-blue-700 px-2 text-sm">
 					{{ item.label }}
 					<button class="ml-1 text-xs" @click.stop="removeItem(item)">✕</button>
 				</span>
@@ -234,34 +302,47 @@
 
 			<!-- Input -->
 			<input v-model="search" :placeholder="selected.length && mode === 'comma' ? '' : placeholder"
-				class="flex-1 outline-none min-w-[120px]" @focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown" ref="filterInput" />
+				class="text-sm border-none flex-1 h-[28px] outline-none min-w-[120px]" ref="filterInput"
+				@focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown"  />
 
 			<div class="absolute top-0 right-0 flex h-full items-center pr-2">
-				<button v-if="showClearButton" type="button" class="flex-center text-color-dark-gray hover:text-color-mid-gray"
-					@click.stop="clearAll()">
+				<button v-if="showClearButton" type="button" 
+					class="flex-center text-color-dark-gray hover:text-color-mid-gray"
+					@click.stop="clearSearch()">
 					<IconSymbol width="22px" icon="heroicons:x-mark" />
 				</button>
 			</div>
 
 			<!-- Comma display overlay -->
-			<span v-if="mode === 'comma' && selected.length && !search" class="absolute left-2 right-8 text-gray-500 pointer-events-none overflow-hidden text-ellipsis whitespace-nowrap">
+			<span v-if="mode === 'comma' && selected.length && !search" 
+				class="absolute left-2 right-8 text-gray-500 pointer-events-none 
+				overflow-hidden scrollbar-thin text-ellipsis whitespace-nowrap">
 				{{ displayValue() }}
 			</span>
 		</div>
 
-		<!-- Dropdown -->
-		<ul v-if="isOpen && filteredItems.length"
-			class="absolute left-0 right-0 top-full z-50 mt-1 bg-white border max-h-60 overflow-auto rounded shadow">
-			<li v-for="(item, index) in filteredItems" :key="item.value" @click="selectItem(item)"
-				@mouseenter="setHighlightedIndex(index)" @mouseleave="setHighlightedIndex(-1)"
-				class="flex items-center gap-3 px-3 py-2 cursor-pointer" :class="{
-					'bg-blue-500 text-white': index === highlightedIndex,
-					'hover:bg-gray-100': index !== highlightedIndex
-				}">
-				<input type="checkbox" :checked="isChecked(item)" tabindex="-1" class="pointer-events-none h-4 w-4 rounded" />
-				<span>{{ item.label }}</span>
-			</li>
-		</ul>
+		<Teleport to="body">
+
+			<ul v-if="isOpen && filteredItems.length" 
+				:style="dropdownStyle" ref="dropdownMenu"
+				class="fixed z-[999] mt-1 bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
+				
+				<li v-for="(item, index) in filteredItems" :key="item.value" 
+					:class="['flex items-center gap-3 px-3 py-2 cursor-pointer',
+					{ 'bg-blue-500 text-white': index === highlightedIndex,
+					  'hover:bg-gray-100': index !== highlightedIndex }]"
+					@click="selectItem(item)" 
+					@mouseenter="setHighlightedIndex(index)"
+					@mouseleave="setHighlightedIndex(-1)">
+
+					<input type="checkbox" :checked="isChecked(item)" tabindex="-1" 
+						class="pointer-events-none h-4 w-4" />
+
+					<span>{{ item.label }}</span>
+				</li>
+			</ul>
+
+		</Teleport>
 
 	</div>
 
@@ -270,6 +351,5 @@
 
 <!-- EXAMPLES:
 
-	  <MultiSelectInput v-model="selected" :optionsList="items" mode="capsule" />
-
+	<MultiSelectInput v-model="selected" :optionsList="items" mode="capsule" :hideSelected="false" />
 -->

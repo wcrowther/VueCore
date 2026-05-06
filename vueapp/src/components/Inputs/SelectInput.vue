@@ -8,17 +8,19 @@
         optionsList:        { type: Object,  required: true },      // list of options
         labelName:          { type: String,  required: true },      // label for select
         ruleName:           { type: String },                       // rule for valiadation. if not set, uses labelName removing spaces
-        v$:                 { type: Object }                        // pass in vulidate validator (validation ignored if not set)
+        v$:                 { type: Object }                        // pass in vuelidate validator (validation ignored if not set)
     })
 
     const modelValue = defineModel()
-    const rule  = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ','') )
+    const rule       = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ','') )
     const hasErrors  = computed(() => props.v$ && props.v$[rule.value] && props.v$[rule.value]?.$errors.length > 0 )
 
 </script>
 
 <template>
+
     <div class="mb-3 w-full">
+
         <div class="pb-1 flex justify-between items-baseline">
             <span class="text-color-dark-blue font-bold whitespace-nowrap text-xs">
                 {{props.labelName}}
@@ -30,6 +32,7 @@
                 </span>
             </template> 
         </div>
+
         <select :class="['w-full p-2.5 text-sm', {'border-red': hasErrors}]" 
             :name="rule" :id="rule" v-bind="$attrs" v-model="modelValue">
             <option v-if="showDefault" :disabled="disableDefault" value="">{{ defaultText }}</option>
@@ -37,7 +40,9 @@
                 {{ value }}
             </option>
         </select>
+
     </div>
+
 </template>
 
 

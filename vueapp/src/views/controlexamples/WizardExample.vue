@@ -17,7 +17,7 @@
 
         <ContentEditor />
 
-        <MultiSelectExample />
+        <MultiSelectExample  />
 
     </div>
 

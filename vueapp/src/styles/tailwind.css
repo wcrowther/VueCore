@@ -58,7 +58,7 @@
 	.v-select,
 	.v-select ul
 	{
-		@apply w-full border border-slate-400 rounded-sm px-2 py-1 shadow-sm
+		@apply w-full border border-slate-400 rounded-sm px-2 py-1 shadow-sm ring-offset-0
 			focus:border-color-orange focus:ring-color-orange placeholder-slate-300;
 	}
 
@@ -66,8 +66,8 @@
 
 	[type='checkbox'],
 	[type='radio'] {
-		@apply border-color-dark-gray w-5 h-5 text-color-blue-gray focus:ring-transparent
-			focus:ring-color-orange placeholder-slate-300;
+		@apply border-color-dark-gray w-5 h-5 text-color-blue-gray ring-transparent
+			ring-offset-0 focus:ring-color-orange placeholder-slate-300;
 	}
 }
 

@@ -22,7 +22,8 @@
     
 	const v$ = useVuelidate(accountValidator, account)
 
-    const accountTitle = computed(() => { 
+    const accountTitle = computed(() => 
+    { 
         return isAddingAccount.value
             ? 'Add new Account' 
             : (hasKeys(account.value) ? account.value?.AccountName : 'Accounts') 
