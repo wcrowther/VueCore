@@ -308,7 +308,7 @@
 			border-slate-400 px-2 py-1 pr-8"
 			@click="openDropdown()" ref="inputContainer">
 
-			<!-- Capsule mode -->
+			<!-- Selected items -->
 			<template v-if="mode !== 'comma'">
 				<span v-for="item in selected" :key="item.value"
 					class="flex items-center bg-gray-200 text-gray-500 pl-3 px-2 text-sm rounded-full">
@@ -316,9 +316,15 @@
 					<button class="ml-1 text-xs" @click.stop="removeItem(item)">✕</button>
 				</span>
 			</template>
+			<template v-else>
+				<span v-for="(item, index) in selected" :key="item.value"
+					class="text-sm text-gray-500 break-words">
+					{{ item.label }}{{ index < selected.length - 1 ? ',' : '' }}
+				</span>
+			</template>
 
 			<!-- Input -->
-			<input v-model="search" :placeholder="selected.length && mode === 'comma' ? '' : placeholder"
+			<input v-model="search" :placeholder
 				class="text-sm border-none flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
 				ring-0 shadow-none focus:outline-none focus:ring-0 focus:shadow-none" ref="filterInput"
 				@focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown"  />
@@ -331,12 +337,6 @@
 				</button>
 			</div>
 
-			<!-- Comma display overlay -->
-			<span v-if="mode === 'comma' && selected.length && !search" 
-				class="absolute left-2 right-8 text-gray-500 pointer-events-none 
-				overflow-hidden scrollbar-thin text-ellipsis whitespace-nowrap">
-				{{ displayValue() }}
-			</span>
 		</div>
 
 		<Teleport to="body">
