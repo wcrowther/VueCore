@@ -26,6 +26,7 @@
 	const recentlyCheckedValues = ref([])
 	const filterInput 			= ref(null)
 	const dropdownMenu 			= ref(null)
+	const optionRefs 			= ref([])
 	const dropdownStyle 		= ref({})
 
 	const normalizedItems = computed(() =>
@@ -179,6 +180,38 @@
 		openDropdown()
 	}
 
+	const setOptionRef = (element, index) =>
+	{
+		if (element)
+		{
+			optionRefs.value[index] = element
+			return
+		}
+
+		optionRefs.value.splice(index, 1)
+	}
+
+	const scrollHighlightedItemIntoView = () =>
+	{
+		const option = optionRefs.value[highlightedIndex.value]
+
+		if (isOpen.value && option)
+		{
+			option.scrollIntoView({ block: 'nearest' })
+		}
+	}
+
+	const toggleHighlightedItem = () =>
+	{
+		const index = highlightedIndex.value < 0 ? 0 : highlightedIndex.value
+		const item = filteredItems.value[index]
+
+		if (item)
+		{
+			selectItem(item)
+		}
+	}
+
 	const onKeyDown = (e) => 
 	{
 		if (!isOpen.value)
@@ -217,9 +250,7 @@
 		else if (e.key === 'Enter') 
 		{
 			e.preventDefault()
-			const item = filteredItems.value[highlightedIndex.value]
-
-			if (item) selectItem(item)
+			toggleHighlightedItem()
 		} 
 		else if (e.key === 'Escape')
 		{
@@ -272,6 +303,32 @@
 			window.removeEventListener('resize', handleWindowChange)
 			window.removeEventListener('scroll', handleWindowChange, true)
 		})
+	})
+
+	watch(filteredItems, (items) =>
+	{
+		optionRefs.value = []
+
+		if (!items.length)
+		{
+			highlightedIndex.value = -1
+			return
+		}
+
+		if (highlightedIndex.value >= items.length)
+		{
+			highlightedIndex.value = items.length - 1
+		}
+	})
+
+	watch(highlightedIndex, (index) =>
+	{
+		if (index < 0)
+		{
+			return
+		}
+
+		nextTick(() => scrollHighlightedItemIntoView())
 	})
 
 	onMounted(() => updateDropdownPosition())
@@ -361,6 +418,7 @@
 				<li v-for="(item, index) in filteredItems" :key="item.value" 
 					:class="['flex items-center gap-3 px-3 py-2 cursor-pointer',
 					{ 'bg-gray-200 text-black': index === highlightedIndex }]"
+					:ref="element => setOptionRef(element, index)"
 					@click="selectItem(item)" 
 					@mouseenter="setHighlightedIndex(index)"
 					@mouseleave="setHighlightedIndex(-1)">

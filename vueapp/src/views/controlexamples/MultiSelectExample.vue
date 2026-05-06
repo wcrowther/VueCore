@@ -23,7 +23,7 @@
 <template>
 
 	<MultiSelectInput labelName="U.S. States" v-model="selectedStates" :optionsList="usStatesList" 
-		class="mt-10" mode="comma" :hideSelected="false" />
+		class="mt-10" mode="capsule" :hideSelected="false" />
 
 	<SelectInput labelName="Fruits" v-model="selectedItems" :optionsList placeholder="Fruits" />
 
