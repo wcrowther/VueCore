@@ -175,7 +175,6 @@
 	{
 		selected.value = selected.value.filter(s => s.value !== item.value)
 		emitSelected()
-		openDropdown()
 	}
 
 	const selectAllItems = () =>
@@ -377,7 +376,7 @@
 				<span v-for="item in selected" :key="item.value"
 					class="flex items-center bg-[#b8d7ed] text-black tracking-wider font-bold pl-3 pr-2 py-[2px] text-xs rounded-full">
 					{{ item.label }}
-					<button class="ml-1 font-normal text-xs" @click.stop="removeItem(item)">✕</button>
+					<button class="ml-1 font-normal text-xs text-blue-400" @click.stop="removeItem(item)">✕</button>
 				</span>
 			</template>
 			<template v-else>
@@ -390,7 +389,7 @@
 			<!-- Input  -->
 			<input v-model="search" :placeholder
 				class="-ml-2 text-sm border-none border-l border-red flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
-				ring-0 shadow-none focus:outline-none focus:ring-0 focus:shadow-none" ref="filterInput"
+				ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none" ref="filterInput"
 				@focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown" />
 
 			<div class="absolute right-8 bottom-1 flex items-center">
@@ -412,7 +411,7 @@
 			<ul v-if="isOpen && normalizedItems.length" 
 				:style="dropdownStyle" ref="dropdownMenu"
 				@mousedown.prevent
-				class="fixed z-[999]  bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
+				class="fixed z-[999] bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
 
 				<li v-if="showAllAndNone" class="grid grid-cols-2 border-b">
 					<button type="button"
