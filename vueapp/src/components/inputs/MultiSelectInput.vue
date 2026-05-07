@@ -116,6 +116,16 @@
 		nextTick(() => updateDropdownPosition())
 	}
 
+	const toggleDropdown = () =>
+	{
+		if (isOpen.value)
+		{
+			closeDropdown()
+			return
+		}
+		openDropdown()
+	}
+
 	const clearSearch = () =>
 	{
 		search.value = ''
@@ -368,39 +378,43 @@
 			<!-- Selected items -->
 			<template v-if="mode !== 'comma'">
 				<span v-for="item in selected" :key="item.value"
-					class="flex items-center bg-gray-200 text-gray-500 pl-3 px-2 text-sm rounded-full">
+					class="flex items-center bg-[#b8d7ed] text-black tracking-wider font-bold pl-3 pr-2 py-[2px] text-xs rounded-full">
 					{{ item.label }}
-					<button class="ml-1 text-xs" @click.stop="removeItem(item)">✕</button>
+					<button class="ml-1 font-normal text-xs" @click.stop="removeItem(item)">✕</button>
 				</span>
 			</template>
 			<template v-else>
 				<span v-for="(item, index) in selected" :key="item.value"
-					class="text-sm text-gray-500 break-words">
+					class="text-xs text-gray-500 break-words">
 					{{ item.label }}{{ index < selected.length - 1 ? ',' : '' }}
 				</span>
 			</template>
 
-			<!-- Input -->
+			<!-- Input  -->
 			<input v-model="search" :placeholder
-				class="text-sm border-none flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
+				class="-ml-2 text-sm border-none border-l border-red flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
 				ring-0 shadow-none focus:outline-none focus:ring-0 focus:shadow-none" ref="filterInput"
-				@focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown"  />
+				@focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown" />
 
-			<div class="absolute inset-y-0 right-0 flex items-center pr-2">
-				<button v-if="showClearButton" type="button" 
+			<div class="absolute right-8 bottom-1 flex items-center">
+				<button type="button" v-if="showClearButton" 
 					class="flex-center text-color-dark-gray hover:text-color-mid-gray"
 					@click.stop="clearSearch()">
 					<IconSymbol width="22px" icon="heroicons:x-mark" />
 				</button>
 			</div>
 
+			<button type="button" class="absolute right-1 bottom-1 flex size-6 text-color-dark-gray hover:text-color-mid-gray"
+				@click.stop="toggleDropdown()">
+				<IconSymbol width="20px" class="mt-[2px]" icon="heroicons:chevron-down-20-solid" />
+			</button>
 		</div>
 
 		<Teleport to="body">
 
 			<ul v-if="isOpen && normalizedItems.length" 
 				:style="dropdownStyle" ref="dropdownMenu"
-				class="fixed z-[999] mt-1 bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
+				class="fixed z-[999]  bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
 
 				<li v-if="showAllAndNone" class="grid grid-cols-2 border-b">
 					<button type="button"
