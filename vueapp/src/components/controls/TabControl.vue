@@ -1,8 +1,7 @@
 <script setup>
 
-    import { ref } from 'vue'
-
-    const props = defineProps({
+    const props = defineProps(
+    {
         id: { type: String, default: 'TabControl' },
 		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] }
 	})

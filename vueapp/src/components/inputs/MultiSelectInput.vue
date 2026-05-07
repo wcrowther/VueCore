@@ -113,7 +113,11 @@
 	const openDropdown = () =>
 	{
 		isOpen.value = true
-		nextTick(() => updateDropdownPosition())
+		nextTick(() =>
+		{
+			updateDropdownPosition()
+			filterInput.value?.focus()
+		})
 	}
 
 	const toggleDropdown = () =>
@@ -343,21 +347,14 @@
 
 	onMounted(() => updateDropdownPosition())
 
-	const displayValue = () => 
-	{
-		if (props.mode === 'comma') 
-		{
-			return selected.value.map(i => i.label).join(', ')
-		}
-		return ''
-	}
+
 </script>
 
 <template>
 
 	<div class="relative w-full mb-3">
 
-		<!-- Text and Valication -->
+		<!-- Text and Validation -->
 	    <div class="pb-1 flex justify-between items-baseline">
             <span class="text-color-dark-blue font-bold whitespace-nowrap text-xs">
                 {{props.labelName}}
@@ -453,5 +450,9 @@
 
 <!-- EXAMPLES:
 
-	<MultiSelectInput v-model="selected" :optionsList="items" mode="capsule" :hideSelected="false" />
+	<MultiSelectInput v-model="selected" :optionsList="items"  :hideSelected="false" />
+
+	<MultiSelectInput v-model="selectedStates" labelName="U.S. States" :optionsList="usStatesList" 
+		class="mt-10" mode="comma" :hideSelected="true" />
+
 -->
