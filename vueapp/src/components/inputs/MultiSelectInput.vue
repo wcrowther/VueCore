@@ -411,6 +411,7 @@
 
 			<ul v-if="isOpen && normalizedItems.length" 
 				:style="dropdownStyle" ref="dropdownMenu"
+				@mousedown.prevent
 				class="fixed z-[999]  bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
 
 				<li v-if="showAllAndNone" class="grid grid-cols-2 border-b">
