@@ -44,7 +44,7 @@
         else if (e.code === 'Home')      { searchInput.value.focusInput();      e.preventDefault() }
     }
 
-    KeyboardListeners(keys, !showAdvSearch);  // switch off keys when AdvSearch is active
+    KeyboardListeners(keys, showAdvSearch)  // switch off keys when AdvSearch is active
 
 </script>
 
@@ -59,7 +59,7 @@
                     v-model:showAdvSearch="showAdvSearch" 
                     v-model="listPager.Search.Filter" />
             </div>
-
+            {{ !showAdvSearch }}
             <AccountFilters :listPager @showAdvancedSearch="showAdvSearch=true" /> 
 
             <div class="w-full flex justify-between items-center select-none my-3">

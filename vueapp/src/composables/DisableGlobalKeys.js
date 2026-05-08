@@ -1,17 +1,17 @@
 export function DisableGlobalKeys(disable)
 {	
-	const appStore   		= useAppStore()
-    const { globalKeysOn }	= storeToRefs(appStore)
+	const appStore   			= useAppStore()
+    const { disableGlobalKeys }	= storeToRefs(appStore)
 
 	const disabled = computed(() => unref(disable) ?? false )
-	globalKeysOn.value  = !disabled.value 
+	disableGlobalKeys.value  = disabled.value 
 	
-	onUnmounted(() => { globalKeysOn.value  = true; })
+	onUnmounted(() => { disableGlobalKeys.value  = false; })
 }
 
 /* 	USAGE: 
 
-	import { globalKeysOn } from '@/composables/DisableGlobalKeys.js' 	// (if needed) 
+	import { disableGlobalKeys } from '@/composables/DisableGlobalKeys.js' 	// (if needed) 
 
 	DisableGlobalKeys(showConfirm.value);
 */

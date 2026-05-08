@@ -3,6 +3,7 @@
 <template>
 
     <div class="mb-10">
+
         <div class="text-lg font-bold mb-5">
             Alert &amp; Confirm Composables
         </div>
@@ -14,11 +15,7 @@
         </div>
 
         <ComposablesExample class="mb-7" />
-
-        <ContentEditor />
-
-        <MultiSelectExample  />
-
+        
     </div>
 
 </template>

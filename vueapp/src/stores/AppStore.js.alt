@@ -16,7 +16,7 @@ export const useAppStore = defineStore('AppStore',
     state: () => 
     ({
         sideBarHidden:          false,
-        globalKeysOn:           true,
+        disableGlobalKeys:      false,
         showPrevNext:           showPrevNextRef.value,
         showBreakpoints:        showBreakpointsRef.value,
         showNotification:       showNotificationRef.value,

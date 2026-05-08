@@ -11,7 +11,7 @@
                                     validator: (value) => value.every(item => item instanceof EventModel )
                                 })
                           
-    const keysOn = ref(true)
+    const disableKeys = ref(false)
 
     const emit = defineEmits(['addEvent','deleteEvent'])
 
@@ -57,7 +57,7 @@
         else if (e.code === 'PageDown')   { nextEvent();   e.preventDefault();} 
     }
 
-	KeyboardListeners(keys, keysOn)
+	KeyboardListeners(keys, disableKeys)
 
     const modalWidth = computed(() => windowWidth.value > 500 ? '500px' : `${windowWidth.value}px`)
 
@@ -111,8 +111,8 @@
         </div>
         
         <template #footer>
-            <button class="ml-4 text-xs mr-auto outline-none" @click="keysOn=!keysOn">
-                {{ (keysOn ?'Keys On':'Keys OFF') }}
+            <button class="ml-4 text-xs mr-auto outline-none" @click="disableKeys=!disableKeys">
+                {{ (disableKeys ?'Keys On':'Keys OFF') }}
             </button>
 
             <button class="btn-primary" @click="addEvent">Add</button>

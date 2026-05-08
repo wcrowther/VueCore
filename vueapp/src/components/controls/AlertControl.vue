@@ -22,7 +22,7 @@
 		if (e.code === 'Escape'){ onClose(); e.preventDefault(); } 
     }
 
-	KeyboardListeners(keys, showAlert)
+	KeyboardListeners(keys, () => !showAlert.value)
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
 

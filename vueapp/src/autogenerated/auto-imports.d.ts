@@ -54,6 +54,7 @@ declare global {
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
   const findNodeByPath: typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']
   const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
+  const fruitsList: typeof import('../datalists/fruitsList.js')['fruitsList']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
@@ -226,6 +227,7 @@ declare module 'vue' {
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
     readonly findNodeByPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']>
     readonly formatFileSize: UnwrapRef<typeof import('../helpers/global.js')['formatFileSize']>
+    readonly fruitsList: UnwrapRef<typeof import('../datalists/fruitsList.js')['fruitsList']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>

@@ -1,6 +1,8 @@
-export function KeyboardListeners(keys, enabled = true) 
+export function KeyboardListeners(keys, disabled = false) 
 {
-	const isEnabled = isRef(enabled) ? enabled : ref(enabled)
+	const isDisabled = typeof disabled === 'function' 
+						? computed(disabled) 
+						: (isRef(disabled) ? disabled : ref(disabled))
 
 	let isAttached = false
 
@@ -18,13 +20,13 @@ export function KeyboardListeners(keys, enabled = true)
 		isAttached = false
 	}
 
-	onMounted(() => { if (isEnabled.value) addKeyListeners() })
+	onMounted(() => { if (!isDisabled.value) addKeyListeners() })
 	onUnmounted(() => { removeKeyListeners() })
 
-	watch(isEnabled, (newVal, oldVal) => 
+	watch(isDisabled, (newVal, oldVal) => 
 	{
 		if (newVal === oldVal) return
-		newVal ? addKeyListeners() : removeKeyListeners()
+		newVal ? removeKeyListeners() : addKeyListeners()
 	})
 }
 
@@ -43,5 +45,5 @@ export function KeyboardListeners(keys, enabled = true)
 		else if (e.code === 'PageUp')    { listPager.value.goToNextPage();     e.preventDefault();} 
 	}
 
-	KeyboardListeners(keys, enabled); // enabled defaults to true - is optional
+	KeyboardListeners(keys, disabled); // disabled defaults to false - is optional
 */
