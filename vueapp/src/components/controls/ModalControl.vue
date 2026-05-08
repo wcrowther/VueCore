@@ -47,7 +47,7 @@
 					</div>
 					
 					<!-- Content - Gets ModalControls attributes ($attrs) on this div -->
-					<div class="pb-8 h-full items-stretch scrollbar-thin" 
+					<div class="pb-8 h-full items-stretch scrollbar-thin overflow-auto"
 						v-bind="$attrs"
 						><slot><div class="p-5 pb-0">Default content</div></slot></div>
 

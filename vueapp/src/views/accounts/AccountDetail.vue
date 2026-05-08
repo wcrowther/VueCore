@@ -170,7 +170,7 @@
             Press <b>Esc</b> to collapse the left navigation panel and give yourself more working space.
             <br /><br />
             <b>Saving &amp; Resetting:</b> The <b>Save</b> button only becomes active once you've made a change to the record — 
-            this prevents accidental saves. If you've made changes and want to discard them, click the <b>Reset</b> (↩) button 
+            this prevents accidental saves. If you've made changes and want to discard them, click the <b>Reset</b> button 
             to revert all fields back to the last saved state. A confirmation prompt will appear before any save is committed.
             <br /><br />
             <b>Adding Accounts:</b> Click <b>Add</b> to create a new Account. Fill in the required fields — Account Name, 
@@ -178,8 +178,9 @@
             previously selected account.
         </HelpBox>
 
-        <JsonTreeControl v-if="showJsonEntities" :json="account" class="w-full" 
-            label="Account Detail Json" :isOpen="false" :showRawJson="false" />
+        <JsonTreeControl v-if="showJsonEntities" 
+            label="Account Detail Json" :json="account" class="w-full" 
+            :isOpen="false" :showRawJson="false" />
 
         <div v-if="(!account || account.AccountId === 0)  && !isAddingAccount" 
             class="w-[300px] font-bold">

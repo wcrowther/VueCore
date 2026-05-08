@@ -8,7 +8,7 @@
 		optionsList:	{ type: Object,  default: null }, 		// { value: label }
 		hideSelected:	{ type: Boolean, default: true },
 		placeholder: 	{ type: String,  default: 'Search...' },
-		mode: 			{ type: String,  default: 'comma' }, 	// 'capsule' | 'comma'
+		mode: 			{ type: String,  default: 'capsule' }, 	// 'capsule' | 'comma'
 		showAllAndNone:	{ type: Boolean, default: true },		// show 'Select All' and 'Select None'
 		labelName:      { type: String,  required: true },  	// label for select
         ruleName:       { type: String },                   	// rule for valiadation. if not set, uses labelName removing spaces

@@ -1,13 +1,13 @@
 <script setup>
 
-    const listPager     = defineModel('listPager', { type: PagerModel, required: true })
-    const showModal     = defineModel('showModal', { type: Boolean, required: true })
+    const listPager = defineModel('listPager', { type: PagerModel, required: true })
+    const showModal = defineModel('showModal', { type: Boolean, required: true })
 
-    const emits         = defineEmits(['getListData'])
-    const emitData     = (newVal, oldVal) => 
+    const emits     = defineEmits(['getListData'])
+    const emitData  = (newVal, oldVal) => 
     { 
         if (newVal != oldVal) // use != as oldVal may be string '10'
-            useDebounceFn(() => emits('getListData'), 1000)()
+            useDebounceFn(() => emits('getListData'), 2000)()
     }
 
     const resetAdvSearch = () => 
@@ -16,7 +16,7 @@
 
         listPager.value.Search.FilterType           = 'startswith'
         listPager.value.PageSize                    = 15
-        listPager.value.Search.StateProvinceFilter  = ''
+        listPager.value.Search.StateProvinceFilter  = []
         listPager.value.Search.PostalCodeFilter     = ''
 
         emits('getListData')
@@ -45,11 +45,11 @@
 <template>   
 
 	<ModalControl id="AccountAdvSearch" v-model="showModal" 
-        title="Advanced Search" height="500px" width="500px" 
+        title="Advanced Search" height="600px" width="600px" 
         @closeModal="showModal=false" >
 
         <div class="p-5 pb-0">
-        
+
             <SelectInput labelName="Search Type" v-model="listPager.Search.FilterType" 
                 :optionsList="filterTypesList" :showDefault="false"  
                 title="Filter AccountName by 'Starts With', 'Contains' or 'Ends With'." />
@@ -58,9 +58,11 @@
                 :optionsList="pageSizeList" :showDefault="false"  
                 title="Change how many records are in each page of data." />
 
-            <SelectInput labelName="State / Province Filter" v-model="listPager.Search.StateProvinceFilter" 
-                :optionsList="usStatesList" defaultText="--- None ---" :disableDefault="false" 
-                title="Filter to a State or Province." />
+            <MultiSelectInput labelName="State / Province Filter" 
+                v-model="listPager.Search.StateProvinceFilter"
+                :optionsList="usStatesList" :showAllAndNone="false"
+                :hideSelected="false"
+                title="Filter to one or more States or Provinces." />
 
             <TextInput labelName="Postal Code Filter" placeholder="30000" 
                 v-model="listPager.Search.PostalCodeFilter" 

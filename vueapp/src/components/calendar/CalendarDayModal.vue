@@ -67,8 +67,7 @@
 <template>   
 
 	<ModalControl id="EventModal" v-model=showModal 
-        class="overflow-auto" height="500px" :width="modalWidth" 
-        @closeModal="calendarDate=null" >
+        height="500px" :width="modalWidth" @closeModal="calendarDate=null" >
 
         <template #header>
             <div class="w-full grid items-center grid-cols-8">

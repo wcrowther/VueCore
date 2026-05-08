@@ -18,8 +18,12 @@
             filterList.push(filterTypesList[filterType])
 
         let stateProv = props.listPager.Search.StateProvinceFilter
-        if(stateProv && stateProv.length > 0)
-            filterList.push(usStatesList[stateProv])        
+        if(Array.isArray(stateProv) ? stateProv.length > 0 : stateProv)
+            filterList.push(
+                Array.isArray(stateProv)
+                    ? stateProv.map(v => usStatesList[v]).join(', ')
+                    : usStatesList[stateProv]
+            )
         
         let postalCode = props.listPager.Search.PostalCodeFilter
         if(postalCode && postalCode.length > 0)

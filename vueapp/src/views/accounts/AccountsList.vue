@@ -44,7 +44,7 @@
         else if (e.code === 'Home')      { searchInput.value.focusInput();      e.preventDefault() }
     }
 
-    KeyboardListeners(keys);
+    KeyboardListeners(keys, !showAdvSearch);  // switch off keys when AdvSearch is active
 
 </script>
 

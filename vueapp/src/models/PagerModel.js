@@ -122,7 +122,7 @@ class SearchModel
 
 class SearchForAccount extends SearchModel 
 {
-    constructor(filter = '', filterType = 'startswith', sort = '', sortDesc = false, stateProvinceFilter = '', postalCodeFilter = '') 
+    constructor(filter = '', filterType = 'startswith', sort = '', sortDesc = false, stateProvinceFilter = [], postalCodeFilter = '') 
     {
         super(filter, filterType, sort, sortDesc)
         this.StateProvinceFilter    = stateProvinceFilter

@@ -79,9 +79,9 @@ public class AccountRepo(CoreApiDataContext coreApiDataContext) : IAccountRepo
 				predicate = predicate.Or(AccountNameFilter(filterType, filter.ToLower()));
 		}
 
-		if (!pager.Search.StateProvinceFilter.IsNullOrSpace())
+		if (pager.Search.StateProvinceFilter?.Length > 0)
 		{
-			predicate = predicate.And(account => account.StateProvince.Equals(pager.Search.StateProvinceFilter));
+			predicate = predicate.And(account => pager.Search.StateProvinceFilter.Contains(account.StateProvince));
 		}
 
 		if (!pager.Search.PostalCodeFilter.IsNullOrSpace())
