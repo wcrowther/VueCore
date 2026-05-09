@@ -22,7 +22,7 @@
 		if (e.code === 'Escape'){ onClose(); e.preventDefault(); } 
     }
 
-	KeyboardListeners(keys, () => !showAlert.value)
+	KeyboardListeners(keys, () => !showAlert.value) // can use an arrow function to invert bool
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
 

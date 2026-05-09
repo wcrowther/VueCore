@@ -13,25 +13,26 @@
 
 	const showConfirm 	= defineModel({ type: Boolean, default: false })
 	const message 		= ref(props.message)
+	const disableKeys	= computed(()=> !showConfirm.value)
 
-    // Keyboard Listeners  ================================================
+    // Keyboard Listeners  ==============================================================
 	
-	DisableGlobalKeys(showConfirm) // disable global Esc key if confirm is showing
-
     const keys = function (e)   
     {
 		if (e.code === 'Escape'){ onCancel(); e.preventDefault(); } 
     }
 
-	KeyboardListeners(keys, showConfirm)
-
+	KeyboardListeners(keys, disableKeys)
+	DisableGlobalKeys(showConfirm) 			// disable global Esc key etc
 	useScrollLock(showConfirm)
+
+    // ==================================================================================
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
 
-	// ================================================================================
+	// ==================================================================================
 	// See 'useConfirmControl' composable for programmatically creating a confirm control
-	// ================================================================================
+	// ==================================================================================
 
 	let resolvePromise; // promise resolver
 

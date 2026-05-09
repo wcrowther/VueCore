@@ -100,16 +100,6 @@
                         title="JWT token expiration date">Last Request:</div>
                     <div class="label-value">{{ dateTimeFormat(lastRequestDatetime) || '---' }}</div>
                 </div>
-                <!-- 
-                <div class="label-row">
-                    <div class="label-title" 
-                        title="JWT Token">Token:</div>
-                    <div class="label-value flex items-center">{{ tokenDisplay }}
-                        <IconSymbol class="text-color-mid-blue ml-2 hover:text-gray-700" title="Copy JWT Token" 
-                            @click="tokenToClipboard()" width="16px" icon="heroicons:clipboard-20-solid" />
-                    </div>
-                </div> 
-                -->
                 <div class="label-row">
                     <div class="label-title" 
                         title="Prev/Next buttons for mobile pager (only show at low res)">Prev / Next:</div>
