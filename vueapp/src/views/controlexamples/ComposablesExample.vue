@@ -29,34 +29,25 @@
 			console.log('Alert displayed')
 	}	
 
-    const codeContent = `
-function helloWorld() 
-{                       
-    console.log("Hello from Vue 3.5!");           
-    return true;                       
-}`;
+// ======================================================================
 
-</script>
+const codeContent = 
+`
+// Code to display Alert control
+const alertDisplayed = await createAlert('Alert for the user.')
+
+// Code to display Confirm control
+const confirmed = await createConfirm('Confirm this record?')               
+`
+
+// ======================================================================
+// </script>
 
 <template>
 
     <div>
 
-        <CodeBlock  :codeContent language="javascript" showLineNumbers  />
-
-        <CodeBlockSlot language="javascript" show-line-numbers>
-            const message = "Hello Vue 3.5";
-            const greet = (name) => {
-                return `${message}, ${name}!`;
-            };
-            console.log(greet('Developer'));
-        </CodeBlockSlot>
-
-        <CodeBlockSlot language="html" class="mt-8">
-          <div class="hero">
-            <h1>Welcome to Slots</h1>
-          </div>
-        </CodeBlockSlot>
+        <CodeBlock :codeContent language="javascript" showLineNumbers  />
 
         <PrimaryButton class="mt-5 mr-3" @click="showAlert">Show Alert</PrimaryButton>
         
