@@ -15,7 +15,7 @@ function resolveErrorMessage(err)
 		|| 'Unexpected error.'
 }
 
-export async function handleApiError({ err, url, authStore, toastStore })
+export async function handleApiError({ err, url, authStore, toastStore, retryRequest })
 {
 	const result =
 	{
@@ -54,6 +54,22 @@ export async function handleApiError({ err, url, authStore, toastStore })
 		}
 		else
 		{
+			if (retryRequest)
+			{
+				const refreshed = await authStore.refreshAuth()
+				if (refreshed)
+				{
+					try
+					{
+						const retryResult         = await retryRequest()
+						retryResult.success       = true
+						authStore.lastRequestDatetime = Date.now()
+						return retryResult
+					}
+					catch { /* fall through to logout */ }
+				}
+			}
+
 			await authStore.logout('/auth/login', { callApi: false })
 			result.message   = 'You need to be authorized for that content. Please log in.'
 			result.toastType = 'WARNING'

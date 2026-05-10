@@ -29,10 +29,12 @@ declare global {
   const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
   const addDays: typeof import('../helpers/global.js')['addDays']
+  const apiAuth: typeof import('../composables/ApiCall.js')['apiAuth']
   const apiCall: typeof import('../composables/ApiCall.js')['apiCall']
   const apiDelete: typeof import('../composables/ApiCall.js')['apiDelete']
   const apiFormPost: typeof import('../composables/ApiCall.js')['apiFormPost']
   const apiGet: typeof import('../composables/ApiCall.js')['apiGet']
+  const apiPatch: typeof import('../composables/ApiCall.js')['apiPatch']
   const apiPost: typeof import('../composables/ApiCall.js')['apiPost']
   const apiPut: typeof import('../composables/ApiCall.js')['apiPut']
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
@@ -202,10 +204,12 @@ declare module 'vue' {
     readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
     readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
+    readonly apiAuth: UnwrapRef<typeof import('../composables/ApiCall.js')['apiAuth']>
     readonly apiCall: UnwrapRef<typeof import('../composables/ApiCall.js')['apiCall']>
     readonly apiDelete: UnwrapRef<typeof import('../composables/ApiCall.js')['apiDelete']>
     readonly apiFormPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiFormPost']>
     readonly apiGet: UnwrapRef<typeof import('../composables/ApiCall.js')['apiGet']>
+    readonly apiPatch: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPatch']>
     readonly apiPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPost']>
     readonly apiPut: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPut']>
     readonly authRequestValidator: UnwrapRef<typeof import('../helpers/validators.js')['authRequestValidator']>

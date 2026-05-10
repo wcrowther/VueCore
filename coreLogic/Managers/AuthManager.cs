@@ -90,6 +90,8 @@ public class AuthManager(	IUserManager userManager,
 
 		var (token, expiration) = tokenManager.GenerateJwtToken(user);
 
+		cookieManager.SetAccessTokenCookie(token, expiration);
+
 		logger.LogInformation($"AuthManager.RefreshAuth refresh user: '{user.UserName}'");
 
 		return Returns<AuthUser>.Result(user.ToAuthResponse(token, expiration));

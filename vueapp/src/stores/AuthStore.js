@@ -146,6 +146,11 @@ export const useAuthStore = defineStore('AuthStore',
                 useToastStore().showError(err.message)   
             }
         },
+        async refreshAuth()
+        {
+            const result = await apiAuth('/authenticate/refreshAuth', { UserId: this.userId })
+            return result.success
+        },
         async logout (route, options)
         {
             if (this.isLoggingOut)

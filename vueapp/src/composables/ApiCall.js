@@ -4,17 +4,20 @@ import { handleApiError } from '@/composables/ApiErrorHandler'
 
 // Cache for antiforgery token
 let antiforgeryToken = null
-let tokenPromise = null
+let tokenPromise 	 = null
 
 // ==================================================================================
 // Specific API Methods - Use these if possible, over generic call
+// Not apiAuth calls apiAuthCall with it's own logic for authorizing
 // ==================================================================================
 
-export async function apiGet(url, signal){                         return apiCall('GET',  url, true, null,  false, null,       signal) }
-export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null,       signal) }
-export async function apiPut(url, body, signal){                   return apiCall('PUT',  url, true, body,  false, null,       signal) }
-export async function apiDelete(url, body, signal){                return apiCall('DELETE', url, true, body, false, null,      signal) }
-export async function apiFormPost(url, body, onProgress, signal){  return apiCall('POST', url, true, body,  true,  onProgress, signal) }
+export async function apiAuth(url, body){  						   return apiAuthCall(url, body) }
+export async function apiGet(url, signal){                         return apiCall('GET',  url, true, null,  false, null, signal) }
+export async function apiPost(url, body, signal){                  return apiCall('POST', url, true, body,  false, null, signal) }
+export async function apiPut(url, body, signal){                   return apiCall('PUT',  url, true, body,  false, null, signal) }
+export async function apiPatch(url, body, signal){                 return apiCall('PATCH',  url, true, body,  false, null, signal) }
+export async function apiDelete(url, body, signal){                return apiCall('DELETE', url, true, body,  false, null, signal) }
+export async function apiFormPost(url, body, onProgress, signal){  return apiCall('POST',   url, true, body,  true,  onProgress, signal) }
 
 // ==================================================================================
 
@@ -44,7 +47,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	// console.log(`apiCall: ${methodType} (useAuth: ${useAuth}) from Url: ${url}`)
 
 	// Add antiforgery token for state-changing operations
-	if (useAuth && ['POST', 'PUT', 'DELETE'].includes(methodType))
+	if (useAuth && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(methodType))
 	{
 		try
 		{
@@ -88,13 +91,49 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	} 
 	catch (err) 
 	{
-		result = await handleApiError({ err, url, authStore, toastStore })
+		const retryRequest = async () =>
+		{
+			if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(methodType))
+			{
+				antiforgeryToken = null  // force fresh fetch after new access token cookie
+				const token = await getAntiforgeryToken(appStore)
+				request.headers['X-XSRF-TOKEN'] = token
+			}
+			return await axios(request)
+		}
+
+		result = await handleApiError({ err, url, authStore, toastStore, retryRequest })
 	}
 
 	return result
 }
 
 // PRIVATE =======================================================================
+
+// Used for auth-layer calls (e.g. token refresh) — no antiforgery, no 401 retry, no authStore
+// dependency to avoid circular imports (AuthStore -> ApiCall -> useAuthStore -> AuthStore).
+
+async function apiAuthCall(url, body)
+{
+	const appStore = useAppStore()
+	try
+	{
+		const response = await axios(
+		{
+			baseURL:         appStore.baseApiUrl,
+			url,
+			method:          'POST',
+			withCredentials: true,
+			headers:         { 'Content-Type': 'application/json' },
+			data:            JSON.stringify(body)
+		})
+		return { success: response.status === 200, data: response.data }
+	}
+	catch
+	{
+		return { success: false }
+	}
+}
 
 // Used to prevent Cross-Site Request Forgery (CSRF) attacks
 async function getAntiforgeryToken(appStore)
@@ -142,7 +181,26 @@ async function getAntiforgeryToken(appStore)
 EXAMPLE CODE: 
 ==================================================================================
 const result      = await apiGet(`/accounts/getAccountById/${accountId}`)
-account.value     = Object.assign(new AccountModel(), result.data.Result)     
+if (result.success) account.value = Object.assign(new AccountModel(), result.data.Result)
+
+const result      = await apiPost(`/accounts/createAccount`, model)
+if (result.success) account.value = Object.assign(new AccountModel(), result.data)
+
+const result      = await apiPut(`/accounts/updateAccount/${accountId}`, model)
+if (result.success) account.value = Object.assign(new AccountModel(), result.data)
+
+const result      = await apiPatch(`/accounts/updateAccountName/${accountId}`, { name: 'New Name' })
+if (result.success) account.value = Object.assign(new AccountModel(), result.data)
+
+const result      = await apiDelete(`/accounts/deleteAccount/${accountId}`)
+if (result.success) accounts.value = accounts.value.filter(a => a.accountId !== accountId)
+
+const result      = await apiAuth(`/authenticate/refreshAuth`, { UserId: userId })
+// if result.success - token cookies refreshed server-side
+
+const result      = await apiFormPost(`/files/upload`, formData, (pct) => progress.value = pct)
+if (result.success) files.value.push(result.data)
 ==================================================================================
+
 */
 
