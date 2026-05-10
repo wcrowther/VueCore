@@ -37,8 +37,7 @@ const codeContent =
 const alertDisplayed = await createAlert('Alert for the user.')
 
 // Code to display Confirm control
-const confirmed = await createConfirm('Confirm this record?')               
-`
+const confirmed = await createConfirm('Confirm this record?')`
 
 // ======================================================================
 // </script>
@@ -47,7 +46,7 @@ const confirmed = await createConfirm('Confirm this record?')
 
     <div>
 
-        <CodeBlock :codeContent language="javascript" showLineNumbers  />
+        <CodeBlock :codeContent language="vuejs in <script>" showLineNumbers  />
 
         <PrimaryButton class="mt-5 mr-3" @click="showAlert">Show Alert</PrimaryButton>
         

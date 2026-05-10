@@ -56,12 +56,18 @@
 <template>
 
 	<div>
-		<div v-if="isLoading" class="text-color-dark-gray pt-4 px-4">
+
+		<div v-if="isLoading" 
+			class="flex items-center text-color-dark-gray px-6 py-2">
 			Loading files...
 		</div>
-
-		<div v-else-if="loadError" class="text-red-700 pt-4 px-4">
+		<div v-else-if="loadError" 
+			class="text-red-700 pt-4 px-4">
 			{{ loadError }}
+		</div>
+		<div v-else 
+			class="flex items-center text-color-dark-gray px-6 py-2">
+			Loading files...
 		</div>
 
 		<div class="overflow-x-auto">

@@ -11,7 +11,7 @@
 		showDark: 			{ type: Boolean, default: false }
 	});
 
-	const { copy, copied, isSupported } = useClipboard({ legacy: true })
+	const { copy, copied: copiedToClipboard, isSupported } = useClipboard({ legacy: true })
 	const displayContent = computed(() => 
 	{
 		let content = props.codeContent
@@ -51,24 +51,22 @@
 			</span>
 
 			<button @click="copy(codeContent)" 
-				:class="['flex items-center gap-1.5 rounded-md py-1 text-xs font-medium transition-all duration-200', copiedClass]">
+				:class="['flex items-center rounded-md py-1 text-xs font-medium transition-all duration-200', copiedClass]">
 			
-				<span class="min-w-12 text-right">{{ copied ? 'Copied!' : 'Copy' }}</span>
+				<span v-if="copiedToClipboard" class="min-w-12 text-right font-bold text-blue">
+					{{ 'Copied!'}}
+				</span>
+				<span v-else class="min-w-12 text-right">
+					{{ 'Copy' }}
+				</span>
 
-				<svg v-if="copied" 
-					xmlns="http://w3.org" class="h-3.5 w-3.5" 
-					viewBox="0 0 20 20" fill="currentColor">
-					<path fill-rule="evenodd"
-						d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-						clip-rule="evenodd" />
-				</svg>
-				<svg v-else 
-					xmlns="http://w3.org" class="h-3.5 w-3.5 mr-1" 
-					fill="none" viewBox="0 0 24 24"
-					stroke="currentColor" stroke-width="2">
-					<path stroke-linecap="round" stroke-linejoin="round"
-						d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-				</svg>
+				<IconSymbol v-if="copiedToClipboard" 
+					title="Code Copied to Clipboard" width="18px" 
+					class="text-blue ml-2 mb-[2px]" icon="heroicons:check-circle" />
+				<IconSymbol v-else
+					title="Copy Code to Clipboard" width="18px" 
+					class="text-color-dark-gray ml-2 mb-[2px]" icon="heroicons:clipboard-document" />
+					
 			</button>
 		</div>
 
