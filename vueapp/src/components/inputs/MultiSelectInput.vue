@@ -225,64 +225,41 @@
 		}
 	}
 
-	const onKeyDown = (e) => 
+	// Key action methods  ================================================
+
+	const highlightNext    = () 	=> { if (!filteredItems.value.length) return
+									  	 	highlightedIndex.value = highlightedIndex.value < 0
+											? 0
+											: (highlightedIndex.value + 1) % filteredItems.value.length 
+										}
+
+	const highlightPrev    = () 	=> { if (!filteredItems.value.length) return
+									  	 	highlightedIndex.value = highlightedIndex.value < 0
+											? filteredItems.value.length - 1
+											: (highlightedIndex.value - 1 + filteredItems.value.length) % filteredItems.value.length 
+										}
+
+	const confirmSelection = () 	=> { if (!filteredItems.value.length) return; toggleHighlightedItem() }
+
+	const removeLastSelected = () 	=> { selected.value = selected.value.slice(0, -1); emitSelected() }
+
+	// Keyboard Listeners  ================================================
+
+	const disableKeys = ref(true) // Disable keys if this component is not focused
+
+	const keys = (e) =>
 	{
-		if (!isOpen.value)
-		{
-			openDropdown()
-		}
-
-		if (!filteredItems.value.length)
-		{
-			if (e.key === 'Backspace' && !search.value)
-			{
-				selected.value = selected.value.slice(0, -1)
-				emitSelected()
-			}
-			else if (e.key === 'Escape')
-			{
-				closeDropdown()
-			}
-			return
-		}
-
-		if (e.key === 'ArrowDown') 
-		{
-			e.preventDefault()
-			highlightedIndex.value = highlightedIndex.value < 0
-				? 0
-				: (highlightedIndex.value + 1) % filteredItems.value.length
-		} 
-		else if (e.key === 'ArrowUp') 
-		{
-			e.preventDefault()
-			highlightedIndex.value = highlightedIndex.value < 0
-				? filteredItems.value.length - 1
-				: (highlightedIndex.value - 1 + filteredItems.value.length) % filteredItems.value.length
-		} 
-		else if (e.key === 'Enter') 
-		{
-			e.preventDefault()
-			toggleHighlightedItem()
-		} 
-		else if (e.key === 'Escape')
-		{
-			closeDropdown()
-		}
-		else if (e.key === 'Backspace' && !search.value) 
-		{
-			selected.value = selected.value.slice(0, -1)
-			emitSelected()
-		}
+		if      (e.key === 'ArrowDown')                  { highlightNext();    e.preventDefault(); }
+		else if (e.key === 'ArrowUp')                    { highlightPrev();    e.preventDefault(); }
+		else if (e.key === 'Enter')                      { confirmSelection(); e.preventDefault(); }
+		else if (e.key === 'Escape')                     { closeDropdown()      }
+		else if (e.key === 'Backspace' && !search.value) { removeLastSelected() }
 	}
 
-	const onBlur = () =>
-	{
-		window.setTimeout(() =>
-		{
-			closeDropdown()
-		}, 150)
-	}
+	KeyboardListeners(keys, disableKeys)
+
+	const onFocus = () => { disableKeys.value = false; openDropdown() }
+	const onBlur  = () => { disableKeys.value = true;  window.setTimeout(() => closeDropdown(), 150) }
 
 	const setHighlightedIndex = (index) =>
 	{
@@ -390,7 +367,7 @@
 			<input v-model="search" :placeholder
 				class="-ml-2 text-sm border-none border-l border-red flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
 				ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none" ref="filterInput"
-				@focus="openDropdown()" @blur="onBlur" @keydown="onKeyDown" />
+				@focus="onFocus" @blur="onBlur" />
 
 			<div class="absolute right-8 bottom-1 flex items-center">
 				<button type="button" v-if="showClearButton" 

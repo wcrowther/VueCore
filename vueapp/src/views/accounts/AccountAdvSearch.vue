@@ -7,7 +7,7 @@
     const emitData  = (newVal, oldVal) => 
     { 
         if (newVal != oldVal) // use != as oldVal may be string '10'
-            useDebounceFn(() => emits('getListData'), 2000)()
+            useDebounceFn(() => emits('getListData'), 3000)()
     }
 
     const resetAdvSearch = () => 
@@ -61,7 +61,7 @@
             <MultiSelectInput labelName="State / Province Filter" 
                 v-model="listPager.Search.StateProvinceFilter"
                 :optionsList="usStatesList" :showAllAndNone="false"
-                :hideSelected="false"
+                :hideSelected="false" 
                 title="Filter to one or more States or Provinces." />
 
             <TextInput labelName="Postal Code Filter" placeholder="30000" 
