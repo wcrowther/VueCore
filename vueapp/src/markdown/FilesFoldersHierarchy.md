@@ -20,7 +20,9 @@ vueapp*
 │   │   └──── KeyboardListeners.js
 │   │   └──── ...
 │   ├── datalists*
-│   │   └──── 30Posts.json
+│   │   └── json*
+│   │   	└──── 30Posts.json
+│   │   	└──── simpleExample.json
 │   │   └──── filterTypesList.js
 │   │   └──── rolesList.js
 │   │   └──── usStatesList.js

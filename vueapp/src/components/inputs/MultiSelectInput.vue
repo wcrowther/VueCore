@@ -9,7 +9,8 @@
 		hideSelected:	{ type: Boolean, default: true },
 		placeholder: 	{ type: String,  default: 'Search...' },
 		mode: 			{ type: String,  default: 'capsule' }, 	// 'capsule' | 'comma'
-		showAllAndNone:	{ type: Boolean, default: true },		// show 'Select All' and 'Select None'
+		showSelectAll:	{ type: Boolean, default: true },		// show 'Select All'
+		showSelectNone:	{ type: Boolean, default: true },		// show 'Select None'
 		labelName:      { type: String,  required: true },  	// label for select
         ruleName:       { type: String },                   	// rule for valiadation. if not set, uses labelName removing spaces
         v$:             { type: Object }                    	// pass in vuelidate validator (validation ignored if not set)
@@ -28,6 +29,9 @@
 	const dropdownMenu 			= ref(null)
 	const optionRefs 			= ref([])
 	const dropdownStyle 		= ref({})
+
+	const el 						= useTemplateRef('inputContainer')
+	const { bottom, left, width } 	= useElementBounding(el)
 
 	const normalizedItems = computed(() =>
 	{
@@ -98,8 +102,6 @@
 		highlightedIndex.value = -1
 	}
 
-	const el 						= useTemplateRef('inputContainer')
-	const { bottom, left, width } 	= useElementBounding(el)
 	const updateDropdownPosition 	= () =>
 	{
 		dropdownStyle.value = 
@@ -348,25 +350,27 @@
 			border-slate-400 px-2 py-1 pr-8"
 			@click="openDropdown()" ref="inputContainer">
 
-			<!-- Selected items -->
+			<!-- Selected (capsule or comma) -->
 			<template v-if="mode !== 'comma'">
 				<span v-for="item in selected" :key="item.value"
-					class="flex items-center bg-[#b8d7ed] text-black tracking-wider font-bold pl-3 pr-2 py-[2px] text-xs rounded-full">
+					class="flex items-center bg-[#b8d7ed] text-black tracking-wider 
+					font-bold pl-3 pr-2 py-[2px] text-xs rounded-full last-of-type:mr-1">
 					{{ item.label }}
-					<button class="ml-1 font-normal text-xs text-blue-400" @click.stop="removeItem(item)">✕</button>
+					<button class="ml-1 font-normal text-xs text-blue-400" @click.stop.prevent="removeItem(item)">✕</button>
 				</span>
 			</template>
 			<template v-else>
 				<span v-for="(item, index) in selected" :key="item.value"
-					class="text-xs text-gray-500 break-words">
+					class="text-sm text-gray-500 break-words last-of-type:mr-1">
 					{{ item.label }}{{ index < selected.length - 1 ? ',' : '' }}
 				</span>
 			</template>
 
 			<!-- Input  -->
 			<input v-model="search" :placeholder
-				class="-ml-2 text-sm border-none border-l border-red flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
-				ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none" ref="filterInput"
+				class="pl-2 text-sm border-0 flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
+				ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none" 
+				:class="{'border-l' : selectedValues.size > 0}" ref="filterInput"
 				@focus="onFocus" @blur="onBlur" />
 
 			<div class="absolute right-8 bottom-1 flex items-center">
@@ -390,13 +394,14 @@
 				@mousedown.prevent
 				class="fixed z-[999] bg-white border max-h-60 overflow-auto scrollbar-thin rounded shadow">
 
-				<li v-if="showAllAndNone" class="grid grid-cols-2 border-b">
-					<button type="button"
+				<li v-if="showSelectAll || showSelectNone" 
+					:class="['border-b grid', showSelectAll && showSelectNone ? 'grid-cols-2' : 'grid-cols-1' ]">
+					<button v-if="showSelectAll" type="button"
 						class="px-3 py-1 text-center text-sm text-blue-500 hover:bg-gray-100"
 						@click.stop="selectAllItems()">
 						Select All
 					</button>
-					<button type="button"
+					<button v-if="showSelectNone" type="button"
 						class="border-l px-3 py-1 text-center text-sm text-blue-500 hover:bg-gray-100"
 						@click.stop="clearSelectedItems()">
 						Select None

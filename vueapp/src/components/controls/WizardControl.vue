@@ -1,5 +1,6 @@
 <script setup>
-import { useSessionStorage } from '@vueuse/core'
+
+    import { useSessionStorage } from '@vueuse/core'
 
     const props = defineProps(
     {
@@ -67,9 +68,13 @@ import { useSessionStorage } from '@vueuse/core'
            </template>  
 
            <slot>
-                <div @click="nextTab" :class="['text-right font-bold absolute w-fit select-none hover:text-orange flex justify-end ', 
-                    showBorder ? 'top-7 right-7' : 'top-0 right-5']">
-                    Next
+                <div :class="['group text-right font-bold absolute flex items-center justify-end',
+                    'hover:underline hover:text-orange underline-offset-2 w-fit select-none', 
+                    showBorder ? 'top-7 right-7' : 'top-0 right-5']"
+                    @click="nextTab" >
+                    Next  
+                    <IconSymbol class="text-black group-hover:text-orange ml-1"
+                        title="Next Wizard Item" width="18px" icon="heroicons:arrow-right-solid" />
                 </div>
            </slot>
         </div>

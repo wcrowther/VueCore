@@ -3,8 +3,9 @@
 	const fileStore = useFileStore()
 	const { selectedFolder, fileRows, isLoading, loadError, selectedFileIndexes } = storeToRefs(fileStore)
 	const { selectFileIndex, deleteFile } = fileStore
-
 	const { createConfirm } = useConfirmControl()
+
+	const showThumbnails = ref(false)
 
 	const selectedIndexes = computed(() =>
 	{
@@ -57,6 +58,7 @@
 
 	<div>
 
+		<!-- 
 		<div v-if="isLoading" 
 			class="flex items-center text-color-dark-gray px-6 py-2">
 			Loading files...
@@ -68,6 +70,25 @@
 		<div v-else 
 			class="flex items-center text-color-dark-gray px-6 py-2">
 			Loading files...
+		</div> 
+		-->
+
+		<div class="flex justify-between items-center text-color-dark-gray pl-6 pr-4 py-2">
+			<span class="">
+				Show Thumbnails: {{ showThumbnails }}
+			</span>
+			<div class="ml-auto flex gap-2">
+
+				<button @click="showThumbnails = false" 
+					class="btnIcon" :class="{ 'bg-gray-200': !showThumbnails }">
+					<IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons:bars-3-20-solid" />
+				</button>
+				<button  @click="showThumbnails = true" 
+					class="btnIcon" :class="{ 'bg-gray-200': showThumbnails }">
+					<IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons:photo-20-solid" />
+				</button>
+
+			</div>
 		</div>
 
 		<div class="overflow-x-auto">
@@ -113,4 +134,6 @@
 
 </template>
 
-<style scoped></style>
+<style scoped>
+	.btnIcon { @apply flex-center size-8 rounded border border-gray-400 h-8 hover:bg-gray-200 transition;	}
+</style>

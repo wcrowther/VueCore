@@ -5,9 +5,11 @@
         AccordionControl
     </div>
     <div class="mb-7">
-        This is an example of a fully functioning AccordianControl (utilizing nested AccordianControls), 
-        configurable to have either single or multiple open items. By default, the AccordianItem 
-        takes a string title but this can be modified by overriding the default title template.
+        <InfoBox>
+            This is an example of a fully functioning AccordianControl (utilizing nested AccordianControls),
+            configurable to have either single or multiple open items. By default, the AccordianItem
+            takes a string title but this can be modified by overriding the default title template.
+        </InfoBox>
     </div>
 
     <AccordionControl :multiple="false" :defaultOpen="[0]" class="mt-5 mb-7">

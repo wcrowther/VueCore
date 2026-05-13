@@ -1,9 +1,11 @@
 <script setup>
 
+    import { useSessionStorage } from '@vueuse/core'
+
     const pageTitle  = ref('Control Examples')
 
-	const showBorder = ref(false)
-	const toggleBorder = () => showBorder.value = !showBorder.value
+	const showWizardBorder =  useSessionStorage('showWizardBorder', false) 
+	const toggleBorder = () => showWizardBorder.value = !showWizardBorder.value
 
 </script>
 
@@ -21,15 +23,18 @@
 
 			<div class="w-full min-h-[400px] relative">
 
+				<div class="float-right ml-5 mb-3 mt-1 flex items-center cursor-pointer px-4 py-2 h-6 text-xs leading-[1.3rem] 
+					select-none font-bold w-[140px] rounded-full border border-color-dark-blue !text-color-dark-blue"
+					@click="toggleBorder" >
+					Wizard border: {{ showWizardBorder ? 'ON' : 'OFF' }}
+				</div>
+
 				<InfoBox class="mb-7">
 					This page showcases a collection of reusable UI controls available in the application.
 					Use the tabs below to explore each category — <b>Wizard</b> walks through a multi-step form flow, 
 					<b>Files</b> demonstrates file and folder management, <b>Calendar</b> shows event scheduling, 
 					<b>Grid</b> covers data tables, <b>Json</b> displays an interactive JSON tree viewer, 
 					and <b>Misc</b> contains additional utility components.
-					<div @click="toggleBorder" class="font-bold mt-5">
-						Wizard border {{showBorder ? 'On' : 'Off'}}
-					</div>
 				</InfoBox>
 
 				<!-- FloaterControl here 
@@ -39,7 +44,7 @@
 				</FloaterControl>
 				-->
 
-				<WizardControl class="mb-10" :useKeyControls="false" :showBorder
+				<WizardControl class="mb-10" :useKeyControls="false" :showBorder="showWizardBorder"
 					:tabList="['Wizard', 'Files', 'Calendar', 'Grid', 'Json', 'Misc']">
 
 					<template #Wizard>

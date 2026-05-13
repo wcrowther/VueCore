@@ -40,20 +40,21 @@ const alertDisplayed = await createAlert('Alert for the user.')
 const confirmed = await createConfirm('Confirm this record?')`
 
 // ======================================================================
-// </script>
+
+</script>
 
 <template>
 
     <div>
 
         <CodeBlock :codeContent language="vuejs in <script>" showLineNumbers  />
-
-        <PrimaryButton class="mt-5 mr-3" @click="showAlert">Show Alert</PrimaryButton>
         
+        <PrimaryButton class="mt-5 mr-3" @click="showAlert"></PrimaryButton>      
         <PrimaryButton class="mt-5" @click="tryConfirm">Try Confirm</PrimaryButton>
 
-        <div v-if="showConfirmedText" @click="showConfirmedText=false"
-            class="mt-5 font-bold text-orange" title="Click to reset">
+        <div v-if="showConfirmedText" 
+            class="mt-5 font-bold text-orange" title="Click to reset"
+            @click="showConfirmedText=false">
             Confirmed!
         </div>
 

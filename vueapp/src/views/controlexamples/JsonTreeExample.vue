@@ -1,9 +1,7 @@
 <script setup>
 
-    import postsArrayJson           from '@/datalists/30posts.json'
-    import simpleExampleJson        from '@/datalists/simpleExample.json'
-    import { usStatesList }         from '@/datalists/usStatesList.js'
-    import { sampleCalendarEvents}  from '@/datalists/sampleCalendarEvents.js'
+    import postsArrayJson           from '@/datalists/json/30posts.json'
+    import simpleExampleJson        from '@/datalists/json/simpleExample.json'
 
     const sourceIndex  = ref(0)
     const jsonSourceList  =

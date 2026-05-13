@@ -59,9 +59,8 @@
                 title="Change how many records are in each page of data." />
 
             <MultiSelectInput labelName="State / Province Filter" 
-                v-model="listPager.Search.StateProvinceFilter"
-                :optionsList="usStatesList" :showAllAndNone="false"
-                :hideSelected="false" 
+                v-model="listPager.Search.StateProvinceFilter" :optionsList="usStatesList" 
+                :showSelectAll="false" :showSelectNone="true" :hideSelected="false" 
                 title="Filter to one or more States or Provinces." />
 
             <TextInput labelName="Postal Code Filter" placeholder="30000" 

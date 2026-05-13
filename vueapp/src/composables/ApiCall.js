@@ -46,8 +46,11 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 
 	// console.log(`apiCall: ${methodType} (useAuth: ${useAuth}) from Url: ${url}`)
 
-	// Add antiforgery token for state-changing operations
-	if (useAuth && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(methodType))
+	// Add antiforgery token for state-changing operations 
+	// but skip for public auth endpoints — no session exists yet)
+	const isPublicAuthRequest = url.includes('/authenticate/login') || url.includes('/authenticate/signup')
+
+	if (useAuth && !isPublicAuthRequest && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(methodType))
 	{
 		try
 		{

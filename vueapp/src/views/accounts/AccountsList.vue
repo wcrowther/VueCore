@@ -59,7 +59,7 @@
                     v-model:showAdvSearch="showAdvSearch" 
                     v-model="listPager.Search.Filter" />
             </div>
-            {{ !showAdvSearch }}
+
             <AccountFilters :listPager @showAdvancedSearch="showAdvSearch=true" /> 
 
             <div class="w-full flex justify-between items-center select-none my-3">
@@ -75,9 +75,12 @@
             </InfoBox>
 
             <HelpBox class="mb-3" :compact="true">
-                <b>Multiple conditions:</b> Separate search terms with a comma (e.g. <i>Acme, Smith</i>) to match 
+                <b>Multiple conditions:</b> Separate search terms with a comma (e.g. <i>Acme, Smith, 23</i>) to match 
                 accounts containing any of those values.
-                <br /><br />
+                <br /><br />                
+                <b>Bookmarks: </b>Search criteria can be passed in through the URL so /accounts/main/12 or even 
+                /accounts/main/Acme,22,34 will set the Search box to those parameters for easy bookmarking.
+                <br /><br /> 
                 <b>Advanced Search:</b> Click the <b>+</b> icon next to the search box to open the Advanced Search panel, 
                 which provides additional filter options such as Active status and invoice settings.
                 <br /><br />
