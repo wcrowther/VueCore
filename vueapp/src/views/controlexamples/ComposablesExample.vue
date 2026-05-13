@@ -49,7 +49,7 @@ const confirmed = await createConfirm('Confirm this record?')`
 
         <CodeBlock :codeContent language="vuejs in <script>" showLineNumbers  />
         
-        <PrimaryButton class="mt-5 mr-3" @click="showAlert"></PrimaryButton>      
+        <PrimaryButton class="mt-5 mr-3" @click="showAlert">Try Alert</PrimaryButton>      
         <PrimaryButton class="mt-5" @click="tryConfirm">Try Confirm</PrimaryButton>
 
         <div v-if="showConfirmedText" 
