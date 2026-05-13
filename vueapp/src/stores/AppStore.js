@@ -48,8 +48,9 @@ export const useAppStore = defineStore('AppStore', () =>
         const local =  
         [   
             'showPrevNext', 'showBreakpoints', 'showNotification',
-            'showNewChatMessages','persistSearch', 'altTheme', 'infoLevel', 
-            'activeFloater', 'pagerDebugger', 'pagerDebuggerX', 'pagerDebuggerY', 
+            'showNewChatMessages','showJsonEntities', 'persistSearch', 'altTheme', 
+            'infoLevel', 'activeFloater', 'pagerDebugger', 'pagerDebuggerX', 
+            'pagerDebuggerY', 'showPlatformInfo', 
         ]
 
         local.forEach(item => localStorage.removeItem(item))

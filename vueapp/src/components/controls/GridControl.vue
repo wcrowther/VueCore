@@ -14,8 +14,8 @@
 <template>
 
 	<div class="w-fit grid gap-0 border-4 border-gray-600" 
-		:style="{ gridTemplateRows: `repeat(${props.cols}, 1fr)`, 
-		gridTemplateColumns: `repeat(${props.rows}, 1fr)`}">
+		:style="{ gridTemplateRows: `repeat(${props.rows}, 1fr)`, 
+		gridTemplateColumns: `repeat(${props.cols}, 1fr)`}">
 
 		<template v-for="(_, rowIndex) in props.rows" :key="rowIndex">
 
@@ -26,7 +26,7 @@
 					(rowIndex + colIndex) % 2 === 0 ? 'bg-gray-400' : 'bg-slate-200']" 
 					:id="`${rowIndex}-${colIndex}`" 
 					:style="{ gridRow: rowIndex+1, gridColumn: colIndex+1 }">
-					
+
 					<slot :title="`${rowIndex}-${colIndex}`">
 						<div class="size-10"></div>
 					</slot>

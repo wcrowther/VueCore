@@ -21,14 +21,16 @@
     <div class="flex flex-wrap gap-x-8">
 
         <div class="text-lg font-bold mb-5 basis-full flex-none">
-            GridControl Example
+            GridControl Examples
         </div>
 
-        <div class="mb-7 basis-full flex-none">
-            The <b>GridControl</b> renders a configurable grid of selectable cells. Use the 
-            <b>ListIndexButton</b> above to switch between preset grid sizes (4×4 up to 10×10) 
-            and observe how the grid re-renders reactively.
-        </div>
+        <InfoBox class="mb-7 basis-full flex-none">
+            This page demonstrates <b>GridControl</b> — a configurable checkered grid that exposes a scoped slot
+            for each cell. The <b>Checkers Board</b> shows how the slot can power a fully interactive game with
+            drag-and-drop, king promotion, and turn enforcement. The <b>ListIndexButton</b> example shows a
+            lightweight prev/next navigator used throughout this page to switch options. The <b>Resizable Grid</b>
+            at the bottom demonstrates raw GridControl rendering at various row/column sizes.
+        </InfoBox> 
         
         <CheckersExample class="lg:flex-1 mb-5" />
 
@@ -42,10 +44,8 @@
         <div class="text-lg font-bold mb-5">Resizable Grid</div>
 
 		<InfoBox class="mb-7">
-			A fully playable checkers game built on <b>GridControl</b>'s scoped slot. Drag a piece to move it —
-			valid squares highlight in yellow. Turns alternate between red and black, pieces reaching the back
-			row become kings (♛) and can move in all directions, and chain jumps are enforced automatically.
-			Toggle <b>Force Moves</b> to require mandatory jumps when available.
+			<b>GridControl</b> renders a reactive checkered grid driven by <b>:rows</b> and <b>:cols</b> props.
+			Use the button to cycle through preset sizes and watch the grid re-render instantly.
 		</InfoBox>
 
         <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" 
