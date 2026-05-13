@@ -20,26 +20,102 @@
         { name: 'Grid Size 6x6',   rows: 6, cols: 6 }, 
         { name: 'Grid Size 8x8',   rows: 8, cols: 8 }, 
         { name: 'Grid Size 10x10', rows: 10, cols: 10 },
+        { name: 'Grid Size 12x12', rows: 12, cols: 12 },
+        { name: 'Grid Size 20x10', rows: 20, cols: 20 },
     ]
 
-    // Checkers: dark squares where (row+col) % 2 === 0
-    // Red pieces on rows 0-2, black pieces on rows 5-7
-    const checkerPieces = computed(() =>
+    // Checkers board state — dark squares only ((row+col) % 2 === 0)
+    const buildInitialBoard = () =>
     {
         const map = {}
         for (let row = 0; row < 8; row++)
-        {
             for (let col = 0; col < 8; col++)
-            {
                 if ((row + col) % 2 === 0)
                 {
                     if (row < 3)      map[`${row}-${col}`] = 'red'
                     else if (row > 4) map[`${row}-${col}`] = 'black'
                 }
+        return map
+    }
+
+    const checkerPieces = ref(buildInitialBoard())
+    const draggedFrom   = ref(null)
+
+    // Compute valid landing squares for the piece being dragged
+    const validMoves = computed(() =>
+    {
+        if (!draggedFrom.value) return new Set()
+
+        const [row, col] = draggedFrom.value.split('-').map(Number)
+        const pieceColor = checkerPieces.value[draggedFrom.value]
+        const dirs       = pieceColor === 'red' ? [[1, -1], [1, 1]] : [[-1, -1], [-1, 1]]
+        const moves      = new Set()
+
+        for (const [dr, dc] of dirs)
+        {
+            const nr = row + dr
+            const nc = col + dc
+            if (nr < 0 || nr > 7 || nc < 0 || nc > 7) continue
+
+            const stepKey = `${nr}-${nc}`
+
+            if (!checkerPieces.value[stepKey])
+            {
+                // Empty square — normal move
+                moves.add(stepKey)
+            }
+            else if (checkerPieces.value[stepKey] !== pieceColor)
+            {
+                // Opponent — check jump landing
+                const jr = row + 2 * dr
+                const jc = col + 2 * dc
+                if (jr >= 0 && jr <= 7 && jc >= 0 && jc <= 7)
+                {
+                    const jumpKey = `${jr}-${jc}`
+                    if (!checkerPieces.value[jumpKey]) moves.add(jumpKey)
+                }
             }
         }
-        return map
+        return moves
     })
+
+    function onDragStart(title)
+    {
+        draggedFrom.value = title
+    }
+
+    function onDrop(title)
+    {
+        if (!validMoves.value.has(title)) return
+
+        const [fr, fc] = draggedFrom.value.split('-').map(Number)
+        const [tr, tc] = title.split('-').map(Number)
+
+        const updated = { ...checkerPieces.value }
+
+        // Remove jumped piece if this was a jump
+        if (Math.abs(tr - fr) === 2)
+        {
+            const midKey = `${fr + (tr - fr) / 2}-${fc + (tc - fc) / 2}`
+            delete updated[midKey]
+        }
+
+        updated[title] = updated[draggedFrom.value]
+        delete updated[draggedFrom.value]
+        checkerPieces.value = updated
+        draggedFrom.value   = null
+    }
+
+    function onDragEnd()
+    {
+        draggedFrom.value = null
+    }
+
+    function resetCheckers()
+    {
+        checkerPieces.value = buildInitialBoard()
+        draggedFrom.value   = null
+    }
 
 </script>
 
@@ -59,10 +135,37 @@
         
         <div class="lg:w-1/2 mb-5">
 
-            <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" class="w-fit p-3 mb-3" />
+            <div class="flex items-center gap-4 mb-3">
+                <div class="text-lg font-bold">Checkers Board (8×8)</div>
+                <button class="text-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded" @click="resetCheckers">Reset</button>
+            </div>
+            <div class="mb-5 text-sm text-gray-600">
+                Drag a piece to move it. Valid landing squares highlight in yellow. Jumps over opponents are supported.
+            </div>
 
-            <!-- GRID CONTROL -->
-            <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
+            <GridControl :rows="8" :cols="8">
+
+                <template #default="{ title }">
+
+                    <div class="size-10 flex items-center justify-center"
+                        :class="{ 'ring-2 ring-inset ring-yellow-400 bg-yellow-100/40': validMoves.has(title) }"
+                        @dragover.prevent
+                        @drop.prevent="onDrop(title)">
+
+                        <span v-if="checkerPieces[title]"
+                            :class="['flex-center rounded-full size-8 shadow-md border-2 cursor-grab active:cursor-grabbing',
+                            checkerPieces[title] === 'red'
+                                ? 'bg-red-500 border-red-800'
+                                : 'bg-gray-900 border-gray-600',
+                            draggedFrom === title ? 'opacity-40' : 'opacity-100']" 
+                            @dragstart="onDragStart(title)" @dragend="onDragEnd"
+                            draggable="true">
+                            <span class="flex border border-white/60 bg-white/20 size-5 rounded-full">&nbsp;</span>
+                        </span> 
+                    </div>
+                </template>
+
+            </GridControl>
 
         </div>
 
@@ -102,26 +205,14 @@
 
     </div>
 
-    <!-- CHECKERS BOARD -->
+    <!-- Resize Grid -->
     <div class="basis-full mt-10 mb-10">
 
-        <div class="text-lg font-bold mb-3">Checkers Board (8×8)</div>
-        <div class="mb-5 text-sm text-gray-600">
-            Static checkers layout using <b>GridControl</b>'s scoped slot. Red pieces occupy the top three rows,
-            black pieces the bottom three — all on dark squares only.
-        </div>
+        <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" class="w-fit p-3 mb-3" />
 
-        <GridControl :rows="8" :cols="8">
-            <template #default="{ title }">
-                <div class="size-10 flex items-center justify-center">
-                    <span v-if="checkerPieces[title]"
-                        :class="['block rounded-full size-6 shadow-md border-2 border-white/30',
-                            checkerPieces[title] === 'red' ? 'bg-red-600' : 'bg-gray-900']" />
-                </div>
-            </template>
-        </GridControl>
+        <!-- GRID CONTROL -->
+        <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
 
     </div>
-
 
 </template>
