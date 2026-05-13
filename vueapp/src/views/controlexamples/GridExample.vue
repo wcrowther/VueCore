@@ -22,6 +22,25 @@
         { name: 'Grid Size 10x10', rows: 10, cols: 10 },
     ]
 
+    // Checkers: dark squares where (row+col) % 2 === 0
+    // Red pieces on rows 0-2, black pieces on rows 5-7
+    const checkerPieces = computed(() =>
+    {
+        const map = {}
+        for (let row = 0; row < 8; row++)
+        {
+            for (let col = 0; col < 8; col++)
+            {
+                if ((row + col) % 2 === 0)
+                {
+                    if (row < 3)      map[`${row}-${col}`] = 'red'
+                    else if (row > 4) map[`${row}-${col}`] = 'black'
+                }
+            }
+        }
+        return map
+    })
+
 </script>
 
 <template>
@@ -38,10 +57,15 @@
             and observe how the grid re-renders reactively.
         </div>
         
-        <div class="lg:w-1/2 mb-5">                
+        <div class="lg:w-1/2 mb-5">
+
             <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" class="w-fit p-3 mb-3" />
+
+            <!-- GRID CONTROL -->
             <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
+
         </div>
+
 
         <div class="w-full lg:w-1/2 p-5 mb-5 flex flex-wrap gap-1 bg-blue-100 border-b-2">
             <div class="basis-full font-bold mb-5">
@@ -75,6 +99,27 @@
                 </div>
             </div>
         </div>
+
+    </div>
+
+    <!-- CHECKERS BOARD -->
+    <div class="basis-full mt-10 mb-10">
+
+        <div class="text-lg font-bold mb-3">Checkers Board (8×8)</div>
+        <div class="mb-5 text-sm text-gray-600">
+            Static checkers layout using <b>GridControl</b>'s scoped slot. Red pieces occupy the top three rows,
+            black pieces the bottom three — all on dark squares only.
+        </div>
+
+        <GridControl :rows="8" :cols="8">
+            <template #default="{ title }">
+                <div class="size-10 flex items-center justify-center">
+                    <span v-if="checkerPieces[title]"
+                        :class="['block rounded-full size-6 shadow-md border-2 border-white/30',
+                            checkerPieces[title] === 'red' ? 'bg-red-600' : 'bg-gray-900']" />
+                </div>
+            </template>
+        </GridControl>
 
     </div>
 
