@@ -176,7 +176,13 @@
     <div class="w-full">
 
 
-		<div class="text-lg font-bold mb-5">Checkers Board</div>
+		<div class="text-lg w-fit font-bold mb-5 relative">
+			Checkers Board
+			<div class="absolute rotate-[10deg] -top-1 right-[-3.3rem] w-fit 
+				font-bold text-xs bg-orange px-2 text-white tracking-widest">
+				NEW
+			</div>
+		</div>
 
 		<InfoBox class="mb-7">
 			A fully playable checkers game built on <b>GridControl</b>'s scoped slot. Drag a piece to move it —

@@ -23,7 +23,9 @@
 				:key="`${rowIndex}-${colIndex}`">
 
 				<div :class="['flex justify-center items-center', 
-					(rowIndex + colIndex) % 2 === 0 ? 'bg-gray-400' : 'bg-slate-200']" 
+					(rowIndex + colIndex) % 2 === 0 
+						? 'bg-gray-400'  
+						: 'bg-slate-200']" 
 					:id="`${rowIndex}-${colIndex}`" 
 					:style="{ gridRow: rowIndex+1, gridColumn: colIndex+1 }">
 
