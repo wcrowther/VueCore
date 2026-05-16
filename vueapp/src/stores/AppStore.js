@@ -3,8 +3,10 @@
 
 export const useAppStore = defineStore('AppStore', () => 
 {
-    // State ------------------------------------------------------------------
+    const router                = useRouter()  // used below
     
+    // State ------------------------------------------------------------------
+
     const sideBarHidden         = ref(false)
     const showSideButton        = ref(false)
     const disableGlobalKeys     = ref(false)
