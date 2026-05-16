@@ -88,6 +88,20 @@ public static partial class Endpoints
 		})
 		.WithName("GetFiles");
 
+		endpoints.MapGet("/file/{*filePath}", ([FromServices] FileManager fileManager, string filePath) =>
+		{
+			var fullPath = fileManager.GetFilePath(filePath);
+			if (fullPath is null)
+				return Results.NotFound();
+
+			var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+			if (!provider.TryGetContentType(fullPath, out var contentType))
+				contentType = "application/octet-stream";
+
+			return Results.Stream(System.IO.File.OpenRead(fullPath), contentType);
+		})
+		.WithName("GetFile");
+
 		endpoints.MapPut("/renamefile", ([FromBody] RenameFileRequest request, [FromServices] FileManager fileManager) =>
 		{
 			fileManager.RenameFile(request.FolderPath, request.OldName, request.NewName);

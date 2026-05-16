@@ -4,8 +4,13 @@
 	const { selectedFolder, fileRows, isLoading, loadError, selectedFileIndexes } = storeToRefs(fileStore)
 	const { selectFileIndex, deleteFile } = fileStore
 	const { createConfirm } = useConfirmControl()
+	const appStore = useAppStore()
 
 	const showThumbnails = ref(false)
+
+	const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.ico'])
+	const isImageFile = (ext) => imageExtensions.has((ext ?? '').toLowerCase())
+	const getFileUrl  = (file) => `${appStore.baseApiUrl}/content/file/${toApiFolderPath(selectedFolder.value)}/${encodeURIComponent(file.name)}`
 
 	const selectedIndexes = computed(() =>
 	{
@@ -95,6 +100,7 @@
 			<table class="min-w-full text-sm">
 				<thead class="bg-blue-100">
 					<tr>
+						<th class="w-10 text-right py-2 border-b border-gray-300"></th>
 						<th class="w-24 text-left pl-6 pr-3 py-2 border-b border-gray-300">Name</th>
 						<th class="w-10 text-left px-3 py-2 border-b border-gray-300">Extension</th>
 						<th class="w-10 text-left px-3 py-2 border-b border-gray-300">Size</th>
@@ -106,7 +112,7 @@
 				</thead>
 				<tbody class="h-full">
 					<tr v-if="fileRows.length === 0">
-						<td colspan="5" class="h-[120px] p-3 pb-4 text-center">
+						<td colspan="6" class="h-[120px] p-3 pb-4 text-center">
 							No files found in this folder.
 						</td>
 					</tr>
@@ -115,7 +121,17 @@
 						class="odd:bg-white even:bg-blue-50 cursor-pointer"
 						:class="selectedIndexSet.has(idx) ? 'odd:!bg-gray-200 even:!bg-blue-200 !text-black' : ''"
 						@click="onRowClick(idx, $event)"
-						@dragstart="onRowDragStart(idx, file, $event)">
+						@dragstart="onRowDragStart(idx, file, $event)">	
+
+						<td class="p-1 border-b border-gray-200 w-10">
+							<div class="flex justify-end">
+								<img v-if="isImageFile(file.extension)"
+									:src="getFileUrl(file)"
+									class="size-8 object-cover block rounded-sm" />
+								<div v-else 
+									class="size-8 bg-gray-300 rounded-sm" />
+							</div>
+						</td>						
 						<td class="pl-6 px-3 py-2 border-b border-gray-200">{{ file.name || "-" }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ file.extension || "-" }}</td>
 						<td class="px-3 py-2 border-b border-gray-200">{{ formatFileSize(file.size) }}</td>

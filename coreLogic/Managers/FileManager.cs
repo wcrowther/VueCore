@@ -150,6 +150,13 @@ namespace coreLogic.Managers
 			);
 		}
 
+		public string GetFilePath(string filePath)
+		{
+			var decoded  = Uri.UnescapeDataString(filePath ?? string.Empty);
+			var fullPath = ResolvePath(decoded);
+			return File.Exists(fullPath) ? fullPath : null;
+		}
+
 		// =============================================================================
 
 		private string ResolvePath(string relative)
