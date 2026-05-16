@@ -97,7 +97,7 @@
 		</div>
 
 		<div class="overflow-x-auto">
-			<div class="grid grid-cols-[60px_minmax(0,1fr)_80px_72px_148px_36px] min-w-full text-sm">
+			<div class="grid grid-cols-[60px_minmax(0,2fr)_1fr_1fr_2fr_36px] min-w-full text-sm">
 
 				<!-- Header -->
 				<div class="col-span-full grid grid-cols-subgrid bg-blue-100">
