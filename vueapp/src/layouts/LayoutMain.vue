@@ -4,7 +4,8 @@
     const { platform }			= usePlatform()
 	const appStore   			= useAppStore()
     const { sideBarHidden, 
-		    disableGlobalKeys }	= storeToRefs(appStore)
+		    disableGlobalKeys,
+			fullWidth }			= storeToRefs(appStore)
 	const { setInfoLevel }		= appStore
 
 	// Keyboard Listeners  ===========================================================================
@@ -33,7 +34,7 @@
 			class="fixed top-0 bottom-0 left-0 right-0 bg-gradient-back">
 		</div>
 
-		<div class="main-width mx-auto mb-10 relative z-0 h-full">
+		<div :class="['mx-auto mb-10 relative z-0 h-full', {'main-width': !fullWidth}]">
 
 			<!-- Debugging variable here if needed
 			<div class="text-white p-3">disableGlobalKeys: {{ disableGlobalKeys }}</div> -->

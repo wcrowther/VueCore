@@ -15,6 +15,7 @@ export const useAppStore = defineStore('AppStore', () =>
     const showJsonEntities      = useLocalStorage('showJsonEntities', false)
     const persistSearch         = useLocalStorage('persistSearch', false)
     const altTheme              = useLocalStorage('altTheme', false)
+    const fullWidth             = useLocalStorage('fullWidth', false)
     const infoLevel             = useLocalStorage('infoLevel', 2)
     const activeFloater         = useLocalStorage('activeFloater', '')
     const pagerDebugger         = useLocalStorage('pagerDebugger', false)
@@ -48,9 +49,9 @@ export const useAppStore = defineStore('AppStore', () =>
         const local =  
         [   
             'showPrevNext', 'showBreakpoints', 'showNotification',
-            'showNewChatMessages','showJsonEntities', 'persistSearch', 'altTheme', 
-            'infoLevel', 'activeFloater', 'pagerDebugger', 'pagerDebuggerX', 
-            'pagerDebuggerY', 'showPlatformInfo', 
+            'showNewChatMessages','showJsonEntities', 'persistSearch', 
+            'altTheme', 'fullWidth', 'infoLevel', 'activeFloater', 
+            'pagerDebugger', 'pagerDebuggerX', 'pagerDebuggerY', 'showPlatformInfo', 
         ]
 
         local.forEach(item => localStorage.removeItem(item))
@@ -89,6 +90,7 @@ export const useAppStore = defineStore('AppStore', () =>
         showJsonEntities,
         persistSearch,
         altTheme,
+        fullWidth,
         infoLevel,
         pagerDebugger,
         pagerDebuggerX,

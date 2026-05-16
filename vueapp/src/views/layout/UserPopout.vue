@@ -13,7 +13,8 @@
             showPrevNext, 
             showBreakpoints, 
             showNotification,
-            altTheme, 
+            altTheme,
+            fullWidth, 
             pagerDebugger,
             showJsonEntities,
             showPlatformInfo }      = storeToRefs(appStore) 
@@ -119,6 +120,13 @@
                         title="Toggle on/off alternate color scheme.">Alt Theme:</div>
                     <div class="label-value">
                         <CheckboxInput labelName="" v-model="altTheme" />
+                    </div>
+                </div>
+                <div class="label-row">
+                    <div class="label-title" 
+                        title="Toggle on/off full width layout.">Full Width:</div>
+                    <div class="label-value">
+                        <CheckboxInput labelName="" v-model="fullWidth" />
                     </div>
                 </div>
                 <div class="label-row">
