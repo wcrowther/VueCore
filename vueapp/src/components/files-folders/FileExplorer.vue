@@ -97,54 +97,73 @@
 		</div>
 
 		<div class="overflow-x-auto">
-			<table class="min-w-full text-sm">
-				<thead class="bg-blue-100">
-					<tr>
-						<th class="w-10 text-right py-2 border-b border-gray-300"></th>
-						<th class="w-24 text-left pl-6 pr-3 py-2 border-b border-gray-300">Name</th>
-						<th class="w-10 text-left px-3 py-2 border-b border-gray-300">Extension</th>
-						<th class="w-10 text-left px-3 py-2 border-b border-gray-300">Size</th>
-						<th class="w-32 text-left px-3 py-2 border-b border-gray-300">Last Modified</th>
-						<th class="w-5 text-left px-3 py-2 border-b border-gray-300">
-							<span class="relative bottom-1">...</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody class="h-full">
-					<tr v-if="fileRows.length === 0">
-						<td colspan="6" class="h-[120px] p-3 pb-4 text-center">
-							No files found in this folder.
-						</td>
-					</tr>
-					<tr v-else v-for="(file, idx) in fileRows"
-						:key="`${file.name}-${idx}`" draggable="true"
-						class="odd:bg-white even:bg-blue-50 cursor-pointer"
-						:class="selectedIndexSet.has(idx) ? 'odd:!bg-gray-200 even:!bg-blue-200 !text-black' : ''"
-						@click="onRowClick(idx, $event)"
-						@dragstart="onRowDragStart(idx, file, $event)">	
+			<div class="grid grid-cols-[60px_minmax(0,2fr)_1fr_1fr_2fr_36px] min-w-full text-sm">
 
-						<td class="p-1 border-b border-gray-200 w-10">
-							<div class="flex justify-end">
-								<img v-if="isImageFile(file.extension)"
-									:src="getFileUrl(file)"
-									class="size-8 object-cover block rounded-sm" />
-								<div v-else 
-									class="size-8 bg-gray-300 rounded-sm" />
-							</div>
-						</td>						
-						<td class="pl-6 px-3 py-2 border-b border-gray-200">{{ file.name || "-" }}</td>
-						<td class="px-3 py-2 border-b border-gray-200">{{ file.extension || "-" }}</td>
-						<td class="px-3 py-2 border-b border-gray-200">{{ formatFileSize(file.size) }}</td>
-						<td class="px-3 py-2 border-b border-gray-200">{{ dateTimeFormat(file.lastModified) }}</td>
-						<td class="px-3 py-2 border-b border-gray-200">
-							<button class="text-red-500 text-xs border border-red-500 size-4 rounded-full
-								 flex justify-center items-center" @click="onDeleteClick(file, $event)">
-								<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark-20-solid" />
-							</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+				<!-- Header -->
+				<div class="col-span-full grid grid-cols-subgrid bg-blue-100">
+					<div class="py-2 border-b border-gray-300">
+					</div>
+					<div class="pl-6 pr-3 py-2 border-b border-gray-300 font-semibold">
+						Name
+					</div>
+					<div class="px-3 py-2 border-b border-gray-300 font-semibold">
+						Extension
+					</div>
+					<div class="px-3 py-2 border-b border-gray-300 font-semibold">
+						Size
+					</div>
+					<div class="px-3 py-2 border-b border-gray-300 font-semibold">
+						Last Modified
+					</div>
+					<div class="px-3 py-2 border-b border-gray-300 font-semibold">
+						<span class="relative bottom-1">...</span>
+					</div>
+				</div>
+
+				<!-- Empty state -->
+				<div v-if="fileRows.length === 0"
+					class="col-span-full h-[120px] p-3 pb-4 pl-5 text-center">
+					No files found in this folder.
+				</div>
+
+				<!-- Data rows -->
+				<div v-else v-for="(file, idx) in fileRows"
+					:key="`${file.name}-${idx}`" draggable="true"
+					class="col-span-full grid grid-cols-subgrid cursor-pointer"
+					:class="selectedIndexSet.has(idx)
+						? [idx % 2 === 0 ? 'bg-gray-200' : 'bg-blue-200', 'text-black']
+						: [idx % 2 === 0 ? 'bg-white' : 'bg-blue-50']"
+					@click="onRowClick(idx, $event)"
+					@dragstart="onRowDragStart(idx, file, $event)">
+
+					<div class="py-1 pl-5 pr-1 border-b border-gray-200 flex justify-end">
+						<img v-if="isImageFile(file.extension)"
+							:src="getFileUrl(file)"
+							class="size-8 object-cover block rounded-sm" />
+						<div v-else
+							class="size-8 bg-gray-300 rounded-sm" />
+					</div>
+					<div class="pl-6 px-3 py-2 border-b border-gray-200">
+						{{ file.name || "-" }}
+					</div>
+					<div class="px-3 py-2 border-b border-gray-200">
+						{{ file.extension || "-" }}
+					</div>
+					<div class="px-3 py-2 border-b border-gray-200">
+						{{ formatFileSize(file.size) }}
+					</div>
+					<div class="px-3 py-2 border-b border-gray-200">
+						{{ dateTimeFormat(file.lastModified) }}
+					</div>
+					<div class="px-3 py-2 border-b border-gray-200">
+						<button class="text-red-500 text-xs border border-red-500 size-4 rounded-full
+							flex justify-center items-center" @click="onDeleteClick(file, $event)">
+							<IconSymbol class="text-red-500" width="20px" icon="heroicons:x-mark-20-solid" />
+						</button>
+					</div>
+				</div>
+
+			</div>
 		</div>
 	</div>
 
