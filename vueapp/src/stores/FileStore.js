@@ -38,12 +38,6 @@ export const useFileStore = defineStore('FileStore', () =>
 
 	// ACTIONS ----------------------------------------------------------------
 
-	watch(() => folderStore.selectedFolder, () =>
-	{
-		clearSelection()
-		loadFiles()
-	})
-
 	const clearSelection = () =>
 	{
 		selectedFileIndexes.value = []
@@ -132,6 +126,12 @@ export const useFileStore = defineStore('FileStore', () =>
 			isLoading.value = false
 		}
 	}
+
+	watch(() => folderStore.selectedFolder, () =>
+	{
+		clearSelection()
+		loadFiles()
+	}, { immediate: true })
 
 	const refresh = async () =>
 	{
