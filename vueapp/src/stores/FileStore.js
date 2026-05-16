@@ -103,12 +103,10 @@ export const useFileStore = defineStore('FileStore', () =>
 	{
 		loadError.value = ""
 		clearSelection()
+		files.value = []
 
 		if (!folderStore.selectedFolder || !apiFolderPath.value)
-		{
-			files.value = []
 			return
-		}
 
 		isLoading.value = true
 		try

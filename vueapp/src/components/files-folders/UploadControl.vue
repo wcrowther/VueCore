@@ -23,7 +23,7 @@
 		<div class="border border-gray-400 p-4 text-center cursor-pointer
             hover:bg-blue-100 transition relative" @click="openDialog" 
 			@dragover.prevent @dragenter.prevent 
-			@drop.prevent="addFiles(Array.from($event.dataTransfer.files))">
+			@drop.prevent="addFiles(Array.from($event.dataTransfer.files), props.accept)">
 
 			<!-- Upload All -->
 			<div class="w-full absolute left-0 right-0 top-8 px-8 flex justify-between has-[>:only-child]:justify-end">
@@ -60,7 +60,8 @@
 							class="w-full h-full object-cover rounded">
 
 						<div v-else class="w-full h-full flex items-center justify-center
-							 bg-gray-100 rounded text-xs">FILE
+							 bg-gray-100 rounded text-xs">
+							 FILE
 						</div>
 
 					</div>
@@ -124,7 +125,7 @@
 			</div>
 
 			<input ref="fileInput" type="file" multiple class="hidden" 
-				:accept @change="addFiles(Array.from($event.target.files))">
+				:accept @change="addFiles(Array.from($event.target.files), props.accept)">
 		</div>
 
 	</div>

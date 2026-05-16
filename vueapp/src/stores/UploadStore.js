@@ -18,9 +18,26 @@ export const useUploadStore = defineStore('UploadStore', () =>
 
     // ACTIONS ----------------------------------------------------------------
 
-    const addFiles = (files) =>
+    const filterByAccept = (files, accept) =>
     {
-        files.forEach(file =>
+        if (!accept || accept === '*') return files
+        const rules = accept.split(',').map(s => s.trim().toLowerCase())
+        return files.filter(file =>
+            rules.some(rule =>
+            {
+                if (rule.startsWith('.'))
+                    return file.name.toLowerCase().endsWith(rule)
+                if (rule.endsWith('/*'))
+                    return file.type.startsWith(rule.slice(0, -1))
+                return file.type === rule
+            })
+        )
+    }
+
+    const addFiles = (files, accept) =>
+    {
+        const filtered = filterByAccept(files, accept)
+        filtered.forEach(file =>
         {
             if (file.size > (maxSizeMB.value * 1024 * 1024))
             {
