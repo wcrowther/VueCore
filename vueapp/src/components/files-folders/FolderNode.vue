@@ -82,10 +82,12 @@
 		clickTimer = setTimeout(() =>
 		{
 			clickTimer = null
+			// Capture before selectFolder changes the store value
+			const wasParentOfSelected = isParentOfSelected.value
 			selectFolder(currentPath.value)
-			// If this node is a parent of the selected folder and already expanded,
-			// keep it open when switching selection to the parent.
-			if (isParentOfSelected.value && expanded.value) return
+			// If this node was a parent of the selected folder and is already expanded,
+			// keep it open instead of toggling closed.
+			if (wasParentOfSelected && expanded.value) return
 			toggle()
 		}, 250)
 	}
