@@ -1,12 +1,31 @@
 <script setup>
 
 	const fileStore 							 = useFileStore()
+	const imageStore 						 = useImageStore()
 	const { fileRows, selectedIndexSet,
 			fileThumbnailSize } 				 = storeToRefs(fileStore)
 	const { deleteFile, isImageFile, getFileUrl, 
-			handleFileClick, startFileDrag } 	 = fileStore
+			handleFileClick, startFileDrag, selectFileIndex } 	 = fileStore
+	const { onPreviewAreaClick } 				 = imageStore
 			
 	const { createConfirm } 					 = useConfirmControl()
+
+	const onImageClick = (file, idx, event) =>
+	{
+		handleFileClick(idx, event)
+		onPreviewAreaClick(file)
+	}
+
+	const onThumbnailEnter = (file, idx) =>
+	{
+		if (!selectedIndexSet.value.has(idx))
+		{
+			selectFileIndex(idx)
+			return
+		}
+
+		onPreviewAreaClick(file)
+	}
 
 </script>
 
@@ -22,17 +41,19 @@
 		<div v-else class="flex flex-wrap gap-3 p-5">
 
 			<div v-for="(file, idx) in fileRows"
-				:key="`${file.name}-${idx}`" draggable="true"
+				:key="`${file.name}-${idx}`" draggable="true" tabindex="0"
 			:class="['flex flex-col cursor-pointer rounded border-2 overflow-hidden relative group shrink-0',
 				selectedIndexSet.has(idx) ? 'border-blue-400' : 'border-transparent hover:border-gray-300']"
-				:style="{ width: fileThumbnailSize + 'px' }"				
+				:style="{ width: fileThumbnailSize + 'px' }				"
 				@click="handleFileClick(idx, $event)"
+				@keydown.enter.prevent="onThumbnailEnter(file, idx)"
 				@dragstart="startFileDrag(idx, file, $event)">
 
 				<!-- Image -->
 				<img v-if="isImageFile(file.extension)"
 					:src="getFileUrl(file)"
 					class="object-cover w-full block"
+					@click.stop="onImageClick(file, idx, $event)"
 					:style="{ height: fileThumbnailSize + 'px' }" />
 
 				<!-- Placeholder for non-image files -->

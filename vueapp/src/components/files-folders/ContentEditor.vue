@@ -1,9 +1,31 @@
 <script setup>
 
 	const showEditor = defineModel('showEditor', { type: Boolean, default: false })
-	const props = defineProps({
+	const props = defineProps(
+	{
 		height: { type: String, default: '500px' },
-		width: { type: String, default: '900px' },
+		width:  { type: String, default: '900px' },
+	})
+	const imageStore = useImageStore()
+	const { requestedEditorTab } = storeToRefs(imageStore)
+	const { consumeRequestedEditorTab } = imageStore
+
+	const activeEditorTab = ref('Files')
+
+	watch(showEditor, (isOpen) =>
+	{
+		if (!isOpen)
+			activeEditorTab.value = 'Files'
+	})
+
+	watch(requestedEditorTab, () =>
+	{
+		if (!showEditor.value) return
+
+		const nextTab = consumeRequestedEditorTab()
+		if (!nextTab) return
+
+		activeEditorTab.value = nextTab
 	})
 
 </script>
@@ -15,11 +37,8 @@
 	<ModalControl v-if="showEditor" v-model="showEditor" :showFooter="false" 
 		class="pt-1 bg-[#b8d7ed]" :height="props.height" :width="props.width" title="Editor">
 
-	    <TabControl class="mb-10" :tabList="['Content', 'Files', 'Images']" >
-
-        	<template #Content>       
-        	    <MarkdownEditor />
-        	</template>
+	    <TabControl v-model:activeTab="activeEditorTab"
+			class="mb-10" :tabList="['Files', 'Images', 'Content']" >
 			<template #Files>       
     			<UploadControl accept="image/*" class="bg-gradient-main mb-3" />
     			<div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 mb-7
@@ -29,9 +48,10 @@
     			</div>
         	</template>
         	<template #Images>       
-        	    <div class="p-5">
-        	        <div class="font-bold text-red mb-3">Image Edit</div>
-        	    </div>
+        	    <ImageEditor />
+        	</template>
+			<template #Content>       
+        	    <MarkdownEditor />
         	</template>
 
     	</TabControl>

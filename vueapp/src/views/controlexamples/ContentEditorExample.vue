@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+
+	const imageData = ref(null)
+
+</script>
 
 <template>
 
@@ -15,7 +19,10 @@
 
 		</div>
 
-		<ContentEditor height="30%" width="90%" />
+		<ContentEditor height="90%" width="90%" />
+
+		<ImageCropper v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
+	  	<textarea v-model="imageData" class="hidden w-full h-40 mt-4 border" />
 
 	</div>
 

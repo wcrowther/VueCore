@@ -1,7 +1,7 @@
 
 const toastStore  = useToastStore()
 
-export const useImagesStore = defineStore('ImagesStore',
+export const useOldImagesStore = defineStore('OldImagesStore',
 {
     state: () => 
     ({

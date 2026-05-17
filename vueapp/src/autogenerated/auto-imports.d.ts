@@ -132,9 +132,11 @@ declare global {
   const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
+  const useImageStore: typeof import('../stores/ImageStore.js')['useImageStore']
   const useImagesStore: typeof import('../stores/ImagesStore.js')['useImagesStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useModel: typeof import('vue')['useModel']
+  const useOldImagesStore: typeof import('../stores/OldImagesStore.js')['useOldImagesStore']
   const usePagedList: typeof import('../composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('../composables/UsePagedList2.js')['usePagedList2']
   const usePlatform: typeof import('../composables/UsePlatform.js')['usePlatform']
@@ -307,9 +309,10 @@ declare module 'vue' {
     readonly useFileStore: UnwrapRef<typeof import('../stores/FileStore.js')['useFileStore']>
     readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
-    readonly useImagesStore: UnwrapRef<typeof import('../stores/ImagesStore.js')['useImagesStore']>
+    readonly useImageStore: UnwrapRef<typeof import('../stores/ImageStore.js')['useImageStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
+    readonly useOldImagesStore: UnwrapRef<typeof import('../stores/OldImagesStore.js')['useOldImagesStore']>
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('../composables/UsePagedList.js')['usePagedList']>
     readonly usePlatform: UnwrapRef<typeof import('../composables/UsePlatform.js')['usePlatform']>

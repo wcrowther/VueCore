@@ -6,7 +6,34 @@
 		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] }
 	})
 
-    const activeTab = ref(props.tabList[0])
+    const activeTabModel = defineModel('activeTab', { type: String, default: '' })
+    const internalActiveTab = ref(props.tabList[0])
+
+    const activeTab = computed(
+    {
+        get()
+        {
+            const modelTab = activeTabModel.value
+            return props.tabList.includes(modelTab) ? modelTab : internalActiveTab.value
+        },
+        set(tab)
+        {
+            if (!props.tabList.includes(tab)) return
+
+            internalActiveTab.value = tab
+            activeTabModel.value = tab
+        }
+    })
+
+    watch(() => props.tabList, (tabs) =>
+    {
+        const list = Array.isArray(tabs) ? tabs : []
+        if (!list.length) return
+
+        if (!list.includes(activeTab.value))
+            activeTab.value = list[0]
+    }, { immediate: true })
+
     const isActive	= (tab) => tab === activeTab.value
 
 </script>

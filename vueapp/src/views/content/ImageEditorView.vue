@@ -26,15 +26,15 @@
             :tabList="['Gallery', 'Detail', 'Upload']" >
 
             <template #Gallery>       
-                <ImageGallery />
+                <ImageGalleryView />
             </template>
             
             <template #Detail>       
-                <ImageDetail />
+                <ImageDetailView />
             </template>
             
             <template #Upload>       
-                <ImageUpload />
+                <ImageUploadView />
             </template>
 
         </TabControl>

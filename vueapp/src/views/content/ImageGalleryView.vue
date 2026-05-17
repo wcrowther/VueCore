@@ -15,7 +15,7 @@
     const activeItem                    = ref(null)
     const showAdvSearch                 = ref(false)
 
-    const imagesStore                   = useImagesStore()
+    const imagesStore                   = useOldImagesStore()
     const       
     {       
         imagesList:         itemsList,        

@@ -1,12 +1,31 @@
 <script setup>
 
 	const fileStore = useFileStore()
+	const imageStore = useImageStore()
 	const { fileRows, selectedIndexes, selectedIndexSet } = storeToRefs(fileStore)
-	const { deleteFile, isImageFile, getFileUrl, handleFileClick, startFileDrag } = fileStore
+	const { deleteFile, isImageFile, getFileUrl, handleFileClick, startFileDrag, selectFileIndex } = fileStore
+	const { onPreviewAreaClick } = imageStore
 	const { createConfirm } = useConfirmControl()
 
 	const onDeleteClick = async (file) =>
 		await createConfirm(`Delete "${file.name}"?`, () => deleteFile(file.name))
+
+	const onPreviewClick = (file, idx, event) =>
+	{
+		handleFileClick(idx, event)
+		onPreviewAreaClick(file)
+	}
+
+	const onRowEnter = (file, idx) =>
+	{
+		if (!selectedIndexSet.value.has(idx))
+		{
+			selectFileIndex(idx)
+			return
+		}
+
+		onPreviewAreaClick(file)
+	}
 
 	const trimExtension = (name) => name?.split('.').slice(0, -1).join('.') || "-"
 
@@ -45,15 +64,17 @@
 
 			<!-- Data rows -->
 			<div v-else v-for="(file, idx) in fileRows"
-				:key="`${file.name}-${idx}`" draggable="true"
+				:key="`${file.name}-${idx}`" draggable="true" tabindex="0"
 				class="col-span-full grid grid-cols-subgrid cursor-pointer"
 				:class="selectedIndexSet.has(idx)
 					? [idx % 2 === 0 ? 'bg-gray-200' : 'bg-blue-200', 'text-black']
 					: [idx % 2 === 0 ? 'bg-white' : 'bg-blue-50']"
 				@click="handleFileClick(idx, $event)"
+				@keydown.enter.prevent="onRowEnter(file, idx)"
 				@dragstart="startFileDrag(idx, file, $event)">
 
-				<div class="py-1 pl-5 pr-1 border-b border-gray-200 flex justify-end">
+				<div class="py-1 pl-5 pr-1 border-b border-gray-200 flex justify-end"
+					@click.stop="onPreviewClick(file, idx, $event)">
 					<img v-if="isImageFile(file.extension)"
 						:src="getFileUrl(file)"
 						class="size-8 object-cover block rounded-sm" />

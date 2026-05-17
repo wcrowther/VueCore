@@ -4,7 +4,8 @@
 	const { useFileThumbnail,
 			fileThumbnailSize,
 			fileLoadError,
-			isLoadingFile } 	= storeToRefs(fileStore)
+			isLoadingFile,
+		selectedIndexes } 	= storeToRefs(fileStore)
 
 </script>
 
