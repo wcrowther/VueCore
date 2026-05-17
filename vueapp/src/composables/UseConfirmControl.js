@@ -25,12 +25,16 @@ export function useConfirmControl()
 		instance.exposedRef = exposedRef;
 	}
 
-	const createConfirm = async (message) => 
+	// onConfirm
+	const createConfirm = async (message, onConfirm) => 
 	{
-		return await instance.exposedRef.value.confirmPromise(message)
+		const confirmed = await instance.exposedRef.value.confirmPromise(message)
+		if (confirmed && onConfirm)
+			await onConfirm()
+		return confirmed
 	}
 
-	return { createConfirm };
+	return {  createConfirm };
 }
 
 
@@ -50,4 +54,8 @@ export function useConfirmControl()
 
 	// In template:
 	<button @click="tryConfirm">Try Confirm</button>
+
+	// Alternative with inline callback function:
+	<button @click="createConfirm('Confirm this record?', () => console.log('Confirmed by User'))">Try Confirm</button>
+
 */

@@ -12,7 +12,7 @@
 		FolderExplorer and FileList controls are still in progress.
     </InfoBox>
 
-    <UploadControl accept="image/*" class="bg-gradient-main mb-3" />
+    <UploadControl accept="image/*,.md" class="bg-gradient-main mb-3" />
 
     <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 mb-7
         border border-gray-400 bg-white">

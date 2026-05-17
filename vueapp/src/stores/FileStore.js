@@ -1,16 +1,19 @@
 export const useFileStore = defineStore('FileStore', () =>
 {
-	const folderStore = useFolderStore()
+	const folderStore 	= useFolderStore()
+	const appStore 		= useAppStore()
 
 	// const { selectedFolder }      = storeToRefs(folderStore)
 
 	// STATE ------------------------------------------------------------------
 
-	const files = ref([])
-	const isLoading = ref(false)
-	const loadError = ref('')
-	const selectedFileIndexes = ref([])
-	const lastSelectedIndex = ref(null)
+	const files 				= ref([])
+	const isLoadingFile 		= ref(false)
+	const fileLoadError 		= ref('')
+	const selectedFileIndexes 	= ref([])
+	const lastSelectedIndex 	= ref(null)
+	const fileThumbnailSize 	= useLocalStorage('fileThumbnailSize', 100)
+	const useFileThumbnail 		= useLocalStorage('useFileThumbnail', false)
 
 	// GETTERS ----------------------------------------------------------------
 
@@ -20,7 +23,8 @@ export const useFileStore = defineStore('FileStore', () =>
 	const fileRows = computed(() =>
 	{
 		const source = Array.isArray(files.value) ? files.value : []
-		return source.map(file => ({
+		return source.map(file => (
+		{
 			name: file?.name ?? file?.Name ?? "",
 			extension: file?.extension ?? file?.Extension ?? "",
 			size: file?.size ?? file?.Size ?? null,
@@ -35,6 +39,16 @@ export const useFileStore = defineStore('FileStore', () =>
 			.map(idx => fileRows.value[idx]?.name)
 			.filter(name => !!name)
 	})
+
+	const selectedIndexes = computed(() =>
+		Array.isArray(selectedFileIndexes.value) ? selectedFileIndexes.value : []
+	)
+
+	const selectedIndexSet = computed(() => new Set(selectedIndexes.value))
+
+	const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.ico'])
+	const isImageFile = (ext) => imageExtensions.has((ext ?? '').toLowerCase())
+	const getFileUrl  = (file) => `${appStore.baseApiUrl}/content/file/${toApiFolderPath(selectedFolder.value)}/${encodeURIComponent(file.name)}`
 
 	// ACTIONS ----------------------------------------------------------------
 
@@ -99,16 +113,45 @@ export const useFileStore = defineStore('FileStore', () =>
 		lastSelectedIndex.value = index
 	}
 
+	const handleFileClick = (index, event) =>
+	{
+		selectFileIndex(index,
+		{
+			shiftKey: !!event?.shiftKey,
+			metaKey: !!event?.metaKey,
+			ctrlKey: !!event?.ctrlKey
+		})
+	}
+
+	const startFileDrag = (index, file, event) =>
+	{
+		if (!selectedIndexSet.value.has(index))
+			selectFileIndex(index)
+
+		const names = selectedIndexes.value
+			.map(idx => fileRows.value[idx]?.name)
+			.filter(name => !!name)
+
+		const payload = {
+			sourcePath: selectedFolder.value,
+			fileNames: names
+		}
+
+		event.dataTransfer.effectAllowed = "move"
+		event.dataTransfer.setData("application/x-vueapp-files", JSON.stringify(payload))
+		event.dataTransfer.setData("text/plain", file?.name || "")
+	}
+
 	const loadFiles = async () =>
 	{
-		loadError.value = ""
+		fileLoadError.value = ""
 		clearSelection()
 		files.value = []
 
 		if (!folderStore.selectedFolder || !apiFolderPath.value)
 			return
 
-		isLoading.value = true
+		isLoadingFile.value = true
 		try
 		{
 			const result = await apiGet(`/content/files/${encodeURIComponent(apiFolderPath.value)}`)
@@ -117,11 +160,11 @@ export const useFileStore = defineStore('FileStore', () =>
 		catch (error)
 		{
 			files.value = []
-			loadError.value = error?.message ?? "Failed to load files."
+			fileLoadError.value = error?.message ?? "Failed to load files."
 		}
 		finally
 		{
-			isLoading.value = false
+			isLoadingFile.value = false
 		}
 	}
 
@@ -207,19 +250,27 @@ export const useFileStore = defineStore('FileStore', () =>
 		// state
 		selectedFolder,
 		files,
-		isLoading,
-		loadError,
+		isLoadingFile,
+		fileLoadError,
 		selectedFileIndexes,
 		lastSelectedIndex,
+		fileThumbnailSize,
+		useFileThumbnail,
 
 		// getters
 		apiFolderPath,
 		fileRows,
 		selectedFileNames,
+		selectedIndexes,
+		selectedIndexSet,
+		isImageFile,
+		getFileUrl,
 
 		// actions
 		clearSelection,
 		selectFileIndex,
+		handleFileClick,
+		startFileDrag,
 		loadFiles,
 		refresh,
 		deleteFile,

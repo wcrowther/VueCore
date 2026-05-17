@@ -15,7 +15,7 @@
 
 		</div>
 
-		<ContentEditor />
+		<ContentEditor height="30%" width="90%" />
 
 	</div>
 
