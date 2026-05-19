@@ -44,7 +44,7 @@
     			<div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 mb-7
     			    border border-gray-400 bg-white">
     			    <FolderExplorer class="lg:border-r border-gray-400" />
-    			    <FileExplorer class="" />
+    			    <FileExplorer class="border-t border-gray-400 lg:border-none" />
     			</div>
         	</template>
         	<template #Images>       

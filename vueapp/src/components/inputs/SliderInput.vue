@@ -24,21 +24,16 @@
                 :for="props.labelName">
                 {{ props.labelName }}
             </label>
-            <span class="text-xs text-color-dark-gray tabular-nums">
-				{{ modelValue }} px
-			</span>
         </div>
 
-        <div class="flex items-center gap-3">
-			<div class="w-fit">
-				{{ props.minName }}
-			</div>
+        <div class="flex items-center gap-3" 
+            :title="`${props.minName} to ${props.maxName} by ${props.step}px steps.`">
 			<input type="range" v-model.number="modelValue"
 				:id="props.labelName" :name="props.labelName"
 				:min="props.min" :max="props.max" :step="props.step"
 				class="range-input w-full accent-blue-500 flex-1" />
 			<div class="w-fit">
-				{{ props.maxName }}
+				{{ modelValue }} px
 			</div>
 		</div>
 

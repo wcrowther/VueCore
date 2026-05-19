@@ -1,19 +1,17 @@
 <script setup>
-
-	const fileStore 			= useFileStore()
+	
 	const { useFileThumbnail,
 			fileThumbnailSize,
 			fileLoadError,
 			isLoadingFile,
-		selectedIndexes } 	= storeToRefs(fileStore)
-
+			selectedFileNames }  = storeToRefs(useFileStore())  // inline example for store
 </script>
 
 <template>
 
 	<div>
 	
-		<div class="flex justify-between items-center text-color-dark-gray pl-6 pr-4 py-2">
+		<div class="flex justify-between items-center text-color-dark-gray pl-6 pr-4 pt-5 pb-2">
 			
 			<div v-if="isLoadingFile" 
 				class="flex items-center text-color-dark-gray">
@@ -23,16 +21,19 @@
 				class="flex items-center text-red-700">
 				{{ fileLoadError }}
 			</div>
-			<div v-else-if="useFileThumbnail" 
-				class="flex items-center text-color-dark-gray">
-
-				<SliderInput v-model="fileThumbnailSize"
-					labelName="Size" minName="100px" maxName="300px"
-					:min="100" :max="300" :step="20"
-					class="!mb-0 w-[200px] p-4 py-1 border border-gray-300" />
+			<div v-else
+				class="flex items-center">
+				<span class="font-bold mr-2">Selected:</span>
+				{{ selectedFileNames.join(', ') || 'None'}}
 			</div>
 
 			<div class="ml-auto flex gap-2">
+
+				<SliderInput v-if="useFileThumbnail" 
+					v-model="fileThumbnailSize"
+					labelName="Size" minName="50px" maxName="300px"
+					:min="50" :max="300" :step="50"
+					class="!mb-0 !w-[150px] mr-5 px-3 py-1 border border-gray-300" />
 
 				<button @click="useFileThumbnail=false"
 					class="btnIcon" :class="['!rounded-none',{ 'bg-gray-200': !useFileThumbnail }]">

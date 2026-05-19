@@ -110,7 +110,8 @@ export const useFileStore = defineStore('FileStore', () =>
 		const start = Math.min(lastSelectedIndex.value, index)
 		const end = Math.max(lastSelectedIndex.value, index)
 		selectedFileIndexes.value = Array.from({ length: end - start + 1 }, (_, i) => start + i)
-		lastSelectedIndex.value = index
+		// Keep the original anchor so repeated Shift clicks extend the same range.
+		// Ctrl/Cmd and normal clicks still move the anchor via toggle/selectSingle.
 	}
 
 	const handleFileClick = (index, event) =>

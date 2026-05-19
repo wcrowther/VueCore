@@ -16,5 +16,7 @@
 
     <ContentEditorExample />
 
+    <ImageCropperExample />
+
 </template>
 

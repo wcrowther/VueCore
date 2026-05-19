@@ -56,6 +56,7 @@ declare module 'vue' {
     HomeIntroSidebar: typeof import('./../views/home/HomeIntroSidebar.vue')['default']
     IconSymbol: typeof import('./../components/misc/IconSymbol.vue')['default']
     ImageCropper: typeof import('./../components/files-folders/ImageCropper.vue')['default']
+    ImageCropperExample: typeof import('./../views/controlexamples/ImageCropperExample.vue')['default']
     ImageDetail: typeof import('../views/content/ImageDetailView.vue')['default']
     ImageDetailView: typeof import('./../views/content/ImageDetailView.vue')['default']
     ImageEditor: typeof import('./../components/files-folders/ImageEditor.vue')['default']

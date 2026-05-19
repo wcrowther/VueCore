@@ -133,7 +133,7 @@ declare global {
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
   const useImageStore: typeof import('../stores/ImageStore.js')['useImageStore']
-  const useImagesStore: typeof import('../stores/ImagesStore.js')['useImagesStore']
+  const useImagesStore: typeof import('../stores/OldImagesStore.js')['useImagesStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useModel: typeof import('vue')['useModel']
   const useOldImagesStore: typeof import('../stores/OldImagesStore.js')['useOldImagesStore']
