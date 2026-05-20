@@ -50,8 +50,10 @@ public static partial class Endpoints
 		// logout
 		// =========================================================
 
-		endpoints.MapPost("/logout", ( ICookieManager _cookieManager ) =>
+		endpoints.MapPost("/logout", ( ICookieManager _cookieManager,
+									  IAuthManager _authManager ) =>
 		{
+			_authManager.RevokeRefreshToken();
 			_cookieManager.ClearAuthCookies();
 			return Results.Ok();
 		});

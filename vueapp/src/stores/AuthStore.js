@@ -1,4 +1,11 @@
 
+const DEFAULT_INACTIVITY_LOGOUT_MINUTES = 180
+const ACTIVITY_UPDATE_THROTTLE_MS = 15000
+const INACTIVITY_CHECK_INTERVAL_MS = 60000
+
+const inactivityLogoutMinutes = Number(import.meta.env.VITE_INACTIVITY_LOGOUT_MINUTES || DEFAULT_INACTIVITY_LOGOUT_MINUTES)
+const inactivityLogoutMs = Math.max(1, inactivityLogoutMinutes) * 60 * 1000
+
 export const useAuthStore = defineStore('AuthStore',
 {
     state: () => 
@@ -12,7 +19,13 @@ export const useAuthStore = defineStore('AuthStore',
         isBusy:                 false,
         error:                  '',
         returnUrl:              '/',
-        lastRequestDatetime:    ''
+        lastRequestDatetime:    '',
+        lastActivityTimestamp:  0,
+        inactivityTimeoutMs:    inactivityLogoutMs,
+        inactivityTimerId:      null,
+        activityEventsBound:    false,
+        activityHandler:        null,
+        visibilityHandler:      null
     }),
     getters:
     {
@@ -55,12 +68,68 @@ export const useAuthStore = defineStore('AuthStore',
             const rawRoles = profile?.Roles ?? profile?.Role ?? []
             this.roles = Array.isArray(rawRoles) ? rawRoles : (rawRoles ? [rawRoles] : [])
             this.isAuthenticated = true
+            this.touchActivity()
         },
         clearAuthState()
         {
             this.user = new AuthUser()
             this.roles = []
             this.isAuthenticated = false
+        },
+        touchActivity()
+        {
+            this.lastActivityTimestamp = Date.now()
+        },
+        onUserActivity()
+        {
+            if (!this.isAuthenticated)
+                return
+
+            const now = Date.now()
+            if (now - this.lastActivityTimestamp < ACTIVITY_UPDATE_THROTTLE_MS)
+                return
+
+            this.lastActivityTimestamp = now
+        },
+        onVisibilityChange()
+        {
+            if (typeof document !== 'undefined' && document.visibilityState === 'visible' && this.isAuthenticated)
+                this.touchActivity()
+        },
+        bindActivityEvents()
+        {
+            if (this.activityEventsBound || typeof window === 'undefined')
+                return
+
+            const events = ['click', 'keydown', 'mousemove', 'scroll', 'touchstart']
+            this.activityHandler = () => this.onUserActivity()
+            this.visibilityHandler = () => this.onVisibilityChange()
+
+            events.forEach((eventName) => window.addEventListener(eventName, this.activityHandler, { passive: true }))
+            document.addEventListener('visibilitychange', this.visibilityHandler)
+
+            this.activityEventsBound = true
+        },
+        startInactivityTracking()
+        {
+            this.bindActivityEvents()
+            this.touchActivity()
+
+            if (this.inactivityTimerId || typeof window === 'undefined')
+                return
+
+            this.inactivityTimerId = window.setInterval(() => this.checkInactivity(), INACTIVITY_CHECK_INTERVAL_MS)
+        },
+        async checkInactivity()
+        {
+            if (!this.isAuthenticated || this.isLoggingOut)
+                return
+
+            if (Date.now() - this.lastActivityTimestamp < this.inactivityTimeoutMs)
+                return
+
+            useToastStore().showWarning('Session expired due to inactivity. Please log in again.')
+            await this.logout('/auth/login', { callApi: true })
         },
         async fetchCurrentUser()
         {
@@ -149,6 +218,10 @@ export const useAuthStore = defineStore('AuthStore',
         async refreshAuth()
         {
             const result = await apiAuth('/authenticate/refreshAuth', { UserId: this.userId })
+
+            if (result.success)
+                this.touchActivity()
+
             return result.success
         },
         async logout (route, options)
@@ -171,6 +244,7 @@ export const useAuthStore = defineStore('AuthStore',
             finally
             {
                 this.clearAuthState()
+                this.touchActivity()
                 this.isAuthChecked = true
                 this.isLoggingOut = false
                 await this.navigateTo(route || '/auth/login', true)

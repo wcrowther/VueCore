@@ -83,7 +83,10 @@ public class AuthManager(	IUserManager userManager,
 		if (!IsAllowedDomain(domain, allowedDomains))
 			return AuthUserOrError.Failure("Not able to refresh token from this domain");
 
-		if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiration <= DateTime.Now)
+		var isRevoked = user?.RefreshTokenRevokedAt is not null
+						&& user.RefreshTokenIssuedAt <= user.RefreshTokenRevokedAt.Value;
+
+		if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiration <= DateTime.Now || isRevoked)
 			return Returns<AuthUser>.Failure($"Not able to refresh token for userId: {request.UserId}");
 
 		user = userManager.UpdateUserRefreshToken(user);
@@ -95,6 +98,29 @@ public class AuthManager(	IUserManager userManager,
 		logger.LogInformation($"AuthManager.RefreshAuth refresh user: '{user.UserName}'");
 
 		return Returns<AuthUser>.Result(user.ToAuthResponse(token, expiration));
+	}
+
+	public void RevokeRefreshToken()
+	{
+		var refreshToken = accessor.HttpContext?.Request?.Cookies["refreshToken"];
+		if (refreshToken.IsNullOrSpace())
+			return;
+
+		var currentUserId = userClaimsManager.GetCurrentUserId();
+		var user = currentUserId.HasValue
+			? userManager.GetUserById(currentUserId.Value)
+			: userManager.GetAllUsers().FirstOrDefault(u => u.RefreshToken == refreshToken);
+
+		if (user is null || user.RefreshToken != refreshToken)
+			return;
+
+		user.RefreshTokenRevokedAt  = DateTime.Now;
+		user.RefreshTokenExpiration = DateTime.Now;
+		user.RefreshToken           = string.Empty;
+
+		userManager.SaveUser(user);
+
+		logger.LogInformation($"AuthManager.RevokeRefreshToken revoked refresh token for user '{user.UserName}'");
 	}
 
 	// ============================================================================

@@ -31,7 +31,11 @@ public class User : IAuditable
 
 	public string RefreshToken { get; set; }
 
+	public DateTime RefreshTokenIssuedAt { get; set; }
+
 	public DateTime RefreshTokenExpiration { get; set; }
+
+	public DateTime? RefreshTokenRevokedAt { get; set; }
 
 	public bool IsActive { get; set; }
 

@@ -60,7 +60,9 @@ public class TokenManager(AppSettings appSettings)
 		var (token, expiration) = GenerateRefreshTokenAndExpiration();
 
 		user.RefreshToken           = token;
+		user.RefreshTokenIssuedAt   = DateTime.Now;
 		user.RefreshTokenExpiration = expiration;
+		user.RefreshTokenRevokedAt  = null;
 
 		return user;
 	}

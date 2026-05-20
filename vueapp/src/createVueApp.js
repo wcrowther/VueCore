@@ -30,6 +30,7 @@ async function bootstrap()
             })
 
     const authStore = useAuthStore(pinia)
+    authStore.startInactivityTracking()
     await authStore.fetchCurrentUser()
 
     app.mount('#app')

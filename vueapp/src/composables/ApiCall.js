@@ -91,6 +91,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		// logJson('result', JSON.stringify(result))
 
 		authStore.lastRequestDatetime = Date.now()
+		authStore.touchActivity?.()
 	} 
 	catch (err) 
 	{

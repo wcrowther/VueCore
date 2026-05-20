@@ -14,4 +14,6 @@ public interface IAuthManager
 	Returns<AuthUser> Signup(UserToCreate userToCreate);
 
 	Returns<AuthUser> RefreshAuth(AuthRefreshRequest request);
+
+	void RevokeRefreshToken();
 }
