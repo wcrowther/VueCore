@@ -1,10 +1,3 @@
-
-
-// const activityUpdateThrottleMS   = MinutesToMs(import.meta.env.VITE_ACTIVITY_UPDATE_THROTTLE_MINUTES, 0)
-// const inactivityLogoutMs         = MinutesToMs(import.meta.env.VITE_INACTIVITY_LOGOUT_MINUTES, 1)
-// const warningBeforeLogoutMs      = MinutesToMs(import.meta.env.VITE_INACTIVITY_WARNING_BEFORE_LOGOUT_MINUTES, 0)
-// const minTimeoutForWarningMs     = MinutesToMs(import.meta.env.VITE_INACTIVITY_MIN_TIMEOUT_FOR_WARNING_MINUTES, 0)
-
 export const useAuthStore = defineStore('AuthStore',
 {
     state: () => 
@@ -147,7 +140,7 @@ export const useAuthStore = defineStore('AuthStore',
 
             const msUntilLogout = Math.max(0, this.lastActivityTimestamp + this.inactivityTimeoutMs - Date.now())
 
-            if (this.inactivityTimeoutMs >= envConsts.minTimeoutForWarningMs)
+            if (envConsts.warningBeforeLogoutMs < envConsts.inactivityLogoutMs)
             {
                 const msUntilWarning = Math.max(0, msUntilLogout - envConsts.warningBeforeLogoutMs)
 
