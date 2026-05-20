@@ -38,13 +38,15 @@
 			<div class="relative flex-1 min-w-0">
 
                 <div class="absolute left-0 right-0 top-1/2 h-5 -translate-y-1/2 z-[1] flex items-center justify-between">
-                    <div v-for="(_, i) in ticks" :key="i" class="h-4 w-[1px] bg-[#bbb]"></div>
+                    <div v-for="(_, i) in ticks" :key="i" 
+                        class="h-4 w-[1px] bg-[#bbb]">
+                    </div>
                 </div>
 
                 <input type="range" v-model.number="modelValue"
                     :id="props.labelName" :name="props.labelName"
                     :min="props.min" :max="props.max" :step="props.step"
-                    class="range-input relative z-[2] block w-full accent-blue-500" />
+                    class="slider-range-input relative z-[2] block w-full" />
             </div> 
 
 			<div class="w-fit min-w-[40px]">
@@ -55,39 +57,6 @@
 
     </div>
 </template>
-
-<style>
-/* Reset the default appearance of the range input */
-input.range-input {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 4px;
-  background: #ddd;
-  outline: none;
-}
-
-/* Style the thumb for WebKit/Blink browsers (Chrome, Safari, Edge) */
-input.range-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 5px;
-  height: 20px;
-  background: black; /* #007bff; */
-  cursor: pointer;
-  border-radius: 0; /* This makes it a rectangle */
-}
-
-/* Style the thumb for Firefox */
-input.range-input::-moz-range-thumb {
-  width: 5px;
-  height: 20px;
-  background: black; /* #007bff; */
-  cursor: pointer;
-  border-radius: 0; /* This makes it a rectangle */
-  border: none;
-}
-</style>
 
 <!--
 EXAMPLES:

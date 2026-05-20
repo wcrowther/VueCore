@@ -103,10 +103,23 @@
 			inline-block font-bold select-none text-center align-middle
 	}
 
-	/*=====================================================================
-	Custom page scrollbar 
-	===================================================================== 
-	*/
+	/* Custom range slider ================================================ */
+
+	.slider-range-input
+	{
+		@apply h-[4px] w-full appearance-none bg-[#ddd] outline-none accent-blue-500;
+	}
+	.slider-range-input::-webkit-slider-thumb 
+	{
+		-webkit-appearance: none;
+		@apply appearance-none w-[5px] h-[20px] bg-gray-600 cursor-pointer rounded-none;
+	}
+	.slider-range-input::-moz-range-thumb 
+	{
+		@apply w-[5px] h-[20px] bg-gray-600 cursor-pointer rounded-none border-0;
+	}
+
+	/* Custom page scrollbar  ============================================== */
 
 	html { 
 		overflow-y: scroll; 
