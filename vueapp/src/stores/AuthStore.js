@@ -1,7 +1,6 @@
 
 const DEFAULT_INACTIVITY_LOGOUT_MINUTES = 180
 const ACTIVITY_UPDATE_THROTTLE_MS = 15000
-const INACTIVITY_CHECK_INTERVAL_MS = 60000
 
 const inactivityLogoutMinutes = Number(import.meta.env.VITE_INACTIVITY_LOGOUT_MINUTES || DEFAULT_INACTIVITY_LOGOUT_MINUTES)
 const inactivityLogoutMs = Math.max(1, inactivityLogoutMinutes) * 60 * 1000
@@ -75,10 +74,19 @@ export const useAuthStore = defineStore('AuthStore',
             this.user = new AuthUser()
             this.roles = []
             this.isAuthenticated = false
+
+            if (typeof window !== 'undefined' && this.inactivityTimerId)
+            {
+                window.clearTimeout(this.inactivityTimerId)
+                this.inactivityTimerId = null
+            }
         },
         touchActivity()
         {
             this.lastActivityTimestamp = Date.now()
+
+            if (this.isAuthenticated)
+                this.scheduleInactivityLogout()
         },
         onUserActivity()
         {
@@ -89,7 +97,7 @@ export const useAuthStore = defineStore('AuthStore',
             if (now - this.lastActivityTimestamp < ACTIVITY_UPDATE_THROTTLE_MS)
                 return
 
-            this.lastActivityTimestamp = now
+            this.touchActivity()
         },
         onVisibilityChange()
         {
@@ -113,19 +121,28 @@ export const useAuthStore = defineStore('AuthStore',
         startInactivityTracking()
         {
             this.bindActivityEvents()
-            this.touchActivity()
-
-            if (this.inactivityTimerId || typeof window === 'undefined')
+            if (this.isAuthenticated)
+                this.touchActivity()
+        },
+        scheduleInactivityLogout()
+        {
+            if (typeof window === 'undefined' || !this.isAuthenticated)
                 return
 
-            this.inactivityTimerId = window.setInterval(() => this.checkInactivity(), INACTIVITY_CHECK_INTERVAL_MS)
+            if (this.inactivityTimerId)
+                window.clearTimeout(this.inactivityTimerId)
+
+            const msUntilLogout = Math.max(0, this.lastActivityTimestamp + this.inactivityTimeoutMs - Date.now())
+
+            this.inactivityTimerId = window.setTimeout(async () =>
+            {
+                this.inactivityTimerId = null
+                await this.handleInactivityDeadline()
+            }, msUntilLogout)
         },
-        async checkInactivity()
+        async handleInactivityDeadline()
         {
             if (!this.isAuthenticated || this.isLoggingOut)
-                return
-
-            if (Date.now() - this.lastActivityTimestamp < this.inactivityTimeoutMs)
                 return
 
             useToastStore().showWarning('Session expired due to inactivity. Please log in again.')
@@ -244,7 +261,6 @@ export const useAuthStore = defineStore('AuthStore',
             finally
             {
                 this.clearAuthState()
-                this.touchActivity()
                 this.isAuthChecked = true
                 this.isLoggingOut = false
                 await this.navigateTo(route || '/auth/login', true)
