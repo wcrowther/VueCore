@@ -48,7 +48,7 @@ export const useFileStore = defineStore('FileStore', () =>
 
 	const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.ico'])
 	const isImageFile = (ext) => imageExtensions.has((ext ?? '').toLowerCase())
-	const getFileUrl  = (file) => `${appStore.baseApiUrl}/content/file/${toApiFolderPath(selectedFolder.value)}/${encodeURIComponent(file.name)}`
+	const getFileUrl  = (file) => `${envConsts.baseApiUrl}/content/file/${toApiFolderPath(selectedFolder.value)}/${encodeURIComponent(file.name)}`
 
 	// ACTIONS ----------------------------------------------------------------
 

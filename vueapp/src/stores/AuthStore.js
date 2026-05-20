@@ -1,38 +1,39 @@
 
-const DEFAULT_INACTIVITY_LOGOUT_MINUTES = 180
-const ACTIVITY_UPDATE_THROTTLE_MS = 15000
 
-const inactivityLogoutMinutes = Number(import.meta.env.VITE_INACTIVITY_LOGOUT_MINUTES || DEFAULT_INACTIVITY_LOGOUT_MINUTES)
-const inactivityLogoutMs = Math.max(1, inactivityLogoutMinutes) * 60 * 1000
+// const activityUpdateThrottleMS   = MinutesToMs(import.meta.env.VITE_ACTIVITY_UPDATE_THROTTLE_MINUTES, 0)
+// const inactivityLogoutMs         = MinutesToMs(import.meta.env.VITE_INACTIVITY_LOGOUT_MINUTES, 1)
+// const warningBeforeLogoutMs      = MinutesToMs(import.meta.env.VITE_INACTIVITY_WARNING_BEFORE_LOGOUT_MINUTES, 0)
+// const minTimeoutForWarningMs     = MinutesToMs(import.meta.env.VITE_INACTIVITY_MIN_TIMEOUT_FOR_WARNING_MINUTES, 0)
 
 export const useAuthStore = defineStore('AuthStore',
 {
     state: () => 
     ({
-        user:                   new AuthUser(),
-        roles:                  [],
-        isAuthenticated:        false,
-        isAuthChecked:          false,
-        authCheckInFlight:      null,
-        isLoggingOut:           false,
-        isBusy:                 false,
-        error:                  '',
-        returnUrl:              '/',
-        lastRequestDatetime:    '',
-        lastActivityTimestamp:  0,
-        inactivityTimeoutMs:    inactivityLogoutMs,
-        inactivityTimerId:      null,
-        activityEventsBound:    false,
-        activityHandler:        null,
-        visibilityHandler:      null
+        user:                       new AuthUser(),
+        roles:                      [],
+        isAuthenticated:            false,
+        isAuthChecked:              false,
+        authCheckInFlight:          null,
+        isLoggingOut:               false,
+        isBusy:                     false,
+        error:                      '',
+        returnUrl:                  '/',
+        lastRequestDatetime:        '',
+        lastActivityTimestamp:      0,
+        inactivityTimeoutMs:        envConsts.inactivityLogoutMs,
+        inactivityTimerId:          null,
+        inactivityWarningTimerId:   null,
+        activityEventsBound:        false,
+        activityHandler:            null,
+        visibilityHandler:          null
     }),
     getters:
     {
-        isLoggedIn:             (state) => state.isAuthenticated,
-        authUser:               (state) => state.user,
-        userId:                 (state) => state.user.UserId || 0,
-        userName:               (state) => state.user.FirstName || 'UserName',
-        firstInitial:           (state) => state.user.FirstName?.charAt(0).toUpperCase() || 'U'
+        isLoggedIn:     (state) => state.isAuthenticated,
+        authUser:       (state) => state.user,
+        userId:         (state) => state.user.UserId || 0,
+        userName:       (state) => state.user.FirstName || 'UserName',
+        firstInitial:   (state) => state.user.FirstName?.charAt(0).toUpperCase() || 'U'
     },
     actions:
     {
@@ -80,6 +81,12 @@ export const useAuthStore = defineStore('AuthStore',
                 window.clearTimeout(this.inactivityTimerId)
                 this.inactivityTimerId = null
             }
+
+            if (typeof window !== 'undefined' && this.inactivityWarningTimerId)
+            {
+                window.clearTimeout(this.inactivityWarningTimerId)
+                this.inactivityWarningTimerId = null
+            }
         },
         touchActivity()
         {
@@ -94,7 +101,7 @@ export const useAuthStore = defineStore('AuthStore',
                 return
 
             const now = Date.now()
-            if (now - this.lastActivityTimestamp < ACTIVITY_UPDATE_THROTTLE_MS)
+            if (now - this.lastActivityTimestamp < envConsts.activityUpdateThrottleMs)
                 return
 
             this.touchActivity()
@@ -132,13 +139,41 @@ export const useAuthStore = defineStore('AuthStore',
             if (this.inactivityTimerId)
                 window.clearTimeout(this.inactivityTimerId)
 
+            if (this.inactivityWarningTimerId)
+            {
+                window.clearTimeout(this.inactivityWarningTimerId)
+                this.inactivityWarningTimerId = null
+            }
+
             const msUntilLogout = Math.max(0, this.lastActivityTimestamp + this.inactivityTimeoutMs - Date.now())
+
+            if (this.inactivityTimeoutMs >= envConsts.minTimeoutForWarningMs)
+            {
+                const msUntilWarning = Math.max(0, msUntilLogout - envConsts.warningBeforeLogoutMs)
+
+                this.inactivityWarningTimerId = window.setTimeout(() =>
+                {
+                    this.inactivityWarningTimerId = null
+                    this.showInactivityWarning()
+                }, msUntilWarning)
+            }
 
             this.inactivityTimerId = window.setTimeout(async () =>
             {
                 this.inactivityTimerId = null
                 await this.handleInactivityDeadline()
             }, msUntilLogout)
+        },
+        showInactivityWarning()
+        {
+            if (!this.isAuthenticated || this.isLoggingOut)
+                return
+
+            const msUntilLogout = Math.max(1, this.lastActivityTimestamp + this.inactivityTimeoutMs - Date.now())
+            const warningMins   = Math.round(envConsts.warningBeforeLogoutMs / 60000)
+            const warningLabel  = warningMins === 1 ? '1 minute' : `${warningMins} minutes`
+
+            useToastStore().showWarning(`You will be logged out in ${warningLabel} due to inactivity.`, msUntilLogout, true)
         },
         async handleInactivityDeadline()
         {

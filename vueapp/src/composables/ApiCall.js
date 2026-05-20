@@ -23,7 +23,6 @@ export async function apiFormPost(url, body, onProgress, signal){  return apiCal
 
 export async function apiCall(methodType, url, useAuth, body, isFormData, onProgress, signal) 
 {
-	const appStore     	= useAppStore()
 	const authStore     = useAuthStore()
 	const toastStore  	= useToastStore()
 
@@ -37,7 +36,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 
 	let request =  
 	{
-		baseURL: 			appStore.baseApiUrl,
+		baseURL: 			envConsts.baseApiUrl,
 		url:				url,
 		method: 			`${methodType}`, 		// POST, GET, etc
 		headers: 			{},
@@ -54,7 +53,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 	{
 		try
 		{
-			const token = await getAntiforgeryToken(appStore)
+			const token = await getAntiforgeryToken()
 			request.headers['X-XSRF-TOKEN'] = token
 		}
 		catch (err)
@@ -100,7 +99,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 			if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(methodType))
 			{
 				antiforgeryToken = null  // force fresh fetch after new access token cookie
-				const token = await getAntiforgeryToken(appStore)
+				const token = await getAntiforgeryToken()
 				request.headers['X-XSRF-TOKEN'] = token
 			}
 			return await axios(request)
@@ -119,12 +118,11 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 
 async function apiAuthCall(url, body)
 {
-	const appStore = useAppStore()
 	try
 	{
 		const response = await axios(
 		{
-			baseURL:         appStore.baseApiUrl,
+			baseURL:         envConsts.baseApiUrl,
 			url,
 			method:          'POST',
 			withCredentials: true,
@@ -140,7 +138,7 @@ async function apiAuthCall(url, body)
 }
 
 // Used to prevent Cross-Site Request Forgery (CSRF) attacks
-async function getAntiforgeryToken(appStore)
+async function getAntiforgeryToken()
 {
 	// If token exists and is fresh (less than 10 minutes old), reuse it
 	if (antiforgeryToken?.token && antiforgeryToken.timestamp > Date.now() - 600000)
@@ -157,7 +155,7 @@ async function getAntiforgeryToken(appStore)
 		{
 			const response = await axios(
 			{
-				baseURL: appStore.baseApiUrl,
+				baseURL: envConsts.baseApiUrl,
 				url: '/authenticate/antiforgery/token',
 				method: 'GET',
 				withCredentials: true

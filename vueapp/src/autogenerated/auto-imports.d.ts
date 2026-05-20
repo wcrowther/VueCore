@@ -16,6 +16,7 @@ declare global {
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
   const KeyboardListeners: typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']
   const MessageModel: typeof import('../models/MessageModel.js')['MessageModel']
+  const MinutesToMs: typeof import('../helpers/global.js')['MinutesToMs']
   const PageItem: typeof import('../models/PagerModel.js')['PageItem']
   const PagedList: typeof import('../models/PagerModel.js')['PagedList']
   const PagerModel: typeof import('../models/PagerModel.js')['PagerModel']
@@ -52,7 +53,8 @@ declare global {
   const definePage: typeof import('unplugin-vue-router/runtime')['_definePage']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
-  const env: typeof import('../datalists/env.js')['env']
+  const env: typeof import('../datalists/envConsts.js')['env']
+  const envConsts: typeof import('../datalists/envConsts.js')['envConsts']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
   const findNodeByPath: typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']
   const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
@@ -193,6 +195,7 @@ declare module 'vue' {
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
     readonly KeyboardListeners: UnwrapRef<typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']>
     readonly MessageModel: UnwrapRef<typeof import('../models/MessageModel.js')['MessageModel']>
+    readonly MinutesToMs: UnwrapRef<typeof import('../helpers/global.js')['MinutesToMs']>
     readonly PageItem: UnwrapRef<typeof import('../models/PagerModel.js')['PageItem']>
     readonly PagedList: UnwrapRef<typeof import('../models/PagerModel.js')['PagedList']>
     readonly PagerModel: UnwrapRef<typeof import('../models/PagerModel.js')['PagerModel']>
@@ -229,7 +232,7 @@ declare module 'vue' {
     readonly definePage: UnwrapRef<typeof import('unplugin-vue-router/runtime')['_definePage']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
-    readonly env: UnwrapRef<typeof import('../datalists/env.js')['env']>
+    readonly envConsts: UnwrapRef<typeof import('../datalists/envConsts.js')['envConsts']>
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
     readonly findNodeByPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']>
     readonly formatFileSize: UnwrapRef<typeof import('../helpers/global.js')['formatFileSize']>

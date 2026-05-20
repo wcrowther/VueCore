@@ -101,3 +101,5 @@ export const IsDuplicateMessage = (message, self)  =>
 
     return isDuplicate
 }
+
+export const MinutesToMs = (mins, minMinutes = 1)  => Number(Math.max(minMinutes, mins)) * 60 * 1000

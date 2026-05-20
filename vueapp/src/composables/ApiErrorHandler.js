@@ -71,9 +71,13 @@ export async function handleApiError({ err, url, authStore, toastStore, retryReq
 			}
 
 			await authStore.logout('/auth/login', { callApi: false })
-			result.message   = isAuthProbeRequest 
-				? 'Your session has expired. Please log in again.'
-				: 'You need to be authorized for that content. Please log in.'
+
+			// Keep auth probe failures quiet to avoid persistent session-expired toasts
+			// on normal visits to /auth/login when there is no active session.
+			if (isAuthProbeRequest)
+				return result
+
+			result.message   = 'You need to be authorized for that content. Please log in.'
 			result.toastType = 'WARNING'
 		}
 	}

@@ -2,12 +2,8 @@
 <script setup>
 
     const pageTitle     = ref('Site Map')
-    const appStore      = useAppStore()
     const currentUrl    = import.meta.url
-    const baseUrl       = import.meta.env.BASE_URL
-    const baseApiUrl    = import.meta.env.VITE_API_URL
     const route         = useRoute();
-    const baseApiUrl2   = appStore.baseApiUrl
 
 </script>
 
@@ -42,7 +38,7 @@
 
                 <div class="w-1/2">
                     <span class="font-bold">Mode: </span>
-                    {{ appStore.mode }}
+                    {{ envConsts.mode }}
                 </div>
 
                 <div class="w-1/2">
@@ -52,17 +48,12 @@
 
                 <div class="w-1/2">
                     <span class="font-bold">BaseUrl:</span>
-                    {{ baseUrl }}
+                    {{ envConsts.baseUrl }}
                 </div>
 
                 <div class="w-1/2">
                     <span class="font-bold">Base API Url:</span>
-                    {{ baseApiUrl }}
-                </div>
-
-                <div class="w-1/2">
-                    <span class="font-bold">Base API Url from AppStore:</span>
-                    {{ baseApiUrl2 }}
+                    {{ envConsts.baseApiUrl }}
                 </div>
 
                 <div class="w-1/2">
