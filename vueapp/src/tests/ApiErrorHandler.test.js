@@ -7,7 +7,8 @@ function makeStores()
 		authStore: 
 		{
 			logout: vi.fn(async () => {}),
-			redirect: vi.fn()
+			redirect: vi.fn(),
+			refreshAuth: vi.fn(async () => false)
 		},
 		toastStore: 
 		{
@@ -51,6 +52,21 @@ describe('handleApiError', () =>
 
 		expect(result.message).toBe('')
 		expect(authStore.logout).not.toHaveBeenCalled()
+		expect(toastStore.showToast).not.toHaveBeenCalled()
+	})
+
+	it('does not attempt refresh for /authenticate/me 401 auth probe', async () =>
+	{
+		const { authStore, toastStore } = makeStores()
+		const err = { response: { status: 401 } }
+		const retryRequest = vi.fn(async () => ({ data: {} }))
+
+		const result = await handleApiError({ err, url: '/authenticate/me', authStore, toastStore, retryRequest })
+
+		expect(result.message).toBe('')
+		expect(authStore.refreshAuth).not.toHaveBeenCalled()
+		expect(authStore.logout).not.toHaveBeenCalled()
+		expect(retryRequest).not.toHaveBeenCalled()
 		expect(toastStore.showToast).not.toHaveBeenCalled()
 	})
 

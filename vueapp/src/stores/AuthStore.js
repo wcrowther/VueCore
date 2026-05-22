@@ -262,6 +262,9 @@ export const useAuthStore = defineStore('AuthStore',
         },
         async refreshAuth()
         {
+            if (!this.userId)
+                return false
+
             const result = await apiAuth('/authenticate/refreshAuth', { UserId: this.userId })
 
             if (result.success)

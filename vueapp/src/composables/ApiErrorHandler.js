@@ -49,10 +49,16 @@ export async function handleApiError({ err, url, authStore, toastStore, retryReq
 			result.message   = 'Invalid username or password.'
 			result.toastType = 'WARNING'
 		}
+		else if (isAuthProbeRequest)
+		{
+			// Startup/session probe failures are expected for public visits without a session.
+			// Keep this path silent and avoid redirecting users away from public pages.
+			return result
+		}
 		else
 		{
-			// Attempt refresh for all protected requests (including auth probes like /authenticate/me)
-			// This enables sliding window: if refresh token is valid, user stays logged in
+			// Attempt refresh for protected requests.
+			// This enables sliding window: if refresh token is valid, user stays logged in.
 			if (retryRequest)
 			{
 				const refreshed = await authStore.refreshAuth()
@@ -71,11 +77,6 @@ export async function handleApiError({ err, url, authStore, toastStore, retryReq
 			}
 
 			await authStore.logout('/auth/login', { callApi: false })
-
-			// Keep auth probe failures quiet to avoid persistent session-expired toasts
-			// on normal visits to /auth/login when there is no active session.
-			if (isAuthProbeRequest)
-				return result
 
 			result.message   = 'You need to be authorized for that content. Please log in.'
 			result.toastType = 'WARNING'
