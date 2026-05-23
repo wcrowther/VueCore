@@ -22,7 +22,7 @@ export function useScrollLock(showModalRef)
 		window.scrollTo(0, scrollY)
 	}
 
-	watch (showModalRef, (open) => { open ? lock() : unlock()}, { immediate: true })
+	watch(() => unref(showModalRef), (open) => { open ? lock() : unlock() }, { immediate: true })
 
 	onUnmounted(unlock)
 }

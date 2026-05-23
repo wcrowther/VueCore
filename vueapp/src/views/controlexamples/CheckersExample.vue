@@ -1,5 +1,7 @@
 <script setup>
 
+	const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
+
     // Piece values: 'red' | 'black' | 'red-king' | 'black-king'
     const getColor = (piece) => piece.startsWith('red') ? 'red' : 'black'
     const isKing   = (piece) => piece.endsWith('-king')
@@ -24,10 +26,14 @@
     const chainJumpPiece = ref(null)    // locked piece during a chain jump
     const winner         = ref(null)    // 'red' | 'black' | null
 
-    const forceMandatoryIndex = ref(0)
-    const forceMandatoryList  = [ { name: 'Force Moves: On',  value: true  },
-                                  { name: 'Force Moves: Off', value: false } ]
-    const forceMandatory = computed(() => forceMandatoryList[forceMandatoryIndex.value].value)
+    const forceMandatoryIndex   = ref(0)
+    const forceMandatoryList    = [ { name: 'Force Moves: On',  value: true  },
+                                    { name: 'Force Moves: Off', value: false } ]
+    const forceMandatory        = computed(() => forceMandatoryList[forceMandatoryIndex.value].value)
+
+    // const fullScreenIndex       = ref(0)
+    // const fullScreenList        = [ { name: 'Full Screen On',  value: true  },
+    //                                 { name: 'Full Screen Off', value: false } ]
 
     // Returns { moves: Set, jumps: Set } for a given piece key against a given board snapshot
     function getMovesForPiece(key, board)
@@ -191,15 +197,21 @@
 			Toggle <b>Force Moves</b> to require mandatory jumps when available.
 		</InfoBox>
 
-        <div class="flex items-center gap-4 mb-5">
+        <div class="flex items-center gap-3 mb-5">
 
             <ListIndexButton v-model="forceMandatoryIndex" :rangeList="forceMandatoryList"
                 class="w-[180px] !text-gray-500 !text-base h-7 !bg-gray-200 hover:!bg-gray-300" />
 
             <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
+                @click="fullScreen=!fullScreen">
+                {{ fullScreen ? 'Full Screen: On' : 'Full Screen: Off' }}
+            </button>
+
+            <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
                 @click="resetCheckers">
                 Reset
             </button>
+
         </div>
 
         <!-- Status bar -->
@@ -222,14 +234,14 @@
 
             <template #default="{ title }">
 
-                <div class="size-10 flex items-center justify-center"
+                <div class="size-14 flex items-center justify-center"
                     :class="{ 'ring-2 ring-inset ring-yellow-400 bg-yellow-100/40': validMoves.has(title) }"
                     @dragover.prevent
                     @drop.prevent="onDrop(title)">
 
                     <span v-if="checkerPieces[title]"
                         :draggable="canDrag(title)"
-                        :class="['flex-center rounded-full size-8 shadow-md border-2 select-none',
+                        :class="['flex-center rounded-full size-10 shadow-md border-2 select-none',
                             canDrag(title) ? 'cursor-grab active:cursor-grabbing' : 'cursor-default opacity-70',
                             getColor(checkerPieces[title]) === 'red'
                                 ? 'bg-red-500 border-red-800'
@@ -242,7 +254,7 @@
                             class="text-yellow-300 text-base leading-none select-none">♛</span>
                         <!-- Regular piece inner ring -->
                         <span v-else
-                            class="block border border-white/40 bg-white/10 size-4 rounded-full" />
+                            class="block border border-white/40 bg-white/10 size-6 rounded-full" />
 
                     </span>
                 </div>

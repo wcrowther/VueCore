@@ -13,6 +13,7 @@
         { name: 'Grid Size 25x25', rows: 25, cols: 25 },
     ]
 
+    const fullScreen = ref(false)
 
 </script>
 
@@ -31,8 +32,11 @@
             lightweight prev/next navigator used throughout this page to switch options. The <b>Resizable Grid</b>
             at the bottom demonstrates raw GridControl rendering at various row/column sizes.
         </InfoBox> 
-        
-        <CheckersExample class="lg:flex-1 mb-5" />
+
+          
+        <FullScreenControl v-model:fullScreen="fullScreen" class="p-10" :fullScreenInset="50">
+            <CheckersExample class="lg:flex-1 mb-5" v-model:fullScreen="fullScreen" />
+        </FullScreenControl>
 
         <ListIndexButtonExample class="lg:flex-1" />
 
@@ -51,12 +55,9 @@
         <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" 
             class="mb-8 text-center w-[180px] !text-gray-500 !text-base h-7 !bg-gray-200 hover:!bg-gray-300" />
 
-
         <!-- GRID CONTROL -->
 
-        <FullScreenControl>
-            <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
-        </FullScreenControl>
+        <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
 
     </div>
 
