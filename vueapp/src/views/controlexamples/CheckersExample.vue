@@ -5,6 +5,10 @@
     // Piece values: 'red' | 'black' | 'red-king' | 'black-king'
     const getColor = (piece) => piece.startsWith('red') ? 'red' : 'black'
     const isKing   = (piece) => piece.endsWith('-king')
+    const getPieceColorClasses = (piece) =>
+        getColor(piece) === 'red'
+            ? 'bg-red-500 border-red-800'
+            : 'bg-gray-900 border-gray-600'
 
     // Board state — dark squares only ((row+col) % 2 === 0)
     const buildInitialBoard = () =>
@@ -30,10 +34,6 @@
     const forceMandatoryList    = [ { name: 'Force Moves: On',  value: true  },
                                     { name: 'Force Moves: Off', value: false } ]
     const forceMandatory        = computed(() => forceMandatoryList[forceMandatoryIndex.value].value)
-
-    // const fullScreenIndex       = ref(0)
-    // const fullScreenList        = [ { name: 'Full Screen On',  value: true  },
-    //                                 { name: 'Full Screen Off', value: false } ]
 
     // Returns { moves: Set, jumps: Set } for a given piece key against a given board snapshot
     function getMovesForPiece(key, board)
@@ -105,6 +105,32 @@
     {
         if (!canDrag(title)) return
         draggedFrom.value = title
+    }
+
+    function onSquareTap(title)
+    {
+        if (winner.value) return
+
+        if (draggedFrom.value && validMoves.value.has(title))
+        {
+            onDrop(title)
+            return
+        }
+
+        if (canDrag(title))
+        {
+            draggedFrom.value = title
+            return
+        }
+
+        if (!chainJumpPiece.value)
+            draggedFrom.value = null
+    }
+
+    function onPieceTap(title, e)
+    {
+        e?.preventDefault?.()
+        onSquareTap(title)
     }
 
     function onDrop(title)
@@ -204,7 +230,7 @@
 
             <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
                 @click="fullScreen=!fullScreen">
-                {{ fullScreen ? 'Full Screen: On' : 'Full Screen: Off' }}
+                {{ fullScreen ? 'Full Screen: On' : 'Full Screen: O' }}
             </button>
 
             <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
@@ -236,6 +262,7 @@
 
                 <div class="size-14 flex items-center justify-center"
                     :class="{ 'ring-2 ring-inset ring-yellow-400 bg-yellow-100/40': validMoves.has(title) }"
+                    @click="onSquareTap(title)"
                     @dragover.prevent
                     @drop.prevent="onDrop(title)">
 
@@ -243,10 +270,10 @@
                         :draggable="canDrag(title)"
                         :class="['flex-center rounded-full size-10 shadow-md border-2 select-none',
                             canDrag(title) ? 'cursor-grab active:cursor-grabbing' : 'cursor-default opacity-70',
-                            getColor(checkerPieces[title]) === 'red'
-                                ? 'bg-red-500 border-red-800'
-                                : 'bg-gray-900 border-gray-600',
+                            getPieceColorClasses(checkerPieces[title]),
                             draggedFrom === title ? 'opacity-30' : '']"
+                        @click.stop="onPieceTap(title, $event)"
+                        @touchstart.stop.prevent="onPieceTap(title, $event)"
                         @dragstart="onDragStart(title)" @dragend="onDragEnd">
 
                         <!-- King crown -->
@@ -255,9 +282,10 @@
                         <!-- Regular piece inner ring -->
                         <span v-else
                             class="block border border-white/40 bg-white/10 size-6 rounded-full" />
-
                     </span>
+
                 </div>
+                
             </template>
 
         </GridControl>
