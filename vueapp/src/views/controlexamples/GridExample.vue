@@ -53,7 +53,10 @@
 
 
         <!-- GRID CONTROL -->
-        <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
+
+        <FullScreenControl>
+            <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
+        </FullScreenControl>
 
     </div>
 

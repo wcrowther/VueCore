@@ -7,7 +7,7 @@
 	const props = defineProps(
 	{
 		title:            	String,
-		teleportToBody:   	{ type: Boolean, default: true },
+		teleportToModals:   { type: Boolean, default: true },
 		height:           	{ type: String, default: '300px' },
 		width:            	{ type: String, default: '500px' },
 		overlayClickCloses: { type: Boolean, default: false },
@@ -21,7 +21,7 @@
 </script>
 
 <template>
-	<Teleport to="#modals" :disabled="!teleportToBody">    
+	<Teleport to="#modals" :disabled="!teleportToModals">    
 		<Transition name="modal">
 
 			<div v-if="showModal" id="ModalOverlay"
