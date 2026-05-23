@@ -60,9 +60,11 @@ const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 
 	<Teleport to="#modals" :disabled="!fullScreen">
 
-		<div :class="fullScreen ? 'fixed inset-0 flex bg-black/35' : 'contents'" :style="fullScreen ? { zIndex: props.zIndex } : undefined">
+		<div :class="fullScreen ? 'fixed inset-0 flex bg-black/35' : 'contents'" 
+			:style="fullScreen ? { zIndex: props.zIndex } : undefined">
 
-			<div v-bind="fullScreen ? $attrs : undefined" :style="panelStyle" :class="fullScreen ? 'relative bg-white overflow-auto ' +
+			<div v-bind="fullScreen ? $attrs : undefined" :style="panelStyle" 
+				:class="fullScreen ? 'relative bg-white overflow-auto ' +
 				'scrollbar-thin shadow-lg shadow-color-dark-gray' : 'contents'">
 
 				<button v-if="fullScreen && props.fullScreenExitButton" type="button" aria-label="Exit fullscreen"
