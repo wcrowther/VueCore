@@ -29,6 +29,7 @@ declare module 'vue' {
     ChatRoom: typeof import('./../components/realtime/ChatRoom.vue')['default']
     CheckboxInput: typeof import('./../components/inputs/CheckboxInput.vue')['default']
     CheckersExample: typeof import('./../views/controlexamples/CheckersExample.vue')['default']
+    CheckersGame: typeof import('./../components/misc/CheckersGame.vue')['default']
     CodeBlock: typeof import('./../components/misc/CodeBlock.vue')['default']
     ComposablesExample: typeof import('./../views/controlexamples/ComposablesExample.vue')['default']
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']

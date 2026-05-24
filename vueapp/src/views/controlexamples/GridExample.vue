@@ -13,8 +13,6 @@
         { name: 'Grid Size 25x25', rows: 25, cols: 25 },
     ]
 
-    const fullScreen = ref(false)
-
 </script>
 
 <template>
@@ -33,10 +31,7 @@
             at the bottom demonstrates raw GridControl rendering at various row/column sizes.
         </InfoBox> 
 
-          
-        <FullScreenControl v-model:fullScreen="fullScreen" class="p-10">
-            <CheckersExample class="lg:flex-1 mb-5" v-model:fullScreen="fullScreen" />
-        </FullScreenControl>
+        <CheckersExample class="lg:flex-1 mb-5" v-model:fullScreen="fullScreen" />
 
         <ListIndexButtonExample class="lg:flex-1" />
 
