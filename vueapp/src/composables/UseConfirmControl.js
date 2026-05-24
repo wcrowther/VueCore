@@ -55,7 +55,7 @@ export function useConfirmControl()
 	// In template:
 	<button @click="tryConfirm">Try Confirm</button>
 
-	// Alternative with inline callback function:
+	// Inline callback function:
 	<button @click="createConfirm('Confirm this record?', () => console.log('Confirmed by User'))">Try Confirm</button>
 
 */

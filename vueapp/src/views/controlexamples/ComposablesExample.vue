@@ -2,6 +2,15 @@
 
     const { createConfirm } = useConfirmControl()
     const showConfirmedText = ref(false)
+  
+	const { createAlert } = useAlertControl()
+	const showAlert = async () =>
+	{
+		const alertDisplayed = await createAlert('Alert for the user.')
+
+		if(alertDisplayed)
+			console.log('Alert displayed')
+	}
 
 	const tryConfirm = async () =>
 	{
@@ -19,16 +28,8 @@
         }
 	}	
 
-	const { createAlert } = useAlertControl()
-
-	const showAlert = async () =>
-	{
-		const alertDisplayed = await createAlert('Alert for the user.')
-
-		if(alertDisplayed)
-			console.log('Alert displayed')
-	}	
-
+// ======================================================================
+// CodeBlock Example
 // ======================================================================
 
 const codeContent = 
@@ -37,7 +38,12 @@ const codeContent =
 const alertDisplayed = await createAlert('Alert for the user.')
 
 // Code to display Confirm control
-const confirmed = await createConfirm('Confirm this record?')`
+const confirmed = await createConfirm('Confirm this record?')
+
+// In <template> Create Confirm control inline
+<PrimaryButton @click="createConfirm('Confirm this record?', () => console.log('Inline Callback!'))">
+    Try Confirm
+</PrimaryButton>`
 
 // ======================================================================
 
@@ -50,7 +56,10 @@ const confirmed = await createConfirm('Confirm this record?')`
         <CodeBlock :codeContent language="vuejs in <script>" showLineNumbers  />
         
         <PrimaryButton class="mt-5 mr-3" @click="showAlert">Try Alert</PrimaryButton>      
-        <PrimaryButton class="mt-5" @click="tryConfirm">Try Confirm</PrimaryButton>
+        <PrimaryButton class="mr-3" @click="tryConfirm">Try Confirm</PrimaryButton>
+        <PrimaryButton class="mr-3" @click="createConfirm('Confirm this record?', () => console.log('Inline callback!'))">
+            Try Confirm with Callback
+        </PrimaryButton>
 
         <div v-if="showConfirmedText" 
             class="mt-5 font-bold text-orange" title="Click to reset"
