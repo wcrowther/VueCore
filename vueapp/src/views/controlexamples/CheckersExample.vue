@@ -5,6 +5,7 @@
     // Piece values: 'red' | 'black' | 'red-king' | 'black-king'
     const getColor = (piece) => piece.startsWith('red') ? 'red' : 'black'
     const isKing   = (piece) => piece.endsWith('-king')
+    const isRed    = (title) => getColor(checkerPieces.value[title]) === 'red'
     const getPieceColorClasses = (piece) =>
         getColor(piece) === 'red'
             ? 'bg-red-500 border-red-800'
@@ -230,7 +231,7 @@
 
             <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
                 @click="fullScreen=!fullScreen">
-                {{ fullScreen ? 'Full Screen: On' : 'Full Screen: O' }}
+                {{ fullScreen ? 'Full Screen: On' : 'Full Screen: Off' }}
             </button>
 
             <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
@@ -277,8 +278,10 @@
                         @dragstart="onDragStart(title)" @dragend="onDragEnd">
 
                         <!-- King crown -->
-                        <span v-if="isKing(checkerPieces[title])"
-                            class="text-yellow-300 text-base leading-none select-none">♛</span>
+                        <span v-if="isKing(checkerPieces[title]) || true"
+                            :class="[isRed(title) ? 'text-pink-200' : 'text-gray-300', 'text-2xl leading-none select-none']">
+                            ♛
+                        </span>
                         <!-- Regular piece inner ring -->
                         <span v-else
                             class="block border border-white/40 bg-white/10 size-6 rounded-full" />

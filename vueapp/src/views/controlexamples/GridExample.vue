@@ -34,7 +34,7 @@
         </InfoBox> 
 
           
-        <FullScreenControl v-model:fullScreen="fullScreen" class="p-10" :fullScreenInset="50">
+        <FullScreenControl v-model:fullScreen="fullScreen" class="p-10">
             <CheckersExample class="lg:flex-1 mb-5" v-model:fullScreen="fullScreen" />
         </FullScreenControl>
 
