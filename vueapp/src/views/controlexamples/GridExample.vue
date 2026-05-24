@@ -31,7 +31,7 @@
             at the bottom demonstrates raw GridControl rendering at various row/column sizes.
         </InfoBox> 
 
-        <CheckersExample class="lg:flex-1 mb-5" v-model:fullScreen="fullScreen" />
+        <CheckersExample class="lg:flex-1 mb-5" />
 
         <ListIndexButtonExample class="lg:flex-1" />
 

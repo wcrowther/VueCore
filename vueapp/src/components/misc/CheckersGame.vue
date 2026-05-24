@@ -1,6 +1,11 @@
 <script setup>
 
-	const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
+    const props = defineProps(
+    {
+        forceMandatory: { type: Boolean, default: true },
+        resetSignal: 	{ type: Number, default: 0 },
+		fullScreen: 	{ type: Boolean, default: false },
+    })
 
     // Piece values: 'red' | 'black' | 'red-king' | 'black-king'
     const getColor = (piece) => piece.startsWith('red') ? 'red' : 'black'
@@ -30,11 +35,6 @@
     const currentTurn    = ref('red')   // red moves first
     const chainJumpPiece = ref(null)    // locked piece during a chain jump
     const winner         = ref(null)    // 'red' | 'black' | null
-
-    const forceMandatoryIndex   = ref(0)
-    const forceMandatoryList    = [ { name: 'Force Moves: On',  value: true  },
-                                    { name: 'Force Moves: Off', value: false } ]
-    const forceMandatory        = computed(() => forceMandatoryList[forceMandatoryIndex.value].value)
 
     // Returns { moves: Set, jumps: Set } for a given piece key against a given board snapshot
     function getMovesForPiece(key, board)
@@ -98,7 +98,7 @@
         if (!draggedFrom.value) return new Set()
         const { moves, jumps } = getMovesForPiece(draggedFrom.value, checkerPieces.value)
         // Mandatory jumps: only jumps are valid when any jump exists for the current turn (if enforced)
-        if (chainJumpPiece.value || (forceMandatory.value && hasAnyJump.value)) return jumps
+        if (chainJumpPiece.value || (props.forceMandatory && hasAnyJump.value)) return jumps
         return new Set([...moves, ...jumps])
     })
 
@@ -202,31 +202,19 @@
         winner.value         = null
     }
 
+	watch(() => props.resetSignal, () =>
+	{
+		resetCheckers()
+	})
+
 </script>
 
 <template>
 
-    <div class="w-full">
-
-        <div class="flex items-center gap-3 mb-5">
-
-            <ListIndexButton v-model="forceMandatoryIndex" :rangeList="forceMandatoryList"
-                class="w-[180px] !text-gray-500 !text-base h-7 !bg-gray-200 hover:!bg-gray-300" />
-
-            <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
-                @click="fullScreen=!fullScreen">
-                {{ fullScreen ? 'Full Screen: On' : 'Full Screen: Off' }}
-            </button>
-
-            <button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
-                @click="resetCheckers">
-                Reset
-            </button>
-
-        </div>
+    <div :class="['w-fit', { 'm-auto' : fullScreen }]">
 
         <!-- Status bar -->
-        <div class="mb-3 h-6 text-sm font-semibold">
+        <div :class="['mb-3 h-6 text-sm font-semibold', { 'text-center' : fullScreen }]">
 
             <span v-if="winner" :class="winner === 'red' ? 'text-red-600' : 'text-gray-800'">
                 {{ winner === 'red' ? 'Red' : 'Black' }} wins! 🎉
@@ -236,7 +224,7 @@
             </span>
             <span v-else :class="currentTurn === 'red' ? 'text-red-600' : 'text-gray-700'">
                 {{ currentTurn === 'red' ? 'Red' : 'Black' }}'s turn
-                <span v-if="hasAnyJump && forceMandatory" class="text-amber-600"> — must jump!</span>
+                <span v-if="hasAnyJump && props.forceMandatory" class="text-amber-600"> — must jump!</span>
             </span>
 
         </div>
@@ -262,7 +250,7 @@
                         @dragstart="onDragStart(title)" @dragend="onDragEnd">
 
                         <!-- King crown -->
-                        <span v-if="isKing(checkerPieces[title]) || true"
+                        <span v-if="isKing(checkerPieces[title])"
                             :class="[isRed(title) ? 'text-pink-200' : 'text-gray-300', 'text-2xl leading-none select-none']">
                             ♛
                         </span>

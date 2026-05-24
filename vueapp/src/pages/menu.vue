@@ -97,8 +97,10 @@
 					@contextmenu="(e) => onRightClick(e, file)"
 					class="px-4 py-2 cursor-pointer select-none flex justify-between"
 					:class="[isSelected(file)? 'bg-blue-100': 'hover:bg-gray-100']">
+
 					<span>{{ file.name }}</span>
 					<span v-if="file.locked" class="text-xs text-gray-400">🔒</span>
+					
 				</div>
 			</div>
 			<ContextMenu ref="menuRef" :items="menuItems" />
