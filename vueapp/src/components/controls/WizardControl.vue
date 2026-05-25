@@ -74,7 +74,7 @@
                     @click="nextTab" >
                     Next  
                     <IconSymbol class="text-black group-hover:text-orange ml-1"
-                        title="Next Wizard Item" width="18px" icon="heroicons:arrow-right-solid" />
+                        title="Next Wizard Item" width="24px" icon="material-symbols-light:play-arrow" />
                 </div>
            </slot>
         </div>

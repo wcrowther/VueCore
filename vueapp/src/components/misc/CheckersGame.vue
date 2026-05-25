@@ -2,10 +2,41 @@
 
     const props = defineProps(
     {
-        forceMandatory: { type: Boolean, default: true },
+        forceMoves:     { type: Boolean, default: true },
         resetSignal: 	{ type: Number, default: 0 },
 		fullScreen: 	{ type: Boolean, default: false },
+        squareSize:     { type: [Number, String], default: 56 },
     })
+
+    const normalizedSquareSize = computed(() =>
+    {
+        const raw = props.squareSize
+        if (raw === null || raw === undefined || raw === '') return '56px'
+        if (typeof raw === 'number') return `${raw}px`
+
+        const trimmed = String(raw).trim()
+        if (!trimmed) return '56px'
+        if (/^\d+(\.\d+)?$/.test(trimmed)) return `${trimmed}px`
+        return trimmed
+    })
+
+    const squareStyle = computed(() =>
+    ({
+        width: normalizedSquareSize.value,
+        height: normalizedSquareSize.value,
+    }))
+
+    const pieceStyle = computed(() =>
+    ({
+        width: `calc(${normalizedSquareSize.value} * 0.7142857)`,
+        height: `calc(${normalizedSquareSize.value} * 0.7142857)`,
+    }))
+
+    const innerRingStyle = computed(() =>
+    ({
+        width: `calc(${normalizedSquareSize.value} * 0.4285714)`,
+        height: `calc(${normalizedSquareSize.value} * 0.4285714)`,
+    }))
 
     // Piece values: 'red' | 'black' | 'red-king' | 'black-king'
     const getColor = (piece) => piece.startsWith('red') ? 'red' : 'black'
@@ -98,7 +129,7 @@
         if (!draggedFrom.value) return new Set()
         const { moves, jumps } = getMovesForPiece(draggedFrom.value, checkerPieces.value)
         // Mandatory jumps: only jumps are valid when any jump exists for the current turn (if enforced)
-        if (chainJumpPiece.value || (props.forceMandatory && hasAnyJump.value)) return jumps
+        if (chainJumpPiece.value || (props.forceMoves && hasAnyJump.value)) return jumps
         return new Set([...moves, ...jumps])
     })
 
@@ -214,7 +245,7 @@
     <div :class="['w-fit', { 'm-auto' : fullScreen }]">
 
         <!-- Status bar -->
-        <div :class="['mb-3 h-6 text-sm font-semibold', { 'text-center' : fullScreen }]">
+        <div class="mb-3 h-6 text-sm font-semibold text-center">
 
             <span v-if="winner" :class="winner === 'red' ? 'text-red-600' : 'text-gray-800'">
                 {{ winner === 'red' ? 'Red' : 'Black' }} wins! 🎉
@@ -224,7 +255,7 @@
             </span>
             <span v-else :class="currentTurn === 'red' ? 'text-red-600' : 'text-gray-700'">
                 {{ currentTurn === 'red' ? 'Red' : 'Black' }}'s turn
-                <span v-if="hasAnyJump && props.forceMandatory" class="text-amber-600"> — must jump!</span>
+                <span v-if="hasAnyJump && props.forceMoves" class="text-amber-600"> — must jump!</span>
             </span>
 
         </div>
@@ -233,15 +264,17 @@
 
             <template #default="{ title }">
 
-                <div class="size-14 flex items-center justify-center"
-                    :class="{ 'ring-2 ring-inset ring-yellow-400 bg-yellow-100/40': validMoves.has(title) }"
+                <div :style="squareStyle"
+                    :class="['flex items-center justify-center',
+                    { 'ring-2 ring-inset ring-yellow-400 bg-yellow-100/40': validMoves.has(title) }]"
                     @click="onSquareTap(title)"
                     @dragover.prevent
                     @drop.prevent="onDrop(title)">
 
                     <span v-if="checkerPieces[title]"
+                        :style="pieceStyle"
                         :draggable="canDrag(title)"
-                        :class="['flex-center rounded-full size-10 shadow-md border-2 select-none',
+                        :class="['flex-center rounded-full shadow-md border-2 select-none',
                             canDrag(title) ? 'cursor-grab active:cursor-grabbing' : 'cursor-default opacity-70',
                             getPieceColorClasses(checkerPieces[title]),
                             draggedFrom === title ? 'opacity-30' : '']"
@@ -256,7 +289,8 @@
                         </span>
                         <!-- Regular piece inner ring -->
                         <span v-else
-                            class="block border border-white/40 bg-white/10 size-6 rounded-full" />
+                            :style="innerRingStyle"
+                            class="block border border-white/40 bg-white/10 rounded-full" />
                     </span>
 
                 </div>

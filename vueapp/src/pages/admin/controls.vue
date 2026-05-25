@@ -45,16 +45,16 @@
 				-->
 
 				<WizardControl class="mb-10" :useKeyControls="false" :showBorder="showWizardBorder"
-					:tabList="['Wizard', 'Files', 'Calendar', 'Grid', 'Json', 'Misc']">
-
-					<template #Wizard>
-						<WizardExample />
-					</template>
+					:tabList="['Files', 'Comps', 'Calendar', 'Grid', 'Json', 'Misc']">
 			
 					<template #Files>
 						<FilesExample />
 					</template>
 			
+					<template #Comps>
+						<ComposablesExample />
+					</template>
+
 					<template #Calendar>
 						<CalendarExample />
 					</template>
