@@ -1,5 +1,6 @@
-﻿using coreApi.Models;
-using coreApi.Models.Generic;
+using coreLogic.Models;
+using coreData.Models;
+using coreLibrary.Models;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -40,3 +41,4 @@ public class SwaggerExamplesHelper : ISchemaFilter
 		};
 	}
 }
+

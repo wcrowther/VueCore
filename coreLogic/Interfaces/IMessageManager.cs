@@ -1,12 +1,12 @@
-﻿using coreApi.Models;
+using coreLogic.Models;
 
 namespace coreLogic.Interfaces;
 
 public interface IMessageManager
 {
-	Task<List<Message>> GetAllMessages();
+    Task<List<MessageVm>> GetAllMessages();
 
-	Task<int> GetMaxMessageId();
+    Task<int> GetMaxMessageId();
 
-	Task<Message> SaveMessage(Message message);
+    Task<MessageVm> SaveMessage(MessageVm message);
 }

@@ -1,147 +1,140 @@
-﻿using coreApi.Models;
+using coreData.Interfaces;
+using coreData.Models;
+using coreLibrary.Models;
 using coreLogic.Adapters;
-using coreLogic.Helpers;
 using coreLogic.Interfaces;
 using coreLogic.Models;
-using coreLogic.Models.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
-using System.Xml;
 using WildHare.Extensions;
 using static System.Environment;
 
 namespace coreLogic.Managers;
 
-public class AuthManager(	IUserManager userManager,
-							ITokenManager tokenManager,
-							ICookieManager cookieManager,
-							IUserClaimsManager userClaimsManager,
-							ILogger<AuthManager> logger,
-							IHttpContextAccessor accessor,
-							AppSettings appSettings
-						)
-: IAuthManager
+public class AuthManager(
+    IUserManager userManager,
+    IUserRepo userRepo,
+    ITokenManager tokenManager,
+    ICookieManager cookieManager,
+    IUserClaimsManager userClaimsManager,
+    ILogger<AuthManager> logger,
+    IHttpContextAccessor accessor,
+    AppSettings appSettings)
+    : IAuthManager
 {
-	public Returns<User> GetCurrentUser()
-	{
-		string userName = userClaimsManager.GetCurrentUsername();
-		var user		= userName.IsNullOrEmpty() ? null : userManager.GetUserByUsername(userName);
+    public Returns<UserVm> GetCurrentUser()
+    {
+        string userName = userClaimsManager.GetCurrentUsername();
+        var user = userName.IsNullOrEmpty() ? null : userManager.GetUserByUsername(userName);
+        return Returns<UserVm>.Result(user, "Not able to get the current user.");
+    }
 
-		return Returns<User>.Result(user, "Not able to get the current user.");	
-	}
+    public Returns<AuthUser> Authenticate(AuthRequest authRequest)
+    {
+        // Need raw User for PasswordHash verification
+        var user = userRepo.GetUserByUserName(authRequest.UserName);
 
-	public Returns<AuthUser> Authenticate(AuthRequest authRequest)
-	{
-		var user = userManager.GetUserByUsername(authRequest.UserName);
+        if (user == null || !BCrypt.Net.BCrypt.Verify(authRequest.Password, user.PasswordHash))
+        {
+            string attemptHash = BCrypt.Net.BCrypt.HashPassword(authRequest.Password);
+            string message     = $"Not able to authenticate user {authRequest.UserName}. ";
+            string techMessage = user is null
+                                 ? "UserName not found in database."
+                                 : $"Password incorrect. AttemptHash: {attemptHash}.";
 
-		if (user == null || !BCrypt.Net.BCrypt.Verify(authRequest.Password, user.PasswordHash))
-		{
-			string attemptHash	= BCrypt.Net.BCrypt.HashPassword(authRequest.Password);
-			string message		= $"Not able to authenticate user {authRequest.UserName}. ";
-			string techMessage	= user is  null 
-								  ? "UserName not found in database."
-								  : $"Password incorrect. AttemptHash: {attemptHash}.";
+            logger.LogInformation(message + NewLine + techMessage);
+            return Returns<AuthUser>.Failure(message);
+        }
 
-			logger.LogInformation(message + NewLine + techMessage);
+        logger.LogInformation($"AuthManager.Authenticate user '{authRequest.UserName}'");
 
-			return Returns<AuthUser>.Failure(message);
-		}	
-		
-		// if (!user.IsActive) // not implemented above yet
-		// {
-		//		return Returns<AuthUser>.Failure($"User {user.UserName} is not active.");
-		// }
+        tokenManager.CreateNewRefreshTokenForUser(user);
+        var savedUser = userRepo.SaveUser(user);
+        cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
 
-		logger.LogInformation($"AuthManager.Authenticate user '{authRequest.UserName}'");
+        return Returns<AuthUser>.Result(GetAuthResponse(savedUser));
+    }
 
-		user = userManager.UpdateUserRefreshToken(user);
+    public Returns<AuthUser> Signup(UserToCreate userToCreate)
+    {
+        var existingUser = userRepo.GetUserByUserName(userToCreate.UserName);
+        if (existingUser is not null)
+            return new Error($"Not able to sign up user {userToCreate.UserName}");
 
-		return Returns<AuthUser>.Result(GetAuthResponse(user));
-	}
+        var createdUser  = userManager.CreateUser(userToCreate);
+        var rawUser      = userRepo.GetUserByUserName(createdUser.UserName);
+        var authResponse = GetAuthResponse(rawUser);
+        return Returns<AuthUser>.Result(authResponse);
+    }
 
-	public Returns<AuthUser> Signup(UserToCreate userToCreate)
-	{
-		var existingUser = userManager.GetUserByUsername(userToCreate.UserName);
+    public Returns<AuthUser> RefreshAuth(AuthRefreshRequest request)
+    {
+        var user         = userRepo.GetUserById(request.UserId);
+        var refreshToken = accessor.HttpContext.Request.Cookies["refreshToken"];
+        var domain       = accessor.HttpContext.Request.Headers.Origin.ToString();
+        var allowedDomains = appSettings.AllowedOrigins.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-		if (existingUser is not null)
-			return new Error($"Not able to sign up user {userToCreate.UserName}");
+        if (!IsAllowedDomain(domain, allowedDomains))
+            return AuthUserOrError.Failure("Not able to refresh token from this domain");
 
-		var user			= userManager.CreateUser(userToCreate);
-		var authResponse	= GetAuthResponse(user);
+        var isRevoked = user?.RefreshTokenRevokedAt is not null
+                        && user.RefreshTokenIssuedAt <= user.RefreshTokenRevokedAt.Value;
 
-		return Returns<AuthUser>.Result(authResponse);
-	}
+        if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiration <= DateTime.Now || isRevoked)            return Returns<AuthUser>.Failure($"Not able to refresh token for userId: {request.UserId}");
 
-	public Returns<AuthUser> RefreshAuth(AuthRefreshRequest request)
-	{
-		var user			= userManager.GetUserById(request.UserId);
-		var refreshToken	= accessor.HttpContext.Request.Cookies["refreshToken"];
-		var domain			= accessor.HttpContext.Request.Headers.Origin.ToString();
-		var allowedDomains  = appSettings.AllowedOrigins.Split(";", true);
+        tokenManager.CreateNewRefreshTokenForUser(user);
+        var savedUser = userRepo.SaveUser(user);
+        cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
 
-		if (!IsAllowedDomain(domain, allowedDomains))
-			return AuthUserOrError.Failure("Not able to refresh token from this domain");
+        var (token, expiration) = tokenManager.GenerateJwtToken(savedUser);
+        cookieManager.SetAccessTokenCookie(token, expiration);
 
-		var isRevoked = user?.RefreshTokenRevokedAt is not null
-						&& user.RefreshTokenIssuedAt <= user.RefreshTokenRevokedAt.Value;
+        logger.LogInformation($"AuthManager.RefreshAuth refresh user: '{savedUser.UserName}'");
 
-		if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiration <= DateTime.Now || isRevoked)
-			return Returns<AuthUser>.Failure($"Not able to refresh token for userId: {request.UserId}");
+        return Returns<AuthUser>.Result(savedUser.ToAuthResponse(token, expiration));
+    }
 
-		user = userManager.UpdateUserRefreshToken(user);
+    public void RevokeRefreshToken()
+    {
+        var refreshToken = accessor.HttpContext?.Request?.Cookies["refreshToken"];
+        if (refreshToken.IsNullOrSpace())
+            return;
 
-		var (token, expiration) = tokenManager.GenerateJwtToken(user);
+        var currentUserId = userClaimsManager.GetCurrentUserId();
+        var user = currentUserId.HasValue
+            ? userRepo.GetUserById(currentUserId.Value)
+            : userRepo.GetAllUsers().FirstOrDefault(u => u.RefreshToken == refreshToken);
 
-		cookieManager.SetAccessTokenCookie(token, expiration);
+        if (user is null || user.RefreshToken != refreshToken)
+            return;
 
-		logger.LogInformation($"AuthManager.RefreshAuth refresh user: '{user.UserName}'");
+        user.RefreshTokenRevokedAt  = DateTime.Now;
+        user.RefreshTokenExpiration = DateTime.Now;
+        user.RefreshToken           = string.Empty;
 
-		return Returns<AuthUser>.Result(user.ToAuthResponse(token, expiration));
-	}
+        userRepo.SaveUser(user);
 
-	public void RevokeRefreshToken()
-	{
-		var refreshToken = accessor.HttpContext?.Request?.Cookies["refreshToken"];
-		if (refreshToken.IsNullOrSpace())
-			return;
+        logger.LogInformation($"AuthManager.RevokeRefreshToken revoked refresh token for user '{user.UserName}'");
+    }
 
-		var currentUserId = userClaimsManager.GetCurrentUserId();
-		var user = currentUserId.HasValue
-			? userManager.GetUserById(currentUserId.Value)
-			: userManager.GetAllUsers().FirstOrDefault(u => u.RefreshToken == refreshToken);
+    // ============================================================================
 
-		if (user is null || user.RefreshToken != refreshToken)
-			return;
+    private AuthUser GetAuthResponse(User user)
+    {
+        if (user is null)
+            return null;
 
-		user.RefreshTokenRevokedAt  = DateTime.Now;
-		user.RefreshTokenExpiration = DateTime.Now;
-		user.RefreshToken           = string.Empty;
+        var (token, tokenExpiration) = tokenManager.GenerateJwtToken(user);
+        cookieManager.SetAccessTokenCookie(token, tokenExpiration);
+        return new AuthUser(user, token, tokenExpiration);
+    }
 
-		userManager.SaveUser(user);
+    private static bool IsAllowedDomain(string domain, string[] allowedDomains)
+    {
+        if (allowedDomains?[0] == "*")
+            return true;
 
-		logger.LogInformation($"AuthManager.RevokeRefreshToken revoked refresh token for user '{user.UserName}'");
-	}
-
-	// ============================================================================
-
-	private AuthUser GetAuthResponse(User user)
-	{
-		if (user is null)
-			return null;
-
-		var (token, tokenExpiration) = tokenManager.GenerateJwtToken(user);
-
-		cookieManager.SetAccessTokenCookie(token, tokenExpiration);
-
-		return new AuthUser(user, token, tokenExpiration);
-	}
-
-	private static bool IsAllowedDomain(string domain, string[] allowedDomains)
-	{
-		if (allowedDomains?[0] == "*")  // '*' allows all
-			return true;
-
-		return allowedDomains.Any(a => a.Equals(domain,StringComparison.OrdinalIgnoreCase));
-	}
+        return allowedDomains.Any(a => a.Equals(domain, StringComparison.OrdinalIgnoreCase));
+    }
 }
+

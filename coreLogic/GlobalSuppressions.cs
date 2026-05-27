@@ -5,6 +5,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE0028:Simplify collection initialization", Justification = "<Pending>", Scope = "member", Target = "~P:coreApi.Models.Generic.PagedList`2.ListItems")]
-[assembly: SuppressMessage("Performance", "CA1848:Use the LoggerMessage delegates", Justification = "<Pending>", Scope = "member", Target = "~M:coreLogic.Managers.AuthManager.Authenticate(coreApi.Models.AuthRequest)~coreLogic.Models.Generic.Returns{coreApi.Models.AuthUser}")]
-[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~M:coreLogic.Managers.AuthManager.Authenticate(coreApi.Models.AuthRequest)~coreLogic.Models.Generic.Returns{coreApi.Models.AuthUser}")]
+[assembly: SuppressMessage("Style", "IDE0028:Simplify collection initialization", Justification = "<Pending>", Scope = "member", Target = "~P:coreData.Models.Generic.PagedList`2.ListItems")]
+[assembly: SuppressMessage("Performance", "CA1848:Use the LoggerMessage delegates", Justification = "<Pending>", Scope = "member", Target = "~M:coreLogic.Managers.AuthManager.Authenticate(coreLogic.Models.AuthRequest)~coreData.Models.Generic.Returns{coreLogic.Models.AuthUser}")]
+[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~M:coreLogic.Managers.AuthManager.Authenticate(coreLogic.Models.AuthRequest)~coreData.Models.Generic.Returns{coreLogic.Models.AuthUser}")]

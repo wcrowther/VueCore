@@ -1,6 +1,5 @@
-﻿using coreApi.Models;
-using coreLogic.Helpers;
-using Microsoft.Extensions.DependencyInjection;
+﻿using coreData.Models;
+using coreLogic.Models;
 
 namespace coreLogic.Adapters;
 
@@ -18,5 +17,37 @@ public static partial class Adapter
 			);
 	}
 
-	public static List<MessageDto> ToMessageDtoList(this IEnumerable<Message> messages) => messages.ToList(a => a.ToMessageDto());
+	public static List<MessageDto> ToMessageDtoList(this IEnumerable<Message> messages) => messages.Select(m => m.ToMessageDto()).ToList();
+
+	public static MessageVm ToMessageVm(this Message message)
+	{
+		return message == null ? null :
+			new MessageVm
+			{
+				MessageId    = message.MessageId,
+				MessageText  = message.MessageText,
+				DateCreated  = message.DateCreated,
+				DateModified = message.DateModified,
+				CreatorId    = message.CreatorId,
+				ModifierId   = message.ModifierId,
+				CreatorName  = message.CreatorName,
+				ModifierName = message.ModifierName
+			};
+	}
+
+	public static List<MessageVm> ToMessageVmList(this IEnumerable<Message> messages) => messages.Select(m => m.ToMessageVm()).ToList();
+
+	public static Message ToMessage(this MessageVm vm)
+	{
+		return vm == null ? null :
+			new Message
+			{
+				MessageId    = vm.MessageId,
+				MessageText  = vm.MessageText,
+				DateCreated  = vm.DateCreated,
+				DateModified = vm.DateModified,
+				CreatorId    = vm.CreatorId,
+				ModifierId   = vm.ModifierId
+			};
+	}
 }

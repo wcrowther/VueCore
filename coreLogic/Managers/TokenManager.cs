@@ -1,4 +1,5 @@
-﻿using coreApi.Models;
+﻿using coreData.Models;
+using coreLogic.Models;
 using coreLogic.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

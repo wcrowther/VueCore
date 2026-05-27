@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace coreApi.Models;
+namespace coreLogic.Models;
 
 public class AuthRequest
 {

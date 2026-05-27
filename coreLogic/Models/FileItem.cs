@@ -1,5 +1,5 @@
 
-namespace coreApi.Models;
+namespace coreLogic.Models;
 
 public class FileItem
 {

@@ -2,7 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 
-namespace coreApi.Models;
+namespace coreLogic.Models;
 
 public class Address
 {

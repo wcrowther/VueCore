@@ -1,9 +1,8 @@
 using coreApi;
-using coreApi.Data;
 using coreApi.Helpers;
-using coreApi.Models;
-using coreLogic.Helpers;
+using coreData;
 using coreLogic.Managers;
+using coreLogic.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -33,7 +32,7 @@ builder.Services.AddSignalR().AddJsonProtocol(options =>
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowSpecificOrigin",
-		policy => policy.WithOrigins(builder.Configuration["App:AllowedOrigins"].Split(";", true))
+		policy => policy.WithOrigins(builder.Configuration["App:AllowedOrigins"].Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
 						.AllowCredentials()
 						.AllowAnyHeader()
 						.AllowAnyMethod());
@@ -47,7 +46,7 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-builder.Services.AddDbContext<CoreApiDataContext>(options =>
+builder.Services.AddDbContext<DataContext>(options =>
 	options.UseSqlite(builder.Configuration.GetConnectionString("CoreApiData"))
 );
 

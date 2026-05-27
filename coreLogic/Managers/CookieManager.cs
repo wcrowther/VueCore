@@ -1,4 +1,4 @@
-﻿using coreApi.Models;
+﻿using coreLogic.Models;
 using coreLogic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

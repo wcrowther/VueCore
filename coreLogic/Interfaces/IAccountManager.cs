@@ -1,16 +1,17 @@
-﻿using coreApi.Models;
-using coreApi.Models.Generic;
+using coreData.Models;
+using coreLibrary.Models;
+using coreLogic.Models;
 
-namespace coreApi.Logic.Interfaces
+namespace coreLogic.Interfaces;
+
+public interface IAccountManager
 {
-    public interface IAccountManager
-    {
-        Task<List<Account>> GetAllAccounts();
+    Task<List<AccountVm>> GetAllAccounts();
 
-        Task<Account> GetAccountById(int id);
+    Task<AccountVm> GetAccountById(int id);
 
-		Task<PagedList<Account,SearchForAccount>> GetPagedAccounts(Pager<SearchForAccount> pager);
+    Task<PagedList<AccountVm, SearchForAccount>> GetPagedAccounts(Pager<SearchForAccount> pager);
 
-		Task<Account> SaveAccount(Account account);
-	}
+    Task<AccountVm> SaveAccount(AccountVm account);
 }
+

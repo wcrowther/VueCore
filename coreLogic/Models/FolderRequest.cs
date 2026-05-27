@@ -1,4 +1,4 @@
-namespace coreApi.Models;
+namespace coreLogic.Models;
 
 public record FolderRequest(string ParentPath, string Name);
 

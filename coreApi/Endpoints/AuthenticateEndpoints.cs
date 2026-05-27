@@ -1,11 +1,9 @@
-﻿using coreApi.Helpers;
-using coreApi.Models;
+using coreApi.Helpers;
+using coreData.Models;
 using coreLogic.Interfaces;
 using coreLogic.Models;
-using coreLogic.Models.Generic;
+using coreLibrary.Models;
 using Microsoft.AspNetCore.Antiforgery;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
 using WildHare.Extensions;
 
 namespace coreApi;
@@ -25,7 +23,7 @@ public static partial class Endpoints
 
 		endpoints.MapGet("/me", ( IAuthManager _authManager ) =>
 		{
-			Returns<User> returns = _authManager.GetCurrentUser();
+			Returns<UserVm> returns = _authManager.GetCurrentUser();
 
 			if (!returns.Ok || returns.Data is null)
 				return Results.Unauthorized();
@@ -109,7 +107,7 @@ public static partial class Endpoints
 		.WithName("RefreshAuth");
 	}
 
-	private static object ToProfileResponse(User user) => new
+	private static object ToProfileResponse(UserVm user) => new
 	{
 		user.UserId,
 		user.FirstName,
@@ -129,4 +127,5 @@ public static partial class Endpoints
 		user.Role
 	};
 }
+
 

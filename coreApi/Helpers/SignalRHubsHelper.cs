@@ -1,5 +1,5 @@
-﻿using coreApi.Hubs;
-using coreApi.Models;
+using coreApi.Hubs;
+using coreLogic.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace coreApi.Helpers;
@@ -15,7 +15,7 @@ public static class SignalRHubsHelper
 	}
 
 	/// <summary>Send message from the application</summary>
-	public static async void SendMessageFromServer(this IHubContext<ChatHub> hubContext, Message message)
+	public static async void SendMessageFromServer(this IHubContext<ChatHub> hubContext, MessageVm message)
 	{
 		await hubContext.Clients.All.SendAsync("ReceiveMessage", message);
 	}

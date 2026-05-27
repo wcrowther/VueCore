@@ -1,7 +1,8 @@
-﻿using coreApi.Helpers;
-using coreApi.Models;
-using coreApi.Models.Generic;
+using coreApi.Helpers;
+using coreData.Models;
+using coreLibrary.Models;
 using coreLogic.Interfaces;
+using coreLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace coreApi;
@@ -44,13 +45,13 @@ public static partial class Endpoints
 
 		// saveUser
 		endpoints.MapPost("/saveUser", ( IUserManager userManager, 
-										 [FromBody] User user) =>
+									 [FromBody] UserVm user) =>
 		{
 			var savedUser = userManager.SaveUser(user);
 
 			return Results.Ok(savedUser);
 		})
-		.Validate<User>(false)
+		.Validate<UserVm>(false)
 		.RequireAuthorization("Admin");
 
 		// createUser
@@ -65,4 +66,5 @@ public static partial class Endpoints
 		.Validate<UserToCreate>();
 	}
 }
+
 

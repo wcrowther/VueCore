@@ -32,7 +32,9 @@
 		<ProjectReference Include="..\vueapp\vueapp.esproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
+		<ProjectReference Include="..\coreData\coreData.csproj" />
 		<ProjectReference Include="..\coreLogic\coreLogic.csproj" />
+		<ProjectReference Include="..\coreLibrary\coreLibrary.csproj" />
 	</ItemGroup>
 
 	<!-- NuGet packages -->

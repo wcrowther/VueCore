@@ -1,7 +1,7 @@
+using coreData.Models;
+using coreLibrary.Models;
 
-using coreLogic.Models.Generic;
-
-namespace coreApi.Models;
+namespace coreLogic.Models;
 
 public class AuthUserOrError : Returns<AuthUser> { }
 
@@ -21,7 +21,7 @@ public class AuthUser(User user, string token, DateTime tokenExpiration)
 
 	public string RefreshToken { get; init; }				= user.RefreshToken;
 
-	public DateTime RefreshTokenExpiration { get; init; }	= user.RefreshTokenExpiration;
+	public DateTime? RefreshTokenExpiration { get; init; }	= user.RefreshTokenExpiration;
 
 	public string Token { get; set; }						= token;
 
@@ -29,3 +29,4 @@ public class AuthUser(User user, string token, DateTime tokenExpiration)
 
 	public override string ToString() => $"{UserName} ({UserId}) FullName: {FirstName} {LastName}";
 }
+

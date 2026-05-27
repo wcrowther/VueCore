@@ -1,5 +1,5 @@
 
-namespace coreApi.Models;
+namespace coreLogic.Models;
 
 public record FileRequest(string FolderPath, string FileName);
 
