@@ -1,4 +1,5 @@
 ﻿using coreApi.Models;
+using coreLogic.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace coreLogic.Adapters;
@@ -17,8 +18,5 @@ public static partial class Adapter
 			);
 	}
 
-	public static List<MessageDto> ToMessageDtoList(this IEnumerable<Message> list)
-	{
-		return list?.Select(a => a.ToMessageDto()).ToList() ?? [];
-	}
+	public static List<MessageDto> ToMessageDtoList(this IEnumerable<Message> messages) => messages.ToList(a => a.ToMessageDto());
 }

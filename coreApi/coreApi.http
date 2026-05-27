@@ -18,38 +18,18 @@ Content-Type: application/json
 ### me - Get current user claims =========================================
 
 GET {{coreApi.Server_HostAddress}}/v1/authenticate/me
-Authorization: bearer {{login.response.body.$.token}}
 Content-Type: application/json
 Accept: application/json
-
-### saveAccount ==========================================================
-
-POST {{coreApi.Server_HostAddress}}/v1/accounts/saveAccount
-Authorization: bearer {{login.response.body.$.token}}
-Content-Type: application/json
-Accept: application/json
-
-{
-	"AccountName": "Test Account",
-	"AccountEmail": "wtest@test.com",
-	"AccountPhone": "(404) 333 4444",
-	"StreetAddress": "123 Street St.",
-	"City": "New York",
-	"StateProvince": "NY",
-	"PostalCode": "12345"
-}
 
 ### getAllUsers  ======================================================
 
 GET {{coreApi.Server_HostAddress}}/v1/users/getAllUsers
-Authorization: bearer {{login.response.body.$.token}}
 Content-Type: application/json
 Accept: application/json
 
 ### getPagedUserss  ==================================================
 
 POST {{coreApi.Server_HostAddress}}/v1/users/getPagedUsers
-Authorization: bearer {{login.response.body.$.token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -58,7 +38,7 @@ Accept: application/json
   "pageSize": 20,
   "groupSize": 5,
   "search": {
-    "filter": "Will",
+    "filter": "",
     "filterType": "",
     "sort": "",
     "sortDesc": true,
@@ -69,7 +49,6 @@ Accept: application/json
 ### getPagedAccounts  ==================================================
 
 POST {{coreApi.Server_HostAddress}}/v1/accounts/getPagedAccounts
-Authorization: bearer {{login.response.body.$.token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -82,7 +61,7 @@ Accept: application/json
     "filterType": "",
     "sort": "",
     "sortDesc": true,
-    "stateProvinceFilter": "",
+    "stateProvinceFilter": [""],
     "postalCodeFilter": ""
   }
 }
@@ -90,9 +69,24 @@ Accept: application/json
 ### getAllAccounts   ====================================================
 
 GET {{coreApi.Server_HostAddress}}/v1/accounts/getAllAccounts
-Authorization: bearer {{login.response.body.$.token}}
 Content-Type: application/json
 Accept: application/json
+
+### saveAccount ==========================================================
+
+POST {{coreApi.Server_HostAddress}}/v1/accounts/saveAccount
+Content-Type: application/json
+Accept: application/json
+
+{
+	"AccountName": "Test Account",
+	"AccountEmail": "wtest@test.com",
+	"AccountPhone": "(404) 333 4444",
+	"StreetAddress": "123 Street St.",
+	"City": "New York",
+	"StateProvince": "NY",
+	"PostalCode": "12345"
+}
 
 ### SIGN UP USER   ======================================================
 
@@ -112,6 +106,5 @@ Accept: application/json
 ### Get Account by ID ===================================================
 
 GET {{coreApi_HostAddress}}/v1/accounts/getAccountById/{{accountId}}
-Authorization: bearer {{login.response.body.$.token}}
 
 ###

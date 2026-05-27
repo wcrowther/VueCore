@@ -1,4 +1,5 @@
-﻿using System;
+﻿using coreApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,15 @@ namespace coreLogic.Helpers
 {
 	public static class Extensions
 	{
+
+		// Generic helper method
+		public static List<TTarget> ToList<TSource, TTarget>(
+			this IEnumerable<TSource> source,
+			Func<TSource, TTarget> converter)
+		{
+			return source?.Select(converter).ToList() ?? [];
+		}
+
 		public static bool IsNumeric(this string input)
 		{
 			if (input.IsNullOrSpace()) return false;
