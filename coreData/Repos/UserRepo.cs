@@ -95,6 +95,22 @@ public class UserRepo(DataContext dataContext)
 		return user;
 	}
 
+	public User UpdateRefreshToken(User user)
+	{
+		// Only update the refresh token fields - leave all other user data untouched
+
+		dataContext.Users
+			.Where(u => u.UserId == user.UserId)
+			.ExecuteUpdate(s => s
+				.SetProperty(u => u.RefreshToken,           user.RefreshToken)
+				.SetProperty(u => u.RefreshTokenIssuedAt,   user.RefreshTokenIssuedAt)
+				.SetProperty(u => u.RefreshTokenExpiration, user.RefreshTokenExpiration)
+				.SetProperty(u => u.RefreshTokenRevokedAt,  user.RefreshTokenRevokedAt)
+			);
+
+		return user;
+	}
+
 	// =======================================================================================
 
 	private static ExpressionStarter<User> BuildPredicate(Pager<SearchForUser> pager, bool search = true)

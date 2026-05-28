@@ -4,6 +4,5 @@ namespace coreData.Models;
 
 public class UserToCreate : User
 {
-	[Required]
-	public string Password { get; init; }
+	public required string Password { get; init; }
 }

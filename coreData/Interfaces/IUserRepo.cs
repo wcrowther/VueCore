@@ -18,5 +18,7 @@ public interface IUserRepo
 	PagedList<User, SearchForUser> GetPagedUsers(Pager<SearchForUser> pager);
 
 	User SaveUser(User user);
+
+	User UpdateRefreshToken(User user);
 }
 

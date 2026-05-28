@@ -34,14 +34,16 @@ public static class JsonHelpers
 
 			foreach (var prop in obj)
 			{
-				MaskNodesRecursive(prop.Value, propertiesToMask);
+				if (prop.Value is not null)
+					MaskNodesRecursive(prop.Value, propertiesToMask);
 			}
 		}
 		else if (node is JsonArray array)
 		{
 			foreach (var item in array)
 			{
-				MaskNodesRecursive(item, propertiesToMask);
+				if (item is not null)
+					MaskNodesRecursive(item, propertiesToMask);
 			}
 		}
 	}

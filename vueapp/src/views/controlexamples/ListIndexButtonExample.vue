@@ -24,9 +24,9 @@
 
 <template>
 
-    <div class="w-full p-5 mb-5 flex flex-wrap gap-1 bg-blue-100 border-b-2">
+    <div class="w-full p-5 mb-5  bg-blue-100 border-b-2">
     
-        <div class="basis-full font-bold text-lg mb-5">
+        <div class="w-full font-bold text-lg mb-5">
             List Index Button
         </div>
         <InfoBox class="mb-5 basis-full flex-none">
@@ -63,4 +63,5 @@
         </div>
 
     </div>
+
 </template>

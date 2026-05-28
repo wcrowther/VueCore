@@ -26,13 +26,13 @@
 
     <div ref="parentBox" class="w-full bg-slate-100 pb-10">
 
-		<div class="text-lg w-fit font-bold p-5 relative">
+		<div class="text-lg w-fit font-bold p-5 pb-3 relative">
 			Checkers Board 
-			<div class="absolute rotate-[10deg] -top-1 right-[-3.3rem] w-fit 
+			<div class="absolute rotate-[10deg] top-2 -right-4 w-fit 
 				font-bold text-xs bg-orange px-2 text-white tracking-widest">
 				NEW
 			</div>
-			<div class="font-normal text-sm">ParentBox width: {{ `${Math.trunc(width)}px` }}</div>
+			<!-- <div class="font-normal text-sm">ParentBox width: {{ `${Math.trunc(width)}px` }}</div> -->
 		</div>
 
 		<InfoBox class="p-5">

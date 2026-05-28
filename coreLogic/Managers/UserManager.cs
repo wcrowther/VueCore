@@ -69,7 +69,7 @@ public class UserManager(IUserRepo userRepo, ICookieManager cookieManager, IToke
     {
         var user = userVm.ToUser();
         tokenManager.CreateNewRefreshTokenForUser(user);
-        var saved = userRepo.SaveUser(user);
+        var saved = userRepo.UpdateRefreshToken(user);
         cookieManager.SetRefreshTokenCookie(saved.RefreshToken);
         return saved.ToUserVm();
     }
