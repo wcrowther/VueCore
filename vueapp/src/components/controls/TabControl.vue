@@ -3,7 +3,9 @@
     const props = defineProps(
     {
         id: { type: String, default: 'TabControl' },
-		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] }
+		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] },
+        keepAlive: { type: Boolean, default: false },
+        border: { type: Boolean, default: false },
 	})
 
     const activeTabModel = defineModel('activeTab', { type: String, default: '' })
@@ -43,25 +45,40 @@
     <div :id="props.id" class="h-full">
 
         <!-- Tabs -->
-        <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b-2 border-slate-300">
+        <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b border-slate-300">
         
             <template v-for="(tab,idx) in props.tabList" :key="idx">
-                <div :class="[ isActive(tab) ? 'tab-active' :'tab-other' ]" @click="activeTab = tab">
+                <div :class="[ isActive(tab) ? 'tab-active' :'tab-other' ]" 
+                    @click="activeTab = tab">
                     <span>{{ tab }}</span>
                 </div>
             </template>
 
+            <div class="ml-auto h-9">
+                <slot name="Right" />
+            </div>
         </div>
 
         <!-- Content -->
-        <div class="z-10 h-full min-h-60 p-5 opacity-100 pb-3 bg-white 
-             border-t-0 overflow-y-auto scrollbar-thin">
+        <div class="z-10 h-full min-h-60 p-5 pb-7 opacity-100 bg-white 
+            border-t-0 overflow-y-auto scrollbar-thin border border-slate-300"
+            :class="{ 'border': props.border}">
 
            <slot></slot>
-           <template v-for="(tab,idx) in props.tabList" :key="idx">
-               <slot v-if="activeTab == tab" :name="tab"></slot>
-           </template>
 
+            <!-- persist state through tab changes -->
+           <template v-if="props.keepAlive">
+               <div v-for="(tab,idx) in props.tabList" :key="idx" 
+                v-show="activeTab === tab" >
+                   <slot :name="tab"></slot>
+               </div>
+           </template>        
+           <!-- reloads tabs each tab change -->
+           <template v-else>
+               <template v-for="(tab,idx) in props.tabList" :key="idx">
+                   <slot v-if="activeTab === tab" :name="tab"></slot>
+               </template>
+           </template>
         </div>
 
     </div>
@@ -70,9 +87,9 @@
 
 <style lang="postcss" scoped>
 
-    .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border-2 bg-white border-slate-300 border-b-0 
-        text-sm font-bold select-none relative bottom-[-2px] }
-    .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border-2 
+    .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border bg-white border-slate-300 border-b-0 
+        text-sm font-bold select-none relative bottom-[-1px] }
+    .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border 
         border-transparent text-sm font-bold hover:bg-slate-300 }
 
 </style> 

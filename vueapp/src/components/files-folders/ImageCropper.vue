@@ -12,13 +12,10 @@
 	const emit = defineEmits( [ 'update:modelValue', 'change' ])
 
 	const canvasRef = ref(null)
-	const imageRef = ref(null)
-
+	const fileInputRef = ref(null)
 	const image = ref(null)
-
 	const isDragging = ref(false)
 	const dragMode = ref(null)
-
 	const startX = ref(0)
 	const startY = ref(0)
 
@@ -31,10 +28,8 @@
 	})
 
 	const displayScale = ref(1)
-
 	const canvasWidth = 800
 	const canvasHeight = 500
-
 	const cropStyle = computed(() => (
 	{
 		left: `${crop.value.x}px`,
@@ -71,6 +66,14 @@
 		}
 
 		reader.readAsDataURL(file)
+
+		// Allow selecting the same file again and still trigger change.
+		event.target.value = ''
+	}
+
+	function openFilePicker()
+	{
+		fileInputRef.value?.click()
 	}
 
 	function fitImage() 
@@ -80,10 +83,9 @@
 
 		const scaleX = canvasWidth / image.value.width
 		const scaleY = canvasHeight / image.value.height
-
 		displayScale.value = Math.min(scaleX, scaleY)
-
-		crop.value = {
+		crop.value = 
+		{
 			x: 50,
 			y: 50,
 			width: 200,
@@ -98,15 +100,12 @@
 		if (!canvas || !image.value)
 			return
 
-		const ctx = canvas.getContext('2d')
-
-		ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-		const imgWidth = image.value.width * displayScale.value
+		const ctx 		= canvas.getContext('2d')
+		const imgWidth 	= image.value.width * displayScale.value
 		const imgHeight = image.value.height * displayScale.value
 
-		ctx.drawImage( image.value, 0, 0, imgWidth, imgHeight )
-
+		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		ctx.drawImage( image.value, 0, 0, imgWidth, imgHeight )	
 		drawOverlay(ctx)
 	}
 
@@ -118,13 +117,13 @@
 
 		// redraw cropped image section
 		const scale = 1 / displayScale.value
-
 		const sx = crop.value.x * scale
 		const sy = crop.value.y * scale
 		const sw = crop.value.width * scale
 		const sh = crop.value.height * scale
 
-		ctx.drawImage(
+		ctx.drawImage
+		(
 			image.value, sx, sy, sw, sh,
 			crop.value.x, crop.value.y, crop.value.width, crop.value.height
 		)
@@ -132,17 +131,15 @@
 		// border
 		ctx.strokeStyle = '#ffffff'
 		ctx.lineWidth = 2
-
 		ctx.strokeRect( crop.value.x, crop.value.y, crop.value.width, crop.value.height )
 	}
 
 	function startDrag(event, mode = 'move') 
 	{
-		isDragging.value = true
-		dragMode.value = mode
-
-		startX.value = event.clientX
-		startY.value = event.clientY
+		isDragging.value 	= true
+		dragMode.value 		= mode
+		startX.value 		= event.clientX
+		startY.value 		= event.clientY
 
 		window.addEventListener('mousemove', onDrag)
 		window.addEventListener('mouseup', stopDrag)
@@ -185,7 +182,8 @@
 		window.removeEventListener('mouseup', stopDrag)
 	}
 
-	function constrainCrop() {
+	function constrainCrop() 
+	{
 		const c = crop.value
 
 		if (c.x < 0)
@@ -212,18 +210,15 @@
 			return
 
 		const outputCanvas = document.createElement('canvas')
-
-		outputCanvas.width = props.width
-		outputCanvas.height = props.height
-
 		const ctx = outputCanvas.getContext('2d')
-
 		const scale = 1 / displayScale.value
-
 		const sx = crop.value.x * scale
 		const sy = crop.value.y * scale
 		const sw = crop.value.width * scale
 		const sh = crop.value.height * scale
+
+		outputCanvas.width = props.width
+		outputCanvas.height = props.height
 
 		ctx.drawImage( image.value, sx, sy, sw, sh,
 			0, 0, outputCanvas.width, outputCanvas.height )
@@ -255,32 +250,38 @@
 </script>
 
 <template>
-	<div class="flex flex-col gap-4">
-		<input type="file" accept="image/*" @change="onFileChange">
+	<!-- <div class="flex flex-col gap-4"> -->
 
-		<div class="relative border border-gray-300 overflow-hidden select-none" :style="{
-			width: `${canvasWidth}px`,
-			height: `${canvasHeight}px`
-		}">
-			<canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight" class="absolute inset-0" />
+		<TabControl class="mb-10" :tabList="['Source', 'Preview']" keepAlive>
 
-			<div v-if="image" id="image-crop"
-				class="absolute border-2 border-white !bg-transparent cursor-move" :style="cropStyle"
-				@mousedown="startDrag($event, 'move')">
+			<template #Right>
+				<PrimaryButton title="Choose Image" @click="openFilePicker" />
+				<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
+			</template>
 
-				<div class="absolute w-4 h-4 bg-white border border-black right-[-8px] bottom-[-8px] cursor-se-resize"
-					@mousedown.stop="startDrag($event, 'resize')" />
-			</div>
-		</div>
+        	<template #Source>    		
+				<div class="relative border border-gray-300 overflow-hidden select-none"
+					:style="{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }">
 
-		<div>
-			<h3 class="font-semibold mb-2">
-				Preview
-			</h3>
+					<canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight" 
+						class="absolute inset-0" />
+					<div v-if="image" id="image-crop"
+						class="absolute border-2 border-white !bg-transparent cursor-move" :style="cropStyle"
+						@mousedown="startDrag($event, 'move')">
+						<div class="absolute w-4 h-4 bg-white border border-black right-[-8px] bottom-[-8px] cursor-se-resize"
+							@mousedown.stop="startDrag($event, 'resize')" />
+					</div>			
+				</div>
+        	</template>
 
-			<img v-if="modelValue" :src="modelValue" class="border border-gray-300 max-w-full" />
-		</div>
-	</div>
+			<template #Preview>
+
+				<img v-if="modelValue" :src="modelValue" class="border border-gray-300 max-w-full" />
+			</template>
+
+    	</TabControl>
+	<!-- </div> -->
+
 </template>
 
 <style scoped>

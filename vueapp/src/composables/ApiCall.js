@@ -58,7 +58,10 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		}
 		catch (err)
 		{
-			console.error('Failed to get antiforgery token:', err)
+			if (errorMessages.st === 403)
+				console.warn('Antiforgery toke only available when logged in.');
+			else
+				console.error('Failed to get antiforgery token:', err)
 		}
 	}
 
