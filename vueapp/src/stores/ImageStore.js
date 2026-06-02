@@ -7,6 +7,7 @@ export const useImageStore = defineStore('ImageStore', () =>
 	const activeTool = ref(null)
 	const requestedEditorTab = ref('')
 	const lastNonImageSelection = ref('')
+	const imageCropperSource = useLocalStorage('imageCropperSource', '')
 	const toolbarTools = ref([
 		{ key: 'crop', label: 'Crop', icon: 'heroicons:scissors-20-solid', disabled: true },
 		{ key: 'resize', label: 'Resize', icon: 'heroicons:arrows-pointing-out-20-solid', disabled: true },
@@ -94,6 +95,7 @@ export const useImageStore = defineStore('ImageStore', () =>
 		activeTool,
 		requestedEditorTab,
 		lastNonImageSelection,
+		imageCropperSource,
 		toolbarTools,
 
 		// getters

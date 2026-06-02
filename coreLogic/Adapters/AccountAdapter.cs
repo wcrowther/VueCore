@@ -57,4 +57,7 @@ public static partial class Adapter
 				Notes          = vm.Notes
 			};
 	}
+
+	public static List<Account> ToAccountList(this IEnumerable<AccountVm> vms) => vms.ToList(a => a.ToAccount());
+
 }

@@ -19,7 +19,7 @@ public class AuthManager(
     IUserClaimsManager userClaimsManager,
     ILogger<AuthManager> logger,
     IHttpContextAccessor accessor,
-    AppSettings appSettings)
+    AppSettingsVm appSettings)
     : IAuthManager
 {
     public Returns<UserVm> GetCurrentUser()
@@ -29,7 +29,7 @@ public class AuthManager(
         return Returns<UserVm>.Result(user, "Not able to get the current user.");
     }
 
-    public Returns<AuthUser> Authenticate(AuthRequest authRequest)
+    public Returns<AuthUser> Authenticate(AuthRequestVm authRequest)
     {
         // Need raw User for PasswordHash verification
         var user = userRepo.GetUserByUserName(authRequest.UserName);

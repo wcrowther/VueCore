@@ -23,7 +23,7 @@ namespace coreApi
 			_next = next;
 		}
 
-		public async Task Invoke(HttpContext httpContext, AppSettings app, IWebHostEnvironment env)
+		public async Task Invoke(HttpContext httpContext, AppSettingsVm app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{ 

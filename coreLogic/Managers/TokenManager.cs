@@ -9,7 +9,7 @@ using System.Text;
 
 namespace coreLogic.Managers;
 
-public class TokenManager(AppSettings appSettings)
+public class TokenManager(AppSettingsVm appSettings)
 : ITokenManager
 {
 	public (string token, DateTime expiration) GenerateJwtToken(User user)

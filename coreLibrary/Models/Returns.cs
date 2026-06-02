@@ -55,5 +55,5 @@ public class Returns(string data = null, Error error = null) : Returns<string>(d
 
 	public static implicit operator Returns(Exception exception) => Failure(exception);
 
-	public override string ToString() => Ok ? Data.ToString() ?? "" : Error.Message;
+	public override string ToString() => Ok ? Data ?? "" : Error.Message;
 }

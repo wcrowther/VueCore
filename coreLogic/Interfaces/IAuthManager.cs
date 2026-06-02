@@ -8,7 +8,7 @@ public interface IAuthManager
 {
 	Returns<UserVm> GetCurrentUser();
 
-	Returns<AuthUser> Authenticate(AuthRequest authRequest);
+	Returns<AuthUser> Authenticate(AuthRequestVm authRequest);
 
 	Returns<AuthUser> Signup(UserToCreate userToCreate);
 

@@ -60,7 +60,7 @@ public static partial class Endpoints
 		// login
 		// =========================================================
 
-		endpoints.MapPost("/login", ( AuthRequest model, 
+		endpoints.MapPost("/login", ( AuthRequestVm model, 
 									  IAuthManager _authManager ) =>
 		{
             Returns<AuthUser> returns = _authManager.Authenticate(model);
@@ -69,7 +69,7 @@ public static partial class Endpoints
 					? Results.Ok(ToProfileResponse(returns.Data))
 					: Results.Unauthorized();
 		})
-		.Validate<AuthRequest>(false)
+		.Validate<AuthRequestVm>(false)
 		.Produces(StatusCodes.Status200OK) 
 		.Produces(StatusCodes.Status401Unauthorized) 
 		.WithName("Login");

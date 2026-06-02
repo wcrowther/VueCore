@@ -1,24 +1,11 @@
 ﻿using coreData.Models;
+using coreLibrary.Helpers;
 using coreLogic.Models;
 
 namespace coreLogic.Adapters;
 
 public static partial class Adapter
 {
-	public static MessageDto ToMessageDto(this Message message) 
-	{
-		return message == null ? null :
-			new MessageDto
-			(
-				message.MessageId,
-				message.MessageText,
-				message.CreatorName,
-				message.DateCreated
-			);
-	}
-
-	public static List<MessageDto> ToMessageDtoList(this IEnumerable<Message> messages) => messages.Select(m => m.ToMessageDto()).ToList();
-
 	public static MessageVm ToMessageVm(this Message message)
 	{
 		return message == null ? null :
@@ -35,7 +22,7 @@ public static partial class Adapter
 			};
 	}
 
-	public static List<MessageVm> ToMessageVmList(this IEnumerable<Message> messages) => messages.Select(m => m.ToMessageVm()).ToList();
+	public static List<MessageVm> ToMessageVmList(this IEnumerable<Message> messages) => messages.ToList(m => m.ToMessageVm());
 
 	public static Message ToMessage(this MessageVm vm)
 	{
