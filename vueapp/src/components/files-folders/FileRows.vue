@@ -77,7 +77,7 @@
 					@click.stop="onPreviewClick(file, idx, $event)">
 					<img v-if="isImageFile(file.extension)"
 						:src="getFileUrl(file)"
-						class="size-8 object-cover block rounded-sm" />
+						class="size-8 object-contain block rounded-sm bg-white" />
 					<div v-else
 						class="size-8 bg-gray-300 rounded-sm" />
 				</div>

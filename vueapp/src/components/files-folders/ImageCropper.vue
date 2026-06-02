@@ -11,11 +11,15 @@
 
 	const emit 						= defineEmits([ 'update:modelValue', 'change' ])
 	const imageStore 				= useImageStore()
-	const { imageCropperSource } 	= storeToRefs(imageStore)
+	const uploadStore 				= useUploadStore()
+	const { imageCropperSource, selectedFileName } 	= storeToRefs(imageStore)
+	const { uploadFile } 			= uploadStore
 
 	const canvasRef 		= ref(null)
 	const fileInputRef 		= ref(null)
 	const image 			= ref(null)
+	const sourceFileName 	= ref('')
+	const isSaving 			= ref(false)
 	const isDragging 		= ref(false)
 	const dragMode 			= ref(null)
 	const startX 			= ref(0)
@@ -61,6 +65,8 @@
 		const file = event.target.files?.[0]
 
 		if (!file) return
+
+		sourceFileName.value = file.name
 
 		const reader = new FileReader()
 
@@ -152,18 +158,35 @@
 		ctx.strokeRect( crop.value.x, crop.value.y, crop.value.width, crop.value.height )
 	}
 
-	const nudgeCrop = (dx, dy) =>
+	const getImageDisplayBounds = () =>
+	({
+		x: 0,
+		y: 0,
+		width: image.value ? image.value.width * displayScale.value : canvasWidth,
+		height: image.value ? image.value.height * displayScale.value : canvasHeight
+	})
+
+	const applyCrop = (nextCrop, mode = 'move') =>
 	{
-		crop.value = constrainCrop(
+		crop.value = constrainCrop(nextCrop, mode)
+		drawCanvas()
+		updateOutput()
+	}
+
+	const moveCropTo = (x, y) =>
+	{
+		applyCrop(
 		{
-			x: crop.value.x + dx,
-			y: crop.value.y + dy,
+			x,
+			y,
 			width: crop.value.width,
 			height: crop.value.height
 		}, 'move')
+	}
 
-		drawCanvas()
-		updateOutput()
+	const nudgeCrop = (dx, dy) =>
+	{
+		moveCropTo(crop.value.x + dx, crop.value.y + dy)
 	}
 
 	const startDrag = (event, mode = 'move') =>
@@ -195,6 +218,24 @@
 			nextCrop.x = base.x + dx
 			nextCrop.y = base.y + dy
 		}
+		else if (dragMode.value.length === 2)
+		{
+			const aspect = props.aspectRatio > 0 ? props.aspectRatio : 1
+			const widthFromX = dragMode.value.includes('e') ? base.width + dx : base.width - dx
+			const heightFromY = dragMode.value.includes('s') ? base.height + dy : base.height - dy
+			const widthFromY = heightFromY * aspect
+			const widthDeltaFromX = Math.abs(widthFromX - base.width)
+			const widthDeltaFromY = Math.abs(widthFromY - base.width)
+			const nextWidth = widthDeltaFromX >= widthDeltaFromY ? widthFromX : widthFromY
+			const nextHeight = nextWidth / aspect
+			const right = base.x + base.width
+			const bottom = base.y + base.height
+
+			nextCrop.width = nextWidth
+			nextCrop.height = nextHeight
+			nextCrop.x = dragMode.value.includes('w') ? right - nextWidth : base.x
+			nextCrop.y = dragMode.value.includes('n') ? bottom - nextHeight : base.y
+		}
 		else 
 		{
 			if (dragMode.value.includes('e')) 
@@ -216,10 +257,7 @@
 			}
 		}
 
-		crop.value = constrainCrop(nextCrop, dragMode.value)
-
-		drawCanvas()
-		updateOutput()
+		applyCrop(nextCrop, dragMode.value)
 	}
 
 	const stopDrag = () =>
@@ -326,8 +364,8 @@
 		const sw = crop.value.width * scale
 		const sh = crop.value.height * scale
 
-		outputCanvas.width = props.width
-		outputCanvas.height = props.height
+		outputCanvas.width = Math.max(1, Math.round(sw))
+		outputCanvas.height = Math.max(1, Math.round(sh))
 
 		ctx.drawImage( image.value, sx, sy, sw, sh,
 			0, 0, outputCanvas.width, outputCanvas.height )
@@ -338,45 +376,73 @@
 		emit('change', result)
 	}
 
+	const getOutputExtension = () =>
+	{
+		const typeMap =
+		{
+			'image/jpeg': 'jpg',
+			'image/jpg':  'jpg',
+			'image/png':  'png',
+			'image/webp': 'webp',
+			'image/gif':  'gif',
+			'image/bmp':  'bmp'
+		}
+
+		return typeMap[props.outputType] ?? 'png'
+	}
+
+	const getCroppedFileName = () =>
+	{
+		const sourceName = selectedFileName.value || sourceFileName.value || 'cropped-image'
+		const dotIndex = sourceName.lastIndexOf('.')
+		const baseName = dotIndex > 0 ? sourceName.slice(0, dotIndex) : sourceName
+		return `${baseName}-crop.${getOutputExtension()}`
+	}
+
+	const saveCropImage = async () =>
+	{
+		if (!props.modelValue || isSaving.value)
+			return
+
+		isSaving.value = true
+
+		try
+		{
+			const response = await fetch(props.modelValue)
+			const blob = await response.blob()
+			const file = new File([blob], getCroppedFileName(), { type: props.outputType })
+
+			await uploadFile({
+				file,
+				preview: props.modelValue,
+				progress: 0,
+				status: 'pending',
+				controller: null,
+				error: null
+			})
+		}
+		finally
+		{
+			isSaving.value = false
+		}
+	}
+
 	// Keyboard Listeners  ================================================
 
 	const keys = (e) =>
 	{
+		const imageBounds = getImageDisplayBounds()
+		const boundsX = Math.max(imageBounds.x, imageBounds.x + imageBounds.width - crop.value.width)
+		const boundsY = Math.max(imageBounds.y, imageBounds.y + imageBounds.height - crop.value.height)
+		
 		const step = e.shiftKey ? 25 : (e.ctrlKey ? 10 : 1)
 
-		if (e.code === 'ArrowLeft')  { nudgeCrop(-step, 0); e.preventDefault() }
-		if (e.code === 'ArrowRight') { nudgeCrop(step, 0);  e.preventDefault() }
-		if (e.code === 'ArrowUp')    { nudgeCrop(0, -step); e.preventDefault() }
-		if (e.code === 'ArrowDown')  { nudgeCrop(0, step);  e.preventDefault() }		
-		if (e.code === 'Home')
-		{
-			crop.value = constrainCrop(
-			{
-				x: 0,
-				y: 0,
-				width: crop.value.width,
-				height: crop.value.height
-			}, 'move')
-
-			drawCanvas()
-			updateOutput()
-			e.preventDefault()
-		}
-
-		if (e.code === 'End')
-		{
-			crop.value = constrainCrop(
-			{
-				x: canvasWidth - crop.value.width,
-				y: canvasHeight - crop.value.height,
-				width: crop.value.width,
-				height: crop.value.height
-			}, 'move')
-
-			drawCanvas()
-			updateOutput()
-			e.preventDefault()
-		}
+		if (e.code === 'ArrowLeft')  { nudgeCrop(-step, 0); 	e.preventDefault() }
+		if (e.code === 'ArrowRight') { nudgeCrop(step, 0);  	e.preventDefault() }
+		if (e.code === 'ArrowUp')    { nudgeCrop(0, -step); 	e.preventDefault() }
+		if (e.code === 'ArrowDown')  { nudgeCrop(0, step);  	e.preventDefault() }		
+		if (e.code === 'Home') { moveCropTo(0, 0); 				e.preventDefault() }
+		if (e.code === 'End')  { moveCropTo(boundsX, boundsY);  e.preventDefault() }
 	}
 
 	KeyboardListeners(keys, disableKeys)
@@ -405,7 +471,8 @@
 		<TabControl class="mb-10" :tabList="['Source', 'Crop']" keepAlive>
 
 			<template #Right>
-				<PrimaryButton title="Choose Image" @click="openFilePicker" />
+				<PrimaryButton title="Choose Image" @click="openFilePicker" class="mr-2" />
+				<PrimaryButton :title="isSaving ? 'Saving...' : 'Save'" :disabled="!modelValue || isSaving" @click="saveCropImage" />
 				<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
 			</template>
 

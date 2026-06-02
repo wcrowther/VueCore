@@ -52,7 +52,7 @@
 				<!-- Image -->
 				<img v-if="isImageFile(file.extension)"
 					:src="getFileUrl(file)"
-					class="object-cover w-full block"
+					class="object-contain w-full bg-white block"
 					@click.stop="onImageClick(file, idx, $event)"
 					:style="{ height: fileThumbnailSize + 'px' }" />
 

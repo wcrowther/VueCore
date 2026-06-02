@@ -89,7 +89,7 @@
 			</li>
 			<li>
 				<span>Model Validation w/ Vuelidate</span>
-				We use Vuelidate to do model validation on an object before is sent to the server.
+				We use Vuelidate to do model validation on an object before it is sent to the server.
 			</li>
 			<li>
 				<span>Help System</span>

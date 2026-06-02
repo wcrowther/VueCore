@@ -1,3 +1,6 @@
+
+import { imageToolbarList } from '@/datalists/imagesToolbarList'
+
 export const useImageStore = defineStore('ImageStore', () =>
 {
 	const fileStore = useFileStore()
@@ -8,13 +11,7 @@ export const useImageStore = defineStore('ImageStore', () =>
 	const requestedEditorTab = ref('')
 	const lastNonImageSelection = ref('')
 	const imageCropperSource = useLocalStorage('imageCropperSource', '')
-	const toolbarTools = ref([
-		{ key: 'crop', label: 'Crop', icon: 'heroicons:scissors-20-solid', disabled: true },
-		{ key: 'resize', label: 'Resize', icon: 'heroicons:arrows-pointing-out-20-solid', disabled: true },
-		{ key: 'rotate', label: 'Rotate', icon: 'heroicons:arrow-path-20-solid', disabled: true },
-		{ key: 'flip', label: 'Flip', icon: 'heroicons:arrows-right-left-20-solid', disabled: true },
-		{ key: 'reset', label: 'Reset', icon: 'heroicons:arrow-uturn-left-20-solid', disabled: true }
-	])
+	const toolbarTools = ref(imageToolbarList)
 
 	// GETTERS ----------------------------------------------------------------
 
