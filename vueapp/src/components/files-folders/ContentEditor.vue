@@ -33,8 +33,8 @@
 
 	<PrimaryButton title="Show Editor" @click="showEditor=true" />
 	
-	<ModalControl v-if="showEditor" v-model="showEditor" :showFooter="false" 
-		class="pt-1 bg-[#b8d7ed]" :height="props.height" :width="props.width" title="Editor">
+	<ModalControl v-if="showEditor" v-model="showEditor" :showFooter="false"
+		class="pt-1 bg-[#b8d7ed] !overflow-hidden" :height="props.height" :width="props.width" title="Editor">
 
 	    <TabControl v-model:activeTab="activeEditorTab"
 			class="mb-10" :tabList="['Files', 'Images', 'Content']" >
