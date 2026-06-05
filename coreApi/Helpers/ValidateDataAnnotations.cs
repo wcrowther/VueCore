@@ -11,6 +11,10 @@ public static class CustomRouteHandlerBuilder
 		builder.AddEndpointFilter(async (invocationContext, next) =>
 		{
 			var argument = invocationContext.Arguments.OfType<T>().FirstOrDefault();
+
+			if (argument is null)
+				return await next(invocationContext);
+
 			var response = argument.DataAnnotationsValidate();
 
 			if (!response.IsValid)

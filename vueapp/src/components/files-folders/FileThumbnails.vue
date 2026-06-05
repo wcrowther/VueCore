@@ -1,11 +1,12 @@
 <script setup>
 
 	const fileStore 							 = useFileStore()
-	const imageStore 						 = useImageStore()
+	const imageStore 						 	 = useImageStore()
 	const { fileRows, selectedIndexSet,
 			fileThumbnailSize } 				 = storeToRefs(fileStore)
 	const { deleteFile, isImageFile, getFileUrl, 
-			handleFileClick, startFileDrag, selectFileIndex } 	 = fileStore
+			handleFileClick, startFileDrag, 
+			selectFileIndex } 	 				 = fileStore
 	const { onPreviewAreaClick } 				 = imageStore
 			
 	const { createConfirm } 					 = useConfirmControl()

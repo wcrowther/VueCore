@@ -159,14 +159,24 @@ export const useAuthStore = defineStore('AuthStore',
         },
         showInactivityWarning()
         {
-            if (!this.isAuthenticated || this.isLoggingOut)
-                return
+            if (!this.isAuthenticated || this.isLoggingOut) return
 
-            const msUntilLogout = Math.max(1, this.lastActivityTimestamp + this.inactivityTimeoutMs - Date.now())
-            const warningMins   = Math.round(envConsts.warningBeforeLogoutMs / 60000)
-            const warningLabel  = warningMins === 1 ? '1 minute' : `${warningMins} minutes`
+            const untilLogoutInMs   = Math.max(1, this.lastActivityTimestamp + this.inactivityTimeoutMs - Date.now())
+            const warningMins       = Math.round(envConsts.warningBeforeLogoutMs / 60000)
+            const warningLabel      = warningMins === 1 ? '1 minute' : `${warningMins} minutes`
 
-            useToastStore().showWarning(`You will be logged out in ${warningLabel} due to inactivity.`, msUntilLogout, true)
+            useToastStore().showAction
+            (
+                `You will be logged out in ${warningLabel} due to inactivity.`,
+                'Stay Signed In',
+                async () =>
+                {
+                    if (!this.isAuthenticated || this.isLoggingOut) return
+                    try { await this.refreshAuth() } catch {} 
+                },
+                untilLogoutInMs,
+                true
+            )
         },
         async handleInactivityDeadline()
         {
@@ -262,10 +272,12 @@ export const useAuthStore = defineStore('AuthStore',
         },
         async refreshAuth()
         {
-            if (!this.userId)
-                return false
+            // Most refresh endpoints rely on refresh-token cookies and reject body payloads.
+            // Try cookie-only first, then fall back to legacy payload shape if needed.
+            let result = await apiAuth('/authenticate/refreshAuth')
 
-            const result = await apiAuth('/authenticate/refreshAuth', { UserId: this.userId })
+            if (!result.success && this.userId)
+                result = await apiAuth('/authenticate/refreshAuth', { UserId: this.userId })
 
             if (result.success)
                 this.touchActivity()

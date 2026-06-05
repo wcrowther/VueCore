@@ -14,8 +14,7 @@
 
 	watch(showEditor, (isOpen) =>
 	{
-		if (!isOpen)
-			activeEditorTab.value = 'Files'
+		if (!isOpen) activeEditorTab.value = 'Files'
 	})
 
 	watch(requestedEditorTab, () =>

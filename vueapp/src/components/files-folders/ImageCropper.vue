@@ -1,5 +1,7 @@
 <script setup>
 
+	import { useSaveNameControl } from '@/composables/UseSaveNameControl'
+
 	const props = defineProps(
 	{
 		modelValue: 	{ type: String, default: null},
@@ -9,11 +11,13 @@
 		outputType: 	{ type: String, default: 'image/png' }
 	})
 
+	const { platform }			    = usePlatform()
 	const emit 						= defineEmits([ 'update:modelValue', 'change' ])
 	const imageStore 				= useImageStore()
 	const uploadStore 				= useUploadStore()
 	const { imageCropperSource, selectedFileName } 	= storeToRefs(imageStore)
 	const { uploadFile } 			= uploadStore
+	const { createSaveNameControl } = useSaveNameControl()
 
 	const canvasRef 		= ref(null)
 	const fileInputRef 		= ref(null)
@@ -218,6 +222,11 @@
 			nextCrop.x = base.x + dx
 			nextCrop.y = base.y + dy
 		}
+		else if (dragMode.value === 'moveInverse')
+		{
+			nextCrop.x = base.x - dx
+			nextCrop.y = base.y - dy
+		}
 		else if (dragMode.value.length === 2)
 		{
 			const aspect = props.aspectRatio > 0 ? props.aspectRatio : 1
@@ -396,10 +405,10 @@
 		const sourceName = selectedFileName.value || sourceFileName.value || 'cropped-image'
 		const dotIndex = sourceName.lastIndexOf('.')
 		const baseName = dotIndex > 0 ? sourceName.slice(0, dotIndex) : sourceName
-		return `${baseName}-crop.${getOutputExtension()}`
+		return `${baseName}_crop.${getOutputExtension()}`
 	}
 
-	const saveCropImage = async () =>
+	const saveCropImage = async (fileName = getCroppedFileName()) =>
 	{
 		if (!props.modelValue || isSaving.value)
 			return
@@ -410,9 +419,10 @@
 		{
 			const response = await fetch(props.modelValue)
 			const blob = await response.blob()
-			const file = new File([blob], getCroppedFileName(), { type: props.outputType })
+			const file = new File([blob], fileName, { type: props.outputType })
 
-			await uploadFile({
+			await uploadFile(
+			{
 				file,
 				preview: props.modelValue,
 				progress: 0,
@@ -427,6 +437,17 @@
 		}
 	}
 
+	const promptForSave = async () =>
+	{
+		if (!props.modelValue || isSaving.value) return
+
+		const fileName = await createSaveNameControl(getCroppedFileName())
+
+		if (!fileName) return
+
+		await saveCropImage(fileName)
+	}
+
 	// Keyboard Listeners  ================================================
 
 	const keys = (e) =>
@@ -435,14 +456,17 @@
 		const boundsX = Math.max(imageBounds.x, imageBounds.x + imageBounds.width - crop.value.width)
 		const boundsY = Math.max(imageBounds.y, imageBounds.y + imageBounds.height - crop.value.height)
 		
-		const step = e.shiftKey ? 25 : (e.ctrlKey ? 10 : 1)
+		let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey 
+		let step = e.shiftKey ? 25 : (e.ctrlKey ? 10 : 1) 
+		// console.log(e.code);    
 
-		if (e.code === 'ArrowLeft')  { nudgeCrop(-step, 0); 	e.preventDefault() }
-		if (e.code === 'ArrowRight') { nudgeCrop(step, 0);  	e.preventDefault() }
-		if (e.code === 'ArrowUp')    { nudgeCrop(0, -step); 	e.preventDefault() }
-		if (e.code === 'ArrowDown')  { nudgeCrop(0, step);  	e.preventDefault() }		
-		if (e.code === 'Home') { moveCropTo(0, 0); 				e.preventDefault() }
-		if (e.code === 'End')  { moveCropTo(boundsX, boundsY);  e.preventDefault() }
+		if (e.code === 'KeyS' && ctrl) { promptForSave(); 		e.preventDefault() }
+		if (e.code === 'ArrowLeft')    { nudgeCrop(-step, 0);	e.preventDefault() }
+		if (e.code === 'ArrowRight')   { nudgeCrop(step, 0); 	e.preventDefault() }
+		if (e.code === 'ArrowUp')      { nudgeCrop(0, -step);	e.preventDefault() }
+		if (e.code === 'ArrowDown')    { nudgeCrop(0, step); 	e.preventDefault() }
+		if (e.code === 'Home') 		   { moveCropTo(0, 0); 		e.preventDefault() }
+		if (e.code === 'End')  		   { moveCropTo(boundsX, boundsY); e.preventDefault() }
 	}
 
 	KeyboardListeners(keys, disableKeys)
@@ -472,7 +496,7 @@
 
 			<template #Right>
 				<PrimaryButton title="Choose Image" @click="openFilePicker" class="mr-2" />
-				<PrimaryButton :title="isSaving ? 'Saving...' : 'Save'" :disabled="!modelValue || isSaving" @click="saveCropImage" />
+					<PrimaryButton :title="isSaving ? 'Saving...' : 'Save'" :disabled="!modelValue || isSaving" @click="promptForSave" />
 				<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
 			</template>
 
@@ -492,7 +516,11 @@
         	</template>
 
 			<template #Crop>
-				<img v-if="modelValue" :src="modelValue" class="border border-gray-300 max-w-full" />
+				<img v-if="modelValue" :src="modelValue"
+					class="border border-gray-300 max-w-full cursor-move select-none"
+					draggable="false"
+					@dragstart.prevent
+					@mousedown.prevent="startDrag($event, 'moveInverse')" />
 			</template>
 
     	</TabControl>
