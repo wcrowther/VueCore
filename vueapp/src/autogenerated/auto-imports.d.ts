@@ -131,7 +131,6 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
-  const useFileNameEntry: typeof import('../composables/UseFileNameEntry.js')['useFileNameEntry']
   const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']

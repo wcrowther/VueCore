@@ -6,7 +6,7 @@
 
 	const props = defineProps(
 	{
-		title:            	String,
+		title:            	{ type: String, default: null },
 		teleportToModals:   { type: Boolean, default: true },
 		height:           	{ type: String, default: '300px' },
 		width:            	{ type: String, default: '500px' },

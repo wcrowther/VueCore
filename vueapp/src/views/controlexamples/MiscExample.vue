@@ -14,5 +14,7 @@
 
     <AccordianExample />
 
+    <TabBarControlExample />
+
 </template>
 

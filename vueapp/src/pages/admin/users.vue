@@ -7,16 +7,14 @@
 
 <template>
 
-    <div id="admin-users" class="flex">
-
-        <MainSidebar>
+    <SidebarControl id="AdminUsers">
+    
+        <template #sidebar>
             <UsersList />
-        </MainSidebar>     
+        </template>
 
-        <MainRight>
-            <UsersDetail />
-        </MainRight>  
+        <UsersDetail />
 
-    </div> 
+    </SidebarControl>	
 
 </template>

@@ -1,7 +1,7 @@
 
 <script setup>
 
-	ShowSideButtonInSubNav()
+	ShowSideButtonInSubNav()  // Hamburger sidebar toggle button
 
     // const route = useRoute()
     // const urlSearch = computed(() => route.params.search || null)
@@ -11,33 +11,16 @@
 </script>
 
 <template>
-    <div class="flex" id="accountsMain">
 
-        <!-- <div class="w-full">{{ urlSearch }}</div> -->
-        
-        <MainSidebar>
+    <SidebarControl id="AccountsMain">
+    
+        <template #sidebar>
             <AccountsList />
-        </MainSidebar>     
-        
-        <MainRight class="bg-gradient-main">
-            <AccountDetail />
-        </MainRight>   
+        </template>
 
-        <!-- 
-        // ALTERNATIVE APPROACH: Using SidebarControl (Not yet working) 
-        <SidebarControl :showSideBar="sideBarHidden">
+        <AccountDetail />
 
-            <template #sidebar>
-                <div class="bg-orange w-full h-full p-5">sidebar</div>
-            </template>
+    </SidebarControl>	
 
-            <template #default>
-                <div class="bg-yellow w-full h-full p-5">default</div>
-            </template>
-
-        </SidebarControl>	
-        -->
-
-    </div>
 </template> 
 

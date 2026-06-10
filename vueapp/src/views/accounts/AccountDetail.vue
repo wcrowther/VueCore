@@ -210,6 +210,29 @@
 
         </div>
 
+        <!-- ALT VERSION FOR MULTIPLE ADDRESSES - NOT YET IMPLEMENTED
+        
+        <div v-if="account && account.AccountId > 0 || isAddingAccount"  
+            class="w-[300px] flex-1 border pt-2 border-color-blue-gray bg-white min-w-[200px] grow">
+ 
+            <TabControl :tabList="['Account', 'Second', 'Third']" altDesign>
+                     
+                <template #Account>
+                    <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
+                    <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
+                    
+                    <div class="flex justify-between gap-3">
+                        <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
+                            :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
+                        <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
+                    </div>
+                </template>
+
+            </TabControl> 
+
+        </div>
+        -->
+
         <div v-if="account && account.AccountId > 0 || isAddingAccount"  
             class="w-[300px] flex-1 border border-color-blue-gray bg-white p-5 min-w-[200px] grow">
 

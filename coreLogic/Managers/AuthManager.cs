@@ -31,6 +31,9 @@ public class AuthManager(
 
     public Returns<AuthUser> Authenticate(AuthRequestVm authRequest)
     {
+        if (authRequest is null)
+            return Returns<AuthUser>.Failure("AuthRequest cannot be null.");
+
         // Need raw User for PasswordHash verification
         var user = userRepo.GetUserByUserName(authRequest.UserName);
 
@@ -50,6 +53,10 @@ public class AuthManager(
 
         tokenManager.CreateNewRefreshTokenForUser(user);
         var savedUser = userRepo.SaveUser(user);
+
+        if (savedUser is null)
+            return Returns<AuthUser>.Failure($"Not able to save user {authRequest.UserName}.");
+
         cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
 
         return Returns<AuthUser>.Result(GetAuthResponse(savedUser));
@@ -57,11 +64,16 @@ public class AuthManager(
 
     public Returns<AuthUser> Signup(UserToCreate userToCreate)
     {
+        if (userToCreate is null)
+            return Returns<AuthUser>.Failure("UserToCreate cannot be null.");
+
         var existingUser = userRepo.GetUserByUserName(userToCreate.UserName);
         if (existingUser is not null)
             return new Error($"Not able to sign up user {userToCreate.UserName}");
 
         var createdUser  = userManager.CreateUser(userToCreate);
+        if (createdUser is null)
+            return Returns<AuthUser>.Failure($"Not able to create user {userToCreate.UserName}.");
         var rawUser      = userRepo.GetUserByUserName(createdUser.UserName);
         var authResponse = GetAuthResponse(rawUser);
         return Returns<AuthUser>.Result(authResponse);
@@ -69,9 +81,12 @@ public class AuthManager(
 
     public Returns<AuthUser> RefreshAuth(AuthRefreshRequest request)
     {
-        var user         = userRepo.GetUserById(request.UserId);
-        var refreshToken = accessor.HttpContext.Request.Cookies["refreshToken"];
-        var domain       = accessor.HttpContext.Request.Headers.Origin.ToString();
+        if (request is null)
+            return Returns<AuthUser>.Failure("AuthRefreshRequest cannot be null.");
+
+        var user           = userRepo.GetUserById(request.UserId);
+        var refreshToken   = accessor.HttpContext?.Request?.Cookies["refreshToken"];
+        var domain         = accessor.HttpContext?.Request?.Headers.Origin.ToString();
         var allowedDomains = appSettings.AllowedOrigins.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
         if (!IsAllowedDomain(domain, allowedDomains))
@@ -84,6 +99,8 @@ public class AuthManager(
 
         tokenManager.CreateNewRefreshTokenForUser(user);
         var savedUser = userRepo.SaveUser(user);
+        if (savedUser is null)
+            return Returns<AuthUser>.Failure($"Not able to save user for userId: {request.UserId}.");
         cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
 
         var (token, expiration) = tokenManager.GenerateJwtToken(savedUser);

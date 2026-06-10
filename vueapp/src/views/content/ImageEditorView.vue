@@ -21,8 +21,7 @@
         height="90%" width="90%" class="p-6 pb-10 overflow-hidden" @closeModal="showModal=false">
 
         <!-- overflow-y-auto scrollbar-thin -->
-        <TabControl class="h-full" contentClass="p-5" 
-            id="ImageEditorTabControl" 
+        <TabControl class="h-full"  id="ImageEditorTabControl" 
             :tabList="['Gallery', 'Detail', 'Upload']" >
 
             <template #Gallery>       

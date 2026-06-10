@@ -5,7 +5,8 @@
         id: { type: String, default: 'TabControl' },
 		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] },
         keepAlive: { type: Boolean, default: false },
-        border: { type: Boolean, default: false },
+        contentBorder: { type: Boolean, default: false },
+        altDesign: { type: Boolean, default: false },
 	})
 
     const activeTabModel = defineModel('activeTab', { type: String, default: '' })
@@ -48,7 +49,7 @@
         <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b border-slate-300">
         
             <template v-for="(tab,idx) in props.tabList" :key="idx">
-                <div :class="[ isActive(tab) ? 'tab-active' :'tab-other' ]" 
+                <div :class="[{ 'altDesign' : props.altDesign }, isActive(tab) ? 'tab-active' :'tab-other' ]" 
                     @click="activeTab = tab">
                     <span>{{ tab }}</span>
                 </div>
@@ -61,8 +62,8 @@
 
         <!-- Content -->
         <div class="z-10 h-full min-h-60 p-5 pb-7 opacity-100 bg-white 
-            border-t-0 overflow-y-auto scrollbar-thin border border-slate-300"
-            :class="{ 'border': props.border}">
+            border-t-0 overflow-y-auto scrollbar-thin border-red"
+            :class="{ 'border': props.contentBorder}">
 
            <slot></slot>
 
@@ -91,7 +92,8 @@
         text-sm font-bold select-none relative bottom-[-1px] }
     .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border 
         border-transparent text-sm font-bold hover:bg-slate-300 }
-
+    .altDesign.tab-active { @apply !rounded-none}
+    .altDesign.tab-other  { @apply !rounded-none}
 </style> 
 
 <!-- USAGE:

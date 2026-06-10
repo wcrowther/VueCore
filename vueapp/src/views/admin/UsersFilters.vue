@@ -30,7 +30,7 @@
 
     <div v-if="advancedFilters.length > 0" 
         class="text-sm text-gray-400 mt-3 cursor-pointer" @click=showAdvancedSearch>
-        <span class="font-bold pl-1">Filters: </span> 
+        <span class="font-bold">Filters: </span> 
         <span class="italic">{{ advancedFilters }}</span>
     </div>
 
