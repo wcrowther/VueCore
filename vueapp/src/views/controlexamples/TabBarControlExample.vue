@@ -24,6 +24,6 @@
         </InfoBox>
     </div>
 
-    <TabBarControl v-model="modelValue" :tabs />
+    <TabBarControl v-model="modelValue" :tabs showOverflowMenu />
 
 </template>

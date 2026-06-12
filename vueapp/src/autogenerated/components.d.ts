@@ -38,6 +38,7 @@ declare module 'vue' {
     ContextMenu: typeof import('./../components/misc/ContextMenu.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
+    DropListControl: typeof import('./../components/misc/DropListControl.vue')['default']
     FileExplorer: typeof import('./../components/files-folders/FileExplorer.vue')['default']
     FileRows: typeof import('./../components/files-folders/FileRows.vue')['default']
     FilesExample: typeof import('./../views/controlexamples/FilesExample.vue')['default']
