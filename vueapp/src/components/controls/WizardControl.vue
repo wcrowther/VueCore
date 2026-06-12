@@ -86,7 +86,7 @@
 <!-- USAGE: 
 
     Note: In the WizardControl the slots are all loaded but kept hidden. 
-    In the TabControl, the slots content is not loaded until the tab is selected.
+    In the TabsControl, the slots content is not loaded until the tab is selected.
 
     <WizardControl class="mb-10" :tabList="['First', 'Second', 'Third']" >
 

@@ -215,7 +215,7 @@
         <div v-if="account && account.AccountId > 0 || isAddingAccount"  
             class="w-[300px] flex-1 border pt-2 border-color-blue-gray bg-white min-w-[200px] grow">
  
-            <TabControl :tabList="['Account', 'Second', 'Third']" altDesign>
+            <TabsControl :tabList="['Account', 'Second', 'Third']" altDesign>
                      
                 <template #Account>
                     <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
@@ -228,7 +228,7 @@
                     </div>
                 </template>
 
-            </TabControl> 
+            </TabsControl> 
 
         </div>
         -->

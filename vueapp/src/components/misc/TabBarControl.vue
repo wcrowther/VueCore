@@ -228,26 +228,28 @@
 </script>
 
 <template>
-	<div class="flex items-center gap-2 overflow-visible">
+	<div class="tab-row flex h-9 gap-2 overflow-visible">
 
 		<button v-if="showLeftButton" 
 			class="shrink-0" @click="scrollLeft">◀</button>
 
 		<div ref="containerRef"
-			class="flex flex-1 min-w-0 overflow-x-auto [scrollbar-width:none] scroll-smooth [&::-webkit-scrollbar]:hidden">
+			class="relative flex flex-1 gap-1 items-end min-w-0 overflow-x-auto
+			z-[90] [scrollbar-width:none] scroll-smooth [&::-webkit-scrollbar]:hidden">
+			
+			<!-- List of Tabs -->
 			<div v-for="tab in normalizedTabs" :key="tab.id"
 				:ref="el => setTabRef(tab.id, el)"
-				:data-tab-id="tab.id" class="shrink-0">
-				<slot name="tab-button"
-					:tab="tab" :is-active="selectedTabId === tab.id"
+				:data-tab-id="tab.id" class="shrink-0 flex items-end z-[100]">
+
+				<slot name="tab-button" :tab :is-active="selectedTabId === tab.id"
 					:activate="() => activateTab(tab)">
-					<button type="button"
-						class="whitespace-nowrap rounded border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800"
-						:class="{ 'border-blue-500 bg-blue-50 font-bold text-blue-700': selectedTabId === tab.id }"
+					<div :class="selectedTabId === tab.id ? 'tab-active' : 'tab-other'"
 						@click="activateTab(tab)">
 						{{ tab.label }}
-					</button>
+					</div>
 				</slot>
+
 			</div>
 
 		</div>
@@ -255,31 +257,52 @@
 		<button v-if="showRightButton" 
 			class="shrink-0" @click="scrollRight">▶</button>
 
-		<div v-if="showOverflowMenu && hiddenTabs.length" 
-			class="shrink-0"
-			@mouseenter="openOverflowMenuWithDelay"
-			@mouseleave="closeOverflowMenuWithDelay"
-			@focusin="openOverflowMenuNow"
-			@focusout="onOverflowFocusOut">
+		<div v-if="showOverflowMenu && hiddenTabs.length" class="shrink-0"
+			@mouseenter="openOverflowMenuWithDelay"	@mouseleave="closeOverflowMenuWithDelay"
+			@focusin="openOverflowMenuNow"	@focusout="onOverflowFocusOut">
+
 			<div ref="overflowTriggerRef">
+
 				<slot name="overflow-trigger" 
 				:is-open="isOverflowMenuOpen" :hidden-count="hiddenTabs.length">
 					<button type="button"
 						class="inline-flex h-8 w-8 items-center justify-center rounded border
-						border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+						border-gray-400 bg-white text-gray-700 hover:bg-gray-50"
 						aria-label="Show hidden tabs">⋯</button>
 				</slot>
+
 			</div>
+
 		</div>
 
-		<DropListControl
-			v-if="showOverflowMenu"
-			v-model="isOverflowMenuOpen"
-			:list="hiddenTabs"
-			:anchorEl="overflowTriggerRef"
-			@select="activateTab"
-			@hover-enter="openOverflowMenuNow"
+		<DropListControl v-if="showOverflowMenu"
+			v-model="isOverflowMenuOpen" :list="hiddenTabs" :anchorEl="overflowTriggerRef"
+			@select="activateTab" @hover-enter="openOverflowMenuNow" 
 			@hover-leave="closeOverflowMenuWithDelay" />
 
 	</div>
 </template>
+
+<style lang="postcss" scoped>
+	.tab-row
+	{
+		position: relative;
+	}
+
+	.tab-row::after
+	{
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 1px;
+		background: rgb(156 163 175);
+		z-index: 0;
+	}
+
+	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0
+		text-sm z-[100] font-bold select-none relative bottom-[-1px] whitespace-nowrap cursor-pointer }
+	.tab-other  { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border
+		border-transparent text-sm font-bold hover:bg-gray-200 whitespace-nowrap cursor-pointer }
+</style>

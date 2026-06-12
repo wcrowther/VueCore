@@ -116,7 +116,7 @@ declare module 'vue' {
     SwitchButton: typeof import('./../components/buttons/SwitchButton.vue')['default']
     TabBarControl: typeof import('./../components/misc/TabBarControl.vue')['default']
     TabBarControlExample: typeof import('./../views/controlexamples/TabBarControlExample.vue')['default']
-    TabControl: typeof import('./../components/controls/TabControl.vue')['default']
+    TabsControl: typeof import('./../components/controls/TabsControl.vue')['default']
     TestUser: typeof import('./../views/auth/TestUser.vue')['default']
     TextAreaInput: typeof import('./../components/inputs/TextAreaInput.vue')['default']
     TextInput: typeof import('./../components/inputs/TextInput.vue')['default']

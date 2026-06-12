@@ -21,7 +21,7 @@
         height="90%" width="90%" class="p-6 pb-10 overflow-hidden" @closeModal="showModal=false">
 
         <!-- overflow-y-auto scrollbar-thin -->
-        <TabControl class="h-full"  id="ImageEditorTabControl" 
+        <TabsControl class="h-full"  id="ImageEditorTabsControl" 
             :tabList="['Gallery', 'Detail', 'Upload']" >
 
             <template #Gallery>       
@@ -36,7 +36,7 @@
                 <ImageUploadView />
             </template>
 
-        </TabControl>
+        </TabsControl>
 
         <template #footer>
             <button class="btn-delete" @click="showModal=false">Close</button>

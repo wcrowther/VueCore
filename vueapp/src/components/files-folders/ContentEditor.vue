@@ -36,7 +36,7 @@
 	<ModalControl v-if="showEditor" v-model="showEditor" :showFooter="false"
 		class="pt-1 bg-[#b8d7ed] !overflow-hidden" :height="props.height" :width="props.width" title="Editor">
 
-	    <TabControl v-model:activeTab="activeEditorTab"
+	    <TabsControl v-model:activeTab="activeEditorTab"
 			class="mb-10" :tabList="['Files', 'Images', 'Content']" >
 			<template #Files>       
     			<UploadControl accept="image/*" class="bg-gradient-main mb-3" />
@@ -53,7 +53,7 @@
         	    <MarkdownEditor />
         	</template>
 
-    	</TabControl>
+    	</TabsControl>
 
 	</ModalControl>	
 

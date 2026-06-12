@@ -61,7 +61,7 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		{
 			const status = err?.response?.status
 			if (status === 401 || status === 403)
-				console.warn('Antiforgery token is only available when logged in.')
+				console.log('Antiforgery token is only available when logged in.')
 			else
 				console.error('Failed to get antiforgery token:', err)
 		}

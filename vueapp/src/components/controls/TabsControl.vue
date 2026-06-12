@@ -2,7 +2,7 @@
 
     const props = defineProps(
     {
-        id: { type: String, default: 'TabControl' },
+        id: { type: String, default: 'TabsControl' },
 		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] },
         keepAlive: { type: Boolean, default: false },
         contentBorder: { type: Boolean, default: false },
@@ -46,7 +46,7 @@
     <div :id="props.id" class="h-full">
 
         <!-- Tabs -->
-        <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b border-slate-300">
+        <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b border-gray-400">
         
             <template v-for="(tab,idx) in props.tabList" :key="idx">
                 <div :class="[{ 'altDesign' : props.altDesign }, isActive(tab) ? 'tab-active' :'tab-other' ]" 
@@ -88,19 +88,19 @@
 
 <style lang="postcss" scoped>
 
-    .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border bg-white border-slate-300 border-b-0 
+    .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0 
         text-sm font-bold select-none relative bottom-[-1px] }
     .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border 
-        border-transparent text-sm font-bold hover:bg-slate-300 }
+        border-transparent text-sm font-bold hover:bg-gray-200 }
     .altDesign.tab-active { @apply !rounded-none}
     .altDesign.tab-other  { @apply !rounded-none}
 </style> 
 
 <!-- USAGE:
     
-    Note: In TabControl the slots do not 'KeepAlive' their state. While the WizardControl they do.
+    Note: In TabsControl the slots do not 'KeepAlive' their state. While the WizardControl they do.
 
-    <TabControl class="mb-10" :tabList="['First', 'Second', 'Third']" >
+    <TabsControl class="mb-10" :tabList="['First', 'Second', 'Third']" >
 
         <div class="text-center p-3 border">Default slot</div>
         <template #First>       
@@ -119,5 +119,5 @@
             </div>
         </template>
 
-    </TabControl>
+    </TabsControl>
 -->

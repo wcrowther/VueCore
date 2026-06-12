@@ -492,7 +492,7 @@
 <template>
 	<!-- <div class="flex flex-col gap-4"> -->
 
-		<TabControl class="mb-10" :tabList="['Source', 'Crop']" keepAlive>
+		<TabsControl class="mb-10" :tabList="['Source', 'Crop']" keepAlive>
 
 			<template #Right>
 				<PrimaryButton title="Choose Image" @click="openFilePicker" class="mr-2" />
@@ -523,7 +523,7 @@
 					@mousedown.prevent="startDrag($event, 'moveInverse')" />
 			</template>
 
-    	</TabControl>
+    	</TabsControl>
 	<!-- </div> -->
 
 </template>
