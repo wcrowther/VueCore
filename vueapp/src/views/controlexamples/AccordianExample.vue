@@ -12,7 +12,7 @@
         </InfoBox>
     </div>
 
-    <AccordionControl :multiple="false" :defaultOpen="[0]" class="mt-5 mb-7">
+    <AccordionControl :multiple="false" :defaultOpen="[0]" class="mt-5 mb-10">
 
         <AccordionItem title="What is Vue?" class="mb-2">
             Vue is a progressive JavaScript framework.

@@ -4,27 +4,39 @@
 
 	const props = defineProps(
 	{
-		tabs: 				{ type: Array, required: true },
-		showOverflowMenu: 	{ type: Boolean, default: false }
+		tabs: 	  		{ type: Array, required: true },
+		overflow: 		{ type: String, 
+							default: 'scroll',
+							validator: value => ['scroll', 'menu'].includes(value) 
+						},
+		scrollStepMode:	{ type: String, 
+							default: 'edge',
+							validator: value => ['edge', 'fixed'].includes(value) 
+						}
 	})
 
 	const selectedTabId = defineModel({ type: [String, Number], required: true })
 
 	let observer
-	const tabRefs 		= new Map()
-	const containerRef 	= ref(null)
-	const visibility 	= ref({})
-	const isOverflowing = ref(false)
+	const tabRefs 			 = new Map()
+	const containerRef 		 = ref(null)
+	const visibility 		 = ref({})
+	const isOverflowing 	 = ref(false)
 	const overflowTriggerRef = ref(null)
 	const isOverflowMenuOpen = ref(false)
 
 	const OPEN_DELAY_MS = 120
-	const CLOSE_DELAY_MS = 180
+	const CLOSE_DELAY_MS = 180	
+	const FIXED_SCROLL_STEP_PX = 250
 
 	let openMenuTimeoutId
 	let closeMenuTimeoutId
 
-	const { arrivedState } = useScroll(containerRef)
+	const { arrivedState } 	= useScroll(containerRef)
+	const overflowMode 		= computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
+	const scrollStepMode 	= computed(() => props.scrollStepMode === 'fixed' ? 'fixed' : 'edge')
+	const useScrollOverflow = computed(() => overflowMode.value === 'scroll')
+	const useMenuOverflow 	= computed(() => overflowMode.value === 'menu')
 
 	const normalizedTabs = computed(() =>
 	{
@@ -84,20 +96,80 @@
 		tabRefs.forEach(el => observer.observe(el))
 	}
 
+	function getContainerGapPx()
+	{
+		if (!containerRef.value) return 0
+
+		const styles = getComputedStyle(containerRef.value)
+		return Number.parseFloat(styles.columnGap || styles.gap || '0') || 0
+	}
+
+	function getTabEdgeState(id)
+	{
+		const containerEl = containerRef.value
+		const tabEl = tabRefs.get(id)
+		if (!containerEl || !tabEl) return null
+
+		const EDGE_TOLERANCE_PX = 1
+		const containerRect = containerEl.getBoundingClientRect()
+		const tabRect = tabEl.getBoundingClientRect()
+
+		return {
+			tabEl,
+			hiddenLeft: tabRect.right <= containerRect.left + EDGE_TOLERANCE_PX,
+			hiddenRight: tabRect.left >= containerRect.right - EDGE_TOLERANCE_PX,
+			visible: tabRect.right > containerRect.left + EDGE_TOLERANCE_PX
+				&& tabRect.left < containerRect.right - EDGE_TOLERANCE_PX
+		}
+	}
+
+	function getScrollStepPx(direction)
+	{
+		if (scrollStepMode.value === 'fixed')
+			return FIXED_SCROLL_STEP_PX
+
+		const tabs = normalizedTabs.value
+		if (!tabs.length) return 0
+
+		let targetTab
+
+		if (direction === 'right')
+		{
+			targetTab = [...tabs].reverse().find(tab => getTabEdgeState(tab.id)?.hiddenLeft)
+				?? tabs.find(tab => getTabEdgeState(tab.id)?.visible)
+		}
+		else
+		{
+			targetTab = tabs.find(tab => getTabEdgeState(tab.id)?.hiddenRight)
+				?? [...tabs].reverse().find(tab => getTabEdgeState(tab.id)?.visible)
+		}
+
+		const tabEl = targetTab ? tabRefs.get(targetTab.id) : null
+		if (!tabEl) return 0
+
+		return tabEl.offsetWidth + getContainerGapPx()
+	}
+
 	function scrollLeft() 
 	{
+		const amount = getScrollStepPx('left')
+		if (!amount) return
+
 		containerRef.value?.scrollBy(
 		{
-			left: -250,
+			left: -amount,
 			behavior: 'smooth'
 		})
 	}
 
 	function scrollRight() 
 	{
+		const amount = getScrollStepPx('right')
+		if (!amount) return
+
 		containerRef.value?.scrollBy
 		({
-			left: 250,
+			left: amount,
 			behavior: 'smooth'
 		})
 	}
@@ -196,8 +268,9 @@
 		})
 	})
 
-	const showLeftButton 	= computed(() => !arrivedState.left)
-	const showRightButton 	= computed(() => !arrivedState.right)
+	const hasHiddenTabs 	= computed(() => isOverflowing.value)
+	const canScrollLeft 	= computed(() => !arrivedState.left)
+	const canScrollRight 	= computed(() => !arrivedState.right)
 
 	onMounted(async () => 
 	{
@@ -215,6 +288,7 @@
 	)
 
 	watch( hiddenTabs, tabs => { if (!tabs.length) closeOverflowMenuNow() } )
+	watch(useMenuOverflow, isMenuMode => { if (!isMenuMode) closeOverflowMenuNow() })
 
 	useResizeObserver(containerRef, () => { createObserver() })
 
@@ -230,12 +304,22 @@
 <template>
 	<div class="tab-row flex h-9 gap-2 overflow-visible">
 
-		<button v-if="showLeftButton" 
-			class="shrink-0" @click="scrollLeft">◀</button>
+		<div v-if="useScrollOverflow" class="shrink-0 w-7 flex items-center justify-center">
+			<button type="button"
+				class="h-7 w-7 transition-opacity"
+				:class="hasHiddenTabs
+					? (canScrollLeft ? 'opacity-100' : 'opacity-40')
+					: 'opacity-0 pointer-events-none'"
+				:disabled="!canScrollLeft"
+				aria-label="Scroll tabs left"
+				@click="scrollLeft">◀</button>
+		</div>
 
 		<div ref="containerRef"
-			class="relative flex flex-1 gap-1 items-end min-w-0 overflow-x-auto
-			z-[90] [scrollbar-width:none] scroll-smooth [&::-webkit-scrollbar]:hidden">
+			class="relative flex flex-1 gap-1 items-end min-w-0 z-[90] scroll-smooth"
+			:class="useMenuOverflow
+				? 'overflow-x-hidden'
+				: 'overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'">
 			
 			<!-- List of Tabs -->
 			<div v-for="tab in normalizedTabs" :key="tab.id"
@@ -254,10 +338,19 @@
 
 		</div>
 
-		<button v-if="showRightButton" 
-			class="shrink-0" @click="scrollRight">▶</button>
+		<div v-if="useScrollOverflow" 
+		class="shrink-0 w-7 flex items-center justify-center">
+			<button type="button"
+				class="h-7 w-7 transition-opacity"
+				:class="hasHiddenTabs
+					? (canScrollRight ? 'opacity-100' : 'opacity-40')
+					: 'opacity-0 pointer-events-none'"
+				:disabled="!canScrollRight"
+				aria-label="Scroll tabs right"
+				@click="scrollRight">▶</button>
+		</div>
 
-		<div v-if="showOverflowMenu && hiddenTabs.length" class="shrink-0"
+		<div v-if="useMenuOverflow && hiddenTabs.length" class="shrink-0"
 			@mouseenter="openOverflowMenuWithDelay"	@mouseleave="closeOverflowMenuWithDelay"
 			@focusin="openOverflowMenuNow"	@focusout="onOverflowFocusOut">
 
@@ -266,7 +359,7 @@
 				<slot name="overflow-trigger" 
 				:is-open="isOverflowMenuOpen" :hidden-count="hiddenTabs.length">
 					<button type="button"
-						class="inline-flex h-8 w-8 items-center justify-center rounded border
+						class="inline-flex size-7 items-center justify-center rounded border
 						border-gray-400 bg-white text-gray-700 hover:bg-gray-50"
 						aria-label="Show hidden tabs">⋯</button>
 				</slot>
@@ -275,7 +368,7 @@
 
 		</div>
 
-		<DropListControl v-if="showOverflowMenu"
+		<DropListControl v-if="useMenuOverflow"
 			v-model="isOverflowMenuOpen" :list="hiddenTabs" :anchorEl="overflowTriggerRef"
 			@select="activateTab" @hover-enter="openOverflowMenuNow" 
 			@hover-leave="closeOverflowMenuWithDelay" />
