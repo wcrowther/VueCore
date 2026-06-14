@@ -494,6 +494,7 @@
 
 		<TabsControl class="mb-10" :tabList="['Source', 'Crop']" keepAlive>
 
+			<!-- Special built-in TabsControl slot -->
 			<template #Right>
 				<PrimaryButton title="Choose Image" @click="openFilePicker" class="mr-2" />
 					<PrimaryButton :title="isSaving ? 'Saving...' : 'Save'" :disabled="!modelValue || isSaving" @click="promptForSave" />

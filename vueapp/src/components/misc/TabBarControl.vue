@@ -9,10 +9,7 @@
 							default: 'scroll',
 							validator: value => ['scroll', 'menu'].includes(value) 
 						},
-		scrollStepMode:	{ type: String, 
-							default: 'edge',
-							validator: value => ['edge', 'fixed'].includes(value) 
-						}
+		enableShortcuts:{ type: Boolean, default: false }
 	})
 
 	const selectedTabId = defineModel({ type: [String, Number], required: true })
@@ -27,14 +24,12 @@
 
 	const OPEN_DELAY_MS = 120
 	const CLOSE_DELAY_MS = 180	
-	const FIXED_SCROLL_STEP_PX = 250
 
 	let openMenuTimeoutId
 	let closeMenuTimeoutId
 
 	const { arrivedState } 	= useScroll(containerRef)
 	const overflowMode 		= computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
-	const scrollStepMode 	= computed(() => props.scrollStepMode === 'fixed' ? 'fixed' : 'edge')
 	const useScrollOverflow = computed(() => overflowMode.value === 'scroll')
 	const useMenuOverflow 	= computed(() => overflowMode.value === 'menu')
 
@@ -96,82 +91,79 @@
 		tabRefs.forEach(el => observer.observe(el))
 	}
 
-	function getContainerGapPx()
-	{
-		if (!containerRef.value) return 0
-
-		const styles = getComputedStyle(containerRef.value)
-		return Number.parseFloat(styles.columnGap || styles.gap || '0') || 0
-	}
-
-	function getTabEdgeState(id)
+	function getScrollTargetLeft(direction)
 	{
 		const containerEl = containerRef.value
-		const tabEl = tabRefs.get(id)
-		if (!containerEl || !tabEl) return null
+		if (!containerEl) return null
 
-		const EDGE_TOLERANCE_PX = 1
-		const containerRect = containerEl.getBoundingClientRect()
-		const tabRect = tabEl.getBoundingClientRect()
-
-		return {
-			tabEl,
-			hiddenLeft: tabRect.right <= containerRect.left + EDGE_TOLERANCE_PX,
-			hiddenRight: tabRect.left >= containerRect.right - EDGE_TOLERANCE_PX,
-			visible: tabRect.right > containerRect.left + EDGE_TOLERANCE_PX
-				&& tabRect.left < containerRect.right - EDGE_TOLERANCE_PX
-		}
-	}
-
-	function getScrollStepPx(direction)
-	{
-		if (scrollStepMode.value === 'fixed')
-			return FIXED_SCROLL_STEP_PX
-
+		const currentLeft = containerEl.scrollLeft
+		const viewportWidth = containerEl.clientWidth
+		const currentRight = currentLeft + viewportWidth
+		const maxScroll = Math.max(0, containerEl.scrollWidth - containerEl.clientWidth)
+		const EPSILON = 1
 		const tabs = normalizedTabs.value
-		if (!tabs.length) return 0
+			.map(tab => tabRefs.get(tab.id))
+			.filter(Boolean)
 
-		let targetTab
+		if (!tabs.length) return null
 
 		if (direction === 'right')
 		{
-			targetTab = [...tabs].reverse().find(tab => getTabEdgeState(tab.id)?.hiddenLeft)
-				?? tabs.find(tab => getTabEdgeState(tab.id)?.visible)
-		}
-		else
-		{
-			targetTab = tabs.find(tab => getTabEdgeState(tab.id)?.hiddenRight)
-				?? [...tabs].reverse().find(tab => getTabEdgeState(tab.id)?.visible)
+			const nextHiddenOnRight = tabs.find(tabEl =>
+				(tabEl.offsetLeft + tabEl.offsetWidth) > (currentRight + EPSILON)
+			)
+
+			if (!nextHiddenOnRight)
+				return maxScroll
+
+			const tabLeft = nextHiddenOnRight.offsetLeft
+			const tabRight = tabLeft + nextHiddenOnRight.offsetWidth
+
+			if (nextHiddenOnRight.offsetWidth <= viewportWidth)
+				return Math.min(Math.max(0, tabRight - viewportWidth), maxScroll)
+
+			// Oversized tab cannot be fully shown; align its left edge.
+			return Math.min(Math.max(0, tabLeft), maxScroll)
 		}
 
-		const tabEl = targetTab ? tabRefs.get(targetTab.id) : null
-		if (!tabEl) return 0
+		const previousHiddenOnLeft = [...tabs].reverse().find(tabEl =>
+			tabEl.offsetLeft < (currentLeft - EPSILON)
+		)
 
-		return tabEl.offsetWidth + getContainerGapPx()
+		if (!previousHiddenOnLeft)
+			return 0
+
+		return Math.min(Math.max(0, previousHiddenOnLeft.offsetLeft), maxScroll)
 	}
 
 	function scrollLeft() 
 	{
-		const amount = getScrollStepPx('left')
-		if (!amount) return
+		const target = getScrollTargetLeft('left')
+		if (target == null) return
 
-		containerRef.value?.scrollBy(
-		{
-			left: -amount,
-			behavior: 'smooth'
-		})
+		containerRef.value?.scrollTo({ left: target, behavior: 'smooth' })
+	}
+
+	function scrollToStart()
+	{
+		containerRef.value?.scrollTo({ left: 0, behavior: 'smooth' })
+	}
+
+	function scrollToEnd()
+	{
+		const containerEl = containerRef.value
+		if (!containerEl) return
+
+		const maxScroll = Math.max(0, containerEl.scrollWidth - containerEl.clientWidth)
+		containerEl.scrollTo({ left: maxScroll, behavior: 'smooth' })
 	}
 
 	function scrollRight() 
 	{
-		const amount = getScrollStepPx('right')
-		if (!amount) return
+		const target = getScrollTargetLeft('right')
+		if (target == null) return
 
-		containerRef.value?.scrollBy
-		({
-			left: amount,
-			behavior: 'smooth'
-		})
+		containerRef.value?.scrollTo({ left: target, behavior: 'smooth' })
 	}
 
 	function activateTab(tab) 
@@ -271,6 +263,17 @@
 	const hasHiddenTabs 	= computed(() => isOverflowing.value)
 	const canScrollLeft 	= computed(() => !arrivedState.left)
 	const canScrollRight 	= computed(() => !arrivedState.right)
+	const disableShortcuts = computed(() => !props.enableShortcuts || !useScrollOverflow.value)
+
+	const keys = function (e)
+	{
+		if (e.code === 'ArrowLeft')      { scrollLeft();    e.preventDefault() }
+		else if (e.code === 'ArrowRight'){ scrollRight();   e.preventDefault() }
+		else if (e.code === 'Home')      { scrollToStart(); e.preventDefault() }
+		else if (e.code === 'End')       { scrollToEnd();   e.preventDefault() }
+	}
+
+	KeyboardListeners(keys, disableShortcuts)
 
 	onMounted(async () => 
 	{
@@ -314,13 +317,14 @@
 					: 'opacity-0 pointer-events-none'"
 				:disabled="!canScrollLeft"
 				aria-label="Scroll tabs left"
+				@contextmenu.prevent="scrollToStart"
 				@click="scrollLeft">◀</button>
 		</div>
 
 		<div ref="containerRef"
 			class="relative flex flex-1 gap-1 items-end min-w-0 z-[90] scroll-smooth"
 			:class="useMenuOverflow
-				? 'overflow-x-hidden'
+				? 'overflow-hidden'
 				: 'overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'">
 			
 			<!-- List of Tabs -->
@@ -349,6 +353,7 @@
 					: 'opacity-0 pointer-events-none'"
 				:disabled="!canScrollRight"
 				aria-label="Scroll tabs right"
+				@contextmenu.prevent="scrollToEnd"
 				@click="scrollRight">▶</button>
 		</div>
 
