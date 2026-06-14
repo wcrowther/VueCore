@@ -302,7 +302,9 @@
 </script>
 
 <template>
-	<div class="tab-row flex h-9 gap-2 overflow-visible">
+	<div class="relative flex h-9 gap-2 overflow-visible">
+
+		<div class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gray-400 z-0"></div>
 
 		<div v-if="useScrollOverflow" class="shrink-0 w-7 flex items-center justify-center">
 			<button type="button"
@@ -377,23 +379,6 @@
 </template>
 
 <style lang="postcss" scoped>
-	.tab-row
-	{
-		position: relative;
-	}
-
-	.tab-row::after
-	{
-		content: '';
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		height: 1px;
-		background: rgb(156 163 175);
-		z-index: 0;
-	}
-
 	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0
 		text-sm z-[100] font-bold select-none relative bottom-[-1px] whitespace-nowrap cursor-pointer }
 	.tab-other  { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border

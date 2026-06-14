@@ -10,11 +10,11 @@
         Below are new controls such as the MultiSelectInput, and AccordianControl that are still in development.
     </InfoBox>
 
+    <TabBarControlExample />
+
     <MultiSelectExample />
 
     <AccordianExample />
-
-    <TabBarControlExample />
 
 </template>
 

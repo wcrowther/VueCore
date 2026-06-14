@@ -74,6 +74,7 @@ declare global {
   const isRootName: typeof import('../helpers/fileFolderHelpers.js')['isRootName']
   const joinPath: typeof import('../helpers/fileFolderHelpers.js')['joinPath']
   const logJson: typeof import('../helpers/global.js')['logJson']
+  const longTabList: typeof import('../datalists/longTabList.js')['longTabList']
   const markRaw: typeof import('vue')['markRaw']
   const nextTick: typeof import('vue')['nextTick']
   const normalizePath: typeof import('../helpers/fileFolderHelpers.js')['normalizePath']
@@ -253,6 +254,7 @@ declare module 'vue' {
     readonly isRootName: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['isRootName']>
     readonly joinPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['joinPath']>
     readonly logJson: UnwrapRef<typeof import('../helpers/global.js')['logJson']>
+    readonly longTabList: UnwrapRef<typeof import('../datalists/longTabList.js')['longTabList']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly normalizePath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['normalizePath']>
