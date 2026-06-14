@@ -29,7 +29,7 @@
 	let openMenuTimeoutId
 	let closeMenuTimeoutId
 
-	const { arrivedState } 	= useScroll(containerRef)
+	const { arrivedState, x } = useScroll(containerRef)
 	const overflowMode 		= computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
 	const useScrollOverflow = computed(() => overflowMode.value === 'scroll')
 	const useMenuOverflow 	= computed(() => overflowMode.value === 'menu')
@@ -287,6 +287,9 @@
 	{
 		const containerEl = containerRef.value
 		if (!containerEl || !isOverflowing.value) return []
+
+		// Track horizontal scroll position so hidden-tabs recomputes after scrollIntoView.
+		x.value
 
 		const containerRect = containerEl.getBoundingClientRect()
 		const EDGE_TOLERANCE_PX = 1.5
