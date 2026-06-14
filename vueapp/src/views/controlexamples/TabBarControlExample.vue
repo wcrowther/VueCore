@@ -1,8 +1,8 @@
 <script setup>
 	import { longTabList } from '@/datalists/longTabList'
 
-    const modelValue = ref('First')
-    const overflowIndex = ref(0)
+    const modelValue    = ref('First')
+    const overflowIndex = useLocalStorage('overflowIndex', 0)
 	const rangeList     = [ 'scroll','menu' ]
 
 	const tabPanels = computed(() =>
@@ -27,7 +27,7 @@
     </div>  
     <div class="mb-7">
         <InfoBox>
-            Text to come.
+            {{ modelValue }}
         </InfoBox>
     </div>
 
