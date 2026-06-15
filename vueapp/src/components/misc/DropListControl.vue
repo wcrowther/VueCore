@@ -19,24 +19,28 @@
 	const position 	= ref({ top: 0, left: 0 })
 	const resolvedMaxHeight = ref(null)
 
-	function hasExplicitMaxHeight()
+	const hasExplicitMaxHeight = () =>
+		props.maxHeight !== null && props.maxHeight !== undefined && props.maxHeight !== ''
+
+	const resolvedMaxHeightCss = computed(() =>
 	{
-		return props.maxHeight !== null && props.maxHeight !== undefined && props.maxHeight !== ''
-	}
+		if (resolvedMaxHeight.value == null)
+			return undefined
+
+		return typeof resolvedMaxHeight.value === 'number'
+			? `${resolvedMaxHeight.value}px`
+			: resolvedMaxHeight.value
+	})
 
 	const menuStyle = computed(() =>
 	({
-		position: 	'fixed',
-		top: 		`${position.value.top}px`,
-		left: 		`${position.value.left}px`,
-		maxHeight: 	resolvedMaxHeight.value == null
-			? undefined
-			: (typeof resolvedMaxHeight.value === 'number'
-				? `${resolvedMaxHeight.value}px`
-				: resolvedMaxHeight.value)
+		position: 'fixed',
+		top: `${position.value.top}px`,
+		left: `${position.value.left}px`,
+		maxHeight: resolvedMaxHeightCss.value
 	}))
 
-	function updatePosition()
+	const updatePosition = () =>
 	{
 		if (!props.anchorEl) return
 

@@ -1,6 +1,8 @@
 <script setup>
 
-	import {useScroll, useResizeObserver } from '@vueuse/core'
+	import { useResizeObserver, useScroll } from '@vueuse/core'
+
+	const HIDDEN_EDGE_TOLERANCE_PX = 1.5
 
 	const props = defineProps(
 	{
@@ -15,10 +17,8 @@
 
 	const selectedTabId = defineModel({ type: [String, Number], required: true })
 
-	let observer
 	const tabRefs 			 = new Map()
 	const containerRef 		 = ref(null)
-	const visibility 		 = ref({})
 	const isOverflowing 	 = ref(false)
 	const overflowTriggerRef = ref(null)
 	const isOverflowMenuOpen = ref(false)
@@ -29,14 +29,13 @@
 	let openMenuTimeoutId
 	let closeMenuTimeoutId
 
-	const { arrivedState, x } = useScroll(containerRef)
-	const overflowMode 		= computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
+	const { x } = useScroll(containerRef)
+	const overflowMode = computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
 	const useScrollOverflow = computed(() => overflowMode.value === 'scroll')
-	const useMenuOverflow 	= computed(() => overflowMode.value === 'menu')
+	const useMenuOverflow = computed(() => overflowMode.value === 'menu')
 
 	const normalizedTabs = computed(() =>
-	{
-		return props.tabs.map((tab, index) =>
+		props.tabs.map((tab, index) =>
 		{
 			if (tab && typeof tab === 'object')
 			{
@@ -50,9 +49,9 @@
 				label: String(tab)
 			}
 		})
-	})
+	)
 
-	function setTabRef(id, el) 
+	const setTabRef = (id, el) =>
 	{
 		if (el) 
 			tabRefs.set(id, el)
@@ -60,114 +59,59 @@
 			tabRefs.delete(id)
 	}
 
-	function createObserver() 
+	const updateOverflowState = () =>
 	{
-		observer?.disconnect()
-
 		if (!containerRef.value) return
 		isOverflowing.value = containerRef.value.scrollWidth > (containerRef.value.clientWidth + 1)
-
-		observer = new IntersectionObserver
-		(
-			entries => 
-			{
-				const next = { ...visibility.value }
-
-				entries.forEach(entry => 
-				{
-					next[entry.target.dataset.tabId] = 
-					{
-						visible: entry.isIntersecting,
-						ratio: entry.intersectionRatio
-					}
-				})
-				visibility.value = next
-			},
-			{
-				root: containerRef.value,
-				threshold: [0, 0.01, 0.5, 1]
-			}
-		)
-
-		tabRefs.forEach(el => observer.observe(el))
 	}
 
-	function getScrollTargetLeft(direction)
+	const selectedTabIndex = computed(() =>
+		normalizedTabs.value.findIndex(tab => tab.id === selectedTabId.value)
+	)
+
+	const canSelectPrevious = computed(() => selectedTabIndex.value > 0)
+	const canSelectNext = computed(() =>
+		selectedTabIndex.value >= 0 && selectedTabIndex.value < (normalizedTabs.value.length - 1)
+	)
+
+	const selectTabAtIndex = index =>
 	{
-		const containerEl = containerRef.value
-		if (!containerEl) return null
+		const tab = normalizedTabs.value[index]
+		if (!tab) return
 
-		const currentLeft = containerEl.scrollLeft
-		const viewportWidth = containerEl.clientWidth
-		const currentRight = currentLeft + viewportWidth
-		const maxScroll = Math.max(0, containerEl.scrollWidth - containerEl.clientWidth)
-		const EPSILON = 1
-		const tabs = normalizedTabs.value
-			.map(tab => tabRefs.get(tab.id))
-			.filter(Boolean)
+		activateTab(tab)
+	}
 
-		if (!tabs.length) return null
+	const selectFirstTab = () => selectTabAtIndex(0)
+	const selectLastTab = () => selectTabAtIndex(normalizedTabs.value.length - 1)
 
-		if (direction === 'right')
+	const selectPreviousTab = () =>
+	{
+		if (!normalizedTabs.value.length) return
+		if (selectedTabIndex.value === -1)
 		{
-			const nextHiddenOnRight = tabs.find(tabEl =>
-				(tabEl.offsetLeft + tabEl.offsetWidth) > (currentRight + EPSILON)
-			)
-
-			if (!nextHiddenOnRight)
-				return maxScroll
-
-			const tabLeft = nextHiddenOnRight.offsetLeft
-			const tabRight = tabLeft + nextHiddenOnRight.offsetWidth
-
-			if (nextHiddenOnRight.offsetWidth <= viewportWidth)
-				return Math.min(Math.max(0, tabRight - viewportWidth), maxScroll)
-
-			// Oversized tab cannot be fully shown; align its left edge.
-			return Math.min(Math.max(0, tabLeft), maxScroll)
+			selectLastTab()
+			return
 		}
 
-		const previousHiddenOnLeft = [...tabs].reverse().find(tabEl =>
-			tabEl.offsetLeft < (currentLeft - EPSILON)
-		)
-
-		if (!previousHiddenOnLeft)
-			return 0
-
-		return Math.min(Math.max(0, previousHiddenOnLeft.offsetLeft), maxScroll)
+		if (!canSelectPrevious.value) return
+		selectTabAtIndex(selectedTabIndex.value - 1)
 	}
 
-	function scrollLeft() 
+	const selectNextTab = () =>
 	{
-		const target = getScrollTargetLeft('left')
-		if (target == null) return
+		if (!normalizedTabs.value.length) return
+		if (selectedTabIndex.value === -1)
+		{
+			selectFirstTab()
+			return
+		}
 
-		containerRef.value?.scrollTo({ left: target, behavior: 'smooth' })
+		if (!canSelectNext.value) return
+		selectTabAtIndex(selectedTabIndex.value + 1)
 	}
 
-	function scrollToStart()
-	{
-		containerRef.value?.scrollTo({ left: 0, behavior: 'smooth' })
-	}
-
-	function scrollToEnd()
-	{
-		const containerEl = containerRef.value
-		if (!containerEl) return
-
-		const maxScroll = Math.max(0, containerEl.scrollWidth - containerEl.clientWidth)
-		containerEl.scrollTo({ left: maxScroll, behavior: 'smooth' })
-	}
-
-	function scrollRight() 
-	{
-		const target = getScrollTargetLeft('right')
-		if (target == null) return
-
-		containerRef.value?.scrollTo({ left: target, behavior: 'smooth' })
-	}
-
-	function activateTab(tab) 
+	const activateTab = tab =>
 	{
 		if (!tab) return
 
@@ -184,7 +128,7 @@
 		closeOverflowMenuNow()
 	}
 
-	function resolveTab(tabOrId)
+	const resolveTab = tabOrId =>
 	{
 		if (tabOrId == null) return null
 
@@ -202,7 +146,7 @@
 		return normalizedTabs.value.find(tab => tab.id === tabOrId) ?? null
 	}
 
-	function selectOverflowTab(tabOrId)
+	const selectOverflowTab = tabOrId =>
 	{
 		const tab = resolveTab(tabOrId)
 		if (!tab) return
@@ -220,7 +164,7 @@
 		closeOverflowMenuNow()
 	}
 
-	function clearOpenMenuTimer()
+	const clearOpenMenuTimer = () =>
 	{
 		if (openMenuTimeoutId)
 		{
@@ -229,7 +173,7 @@
 		}
 	}
 
-	function clearCloseMenuTimer()
+	const clearCloseMenuTimer = () =>
 	{
 		if (closeMenuTimeoutId)
 		{
@@ -238,7 +182,7 @@
 		}
 	}
 
-	function openOverflowMenuWithDelay()
+	const openOverflowMenuWithDelay = () =>
 	{
 		clearCloseMenuTimer()
 		if (isOverflowMenuOpen.value) return
@@ -251,7 +195,7 @@
 		}, OPEN_DELAY_MS)
 	}
 
-	function closeOverflowMenuWithDelay()
+	const closeOverflowMenuWithDelay = () =>
 	{
 		clearOpenMenuTimer()
 
@@ -263,21 +207,21 @@
 		}, CLOSE_DELAY_MS)
 	}
 
-	function openOverflowMenuNow()
+	const openOverflowMenuNow = () =>
 	{
 		clearOpenMenuTimer()
 		clearCloseMenuTimer()
 		isOverflowMenuOpen.value = true
 	}
 
-	function closeOverflowMenuNow()
+	const closeOverflowMenuNow = () =>
 	{
 		clearOpenMenuTimer()
 		clearCloseMenuTimer()
 		isOverflowMenuOpen.value = false
 	}
 
-	function onOverflowFocusOut(event)
+	const onOverflowFocusOut = event =>
 	{
 		if (!event.currentTarget?.contains(event.relatedTarget))
 			closeOverflowMenuNow()
@@ -288,11 +232,10 @@
 		const containerEl = containerRef.value
 		if (!containerEl || !isOverflowing.value) return []
 
-		// Track horizontal scroll position so hidden-tabs recomputes after scrollIntoView.
-		x.value
+		const currentX = x.value
+		void currentX
 
 		const containerRect = containerEl.getBoundingClientRect()
-		const EDGE_TOLERANCE_PX = 1.5
 
 		return normalizedTabs.value.filter(tab =>
 		{
@@ -300,24 +243,22 @@
 			if (!el) return false
 
 			const tabRect = el.getBoundingClientRect()
-			const hiddenOnLeft = tabRect.left < (containerRect.left - EDGE_TOLERANCE_PX)
-			const hiddenOnRight = tabRect.right > (containerRect.right + EDGE_TOLERANCE_PX)
+			const hiddenOnLeft = tabRect.left < (containerRect.left - HIDDEN_EDGE_TOLERANCE_PX)
+			const hiddenOnRight = tabRect.right > (containerRect.right + HIDDEN_EDGE_TOLERANCE_PX)
 
 			return hiddenOnLeft || hiddenOnRight
 		})
 	})
 
-	const hasHiddenTabs 	= computed(() => isOverflowing.value)
-	const canScrollLeft 	= computed(() => !arrivedState.left)
-	const canScrollRight 	= computed(() => !arrivedState.right)
-	const disableShortcuts = computed(() => !props.enableShortcuts || !useScrollOverflow.value)
+	const hasHiddenTabs = computed(() => isOverflowing.value)
+	const disableShortcuts = computed(() => !props.enableShortcuts)
 
-	const keys = function (e)
+	const keys = e =>
 	{
-		if (e.code === 'ArrowLeft')      { scrollLeft();    e.preventDefault() }
-		else if (e.code === 'ArrowRight'){ scrollRight();   e.preventDefault() }
-		else if (e.code === 'Home')      { scrollToStart(); e.preventDefault() }
-		else if (e.code === 'End')       { scrollToEnd();   e.preventDefault() }
+		if (e.code === 'ArrowLeft')      { selectPreviousTab(); e.preventDefault() }
+		else if (e.code === 'ArrowRight'){ selectNextTab();     e.preventDefault() }
+		else if (e.code === 'Home')      { selectFirstTab();    e.preventDefault() }
+		else if (e.code === 'End')       { selectLastTab();     e.preventDefault() }
 	}
 
 	KeyboardListeners(keys, disableShortcuts)
@@ -325,26 +266,25 @@
 	onMounted(async () => 
 	{
 		await nextTick()
-		createObserver()
+		updateOverflowState()
 	})
 
 	watch(() => props.tabs,
 		async () =>
 		{
 			await nextTick()
-			createObserver()
+			updateOverflowState()
 		},
 		{ deep: true }
 	)
 
-	watch( hiddenTabs, tabs => { if (!tabs.length) closeOverflowMenuNow() } )
+	watch(hiddenTabs, tabs => { if (!tabs.length) closeOverflowMenuNow() })
 	watch(useMenuOverflow, isMenuMode => { if (!isMenuMode) closeOverflowMenuNow() })
 
-	useResizeObserver(containerRef, () => { createObserver() })
+	useResizeObserver(containerRef, () => { updateOverflowState() })
 
 	onBeforeUnmount(() =>
 	{
-		observer?.disconnect()
 		clearOpenMenuTimer()
 		clearCloseMenuTimer()
 	})
@@ -360,12 +300,12 @@
 			<button v-if="useScrollOverflow" type="button"
 				class="h-7 w-7 transition-opacity"
 				:class="hasHiddenTabs
-					? (canScrollLeft ? 'opacity-100' : 'opacity-40')
+					? (canSelectPrevious ? 'opacity-100' : 'opacity-40')
 					: 'opacity-0 pointer-events-none'"
-				:disabled="!canScrollLeft"
-				aria-label="Scroll tabs left"
-				@contextmenu.prevent="scrollToStart"
-				@click="scrollLeft">◀</button>
+				:disabled="!canSelectPrevious"
+				aria-label="Select previous tab"
+				@contextmenu.prevent="selectFirstTab"
+				@click="selectPreviousTab">◀</button>
 		</div>
 
 		<div ref="containerRef"
@@ -395,12 +335,12 @@
 			<button v-if="useScrollOverflow" type="button"
 				class="h-7 w-7 transition-opacity"
 				:class="hasHiddenTabs
-					? (canScrollRight ? 'opacity-100' : 'opacity-40')
+					? (canSelectNext ? 'opacity-100' : 'opacity-40')
 					: 'opacity-0 pointer-events-none'"
-				:disabled="!canScrollRight"
-				aria-label="Scroll tabs right"
-				@contextmenu.prevent="scrollToEnd"
-				@click="scrollRight">▶</button>
+				:disabled="!canSelectNext"
+				aria-label="Select next tab"
+				@contextmenu.prevent="selectLastTab"
+				@click="selectNextTab">▶</button>
 
 			<div v-else-if="useMenuOverflow"
 				ref="overflowTriggerRef"
