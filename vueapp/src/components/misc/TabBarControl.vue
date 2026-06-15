@@ -2,7 +2,12 @@
 
 	import { useResizeObserver, useScroll } from '@vueuse/core'
 
-	const HIDDEN_EDGE_TOLERANCE_PX = 1.5
+	const HIDDEN_EDGE_TOLERANCE_PX 	= 1.5
+	const OPEN_DELAY_MS 			= 120
+	const CLOSE_DELAY_MS 			= 180
+		
+	let openMenuTimeoutId
+	let closeMenuTimeoutId
 
 	const props = defineProps(
 	{
@@ -17,22 +22,16 @@
 
 	const selectedTabId = defineModel({ type: [String, Number], required: true })
 
-	const tabRefs 			 = new Map()
-	const containerRef 		 = ref(null)
-	const isOverflowing 	 = ref(false)
-	const overflowTriggerRef = ref(null)
-	const isOverflowMenuOpen = ref(false)
-
-	const OPEN_DELAY_MS = 120
-	const CLOSE_DELAY_MS = 180	
-
-	let openMenuTimeoutId
-	let closeMenuTimeoutId
-
-	const { x } = useScroll(containerRef)
-	const overflowMode = computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
-	const useScrollOverflow = computed(() => overflowMode.value === 'scroll')
-	const useMenuOverflow = computed(() => overflowMode.value === 'menu')
+	const tabRefs 			 	= new Map()
+	const containerRef 		 	= ref(null)
+	const isOverflowing 	 	= ref(false)
+	const overflowTriggerRef 	= ref(null)
+	const isOverflowMenuOpen 	= ref(false)
+	const { x } 				= useScroll(containerRef)
+	
+	const overflowMode 			= computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
+	const useScrollOverflow 	= computed(() => overflowMode.value === 'scroll')
+	const useMenuOverflow 		= computed(() => overflowMode.value === 'menu')
 
 	const normalizedTabs = computed(() =>
 		props.tabs.map((tab, index) =>
@@ -65,14 +64,9 @@
 		isOverflowing.value = containerRef.value.scrollWidth > (containerRef.value.clientWidth + 1)
 	}
 
-	const selectedTabIndex = computed(() =>
-		normalizedTabs.value.findIndex(tab => tab.id === selectedTabId.value)
-	)
-
+	const selectedTabIndex 	= computed(() => normalizedTabs.value.findIndex(tab => tab.id === selectedTabId.value) )
 	const canSelectPrevious = computed(() => selectedTabIndex.value > 0)
-	const canSelectNext = computed(() =>
-		selectedTabIndex.value >= 0 && selectedTabIndex.value < (normalizedTabs.value.length - 1)
-	)
+	const canSelectNext 	= computed(() => selectedTabIndex.value >= 0 && selectedTabIndex.value < (normalizedTabs.value.length - 1) )
 
 	const selectTabAtIndex = index =>
 	{
@@ -82,8 +76,8 @@
 		activateTab(tab)
 	}
 
-	const selectFirstTab = () => selectTabAtIndex(0)
-	const selectLastTab = () => selectTabAtIndex(normalizedTabs.value.length - 1)
+	const selectFirstTab 	= () => selectTabAtIndex(0)
+	const selectLastTab 	= () => selectTabAtIndex(normalizedTabs.value.length - 1)
 
 	const selectPreviousTab = () =>
 	{
@@ -250,8 +244,10 @@
 		})
 	})
 
-	const hasHiddenTabs = computed(() => isOverflowing.value)
-	const disableShortcuts = computed(() => !props.enableShortcuts)
+	const hasHiddenTabs 	= computed(() => isOverflowing.value)
+	const disableShortcuts 	= computed(() => !props.enableShortcuts)
+
+	// =============================================================================
 
 	const keys = e =>
 	{
@@ -262,6 +258,8 @@
 	}
 
 	KeyboardListeners(keys, disableShortcuts)
+
+	// =============================================================================
 
 	onMounted(async () => 
 	{
@@ -278,8 +276,8 @@
 		{ deep: true }
 	)
 
-	watch(hiddenTabs, tabs => { if (!tabs.length) closeOverflowMenuNow() })
-	watch(useMenuOverflow, isMenuMode => { if (!isMenuMode) closeOverflowMenuNow() })
+	watch(hiddenTabs, 		tabs => { if (!tabs.length) closeOverflowMenuNow() })
+	watch(useMenuOverflow, 	isMenuMode => { if (!isMenuMode) closeOverflowMenuNow() })
 
 	useResizeObserver(containerRef, () => { updateOverflowState() })
 
