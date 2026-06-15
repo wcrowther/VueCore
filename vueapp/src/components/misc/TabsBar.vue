@@ -1,13 +1,15 @@
 <script setup>
 
-	import { useResizeObserver, useScroll } from '@vueuse/core'
+	import { useEventListener, useResizeObserver, useScroll } from '@vueuse/core'
 
 	const HIDDEN_EDGE_TOLERANCE_PX 	= 1.5
 	const OPEN_DELAY_MS 			= 120
 	const CLOSE_DELAY_MS 			= 180
+	const RESIZE_END_DELAY_MS 		= 140
 		
 	let openMenuTimeoutId
 	let closeMenuTimeoutId
+	let resizeEndTimeoutId
 
 	const props = defineProps(
 	{
@@ -25,6 +27,7 @@
 	const tabRefs 			 	= new Map()
 	const containerRef 		 	= ref(null)
 	const isOverflowing 	 	= ref(false)
+	const layoutRecalcTick 		= ref(0)
 	const overflowTriggerRef 	= ref(null)
 	const isOverflowMenuOpen 	= ref(false)
 	const { x } 				= useScroll(containerRef)
@@ -62,6 +65,7 @@
 	{
 		if (!containerRef.value) return
 		isOverflowing.value = containerRef.value.scrollWidth > (containerRef.value.clientWidth + 1)
+		layoutRecalcTick.value += 1
 	}
 
 	const selectedTabIndex 	= computed(() => normalizedTabs.value.findIndex(tab => tab.id === selectedTabId.value) )
@@ -215,6 +219,29 @@
 		isOverflowMenuOpen.value = false
 	}
 
+	const ensureActiveTabInView = () =>
+	{
+		const el = tabRefs.get(selectedTabId.value)
+		el?.scrollIntoView
+		({
+			behavior: 'auto',
+			inline: 'nearest',
+			block: 'nearest'
+		})
+	}
+
+	const scheduleEnsureActiveTabInView = () =>
+	{
+		if (resizeEndTimeoutId)
+			clearTimeout(resizeEndTimeoutId)
+
+		resizeEndTimeoutId = setTimeout(() =>
+		{
+			ensureActiveTabInView()
+			resizeEndTimeoutId = undefined
+		}, RESIZE_END_DELAY_MS)
+	}
+
 	const onOverflowFocusOut = event =>
 	{
 		if (!event.currentTarget?.contains(event.relatedTarget))
@@ -225,6 +252,9 @@
 	{
 		const containerEl = containerRef.value
 		if (!containerEl || !isOverflowing.value) return []
+
+		const currentLayoutTick = layoutRecalcTick.value
+		void currentLayoutTick
 
 		const currentX = x.value
 		void currentX
@@ -279,12 +309,25 @@
 	watch(hiddenTabs, 		tabs => { if (!tabs.length) closeOverflowMenuNow() })
 	watch(useMenuOverflow, 	isMenuMode => { if (!isMenuMode) closeOverflowMenuNow() })
 
-	useResizeObserver(containerRef, () => { updateOverflowState() })
+	useResizeObserver(containerRef, () =>
+	{
+		updateOverflowState()
+		scheduleEnsureActiveTabInView()
+	})
+
+	useEventListener(window, 'resize', () =>
+	{
+		updateOverflowState()
+		scheduleEnsureActiveTabInView()
+	})
 
 	onBeforeUnmount(() =>
 	{
 		clearOpenMenuTimer()
 		clearCloseMenuTimer()
+
+		if (resizeEndTimeoutId)
+			clearTimeout(resizeEndTimeoutId)
 	})
 
 </script>
