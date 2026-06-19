@@ -183,12 +183,12 @@
             :isOpen="false" :showRawJson="false" />
 
         <div v-if="(!account || account.AccountId === 0)  && !isAddingAccount" 
-            class="w-[300px] font-bold">
+            class="basis-[300px] font-bold">
             No Account to display
         </div>
 
-        <div v-if="account && account.AccountId > 0 || isAddingAccount"  
-            class="w-[300px] flex-1 border border-color-blue-gray bg-white p-5 min-w-[200px] grow ">
+        <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="AccountInfo"
+            class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">
 
             <TitleBox v-if="!isAddingAccount">
                 <span>{{account.AccountName}}</span>
@@ -210,31 +210,34 @@
 
         </div>
 
-        <!-- ALT VERSION FOR MULTIPLE ADDRESSES - NOT YET IMPLEMENTED
+        <!-- ALT VERSION FOR MULTIPLE ADDRESSES - NOT YET IMPLEMENTED 
         
-        <div v-if="account && account.AccountId > 0 || isAddingAccount"  
-            class="w-[300px] flex-1 border pt-2 border-color-blue-gray bg-white min-w-[200px] grow">
+        <div v-if="account && account.AccountId > 0 || isAddingAccount" id="MultiAddress" 
+            class="basis-[300px] min-w-[200px] flex-1 border pt-2 border-color-blue-gray bg-white ">
  
-            <TabsControl :tabList="['Account', 'Second', 'Third']" altDesign>
+            <TabsOverflowControl :tabList="['Account', 'Second', 'Third']" altDesign
+                class="w-full">
                      
                 <template #Account>
-                    <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
-                    <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
-                    
-                    <div class="flex justify-between gap-3">
-                        <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
-                            :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
-                        <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
+                    <div class="m-5">
+                        <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
+                        <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
+                        
+                        <div class="flex justify-between gap-3">
+                            <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
+                                :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
+                            <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
+                        </div>
                     </div>
                 </template>
 
-            </TabsControl> 
+            </TabsOverflowControl> 
 
         </div>
         -->
 
-        <div v-if="account && account.AccountId > 0 || isAddingAccount"  
-            class="w-[300px] flex-1 border border-color-blue-gray bg-white p-5 min-w-[200px] grow">
+        <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="Address" 
+            class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">
 
             <!-- -->
             <TitleBox class="bg-transparent">

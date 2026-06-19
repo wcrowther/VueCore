@@ -1,43 +1,57 @@
 <script setup>
 
+    import { useNormalizedTabList } from '@/composables/UseNormalizedTabList'
+
     const props = defineProps(
     {
-        id: { type: String, default: 'TabsControl' },
-		tabList: { type: Array, default: () => ['One', 'Two', 'Three'] },
-        keepAlive: { type: Boolean, default: false },
-        contentBorder: { type: Boolean, default: false },
-        altDesign: { type: Boolean, default: false },
+        id:             { type: String, default: 'TabsControl' },
+        tabList:        { type: [Array, Object], default: () => ['One', 'Two', 'Three'] },
+        tabFieldName:   { type: String,  default: '' },
+        keepAlive:      { type: Boolean, default: false },
+        contentBorder:  { type: Boolean, default: false },
+        altDesign:      { type: Boolean, default: false },
+        minHeight:      { type: Number,  default: 240 }
 	})
 
-    const activeTabModel = defineModel('activeTab', { type: String, default: '' })
-    const internalActiveTab = ref(props.tabList[0])
+    const activeTabModel = defineModel('activeTab', { type: [String, Number], default: '' })
+    const internalActiveTab = ref('')
+
+    const normalizedTabList = useNormalizedTabList(() => props.tabList, () => props.tabFieldName)
 
     const activeTab = computed(
     {
         get()
         {
             const modelTab = activeTabModel.value
-            return props.tabList.includes(modelTab) ? modelTab : internalActiveTab.value
+            const modelEntry = normalizedTabList.value.find(tab => tab.id === modelTab)
+            if (modelEntry)
+                return modelEntry.id
+
+            const internalEntry = normalizedTabList.value.find(tab => tab.id === internalActiveTab.value)
+            if (internalEntry)
+                return internalEntry.id
+
+            return normalizedTabList.value[0]?.id ?? null
         },
         set(tab)
         {
-            if (!props.tabList.includes(tab)) return
+            const entry = normalizedTabList.value.find(normalizedTab => normalizedTab.id === tab)
+            if (!entry) return
 
-            internalActiveTab.value = tab
-            activeTabModel.value = tab
+            internalActiveTab.value = entry.id
+            activeTabModel.value = entry.id
         }
     })
 
-    watch(() => props.tabList, (tabs) =>
+    watch(normalizedTabList, tabs =>
     {
-        const list = Array.isArray(tabs) ? tabs : []
-        if (!list.length) return
+        if (!tabs.length) return
 
-        if (!list.includes(activeTab.value))
-            activeTab.value = list[0]
-    }, { immediate: true })
+        if (!tabs.some(tab => tab.id === activeTab.value))
+            activeTab.value = tabs[0].id
+    }, { immediate: true, deep: true })
 
-    const isActive	= (tab) => tab === activeTab.value
+    const isActive	= (tabId) => tabId === activeTab.value
 
 </script>
 
@@ -46,12 +60,13 @@
     <div :id="props.id" class="h-full">
 
         <!-- Tabs -->
-        <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b border-gray-400">
+        <div class="flex gap-2 justify-start h-9 z-20 pl-5 border-b border-gray-400"
+            :class="{ 'bg-color-light-blue ' : props.altDesign}">
         
-            <template v-for="(tab,idx) in props.tabList" :key="idx">
-                <div :class="[{ 'altDesign' : props.altDesign }, isActive(tab) ? 'tab-active' :'tab-other' ]" 
-                    @click="activeTab = tab">
-                    <span>{{ tab }}</span>
+            <template v-for="(tab,idx) in normalizedTabList" :key="idx">
+                <div :class="[{ altDesign : props.altDesign }, isActive(tab.id) ? 'tab-active' :'tab-other' ]" 
+                    @click="activeTab = tab.id">
+                    <span>{{ tab.label }}</span>
                 </div>
             </template>
 
@@ -61,23 +76,24 @@
         </div>
 
         <!-- Content -->
-        <div class="z-10 h-full min-h-60 p-5 pb-7 opacity-100 bg-white 
-            border-t-0 overflow-y-auto scrollbar-thin border-red"
-            :class="{ 'border': props.contentBorder}">
+        <div class="z-10 h-full p-5 pb-7 opacity-100 bg-white 
+            border-t-0 overflow-y-auto scrollbar-thin border-gray-400"
+            :class="{ 'border': props.contentBorder}" 
+            :style="{ minHeight: minHeight + 'px'}">
 
            <slot></slot>
 
             <!-- persist state through tab changes -->
            <template v-if="props.keepAlive">
-               <div v-for="(tab,idx) in props.tabList" :key="idx" 
-                v-show="activeTab === tab" >
-                   <slot :name="tab"></slot>
+               <div v-for="(tab,idx) in normalizedTabList" :key="idx" 
+                v-show="activeTab === tab.id" >
+                   <slot :name="tab.slotName"></slot>
                </div>
            </template>        
            <!-- reloads tabs each tab change -->
            <template v-else>
-               <template v-for="(tab,idx) in props.tabList" :key="idx">
-                   <slot v-if="activeTab === tab" :name="tab"></slot>
+               <template v-for="(tab,idx) in normalizedTabList" :key="idx">
+                   <slot v-if="activeTab === tab.id" :name="tab.slotName"></slot>
                </template>
            </template>
         </div>
@@ -89,14 +105,17 @@
 <style lang="postcss" scoped>
 
     .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0 
-        text-sm font-bold select-none relative bottom-[-1px] }
+        text-sm font-bold select-none -mb-px}
     .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border 
         border-transparent text-sm font-bold hover:bg-gray-200 }
-    .altDesign.tab-active { @apply !rounded-none}
-    .altDesign.tab-other  { @apply !rounded-none}
+    .altDesign.tab-active { @apply !rounded-none }
+    .altDesign.tab-other  { @apply !rounded-none }
 </style> 
 
 <!-- USAGE:
+
+        .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0 
+        text-sm font-bold select-none relative bottom-[-1px] }
     
     Note: In TabsControl the slots do not 'KeepAlive' their state. While the WizardControl they do.
 

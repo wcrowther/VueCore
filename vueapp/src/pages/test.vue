@@ -46,7 +46,10 @@
 
         </div>
 
-        <SwipeLeftRight />
+        <!-- LEGACY TEST CODE: <SwipeLeftRight /> -->
+
+        <TabsControlExample />
+
 
     </LayoutMain>
 
