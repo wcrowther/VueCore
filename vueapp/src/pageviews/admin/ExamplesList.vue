@@ -11,7 +11,7 @@ const activeItem 			= ref(null)
 const currentPage 			= ref(0)
 const searchInput 			= useTemplateRef('searchInput')
 const examplesPageSize 		= useLocalStorage('examplesPageSize', examplesSizeDefault)
-const activeListItemId 		= computed(() => activeItem.value?.controlExample || '')
+const activeListItemId 		= computed(() => activeItem.value?.example || '')
 listPager.value.PageSize 	= Number(examplesPageSize.value)
 
 const isActiveItem 			= (id)      => activeListItemId.value === id
