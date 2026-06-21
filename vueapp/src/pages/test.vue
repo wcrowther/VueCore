@@ -1,6 +1,6 @@
 <script setup>
 
-    import { useConfirmControl } from '@/composables/UseConfirmControl';
+    import { useConfirmControl } from '@/composables/UseConfirmControl'
 
     const isDirty               = ref(false)
     const enableGlobal           = useLocalStorage('enableGlobal', true)
@@ -49,7 +49,6 @@
         <!-- LEGACY TEST CODE: <SwipeLeftRight /> -->
 
         <TabsControlExample />
-
 
     </LayoutMain>
 

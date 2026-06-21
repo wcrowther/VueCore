@@ -1,0 +1,20 @@
+   export const examplesDataList =
+    [
+        { name: 'Accordian', example: 'AccordianExample', featured: false, type: '', order: .5},
+        { name: 'Calendar', example: 'CalendarExample', featured: false, type: '', order: .5},
+        { name: 'Checkers', example: 'CheckersExample', featured: false, type: '', order: .5},
+        { name: 'Composables', example: 'ComposablesExample', featured: false, type: '', order: .5},
+        { name: 'ContentEditor', example: 'ContentEditorExample', featured: false, type: '', order: .5},
+        { name: 'Files', example: 'FilesExample', featured: false, type: '', order: .5},
+        { name: 'Floater', example: 'FloaterExample', featured: false, type: '', order: .5},
+        { name: 'Grid', example: 'GridExample', featured: true, type: '', order: .5},
+        { name: 'ImageCropper', example: 'ImageCropperExample', featured: false, type: '', order: .5},
+        { name: 'JsonTree', example: 'JsonTreeExample', featured: false, type: '', order: .5},
+        { name: 'ListIndexButton', example: 'ListIndexButtonExample', featured: false, type: '', order: .5},
+        { name: 'Misc', example: 'MiscExample', featured: false, type: '', order: .5},
+        { name: 'MultiSelect', example: 'MultiSelectExample', featured: false, type: '', order: .5},
+        { name: 'TabsBar', example: 'TabsBarExample', featured: false, type: '', order: .5},
+        { name: 'TabsControl', example: 'Tabsexample', featured: false, type: '', order: .5},
+        { name: 'TabsOverflowControl', example: 'TabsOverflowexample', featured: false, type: '', order: .5},
+        { name: 'Wizard', example: 'WizardExample', featured: false, type: '', order: .5},
+    ]

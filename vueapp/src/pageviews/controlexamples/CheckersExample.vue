@@ -24,7 +24,7 @@
 
 <template>
 
-    <div ref="parentBox" class="w-full bg-slate-100 pb-10">
+    <div ref="parentBox" class="w-full pb-10">
 
 		<div class="text-lg w-fit font-bold p-5 pb-3 relative">
 			Checkers Board 

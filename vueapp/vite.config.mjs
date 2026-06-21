@@ -9,7 +9,11 @@ import AutoImport               from 'unplugin-auto-import/vite'
 import Components               from 'unplugin-vue-components/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => 
+{
+    const isProd = mode === 'production'
+
+    return {
     plugins: 
     [
         AutoImport({
@@ -66,16 +70,12 @@ export default defineConfig({
         }
     },
     server: {
-        proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7199/', 
-                secure: false
-            }
-        },
+        // Not used - proxy: { '^/weatherforecast': { target: 'https://localhost:7199/',  secure: false } },
         port: 7200,
         open: true  // open the browser after compiling
     },
     build: {
-        sourcemap: true,
+        sourcemap: true, // To disable PROD sourcemaps: !isProd
     }
+}
 })

@@ -41,6 +41,7 @@ declare global {
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
   const computed: typeof import('vue')['computed']
+  const controlsList: typeof import('../datalists/examplesDataList.js')['controlsList']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
   const dateFormat: typeof import('../helpers/global.js')['dateFormat']
@@ -54,6 +55,8 @@ declare global {
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
   const envConsts: typeof import('../datalists/envConsts.js')['envConsts']
+  const examplesDataList: typeof import('../datalists/examplesDataList.js')['examplesDataList']
+  const examplesList: typeof import('../datalists/controlsList.js')['examplesList']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
   const findNodeByPath: typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']
   const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
@@ -128,10 +131,12 @@ declare global {
   const useChatHub: typeof import('../composables/UseChatHub.js')['useChatHub']
   const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
+  const useComponentLoader: typeof import('../composables/UseComponentLoader.js')['useComponentLoader']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
+  const useDynamicComponentLoader: typeof import('../composables/UseComponentLoader.js')['useDynamicComponentLoader']
   const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
@@ -235,6 +240,7 @@ declare module 'vue' {
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly envConsts: UnwrapRef<typeof import('../datalists/envConsts.js')['envConsts']>
+    readonly examplesDataList: UnwrapRef<typeof import('../datalists/examplesDataList.js')['examplesDataList']>
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
     readonly findNodeByPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']>
     readonly formatFileSize: UnwrapRef<typeof import('../helpers/global.js')['formatFileSize']>
@@ -309,6 +315,7 @@ declare module 'vue' {
     readonly useChatHub: UnwrapRef<typeof import('../composables/UseChatHub.js')['useChatHub']>
     readonly useChatStore: UnwrapRef<typeof import('../stores/ChatStore.js')['useChatStore']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
+    readonly useComponentLoader: UnwrapRef<typeof import('../composables/UseComponentLoader.js')['useComponentLoader']>
     readonly useConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['useConfirmControl']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>

@@ -1,12 +1,8 @@
 
 <script setup>
 
-	ShowSideButtonInSubNav()  // Hamburger sidebar toggle button
-
-    // const route = useRoute()
-    // const urlSearch = computed(() => route.params.search || null)
-    // const searchFilter = useLocalStorage('accountsSearchFilterDefault', '')
-    // onMounted(() => searchFilter.value = urlSearch)
+    // Show Hamburger sidebar toggle button in menu bar
+	ShowSideButtonInSubNav()  
 
 </script>
 

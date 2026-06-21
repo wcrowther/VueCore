@@ -30,6 +30,13 @@
 					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
 					Controls
 				</router-link>
+			
+				<span class="px-1 text-gray-300">|</span>
+
+				<router-link to="/admin/examples" linkName="Examples" 
+					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
+					Examples
+				</router-link>
 
 			</div>  
 
