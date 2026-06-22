@@ -1,6 +1,7 @@
 <script setup>
 
-import { examplesDataList } from '@/datalists/examplesDataList'
+const examplesStore = useExamplesStore()
+const { sortedExamplesDataList } = storeToRefs(examplesStore)
 
 const selectedExample = defineModel('selectedExample', { type: String, default: '' })
 
@@ -22,13 +23,13 @@ const getFilteredList = () =>
 {
     const filter = (listPager.value.Search.Filter || '').trim().toLowerCase()
 
-    if (!filter) return examplesDataList
+    if (!filter) return sortedExamplesDataList.value
 
     const terms = filter.split(',').map((x) => x.trim()).filter(Boolean)
 
-    if (!terms.length) return examplesDataList
+    if (!terms.length) return sortedExamplesDataList.value
 
-    return examplesDataList.filter((item) => 
+    return sortedExamplesDataList.value.filter((item) => 
 	{
         const name = item.name.toLowerCase()
         const example = item.example.toLowerCase()
@@ -163,7 +164,7 @@ watch(() => listPager.value.Search.Filter, (newVal, oldVal) =>
                     </td>
 
                     <td class="pr-4 py-1 h-8 max-w-[200px] break-words text-sm">
-                        {{ item.name }}{{ item.featured > 0 ? '*':''}}
+                        {{ item.name }} {{ item.featured > 0 ? '*':''}}
                     </td>
                 </tr>
             </tbody>

@@ -1,4 +1,4 @@
-   export const examplesDataList =
+export const examplesDataList =
     [
         { name: 'Accordian', example: 'AccordianExample', featured: false, type: '', order: .5},
         { name: 'Calendar', example: 'CalendarExample', featured: false, type: '', order: .5},
