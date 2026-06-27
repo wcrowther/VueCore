@@ -4,10 +4,18 @@ import { examplesDataList } from '@/datalists/examplesDataList'
 
 export const useExamplesStore = defineStore('ExamplesStore', () =>
 {
+    // STATE ------------------------------------------------------------------
+
+    const sortType = ref('default')
+
     // GETTERS ----------------------------------------------------------------
 
     const sortedExamplesDataList = computed(() =>
-        [...examplesDataList].sort((a, b) =>
+    {
+        if (sortType.value === 'alphabetical')
+            return [...examplesDataList].sort((a, b) => a.name.localeCompare(b.name))
+
+        return [...examplesDataList].sort((a, b) =>
         {
             if (a.featured !== b.featured)
                 return a.featured ? -1 : 1
@@ -20,11 +28,13 @@ export const useExamplesStore = defineStore('ExamplesStore', () =>
 
             return a.name.localeCompare(b.name)
         })
+    }
     )
 
     // EXPOSE PUBLIC API ------------------------------------------------------
 
     return {
+        sortType,
         sortedExamplesDataList,
     }
 })

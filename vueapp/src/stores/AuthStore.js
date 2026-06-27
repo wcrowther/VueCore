@@ -167,7 +167,7 @@ export const useAuthStore = defineStore('AuthStore',
 
             useToastStore().showAction
             (
-                `You will be logged out in ${warningLabel} due to inactivity.`,
+                `Logged out in ${warningLabel} due to inactivity.`,
                 'Stay Signed In',
                 async () =>
                 {

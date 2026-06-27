@@ -1,13 +1,14 @@
 <script setup>
 
 const examplesStore = useExamplesStore()
-const { sortedExamplesDataList } = storeToRefs(examplesStore)
+const { sortedExamplesDataList, sortType } = storeToRefs(examplesStore)
 
 const selectedExample = defineModel('selectedExample', { type: String, default: '' })
 
 const examplesSizeDefault 	= 20
 const itemsList 			= ref([])
 const listPager 			= ref(new PagerModel(new SearchModel(), examplesSizeDefault))
+const showAdvSearch 		= ref(false)
 const activeItem 			= ref(null)
 const currentPage 			= ref(0)
 const searchInput 			= useTemplateRef('searchInput')
@@ -22,18 +23,19 @@ const refreshItem 			= (offset)  => refreshList(listPager.value.currentFirst() +
 const getFilteredList = () =>
 {
     const filter = (listPager.value.Search.Filter || '').trim().toLowerCase()
+    const visibleExamples = sortedExamplesDataList.value.filter((item) => item.show === true)
 
-    if (!filter) return sortedExamplesDataList.value
+    if (!filter) return visibleExamples
 
     const terms = filter.split(',').map((x) => x.trim()).filter(Boolean)
 
-    if (!terms.length) return sortedExamplesDataList.value
+    if (!terms.length) return visibleExamples
 
-    return sortedExamplesDataList.value.filter((item) => 
+    return visibleExamples.filter((item) => 
 	{
-        const name = item.name.toLowerCase()
-        const example = item.example.toLowerCase()
-        return terms.some((term) => name.includes(term) || example.includes(term))
+        const name      = item.name.toLowerCase()
+        const example   = item.example.toLowerCase()
+        return  terms.some((term) => name.includes(term) || example.includes(term)) 
     })
 }
 
@@ -89,7 +91,7 @@ const keys = function (e)
     else if (e.code === 'Home')     { searchInput.value?.focusInput(); e.preventDefault() }
 }
 
-KeyboardListeners(keys)
+KeyboardListeners(keys, showAdvSearch)
 
 // ===========================================================================
 
@@ -123,9 +125,11 @@ watch(() => listPager.value.Search.Filter, (newVal, oldVal) =>
             <div class="flex gap-x-1 pt-5 w-full">
                 <SearchInput ref="searchInput"
                     v-model="listPager.Search.Filter"
-                    :showAdvSearchButton="false"
+                    v-model:showAdvSearch="showAdvSearch"
                     inputTitle="Search examples by name or example name." />
             </div>
+
+            <ExamplesFilters :sortType @showAdvancedSearch="showAdvSearch=true" />
 
             <div class="w-full flex justify-between items-center select-none my-3">
                 <ListPager class="mr-2" id="listPager" v-bind:pager="listPager" />
@@ -181,6 +185,11 @@ watch(() => listPager.value.Search.Filter, (newVal, oldVal) =>
                 </tr>
             </tfoot>
         </table>
+
+        <ExamplesAdvSearch v-if="showAdvSearch"
+            v-model:showModal="showAdvSearch"
+            v-model:sortType="sortType"
+            @getListData="getListData" />
     </div>
 </template>
 

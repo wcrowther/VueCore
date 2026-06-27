@@ -34,6 +34,8 @@
 
 const codeContent = 
 `
+// In <script setup>
+
 // Code to display Alert control
 const alertDisplayed = await createAlert('Alert for the user.')
 
@@ -43,7 +45,8 @@ const confirmed = await createConfirm('Confirm this record?')
 // In <template> Create Confirm control inline
 <PrimaryButton @click="createConfirm('Confirm this record?', () => console.log('Inline Callback!'))">
     Try Confirm
-</PrimaryButton>`
+</PrimaryButton>
+`
 
 // ======================================================================
 
@@ -63,7 +66,7 @@ const confirmed = await createConfirm('Confirm this record?')
             Check the browser console to see the resolved values after interacting with each dialog.
         </div>
 
-        <CodeBlock :codeContent language="vuejs in <script>" showLineNumbers  />
+        <CodeBlock :codeContent language="vuejs code" showLineNumbers  />
         
         <PrimaryButton class="mt-5 mr-3" @click="showAlert">Try Alert</PrimaryButton>      
         <PrimaryButton class="mr-3" @click="tryConfirm">Try Confirm</PrimaryButton>

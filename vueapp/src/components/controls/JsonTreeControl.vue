@@ -7,7 +7,7 @@
 
 	const props = defineProps(
 	{
-		json: { type: [Object, Array, String, Number, Boolean, null], required: true },
+		json:  { type: [Object, Array, String, Number, Boolean, null], required: true },
 		label: { type: [Object, Array, String, Number, Boolean, null], default: "" },
 	})
 	

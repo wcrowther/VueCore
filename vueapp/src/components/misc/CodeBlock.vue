@@ -2,11 +2,13 @@
 
 	import { useClipboard } from '@vueuse/core'
 
+	const showCodeBlock = defineModel({ type: Boolean, default: true })
+
 	const props = defineProps(
 	{
 		codeContent: 		{ type: String,  required: true },
 		language: 			{ type: String,  default: 'Code' },
-		showLineNumbers: 	{ type: Boolean, default: false },
+		showLineNumbers: 	{ type: Boolean, default: true },
 		trimEmptyLine: 		{ type: Boolean, default: true }, 
 		showDark: 			{ type: Boolean, default: false }
 	});
@@ -25,7 +27,7 @@
 		}
 		return content
 	})
-	const lineCount 		= computed(() => displayContent.value.split('\n').length)
+	const lineCount = computed(() => displayContent.value.split('\n').length)
 
 	// =================================================================================
 
@@ -40,23 +42,31 @@
 </script>
 
 <template>
-	<div v-if="isSupported"
+	<div v-if="isSupported" @click="showCodeBlock=!showCodeBlock"
 		:class="['group relative my-4 rounded-lg overflow-hidden', wrapperClass]">
 
 		<!-- Header -->
-		<div :class="['flex items-center justify-between px-4 py-1 border-b', headerClass]">
+		<div :class="['flex items-center justify-between h-9 px-4 py-1 border-b', headerClass]">
 
 			<span :class="['text-xs font-bold uppercase tracking-widest', languageClass]">
 				{{ language }}
 			</span>
 
-			<button @click="copy(codeContent)" 
-				:class="['flex items-center rounded-md py-1 text-xs font-medium transition-all duration-200', copiedClass]">
+			<RotateButton v-model="showCodeBlock" rotation="rotate-180" 
+				size="18px" noClick icon="heroicons:chevron-down-solid" /> 	
+		</div>
+
+		<!-- Code Block -->
+		<div v-if="showCodeBlock"
+			class="relative flex overflow-x-auto custom-scrollbar p-2 font-mono text-sm leading-6">
+
+			<button v-if="showCodeBlock" @click="copy(codeContent)" 
+				:class="['absolute right-2 top-2 flex items-center rounded-md py-1 px-3 text-xs font-medium transition-all duration-200', copiedClass]">
 			
-				<span v-if="copiedToClipboard" class="min-w-12 text-right font-bold text-blue">
+				<span v-if="copiedToClipboard" class="text-right font-bold text-blue">
 					{{ 'Copied!'}}
 				</span>
-				<span v-else class="min-w-12 text-right">
+				<span v-else class="text-right">
 					{{ 'Copy' }}
 				</span>
 
@@ -68,10 +78,6 @@
 					class="text-color-dark-gray ml-2 mb-[2px]" icon="heroicons:clipboard-document" />
 					
 			</button>
-		</div>
-
-		<!-- Code Block -->
-		<div class="flex overflow-x-auto custom-scrollbar p-2 font-mono text-sm leading-6">
 
 			<!-- Line Numbers Column -->
 			<div v-if="showLineNumbers"
@@ -101,7 +107,26 @@
 </style>
 
 
-<!-- Example: 
+<!-- Example: Format code like below in your source file.
 
+<script setup>
 
+const codeContent = 
+`
+// Code to display Alert control
+const alertDisplayed = await createAlert('Alert for the user.')
+
+// Code to display Confirm control
+const confirmed = await createConfirm('Confirm this record?')
+
+// In <template> Create Confirm control inline
+<PrimaryButton @click="createConfirm('Confirm this record?', () => console.log('Inline Callback!'))">
+    Try Confirm
+</PrimaryButton>`
+
+</script>
+
+<template>
+	<CodeBlock :codeContent language="vuejs in <script>" showLineNumbers />
+</template>
 -->

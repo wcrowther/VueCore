@@ -1,11 +1,10 @@
 <script setup>
-	import { longTabList } from '@/datalists/longTabList'
-
-	const activeTab = ref('First')
+	
+	const activeTab 	= ref('First')
 	const overflowIndex = useLocalStorage('tabsOverflowControlExampleOverflowIndex', 0)
-	const keepAlive = useLocalStorage('tabsOverflowControlExampleKeepAlive', false)
+	const keepAlive 	= useLocalStorage('tabsOverflowControlExampleKeepAlive', false)
 	const contentBorder = useLocalStorage('tabsOverflowControlExampleBorder', true)
-	const rangeList = ['scroll', 'menu']
+	const rangeList 	= ['scroll', 'menu']
 
 </script>
 

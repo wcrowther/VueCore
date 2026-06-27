@@ -1,0 +1,59 @@
+<script setup>
+
+    const sortType = defineModel('sortType', { type: String, required: true })
+    const showModal = defineModel('showModal', { type: Boolean, required: true })
+
+    const emits = defineEmits(['getListData'])
+
+    const sortOptionsList = {
+        default: 'Default',
+        alphabetical: 'Alphabetical'
+    }
+
+    const emitData = (newVal, oldVal) =>
+    {
+        if (newVal !== oldVal)
+            useDebounceFn(() => emits('getListData'), 300)()
+    }
+
+    const resetAdvSearch = () =>
+    {
+        sortType.value = 'default'
+        emits('getListData')
+    }
+
+    watch(() => sortType.value, (newVal, oldVal) => emitData(newVal, oldVal))
+
+    // Keyboard Listeners  ================================================
+
+    DisableGlobalKeys(showModal.value) // disable Esc key if modal is showing
+
+    const keys = function (e)
+    {
+        if (e.code === 'Escape') { showModal.value = false; e.preventDefault() }
+    }
+
+    KeyboardListeners(keys)
+
+</script>
+
+<template>
+
+    <ModalControl id="ExamplesAdvSearch" v-model="showModal"
+        title="Advanced Search" height="320px" width="500px"
+        @closeModal="showModal=false">
+
+        <div class="p-5 pb-0">
+            <SelectInput labelName="Sort Type" v-model="sortType"
+                :optionsList="sortOptionsList" :showDefault="false"
+                title="Choose how examples are sorted in the list." />
+        </div>
+
+        <template #footer>
+            <button class="btn-primary" @click="resetAdvSearch">Reset</button>
+            <button class="btn-delete" @click="showModal=false">Close</button>
+        </template>
+
+    </ModalControl>
+
+</template>

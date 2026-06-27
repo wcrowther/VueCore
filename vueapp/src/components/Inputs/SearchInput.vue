@@ -2,8 +2,10 @@
 
     const props = defineProps (
     {
-        showAdvSearchButton: { type: Boolean, default: true },  // if n
-        inputTitle:  { type: String, default: 
+        compact:             { type: Boolean, default: true },  // hide label, etc
+        labelName:           { type: String, default: ''},
+        showAdvSearchButton: { type: Boolean, default: true },  
+        inputTitle:          { type: String, default: 
             "Search the list for values that start with this text. " +
             "Add multiple conditions separated by a comma. Click on + for more options." }
     })
@@ -23,7 +25,17 @@
 
 
 <template>
-    <div class="h-8 w-full relative">
+    <div :class="['h-8 w-full relative', {'mb-3' : !props.compact}]">
+
+        <div v-if="!props.compact" 
+            class="pb-1 flex justify-between items-baseline">
+            <label v-if="props.labelName" 
+                class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
+                :for="props.labelName">
+                {{props.labelName}}
+            </label>
+        </div>
+
         <input class="text-sm rounded-full w-full h-full pl-5 pr-5 sm:pr-9 select-all border-color-dark-gray"
             id="filterInput" type="text" v-model="modelValue" placeholder="Search" spellcheck="false"
             ref="filterInput" :title="props.inputTitle" />
@@ -40,6 +52,7 @@
                     title="Advanced Search" width="22px" icon="heroicons:plus-20-solid" />
             </span>
         </div>
+
     </div>
 </template>
 

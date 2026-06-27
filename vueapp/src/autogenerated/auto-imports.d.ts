@@ -13,6 +13,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const EventModel: typeof import('../models/EventModel.js')['default']
   const IAuditable: typeof import('../models/IAuditable.js')['IAuditable']
+  const InputDemoModel: typeof import('../models/InputDemoModel.js')['default']
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
   const KeyboardListeners: typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']
   const MessageModel: typeof import('../models/MessageModel.js')['MessageModel']
@@ -70,6 +71,7 @@ declare global {
   const hasPath: typeof import('../helpers/fileFolderHelpers.js')['hasPath']
   const imageToolbarList: typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']
   const inject: typeof import('vue')['inject']
+  const inputDemoValidator: typeof import('../helpers/validators.js')['inputDemoValidator']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
@@ -184,6 +186,9 @@ declare global {
   export type { EventModel } from '../models/EventModel.js'
   import('../models/EventModel.js')
   // @ts-ignore
+  export type { InputDemoModel } from '../models/InputDemoModel.js'
+  import('../models/InputDemoModel.js')
+  // @ts-ignore
   export type { UserModel } from '../models/UserModel.js'
   import('../models/UserModel.js')
 }
@@ -200,6 +205,7 @@ declare module 'vue' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly EventModel: UnwrapRef<typeof import('../models/EventModel.js')['default']>
     readonly IAuditable: UnwrapRef<typeof import('../models/IAuditable.js')['IAuditable']>
+    readonly InputDemoModel: UnwrapRef<typeof import('../models/InputDemoModel.js')['default']>
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
     readonly KeyboardListeners: UnwrapRef<typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']>
     readonly MessageModel: UnwrapRef<typeof import('../models/MessageModel.js')['MessageModel']>
@@ -255,6 +261,7 @@ declare module 'vue' {
     readonly hasPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasPath']>
     readonly imageToolbarList: UnwrapRef<typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly inputDemoValidator: UnwrapRef<typeof import('../helpers/validators.js')['inputDemoValidator']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
