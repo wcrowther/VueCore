@@ -61,7 +61,7 @@
             :min="0" :max="100" :step="5" :hideLabel="false" />
         <DateInput labelName="DateInput" v-model="inputDemo.DateInput" :v$ />
         <TimeInput labelName="TimeInput" v-model="inputDemo.TimeInput" :v$ />
-        <CheckboxInput labelName="CheckboxInput" v-model="inputDemo.CheckboxInput" />
+        <CheckboxInput labelName="CheckboxInput" v-model="inputDemo.CheckboxInput" class="mt-5" />
     </div>
 
     <ModalControl id="InputDemoJson" v-model="showJson"

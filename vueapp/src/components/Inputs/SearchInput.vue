@@ -41,10 +41,10 @@
                 id="filterInput" type="text" v-model="modelValue" placeholder="Search" spellcheck="false"
                 ref="filterInput" :title="props.inputTitle" />
             
-            <div class="absolute top-0 right-0 pr-1.5 flex justify-end items-center gap-1 h-full w-auto">
+            <div class="absolute top-0 right-0 pr-2 flex justify-end items-center gap-1 h-full w-auto">
                 <div class="w-auto flex-center" @click="resetFilter">
                     <IconSymbol v-if="modelValue && modelValue.length > 0" 
-                        class="xs:hidden sm:block text-color-dark-gray hover:text-color-mid-gray" width="22px" icon="heroicons:x-mark" />
+                        class="xs:hidden sm:block text-color-dark-gray hover:text-color-mid-gray" width="20px" icon="heroicons:x-mark" />
                 </div>
                 <span v-if="showAdvSearchButton"
                     class="bg-color-mid-gray hover:bg-color-light-gray

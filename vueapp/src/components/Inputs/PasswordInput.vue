@@ -30,10 +30,10 @@
             <input class="w-full text-sm pr-12" :id="props.labelName" :name="props.labelName" spellcheck="false"
                 :type="showPassword ? 'text' : 'password'" v-model="modelValue" />
 
-                <IconSymbol v-if="!showPassword" @click="showPassword=true" 
-                    width="20px" class="eye-symbol" icon="heroicons-solid:eye-slash" />
-                <IconSymbol v-if="showPassword" @click="showPassword=false"
-                    width="20px" class="eye-symbol" icon="heroicons-solid:eye" />
+            <IconSymbol v-if="showPassword" @click="showPassword=false"
+                width="18px" class="eye-symbol" icon="heroicons-solid:eye" />
+            <IconSymbol v-else @click="showPassword=true" 
+                width="18px" class="eye-symbol" icon="heroicons-solid:eye-slash" />
         </div>
     </div>
 </template>
