@@ -5,6 +5,9 @@ const { sortedExamplesDataList, sortType } = storeToRefs(examplesStore)
 
 const selectedExample = defineModel('selectedExample', { type: String, default: '' })
 
+const route             = useRoute()
+const searchFromUrl     = computed(() => route.params.search || null)
+
 const examplesSizeDefault 	= 20
 const itemsList 			= ref([])
 const listPager 			= ref(new PagerModel(new SearchModel(), examplesSizeDefault))
@@ -14,6 +17,13 @@ const currentPage 			= ref(0)
 const searchInput 			= useTemplateRef('searchInput')
 const examplesPageSize 		= useLocalStorage('examplesPageSize', examplesSizeDefault)
 const activeListItemId 		= computed(() => activeItem.value?.example || '')
+const urlPriorityTerms   	= computed(() =>
+    (searchFromUrl.value || '')
+        .toLowerCase()
+        .split(',')
+        .map((term) => term.trim())
+        .filter(Boolean)
+)
 listPager.value.PageSize 	= Number(examplesPageSize.value)
 
 const isActiveItem 			= (id)      => activeListItemId.value === id
@@ -24,19 +34,51 @@ const getFilteredList = () =>
 {
     const filter = (listPager.value.Search.Filter || '').trim().toLowerCase()
     const visibleExamples = sortedExamplesDataList.value.filter((item) => item.show === true)
+    const termsFromUrl = urlPriorityTerms.value
 
-    if (!filter) return visibleExamples
+    const applyUrlPriority = (list) =>
+    {
+        if (!termsFromUrl.length)
+            return list
+
+        const withRank = list.map((item, originalIndex) =>
+        {
+            const name = item.name.toLowerCase()
+            const example = item.example.toLowerCase()
+            const rank = termsFromUrl.findIndex((term) => name.includes(term) || example.includes(term))
+
+            return {
+                item,
+                originalIndex,
+                rank: rank === -1 ? Number.MAX_SAFE_INTEGER : rank
+            }
+        })
+
+        withRank.sort((a, b) =>
+        {
+            if (a.rank !== b.rank)
+                return a.rank - b.rank
+
+            return a.originalIndex - b.originalIndex
+        })
+
+        return withRank.map((x) => x.item)
+    }
+
+    if (!filter) return applyUrlPriority(visibleExamples)
 
     const terms = filter.split(',').map((x) => x.trim()).filter(Boolean)
 
-    if (!terms.length) return visibleExamples
+    if (!terms.length) return applyUrlPriority(visibleExamples)
 
-    return visibleExamples.filter((item) => 
+    const filtered = visibleExamples.filter((item) => 
 	{
         const name      = item.name.toLowerCase()
         const example   = item.example.toLowerCase()
         return  terms.some((term) => name.includes(term) || example.includes(term)) 
     })
+
+    return applyUrlPriority(filtered)
 }
 
 const setActiveItem = () =>
@@ -112,6 +154,12 @@ watch(() => listPager.value.Search.Filter, (newVal, oldVal) =>
 {
     if (newVal === oldVal || newVal.slice(-1) === ',' || newVal.slice(-1) === ' ') return
     useDebounceFn(() => refreshList(1, true), 300)()
+})
+
+watch(() => searchFromUrl.value, (newVal, oldVal) =>
+{
+    if (newVal === oldVal) return
+    refreshList(1, true)
 })
 
 </script>

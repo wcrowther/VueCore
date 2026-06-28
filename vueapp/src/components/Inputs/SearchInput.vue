@@ -25,7 +25,7 @@
 
 
 <template>
-    <div :class="['h-8 w-full relative', {'mb-3' : !props.compact}]">
+    <div :class="['w-full', {'mb-3' : !props.compact}]">
 
         <div v-if="!props.compact" 
             class="pb-1 flex justify-between items-baseline">
@@ -36,21 +36,23 @@
             </label>
         </div>
 
-        <input class="text-sm rounded-full w-full h-full pl-5 pr-5 sm:pr-9 select-all border-color-dark-gray"
-            id="filterInput" type="text" v-model="modelValue" placeholder="Search" spellcheck="false"
-            ref="filterInput" :title="props.inputTitle" />
-        
-        <div class="top-0 right-0 flex justify-end items-center gap-1 absolute h-full w-auto">
-            <div class="w-auto flex-center" @click="resetFilter">
-                <IconSymbol v-if="modelValue && modelValue.length > 0" 
-                    class="xs:hidden sm:block text-color-dark-gray hover:text-color-mid-gray" width="22px" icon="heroicons:x-mark" />
+        <div class="relative h-8">
+            <input class="text-sm rounded-full w-full h-full pl-4 pr-5 sm:pr-9 select-all border-color-dark-gray"
+                id="filterInput" type="text" v-model="modelValue" placeholder="Search" spellcheck="false"
+                ref="filterInput" :title="props.inputTitle" />
+            
+            <div class="absolute top-0 right-0 pr-1.5 flex justify-end items-center gap-1 h-full w-auto">
+                <div class="w-auto flex-center" @click="resetFilter">
+                    <IconSymbol v-if="modelValue && modelValue.length > 0" 
+                        class="xs:hidden sm:block text-color-dark-gray hover:text-color-mid-gray" width="22px" icon="heroicons:x-mark" />
+                </div>
+                <span v-if="showAdvSearchButton"
+                    class="bg-color-mid-gray hover:bg-color-light-gray
+                    flex-center rounded-full group" @click.prevent="showAdvSearch=true">
+                    <IconSymbol class="text-black group-hover:text-color-mid-gray"
+                        title="Advanced Search" width="22px" icon="heroicons:plus-20-solid" />
+                </span>
             </div>
-            <span v-if="showAdvSearchButton"
-                class="mr-1.5 bg-color-mid-gray hover:bg-color-light-gray
-                flex-center rounded-full group" @click.prevent="showAdvSearch=true">
-                <IconSymbol class="text-black group-hover:text-color-mid-gray"
-                    title="Advanced Search" width="22px" icon="heroicons:plus-20-solid" />
-            </span>
         </div>
 
     </div>

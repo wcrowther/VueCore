@@ -11,8 +11,8 @@
 	const { persistSearch }                   = storeToRefs(appStore)
 
     const showAdvSearch = ref(false)
+    const route         = useRoute()
 
-    const route = useRoute()
     // optional param from URL
     const searchFromUrl = computed(() => route.params.search || null)
 
