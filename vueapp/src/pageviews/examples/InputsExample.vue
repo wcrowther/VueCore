@@ -48,20 +48,25 @@
         Demo all input controls in one model.
     </InfoBox>
 
-    <div class="p-5 pb-10 border border-gray-400" id="inputDemo">
+    <div class="p-5 pb-10 border border-gray-400 grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-x-6 gap-y-4 
+        [&>*]:!mb-0 xl:[&>*]:min-h-[80px] 3xl:[&>*]:min-h-0"  id="inputDemo">
+
         <TextInput labelName="TextInput" v-model="inputDemo.TextInput" :v$ />
         <PhoneInput labelName="PhoneInput" v-model="inputDemo.PhoneInput" :v$ />
         <TextAreaInput labelName="TextAreaInput" v-model="inputDemo.TextAreaInput" :v$ />
         <PasswordInput labelName="PasswordInput" v-model="inputDemo.PasswordInput" :v$ />
-        <SearchInput v-model="inputDemo.SearchInput" :showAdvSearchButton="false" labelName="SearchInput" :compact="false" />
-        <SelectInput labelName="SelectInput" v-model="inputDemo.SelectInput" 
-            :optionsList="usStatesList" defaultText="-- SelectInput --" :v$ />
-        <MultiSelectInput labelName="MultiSelectInput" v-model="inputDemo.MultiSelectInput" :optionsList="usStatesList" :v$ />
-        <SliderInput labelName="SliderInput" v-model="inputDemo.SliderInput"
-            :min="0" :max="100" :step="5" :hideLabel="false" />
         <DateInput labelName="DateInput" v-model="inputDemo.DateInput" :v$ />
         <TimeInput labelName="TimeInput" v-model="inputDemo.TimeInput" :v$ />
-        <CheckboxInput labelName="CheckboxInput" v-model="inputDemo.CheckboxInput" class="mt-5" />
+        <SliderInput labelName="SliderInput" v-model="inputDemo.SliderInput"
+            :min="0" :max="100" :step="5" :hideLabel="false" />
+        <CheckboxInput labelName="CheckboxInput" v-model="inputDemo.CheckboxInput" />
+        <SelectInput labelName="SelectInput" v-model="inputDemo.SelectInput" 
+            :optionsList="usStatesList" defaultText="-- SelectInput --" :v$ />
+        <SearchInput v-model="inputDemo.SearchInput" :showAdvSearchButton="true" 
+            labelName="SearchInput" :compact="false" />
+        <MultiSelectInput labelName="MultiSelectInput" v-model="inputDemo.MultiSelectInput" :optionsList="usStatesList" :v$ 
+            class="xl:col-span-2 3xl:col-span-3" />
+
     </div>
 
     <ModalControl id="InputDemoJson" v-model="showJson"

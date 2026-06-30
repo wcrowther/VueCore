@@ -18,7 +18,6 @@
 
 	const activeTabModel = defineModel('activeTab', { type: [String, Number], default: '' })
 	const internalActiveTab = ref('')
-	const slots = useSlots()
 
 	const normalizedTabList = computed(() =>
 	{

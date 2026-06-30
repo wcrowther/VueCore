@@ -105,56 +105,56 @@
                     <div class="label-title" 
                         title="Prev/Next buttons for mobile pager (only show at low res)">Prev / Next:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="showPrevNext" />
+                        <CheckboxInput v-model="showPrevNext" />
                     </div>
                 </div>
                 <div class="label-row">
                     <div class="label-title" 
                         title="Show breakpoints in lower left">Breakpoints:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="showBreakpoints" />
+                        <CheckboxInput v-model="showBreakpoints" />
                     </div>
                 </div> 
                 <div class="label-row">
                     <div class="label-title" 
                         title="Toggle on/off alternate color scheme.">Alt Theme:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="altTheme" />
+                        <CheckboxInput v-model="altTheme" />
                     </div>
                 </div>
                 <div class="label-row">
                     <div class="label-title" 
                         title="Toggle on/off full width layout.">Full Width:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="fullWidth" />
+                        <CheckboxInput v-model="fullWidth" />
                     </div>
                 </div>
                 <div class="label-row">
                     <div class="label-title" 
                         title="Toggle on/off alternate color scheme.">Pager Debugger:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="pagerDebugger" />
+                        <CheckboxInput v-model="pagerDebugger" />
                     </div>
                 </div>
                 <div class="label-row">
                     <div class="label-title" 
                         title="Show breakpoints in lower left">ShowNotification:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="showNotification" />
+                        <CheckboxInput v-model="showNotification" />
                     </div>
                 </div>
                 <div class="label-row">
                     <div class="label-title" 
                         title="Show main entites as Json">Show Json Entities:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="showJsonEntities" />
+                        <CheckboxInput v-model="showJsonEntities" />
                     </div>
                 </div>
                 <div class="label-row">
                     <div class="label-title" 
                         title="Persist search on page load">Persist Search</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="persistSearch" />
+                        <CheckboxInput v-model="persistSearch" />
                     </div>
                 </div>    
             
@@ -162,7 +162,7 @@
                     <div class="label-title" 
                         title="Persist search on page load">Show Platform Info</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="showPlatformInfo" />
+                        <CheckboxInput v-model="showPlatformInfo" />
                     </div>
                 </div>   
 
@@ -171,7 +171,7 @@
                     <div class="label-title" 
                         title="Show New Chats button">ShowNewChatMessages:</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="showNewChatMessages" />
+                        <CheckboxInput v-model="showNewChatMessages" />
                     </div>
                 </div>  
                 <div class="flex">
@@ -186,7 +186,7 @@
                     <div class="label-title" 
                         title="Persist search on page load">Persist Search</div>
                     <div class="label-value">
-                        <CheckboxInput labelName="" v-model="persistSearch" />
+                        <CheckboxInput v-model="persistSearch" />
                     </div>
                 </div>    
                 <SwitchButton class="mt-3 bg-color-blue-gray text-white font-bold w-[100px]" title="Toggle Pin"  

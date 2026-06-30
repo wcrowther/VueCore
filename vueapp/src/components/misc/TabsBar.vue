@@ -394,7 +394,8 @@
 				<slot name="overflow-trigger"
 					:is-open="isOverflowMenuOpen" :hidden-count="hiddenTabs.length">
 					<button type="button"
-						class="inline-flex rounded-full size-6 m-1 items-center justify-center border border-gray-400 bg-white text-gray-700 hover:bg-gray-50 transition-opacity"
+						class="inline-flex rounded-full size-6 m-1 items-center justify-center border border-gray-400
+						bg-white text-gray-700 hover:bg-gray-50 transition-opacity"
 						:class="hiddenTabs.length ? 'opacity-100' : 'opacity-0 pointer-events-none'"
 						aria-label="Show hidden tabs">⋮</button>
 				</slot>

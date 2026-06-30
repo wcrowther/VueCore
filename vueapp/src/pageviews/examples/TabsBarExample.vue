@@ -34,7 +34,7 @@
     <TabsBar v-model="modelValue" :tabs="longTabList" 
         :overflow="rangeList[overflowIndex]" enableShortcuts />
 
-    <div class="border border-gray-400 border-t-0 p-5">
+    <div class="border border-gray-400 border-t-0 p-5 bg-white">
         <div class="font-semibold mb-2">{{ activePanel.id }}</div>
     </div>
 

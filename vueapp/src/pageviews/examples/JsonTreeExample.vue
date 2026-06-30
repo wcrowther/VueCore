@@ -30,7 +30,8 @@
             class="py-1 px-5 font-bold tracking-wide select-none" />
     </div>
     <div class="mt-5 pb-5">
-        <JsonTreeControl :label="jsonSource.name" :json="jsonSource.json" :showRawJson="false" />
+        <JsonTreeControl :label="jsonSource.name" :json="jsonSource.json" 
+            :showRawJson="false" :isOpen="true" />
     </div>
 
 </template>

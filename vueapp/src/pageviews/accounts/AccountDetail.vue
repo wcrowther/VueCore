@@ -188,7 +188,7 @@
         </div>
 
         <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="AccountInfo"
-            class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">
+            class="basis-[300px] min-w-[200px] p-5 flex-1 border border-color-blue-gray bg-white">
 
             <TitleBox v-if="!isAddingAccount">
                 <span>{{account.AccountName}}</span>
@@ -202,10 +202,10 @@
             <PhoneInput labelName="Main Phone" ruleName="AccountPhone" v-model="account.AccountPhone" :v$ />
             <TextAreaInput labelName="Notes" ruleName="Notes" v-model="account.Notes" :v$ />
 
-            <div class="mt-7 flex flex-wrap justify-between gap-5 mb-3">
-                <CheckboxInput labelName="Is Active"  v-model="account.IsActive" />
-                <CheckboxInput labelName="Is Invoice" v-model="account.IsInvoice" />
-                <CheckboxInput labelName="Is AutoPay" v-model="account.IsAutoPay" />
+            <div class="mt-3 mb-5 flex flex-wrap justify-between gap-5">
+                <CheckboxInput labelName="Is Active"  v-model="account.IsActive" compact />
+                <CheckboxInput labelName="Is Invoice" v-model="account.IsInvoice" compact />
+                <CheckboxInput labelName="Is AutoPay" v-model="account.IsAutoPay" compact />
             </div>
 
         </div>
