@@ -17,28 +17,7 @@
 
 <template>
 
-    <div class="flex flex-wrap gap-x-8">
-
-        <div class="text-lg font-bold mb-5 basis-full flex-none">
-            GridControl Examples
-        </div>
-
-        <InfoBox class="mb-7 basis-full flex-none">
-            This page demonstrates <b>GridControl</b> — a configurable checkered grid that exposes a scoped slot
-            for each cell. The <b>Checkers Board</b> shows how the slot can power a fully interactive game with
-            drag-and-drop, king promotion, and turn enforcement. The <b>ListIndexButton</b> example shows a
-            lightweight prev/next navigator used throughout this page to switch options. The <b>Resizable Grid</b>
-            at the bottom demonstrates raw GridControl rendering at various row/column sizes.
-        </InfoBox> 
-
-        <CheckersExample class="lg:flex-1 mb-5" />
-
-        <ListIndexButtonExample class="lg:flex-1" />
-
-    </div>
-
-    <!-- Resize Grid -->
-    <div class="basis-full mt-10 mb-10">
+    <div class="basis-full overflow-auto scrollbar-thin">
 
         <div class="text-lg font-bold mb-5">Resizable Grid</div>
 

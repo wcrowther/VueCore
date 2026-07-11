@@ -3,8 +3,6 @@
 
 <template> 
 	
-	<ContentEditorExample />
-	
 	<div class="text-lg font-bold mb-5">
 		File, Folder &amp; Upload Examples
 	</div>
@@ -21,8 +19,6 @@
         <FolderExplorer class="lg:border-r border-gray-400" />
         <FileExplorer class="border-t border-gray-400 lg:border-none" />
     </div>
-
-    <ImageCropperExample />
 
 </template>
 

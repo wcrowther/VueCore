@@ -1,7 +1,6 @@
 <script setup>
 
-const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
-
+	const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 	const props = defineProps(
 	{
 		zIndex: 		{ type: Number, default: 999 },
@@ -54,6 +53,8 @@ const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 	DisableGlobalKeys(fullScreen.value) // disable global Esc key etc
 	useScrollLock(fullScreen.value)
 
+	watchEffect(() => { document.documentElement.style.overflow = fullScreen.value ? 'hidden' : '' })
+
 </script>
 
 <template>
@@ -82,6 +83,7 @@ const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 	</Teleport>
 
 </template>
+
 
 <!-- Usage: 
 	--------------------------------------------------------------------------------------

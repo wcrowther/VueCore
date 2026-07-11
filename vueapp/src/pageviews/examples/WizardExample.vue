@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+
+    import { useSessionStorage } from '@vueuse/core'
+
+	const showWizardBorder =  useSessionStorage('showWizardBorder', false) 
+	const toggleBorder = () => showWizardBorder.value = !showWizardBorder.value
+
+</script>
 
 <template>
 

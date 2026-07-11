@@ -24,7 +24,7 @@
 
 <template>
 
-    <div class="w-full p-5 mb-5  bg-blue-100 border-b-2">
+    <div class="w-full">
     
         <div class="w-full font-bold text-lg mb-5">
             List Index Button

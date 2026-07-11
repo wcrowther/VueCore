@@ -13,7 +13,7 @@ export function DisableGlobalKeys(disable)
 
 	import { disableGlobalKeys } from '@/composables/DisableGlobalKeys.js' 	// (if needed) 
 
-	DisableGlobalKeys(showConfirm.value);
+	DisableGlobalKeys(showConfirm.value)
 */
 
 

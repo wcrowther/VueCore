@@ -2,6 +2,8 @@
 
 	const imageData = ref(null)
 
+	DisableGlobalKeys(true)
+
 </script>
 
 <template>
@@ -19,7 +21,9 @@
 
 		</div>
 
-		<ImageCropper v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
+		<KeepAlive>
+			<ImageCropper v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
+		</KeepAlive>
 	  	<textarea v-model="imageData" class="hidden w-full h-40 mt-4 border" />
 
 	</div>

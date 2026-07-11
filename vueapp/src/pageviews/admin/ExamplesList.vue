@@ -1,12 +1,10 @@
 <script setup>
 
-const examplesStore = useExamplesStore()
-const { sortedExamplesDataList, sortType } = storeToRefs(examplesStore)
-
 const selectedExample = defineModel('selectedExample', { type: String, default: '' })
 
-const route             = useRoute()
-const searchFromUrl     = computed(() => route.params.search || null)
+const route                                 = useRoute()
+const examplesStore                         = useExamplesStore()
+const { sortedExamplesDataList, sortType }  = storeToRefs(examplesStore)
 
 const examplesSizeDefault 	= 20
 const itemsList 			= ref([])
@@ -16,14 +14,10 @@ const activeItem 			= ref(null)
 const currentPage 			= ref(0)
 const searchInput 			= useTemplateRef('searchInput')
 const examplesPageSize 		= useLocalStorage('examplesPageSize', examplesSizeDefault)
+const searchFromUrl         = computed(() => route.params.search || null)
 const activeListItemId 		= computed(() => activeItem.value?.example || '')
-const urlPriorityTerms   	= computed(() =>
-    (searchFromUrl.value || '')
-        .toLowerCase()
-        .split(',')
-        .map((term) => term.trim())
-        .filter(Boolean)
-)
+const urlPriorityTerms      = computed(() => stringToSafeArray(searchFromUrl.value))
+
 listPager.value.PageSize 	= Number(examplesPageSize.value)
 
 const isActiveItem 			= (id)      => activeListItemId.value === id
@@ -67,7 +61,7 @@ const getFilteredList = () =>
 
     if (!filter) return applyUrlPriority(visibleExamples)
 
-    const terms = filter.split(',').map((x) => x.trim()).filter(Boolean)
+    const terms = stringToSafeArray(filter)
 
     if (!terms.length) return applyUrlPriority(visibleExamples)
 
@@ -93,7 +87,8 @@ const getListData = () =>
     const filtered = getFilteredList()
     listPager.value.TotalCount = filtered.length
 
-    if (!filtered.length) {
+    if (!filtered.length) 
+    {
         itemsList.value = []
         activeItem.value = null
         selectedExample.value = ''

@@ -42,8 +42,9 @@
 </script>
 
 <template>
-	<div v-if="isSupported" @click="showCodeBlock=!showCodeBlock"
-		:class="['group relative my-4 rounded-lg overflow-hidden', wrapperClass]">
+	<div v-if="isSupported" 
+		@click="showCodeBlock=!showCodeBlock"
+		:class="['group relative my-4 rounded-lg overflow-hidden scrollbar-thin', wrapperClass]">
 
 		<!-- Header -->
 		<div :class="['flex items-center justify-between h-9 px-4 py-1 border-b', headerClass]">

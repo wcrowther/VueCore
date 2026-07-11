@@ -89,8 +89,6 @@
         Both the header and each day cell are fully templatable via named slots.
     </div>
 
-    <JsonTreeControl v-if="showJsonEntities" label="Normalized Data" :json="normalizedData" class="mb-7" />
-
     <CalendarGrid :dateInMonth @drop="onDropEvent" 
         class="border border-gray mb-10">
 

@@ -1,6 +1,10 @@
 <script setup>
 
-	import { onClickOutside, useElementBounding } from '@vueuse/core'
+	import { onClickOutside } from '@vueuse/core'
+	import { useDropdownPlacement } from '@/composables/UseDropdownPlacement'
+
+	const MENU_GAP = 4
+	const VIEWPORT_PADDING = 8
 
 	const props = defineProps(
 	{
@@ -29,9 +33,13 @@
 	const dropdownMenu 			= ref(null)
 	const optionRefs 			= ref([])
 	const dropdownStyle 		= ref({})
+	const el 					= useTemplateRef('inputContainer')
 
-	const el 						= useTemplateRef('inputContainer')
-	const { bottom, left, width } 	= useElementBounding(el)
+	const { resolveVerticalPlacement, resolveTop } = useDropdownPlacement(
+	{
+		gap: MENU_GAP,
+		viewportPadding: VIEWPORT_PADDING
+	})
 
 	const normalizedItems = computed(() =>
 	{
@@ -104,11 +112,35 @@
 
 	const updateDropdownPosition 	= () =>
 	{
+		if (!el.value) return
+
+		const triggerRect = el.value.getBoundingClientRect()
+		const naturalMenuHeight = dropdownMenu.value?.scrollHeight ?? 0
+		const verticalPlacement = resolveVerticalPlacement(
+		{
+			triggerRect,
+			naturalMenuHeight
+		})
+
+		const renderedMenuHeight = verticalPlacement.resolvedMaxHeight == null
+			? naturalMenuHeight
+			: verticalPlacement.resolvedMaxHeight
+
+		const top = resolveTop(
+		{
+			triggerRect,
+			shouldOpenUpward: verticalPlacement.shouldOpenUpward,
+			renderedMenuHeight
+		})
+
 		dropdownStyle.value = 
 		{
-			left: 	`${left.value}px`,
-			top: 	`${bottom.value}px`,
-			width: 	`${width.value}px`
+			left: 	`${triggerRect.left}px`,
+			top: 	`${top}px`,
+			width: 	`${triggerRect.width}px`,
+			maxHeight: typeof verticalPlacement.resolvedMaxHeight === 'number'
+				? `${verticalPlacement.resolvedMaxHeight}px`
+				: undefined
 		}
 	}
 

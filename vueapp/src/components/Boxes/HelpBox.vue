@@ -16,7 +16,7 @@
 <template>
     <div v-if="infoLevel > 2 || pin" 
         :class="['text-sm border-y border-[#f97316] bg-white/75  w-full',
-            props.compact ? 'mb-3 px-3 py-2' : 'mb-2 px-6 py-5']">
+            props.compact ? 'mb-3 px-3 py-2' : 'mb-5 px-6 py-5']">
 
         <span v-if="!props.compact"
             class="float-right relative -top-3 -right-4 badge-button text-white bg-orange" 

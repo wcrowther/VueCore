@@ -8,16 +8,16 @@
 	})
 
 	const accordion			= inject('accordion', null)
-	const index 			= ref(-1)
-	const isOpen 			= computed(() => accordion.openSet.value.has(index.value) )
+	const index 			= accordion?.registerItem?.() ?? -1
+	const isOpen 			= computed(() => accordion.openSet.value.has(index) )
 	const transitionSpeed	= computed(() => Number(props.transitionMs) || defaultTransitionMs)
 	const transitionEase 	= 'ease'
 
-	// Test if AccordianItem is in required AccordianControl
+	// Test if AccordionItem is in required AccordionControl
 	if (!accordion) 
-		throw new Error('[AccordionItem] Missing accordion context. You must rap an AccordionItem inside an AccordionControl.')
+		throw new Error('[AccordionItem] Missing accordion context. You must wrap an AccordionItem inside an AccordionControl.')
 
-	const toggleItem		= () => accordion.toggle(index.value)
+	const toggleItem		= () => accordion.toggle(index)
 
 	const setTransitionStyles = (el) =>
 	{
@@ -100,8 +100,6 @@
 		el.style.transition = ''
 	}
 
-	onMounted(() => { index.value = accordion.registerItem() })
-
 </script>
 
 <template>
@@ -138,3 +136,25 @@
 		</transition>
 	</div>
 </template>
+
+<!-- Usage:
+
+	<AccordionControl>
+		<AccordionItem title="What is Vue?">
+			Vue is a progressive JavaScript framework.
+		</AccordionItem>
+	</AccordionControl>
+
+	<AccordionControl :multiple="true">
+		<AccordionItem :transitionMs="300">
+			<template #header>
+				Custom Header Content
+			</template>
+			Custom body content with slot markup.
+		</AccordionItem>
+	</AccordionControl>
+
+	- Must be rendered inside an AccordionControl.
+	- Header can use title prop or custom #header slot.
+	- transitionMs controls open/close animation speed.
+-->

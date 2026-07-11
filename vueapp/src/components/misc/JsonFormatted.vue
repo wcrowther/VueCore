@@ -155,7 +155,7 @@
 
 		<div @click="onRowClick"
 			@contextmenu="onRightClick"
-  			:class="[rowClasses, 'cursor-pointer flex items-center group']"
+  			:class="[rowClasses, 'cursor-pointer flex items-start group']"
 			:title="`Right-click to toggle siblings for ${levelHint}`">
 
 			<RotateButton v-if="isObject" v-model="open" :noClick="buttonClickOff" icon="material-symbols-light:play-arrow" /> 
@@ -199,3 +199,5 @@
 	</div>
 
 </template>
+
+<!-- Shows JSON in a formatted box -->

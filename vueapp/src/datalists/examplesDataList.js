@@ -1,13 +1,15 @@
 export const examplesDataList =
     [
-        { name: 'Accordian', example: 'AccordianExample', show: true, featured: false, type: '', order: 5},
+        { name: 'Accordion', example: 'AccordionExample', show: true, featured: false, type: '', order: 5},
         { name: 'Calendar', example: 'CalendarExample', show: true, featured: false, type: '', order: 5},
         { name: 'Checkers', example: 'CheckersExample', show: true, featured: true, type: '', order: 5},
         { name: 'Composables', example: 'ComposablesExample', show: true, featured: false, type: '', order: 5},
         { name: 'ContentEditor', example: 'ContentEditorExample', show: true, featured: false, type: '', order: 5},
+        { name: 'DetailBox', example: 'DetailBoxExample', show: true, featured: false, type: '', order: 5},
         { name: 'Files', example: 'FilesExample', show: true, featured: false, type: '', order: 5},
         { name: 'Floater', example: 'FloaterExample', show: true, featured: false, type: '', order: 5},
-        { name: 'Grid', example: 'GridExample', show: true, featured: false, type: '', order: 2},
+        { name: 'FullScreen', example: 'FullScreenExample', show: true, featured: false, type: '', order: 5},
+        { name: 'Grid', example: 'GridExample', show: true, featured: false, type: '', order: 5},
         { name: 'ImageCropper', example: 'ImageCropperExample', show: true, featured: false, type: '', order: 5},
         { name: 'Inputs', example: 'InputsExample', show: true, featured: true, type: '', order: 1},
         { name: 'Intro', example: 'IntroExample', show: false, featured: true, type: '', order: 0},

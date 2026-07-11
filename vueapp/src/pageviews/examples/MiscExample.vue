@@ -7,7 +7,7 @@
     </div>
 
     <InfoBox class="mb-7">
-        Below are new controls such as the MultiSelectInput, and AccordianControl that are still in development.
+        Below are new controls such as the MultiSelectInput, and AccordionControl that are still in development.
     </InfoBox>
 
     <TabsOverflowControlExample />
@@ -16,7 +16,7 @@
 
     <MultiSelectExample />
 
-    <AccordianExample />
+    <AccordionExample />
 
 </template>
 

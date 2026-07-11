@@ -38,7 +38,9 @@
 <!-- Usage: To show a one-time notification message. Status persisted in localStorage.
 	Example:
  
-    <NotificationControl />
-	<NotificationControl>Custom message here.</NotificationControl>
+    <NotificationControl />  // Defaults to text in slot above
+	<NotificationControl>
+		Custom message here.
+	</NotificationControl>
 -->
 

@@ -24,18 +24,14 @@
 
 <template>
 
-    <div ref="parentBox" class="w-full pb-10">
+    <div ref="parentBox" class="w-full pb-5">
 
-		<div class="text-lg w-fit font-bold p-5 pb-3 relative">
-			Checkers Board 
-			<div class="absolute rotate-[10deg] top-2 -right-4 w-fit 
-				font-bold text-xs bg-orange px-2 text-white tracking-widest">
-				NEW
-			</div>
+		<div class="text-lg w-fit font-bold pb-3 relative">
+			Checkers Board 			
 			<!-- <div class="font-normal text-sm">ParentBox width: {{ `${Math.trunc(width)}px` }}</div> -->
 		</div>
 
-		<InfoBox class="p-5">
+		<InfoBox class="py-5">
 			A fully playable checkers game built on <b>GridControl</b>'s scoped slot. Drag a piece to move it —
 			valid squares highlight in yellow. Turns alternate between red and black, pieces reaching the back
 			row become kings (♛) and can move in all directions, and chain jumps are enforced automatically.

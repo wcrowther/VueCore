@@ -1,5 +1,7 @@
 <script setup>
 
+	import { useDropdownPlacement } from '@/composables/UseDropdownPlacement'
+
 	const MENU_MIN_WIDTH = 176
 	const MENU_GAP = 4
 	const VIEWPORT_PADDING = 8
@@ -18,6 +20,11 @@
 	const menuRef 	= ref(null)
 	const position 	= ref({ top: 0, left: 0 })
 	const resolvedMaxHeight = ref(null)
+	const { resolveVerticalPlacement, resolveTop } = useDropdownPlacement(
+	{
+		gap: MENU_GAP,
+		viewportPadding: VIEWPORT_PADDING
+	})
 
 	const hasExplicitMaxHeight = () =>
 		props.maxHeight !== null && props.maxHeight !== undefined && props.maxHeight !== ''
@@ -52,19 +59,15 @@
 		const preferredLeft = triggerRect.right - menuWidth
 		const left = Math.max(VIEWPORT_PADDING, Math.min(preferredLeft, maxLeft))
 
-		const spaceBelow = Math.max(0, window.innerHeight - triggerRect.bottom - VIEWPORT_PADDING - MENU_GAP)
-		const spaceAbove = Math.max(0, triggerRect.top - VIEWPORT_PADDING - MENU_GAP)
-		const shouldOpenUpward = naturalMenuHeight > 0 && spaceBelow < naturalMenuHeight && spaceAbove > spaceBelow
-
-		if (hasExplicitMaxHeight())
-			resolvedMaxHeight.value = props.maxHeight
-		else
+		const verticalPlacement = resolveVerticalPlacement(
 		{
-			const availableOnChosenSide = shouldOpenUpward ? spaceAbove : spaceBelow
-			resolvedMaxHeight.value = naturalMenuHeight > availableOnChosenSide
-				? Math.floor(availableOnChosenSide)
-				: null
-		}
+			triggerRect,
+			naturalMenuHeight,
+			explicitMaxHeight: hasExplicitMaxHeight() ? props.maxHeight : null
+		})
+
+		const shouldOpenUpward = verticalPlacement.shouldOpenUpward
+		resolvedMaxHeight.value = verticalPlacement.resolvedMaxHeight
 
 		const renderedMenuHeight = resolvedMaxHeight.value == null
 			? naturalMenuHeight
@@ -72,9 +75,12 @@
 				? resolvedMaxHeight.value
 				: (menuRef.value?.offsetHeight ?? naturalMenuHeight))
 
-		const top = shouldOpenUpward
-			? Math.max(VIEWPORT_PADDING, triggerRect.top - renderedMenuHeight - MENU_GAP)
-			: Math.min(window.innerHeight - VIEWPORT_PADDING, triggerRect.bottom + MENU_GAP)
+		const top = resolveTop(
+		{
+			triggerRect,
+			shouldOpenUpward,
+			renderedMenuHeight
+		})
 
 		position.value = { top, left }
 	}

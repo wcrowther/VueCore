@@ -42,7 +42,6 @@ declare global {
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
   const computed: typeof import('vue')['computed']
-  const controlsList: typeof import('../datalists/examplesDataList.js')['controlsList']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
   const dateFormat: typeof import('../helpers/global.js')['dateFormat']
@@ -57,7 +56,6 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const envConsts: typeof import('../datalists/envConsts.js')['envConsts']
   const examplesDataList: typeof import('../datalists/examplesDataList.js')['examplesDataList']
-  const examplesList: typeof import('../datalists/controlsList.js')['examplesList']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
   const findNodeByPath: typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']
   const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
@@ -112,6 +110,7 @@ declare global {
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
   const storeToRefs: typeof import('pinia')['storeToRefs']
+  const stringToSafeArray: typeof import('../helpers/global.js')['stringToSafeArray']
   const timeFormat: typeof import('../helpers/global.js')['timeFormat']
   const toApiFolderPath: typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']
   const toApiParentPath: typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']
@@ -138,7 +137,7 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
-  const useDynamicComponentLoader: typeof import('../composables/UseComponentLoader.js')['useDynamicComponentLoader']
+  const useDropdownPlacement: typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']
   const useExamplesStore: typeof import('../stores/ExamplesStore.js')['useExamplesStore']
   const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
@@ -302,6 +301,7 @@ declare module 'vue' {
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
+    readonly stringToSafeArray: UnwrapRef<typeof import('../helpers/global.js')['stringToSafeArray']>
     readonly timeFormat: UnwrapRef<typeof import('../helpers/global.js')['timeFormat']>
     readonly toApiFolderPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']>
     readonly toApiParentPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']>
@@ -328,6 +328,7 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
+    readonly useDropdownPlacement: UnwrapRef<typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']>
     readonly useExamplesStore: UnwrapRef<typeof import('../stores/ExamplesStore.js')['useExamplesStore']>
     readonly useFileStore: UnwrapRef<typeof import('../stores/FileStore.js')['useFileStore']>
     readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>

@@ -103,3 +103,5 @@ export const IsDuplicateMessage = (message, self)  =>
 }
 
 export const MinutesToMs = (mins, minMinutes = 1)  => Number(Math.max(minMinutes, mins)) * 60 * 1000
+
+export const stringToSafeArray = (value) => (value || '').toLowerCase().split(',').map((term) => term.trim()).filter(Boolean)
