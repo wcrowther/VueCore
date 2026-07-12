@@ -24,6 +24,11 @@
 				Content Two
 			</DetailBox>
 
+			<DetailBox title="Detail Three" hideCaret>
+				Content Three
+			</DetailBox>
+
+
 		</div>
 
 

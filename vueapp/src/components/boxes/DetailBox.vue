@@ -1,29 +1,38 @@
 <script setup>
+
     const props = defineProps(
     {
-        id: { type: String, required: true },
+        id: { type: String, default: '' },
         title: { type: String, default: '' },
-        defaultOpen: { type: Boolean, default: false }
+        hideCaret: { type: Boolean, default: false }
     })
 
-    const modelOpen = defineModel({ type: Boolean, default: undefined })
+    const name = (() =>
+    {
+        const hasIdValue = Boolean(props.id?.trim())
+        const value      = hasIdValue ? props.id : props.title.replace(/\s+/g, '_')
 
-    const localOpen = useLocalStorage(props.id, props.defaultOpen)
+        if (!value || !value.trim())
+            throw new Error('[DetailBox] Missing name. Provide a non-empty id or title.')
 
+        return value
+    })()
+
+    const localOpen = useLocalStorage(name, false)
+    const modelOpen = defineModel({ type: Boolean })
     const isOpen = computed(
     {
         get: () => modelOpen.value ?? localOpen.value,
         set: (value) =>
         {
-            localOpen.value = value
-            modelOpen.value = value
+            const nextValue = Boolean(value)
+            localOpen.value = nextValue
+            modelOpen.value = nextValue
         }
     })
 
-    const toggleItem = () =>
-    {
-        isOpen.value = !isOpen.value
-    }
+    const toggleItem = () =>  isOpen.value = !isOpen.value
+    
 </script>
 
 <template>
@@ -32,11 +41,14 @@
             @click="toggleItem">
 
             <slot name="header">
-                <span v-if="props.title" class="select-none">{{ props.title }}</span>
+                <span v-if="props.title" class="select-none">
+                    {{ props.title }}
+                </span>
             </slot>
 
-            <RotateButton v-model="isOpen" rotation="rotate-180"
-                :no-click="true" size="18px" icon="heroicons:chevron-down-solid" />
+            <RotateButton v-if="!props.hideCaret"
+                v-model="isOpen" rotation="rotate-180"
+                :noClick="true" size="18px" icon="heroicons:chevron-down-solid" />
         </div>
 
         <div v-show="isOpen" class="overflow-hidden">
@@ -55,7 +67,7 @@ EXAMPLE:
         Body content
     </DetailBox>
 
-    <DetailBox id="detail-two" v-model="someOpenState" :defaultOpen="true">
+    <DetailBox id="detail-two" v-model="someOpenState">
         <template #header>Custom Header Title</template>
         Body content
     </DetailBox>
