@@ -7,7 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Accordi0nExample: typeof import('./../pageviews/examples/Accordi0nExample.vue')['default']
+    Accordi0nExample: typeof import('../pageviews/examples/AccordionExample.vue/index.js')['default']
     AccordianExample: typeof import('./../pageviews/examples/AccordianExample.vue')['default']
     AccordionControl: typeof import('./../components/controls/AccordionControl.vue')['default']
     AccordionExample: typeof import('./../pageviews/examples/AccordionExample.vue')['default']

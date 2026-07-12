@@ -1,9 +1,12 @@
 <script setup>
 
+    import { useSharedLocalStorageRef } from '@/composables/UseSharedLocalStorageRef'
+
     const props = defineProps(
     {
         id: { type: String, default: '' },
         title: { type: String, default: '' },
+        group: { type: String, default: '' },
         hideCaret: { type: Boolean, default: false }
     })
 
@@ -18,17 +21,66 @@
         return value
     })()
 
+    const groupName = computed(() => props.group.trim())
+    const hasGroup = computed(() => Boolean(groupName.value))
+    const groupStorageKey = computed(() => `detailbox_group_${groupName.value}`)
+
     const localOpen = useLocalStorage(name, false)
+    const groupOpenName = useSharedLocalStorageRef(groupStorageKey.value, '')
+
     const modelOpen = defineModel({ type: Boolean })
-    const isOpen = computed(
+
+    const internalOpen = computed(
     {
-        get: () => modelOpen.value ?? localOpen.value,
+        get: () =>
+        {
+            if (hasGroup.value)
+                return groupOpenName.value === name
+
+            return localOpen.value
+        },
         set: (value) =>
         {
             const nextValue = Boolean(value)
+
+            if (hasGroup.value)
+            {
+                if (nextValue)
+                {
+                    groupOpenName.value = name
+                    return
+                }
+
+                if (groupOpenName.value === name)
+                    groupOpenName.value = ''
+
+                return
+            }
+
             localOpen.value = nextValue
-            modelOpen.value = nextValue
         }
+    })
+
+    watch(modelOpen, (value) =>
+    {
+        if (value === undefined)
+            return
+
+        internalOpen.value = Boolean(value)
+    }, { immediate: true })
+
+    watch(internalOpen, (value) =>
+    {
+        if (modelOpen.value === value)
+            return
+
+        modelOpen.value = value
+    }, { immediate: true })
+
+    const isOpen = computed(
+    {
+        get: () => internalOpen.value,
+        set: (value) => internalOpen.value = value
     })
 
     const toggleItem = () =>  isOpen.value = !isOpen.value
@@ -71,6 +123,10 @@ EXAMPLE:
         <template #header>Custom Header Title</template>
         Body content
     </DetailBox>
+
+    <DetailBox id="detail-three" title="Detail Three" group="faq" />
+    <DetailBox id="detail-four" title="Detail Four" group="faq" />
+    <!-- In the same group, opening one closes the other. -->
 -->
 
 
