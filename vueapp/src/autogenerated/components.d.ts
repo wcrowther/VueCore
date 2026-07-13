@@ -7,8 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Accordi0nExample: typeof import('./../pageviews/examples/Accordi0nExample.vue')['default']
-    AccordianExample: typeof import('./../pageviews/examples/AccordianExample.vue')['default']
     AccordionControl: typeof import('./../components/controls/AccordionControl.vue')['default']
     AccordionExample: typeof import('./../pageviews/examples/AccordionExample.vue')['default']
     AccordionItem: typeof import('./../components/misc/AccordionItem.vue')['default']
@@ -20,6 +18,7 @@ declare module 'vue' {
     AdminNotes: typeof import('./../pageviews/admin/AdminNotes.vue')['default']
     AlertControl: typeof import('./../components/controls/AlertControl.vue')['default']
     BackGradation: typeof import('./../components/layout/BackGradation.vue')['default']
+    BooleanButton: typeof import('./../components/buttons/BooleanButton.vue')['default']
     BrandBar: typeof import('./../pageviews/layout/BrandBar.vue')['default']
     BrandLogo: typeof import('./../pageviews/layout/BrandLogo.vue')['default']
     BreakPoints: typeof import('./../components/misc/BreakPoints.vue')['default']
@@ -39,7 +38,7 @@ declare module 'vue' {
     ContentEditor: typeof import('./../components/files-folders/ContentEditor.vue')['default']
     ContentEditorExample: typeof import('./../pageviews/examples/ContentEditorExample.vue')['default']
     ContextMenu: typeof import('./../components/misc/ContextMenu.vue')['default']
-    copy: typeof import('../components/boxes/DetailBox.vue/index.js')['default']
+    copy: typeof import('./../components/buttons/ListIndexButton copy.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     DetailBox: typeof import('./../components/boxes/DetailBox.vue')['default']

@@ -47,6 +47,8 @@
 				<span v-else>{{ forceMoves ? 'Force Moves: On' : 'Force Moves: Off' }}</span>
 			</button>
 
+			<BooleanButton v-model="forceMoves" trueText="Force Moves: On" falseText="Force Moves: Off" />
+
 			<button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
 				@click="fullScreen=!fullScreen" title="Full Screen On/Off">
 

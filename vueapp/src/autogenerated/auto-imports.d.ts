@@ -41,6 +41,7 @@ declare global {
   const apiPut: typeof import('../composables/ApiCall.js')['apiPut']
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
+  const closeAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
@@ -54,6 +55,7 @@ declare global {
   const definePage: typeof import('unplugin-vue-router/runtime')['_definePage']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
+  const emitDetailBoxEvent: typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']
   const envConsts: typeof import('../datalists/envConsts.js')['envConsts']
   const examplesDataList: typeof import('../datalists/examplesDataList.js')['examplesDataList']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
@@ -98,6 +100,7 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
+  const openAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']
   const pageSizeList: typeof import('../datalists/pageSizeList.js')['pageSizeList']
   const provide: typeof import('vue')['provide']
   const reactive: typeof import('vue')['reactive']
@@ -119,6 +122,7 @@ declare global {
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
   const toValue: typeof import('vue')['toValue']
+  const toggleAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const usPhoneFormat: typeof import('../helpers/global.js')['usPhoneFormat']
@@ -137,6 +141,7 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
+  const useDetailBoxEventListener: typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']
   const useDropdownPlacement: typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']
   const useExamplesStore: typeof import('../stores/ExamplesStore.js')['useExamplesStore']
   const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
@@ -232,6 +237,7 @@ declare module 'vue' {
     readonly apiPut: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPut']>
     readonly authRequestValidator: UnwrapRef<typeof import('../helpers/validators.js')['authRequestValidator']>
     readonly authSignupValidator: UnwrapRef<typeof import('../helpers/validators.js')['authSignupValidator']>
+    readonly closeAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -245,6 +251,7 @@ declare module 'vue' {
     readonly definePage: UnwrapRef<typeof import('unplugin-vue-router/runtime')['_definePage']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly emitDetailBoxEvent: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']>
     readonly envConsts: UnwrapRef<typeof import('../datalists/envConsts.js')['envConsts']>
     readonly examplesDataList: UnwrapRef<typeof import('../datalists/examplesDataList.js')['examplesDataList']>
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
@@ -289,6 +296,7 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
+    readonly openAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']>
     readonly pageSizeList: UnwrapRef<typeof import('../datalists/pageSizeList.js')['pageSizeList']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -310,6 +318,7 @@ declare module 'vue' {
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
+    readonly toggleAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly usPhoneFormat: UnwrapRef<typeof import('../helpers/global.js')['usPhoneFormat']>
@@ -328,6 +337,7 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
+    readonly useDetailBoxEventListener: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']>
     readonly useDropdownPlacement: UnwrapRef<typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']>
     readonly useExamplesStore: UnwrapRef<typeof import('../stores/ExamplesStore.js')['useExamplesStore']>
     readonly useFileStore: UnwrapRef<typeof import('../stores/FileStore.js')['useFileStore']>

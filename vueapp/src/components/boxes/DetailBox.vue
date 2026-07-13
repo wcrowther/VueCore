@@ -1,9 +1,12 @@
 <script setup>
 
+    import { emitDetailBoxEvent, useDetailBoxEventListener } from '@/composables/UseDetailBoxEvents'
+
     const props = defineProps(
     {
         id: { type: String, default: '' },
         title: { type: String, default: '' },
+        group: { type: String, default: '' },
         hideCaret: { type: Boolean, default: false }
     })
 
@@ -18,9 +21,11 @@
         return value
     })()
 
+    const groupName = computed(() => props.group.trim())
+    const hasGroup  = computed(() => Boolean(groupName.value))
     const localOpen = useLocalStorage(name, false)
     const modelOpen = defineModel({ type: Boolean })
-    const isOpen = computed(
+    const isOpen    = computed(
     {
         get: () => modelOpen.value ?? localOpen.value,
         set: (value) =>
@@ -31,7 +36,53 @@
         }
     })
 
-    const toggleItem = () =>  isOpen.value = !isOpen.value
+    const handleDetailBoxEvent = (item) =>
+    {
+        if (!item || !item.action) return
+
+        const eventGroup = String(item.group ?? '').trim() 
+
+        if (eventGroup && eventGroup !== groupName.value) return
+
+        const excludeList = Array.isArray(item.exclude) ? item.exclude : []
+
+        if (excludeList.includes(name))  return
+
+        if (item.action === 'open' || item.action === 'open-all')
+        {
+            isOpen.value = true
+            return
+        }
+
+        if (item.action === 'close' || item.action === 'close-all')
+        {
+            isOpen.value = false
+            return
+        }
+
+        if (item.action === 'toggle' || item.action === 'toggle-all')
+            isOpen.value = !isOpen.value
+    }
+
+    let stopDetailBoxEventListener = null
+    onMounted(() =>
+    {
+        stopDetailBoxEventListener = useDetailBoxEventListener(handleDetailBoxEvent)
+    })
+
+    onBeforeUnmount(() =>
+    {
+        stopDetailBoxEventListener?.()
+    })
+
+    const toggleItem = () =>
+    {
+        const nextValue = !isOpen.value
+        isOpen.value = nextValue
+
+        if (hasGroup.value && nextValue)
+            emitDetailBoxEvent({ group: groupName.value, action: 'close', exclude: [name] })
+    }
     
 </script>
 
@@ -71,6 +122,14 @@ EXAMPLE:
         <template #header>Custom Header Title</template>
         Body content
     </DetailBox>
+
+    <DetailBox id="faq-1" title="FAQ One" group="faq" />
+    <DetailBox id="faq-2" title="FAQ Two" group="faq" />
+
+    // External controls:
+    // emitDetailBoxEvent({ action: 'open-all' })
+    // emitDetailBoxEvent({ action: 'close-all' })
+    // emitDetailBoxEvent({ group: 'faq', action: 'close', exclude: ['faq-1'] })
 -->
 
 
