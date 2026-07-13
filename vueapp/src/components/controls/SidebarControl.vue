@@ -8,7 +8,9 @@
 </script>
 
 <template>
+
 	<div class="flex" :id="props.sideBarId">
+
         <MainSidebar>
            <slot name="sidebar" />
         </MainSidebar>     
@@ -16,15 +18,16 @@
         <MainRight>
             <slot name="default" />
         </MainRight>  
-	</div>
-</template>
 
+	</div>
+
+</template>
 
 <!-- Usage: 
 
 	<SidebarControl :showSideBar="true">
 		<template #sidebar>
-		// Sidebar content here
+			// Sidebar content here
 		</template>
 		// Main content here
 	</SidebarControl>	

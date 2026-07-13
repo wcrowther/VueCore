@@ -26,9 +26,9 @@
 			<span class="hidden xs:block">Home</span>
 		</NavTab>
 
-		<!-- <NavTab navText="Content" to="/content" /> -- Hide until Content is complete -->
-
 		<NavTab navText="Accounts" to="/accounts" />
+
+		<NavTab navText="Examples" to="/examples" /> 
 
 		<NavTab navText="Admin" to="/admin" v-show="adminRoles.includes(authUser.Role)" />
 

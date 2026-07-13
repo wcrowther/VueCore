@@ -16,19 +16,9 @@
 
 			<div class="pr-5">
 			
-				<router-link to="/admin/users" class="px-1 py-2 font-bold hover:opacity-50" 
-					active-class="text-orange" linkName="AdminUsers">Users</router-link>
-
-				<span class="px-1 text-gray-300">|</span>
-
-				<router-link to="/admin/site" class="px-1 py-2 font-bold hover:opacity-50" 
-					active-class="text-orange" linkName="AdminSite">Site</router-link>
-			
-				<span class="px-1 text-gray-300">|</span>
-
-				<router-link to="/admin/controls" linkName="AdminControls" 
+				<router-link to="/examples" linkName="Examples" 
 					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
-					Controls
+					Main
 				</router-link>
 
 			</div>  

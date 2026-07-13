@@ -38,7 +38,6 @@ declare module 'vue' {
     ContentEditor: typeof import('./../components/files-folders/ContentEditor.vue')['default']
     ContentEditorExample: typeof import('./../pageviews/examples/ContentEditorExample.vue')['default']
     ContextMenu: typeof import('./../components/misc/ContextMenu.vue')['default']
-    copy: typeof import('./../components/buttons/ListIndexButton copy.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     DetailBox: typeof import('./../components/boxes/DetailBox.vue')['default']

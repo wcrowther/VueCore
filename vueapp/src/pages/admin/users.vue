@@ -7,7 +7,7 @@
 
 <template>
 
-    <SidebarControl id="AdminUsers">
+    <SidebarControl id="adminUsers">
     
         <template #sidebar>
             <UsersList />
