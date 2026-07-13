@@ -4,8 +4,9 @@
 
 	import { useComponentLoader } from '@/composables/UseComponentLoader'
 
-	const selectedExample = ref('')
-	const { getComponent, componentNames } = useComponentLoader(import.meta.glob('/src/pageviews/examples/*.vue'))
+	const selectedExample 	= ref('')
+	const examplesFolder 	= import.meta.glob('/src/pageviews/examples/views/*.vue')
+	const { getComponent } 	= useComponentLoader(examplesFolder) // also: componentNames
 
 	const selectedExampleComponent = computed(() => getComponent(selectedExample.value))
 

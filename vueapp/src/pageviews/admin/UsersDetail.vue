@@ -105,7 +105,7 @@
 
 <template>
 
-    <div class="flex flex-wrap gap-5" id="UsersDetailView">
+    <div class="relative flex flex-wrap gap-5" id="UsersDetailView">
 
         <ConfirmControl v-model="showConfirmSave" message="Save User Data?" 
 			@confirmResult="saveUserDetail"  />
