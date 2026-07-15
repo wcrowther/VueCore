@@ -33,7 +33,7 @@
         </span>
     </div>
 
-	<InfoBox class="mb-7">
+	<InfoBox>
 		<b>FullScreenControl</b> wraps any content and expands it to fill the viewport via a
 		<b>v-model:fullScreen</b> boolean. An <b>:inset</b> prop (number, string, or object)
 		offsets the panel from the screen edges. An exit button is shown by default and

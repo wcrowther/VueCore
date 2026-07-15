@@ -31,7 +31,7 @@
 			<!-- <div class="font-normal text-sm">ParentBox width: {{ `${Math.trunc(width)}px` }}</div> -->
 		</div>
 
-		<InfoBox class="py-5">
+		<InfoBox>
 			A fully playable checkers game built on <b>GridControl</b>'s scoped slot. Drag a piece to move it —
 			valid squares highlight in yellow. Turns alternate between red and black, pieces reaching the back
 			row become kings (♛) and can move in all directions, and chain jumps are enforced automatically.
@@ -47,7 +47,7 @@
 				<span v-else>{{ forceMoves ? 'Force Moves: On' : 'Force Moves: Off' }}</span>
 			</button>
 
-			<BooleanButton v-model="forceMoves" trueText="Force Moves: On" falseText="Force Moves: Off" />
+			<!-- <BooleanButton v-model="forceMoves" trueText="Force Moves: On" falseText="Force Moves: Off" /> -->
 
 			<button class="text-base px-4 h-7 rounded-full font-bold text-gray-500 bg-gray-200 hover:bg-gray-300"
 				@click="fullScreen=!fullScreen" title="Full Screen On/Off">

@@ -10,7 +10,7 @@
         Floater Control
     </div>
 
-    <InfoBox class="mb-7">
+    <InfoBox>
         Info about floater controls.
     </InfoBox>
 

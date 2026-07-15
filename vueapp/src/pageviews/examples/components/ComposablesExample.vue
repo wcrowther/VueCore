@@ -66,7 +66,7 @@ const confirmed = await createConfirm('Confirm this record?')
             Check the browser console to see the resolved values after interacting with each dialog.
         </div>
 
-        <CodeBlock :codeContent language="vuejs code" showLineNumbers  />
+        <CodeBlock :codeContent title="vuejs code" />
         
         <PrimaryButton class="mt-5 mr-3" @click="showAlert">Try Alert</PrimaryButton>      
         <PrimaryButton class="mr-3" @click="tryConfirm">Try Confirm</PrimaryButton>

@@ -112,7 +112,9 @@
 
         <div class="w-full flex justify-between items-center">
 
-            <h2 class="text-2xl font-display font-bold flex-grow">{{ userTitle || 'Users'}}</h2>
+            <h2 class="text-2xl font-display font-bold flex-grow">
+                {{ userTitle || 'Users'}}
+            </h2>
 
             <span class="flex flex-wrap gap-3">   
 

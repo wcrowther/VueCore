@@ -11,13 +11,19 @@
 
     <div class="w-full min-h-[400px] relative">
 
+        <PageTitleBox pageTitle="Wizard Example">
+            <button class="btn-primary" @click="toggleBorder">
+                Wizard border: {{ showWizardBorder ? 'ON' : 'OFF' }}
+            </button>
+        </PageTitleBox>
+
         <div class="float-right ml-5 mb-3 mt-1 flex items-center cursor-pointer px-4 py-2 h-6 text-xs leading-[1.3rem] 
 					select-none font-bold w-[140px] rounded-full border border-color-dark-blue !text-color-dark-blue"
             @click="toggleBorder">
             Wizard border: {{ showWizardBorder ? 'ON' : 'OFF' }}
         </div>
 
-        <InfoBox class="mb-7">
+        <InfoBox>
             This page showcases a collection of reusable UI controls available in the application.
             Use the tabs below to explore each category — <b>Wizard</b> walks through a multi-step form flow,
             <b>Files</b> demonstrates file and folder management, <b>Calendar</b> shows event scheduling,

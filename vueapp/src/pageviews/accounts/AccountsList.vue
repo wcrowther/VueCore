@@ -69,7 +69,7 @@
                 </span>
             </div>
 
-            <InfoBox class="mb-3">
+            <InfoBox class="!mb-3">
                 Enter search text matching the start of an Account Name or numeric Account Id. 
                 Results update automatically as you page through the list.
             </InfoBox>

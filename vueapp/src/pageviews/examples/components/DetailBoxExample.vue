@@ -24,8 +24,6 @@
 
 		<div class="flex flex-wrap justify-between mt-10 mb-5">
 
-			<InfoBox>Experimental DetailBox</InfoBox>
-
 			<DetailBox id="detailOne" title="Detail One" class="bg-white">
 				Content One
 			</DetailBox>
@@ -60,18 +58,6 @@
 			
 			<DetailBox id="faqThree" title="FAQ Three" group="faq">
 				FAQ content three
-			</DetailBox>
-
-			<DetailBox id="notesOne" title="Notes One" group="notes">
-				Different group (not affected by FAQ group-only buttons)
-			</DetailBox>
-
-			<DetailBox id="notesTwo" title="Notes Two" group="notes">
-				Different group (not affected by FAQ group-only buttons)
-			</DetailBox>
-
-			<DetailBox id="notesThree" title="Notes Three" group="notes">
-				Different group (not affected by FAQ group-only buttons)
 			</DetailBox>
 		</div>
 		

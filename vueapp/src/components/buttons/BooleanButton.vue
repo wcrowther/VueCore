@@ -17,15 +17,17 @@
 		leading-[1.3rem] select-none text-white font-bold tracking-wider align-middle 
 		text-center bg-color-primary hover:bg-orange"
 		@click="modelValue = !modelValue">
-		{{ modelValue ? trueText : falseText }}
+		<slot>
+			{{ modelValue ? trueText : falseText }}		
+		</slot>
+
 	</div>  
 
 </template>
 
 
 <!-- USAGE
-
-	const rangeValue = ref(false)
-	<BooleanButton v-model="rangeValue" trueText="Show On" falseText="Show Off" />
+	const boolValue = ref(false)
+	<BooleanButton v-model="boolValue" trueText="Show On" falseText="Show Off" />
 -->
 

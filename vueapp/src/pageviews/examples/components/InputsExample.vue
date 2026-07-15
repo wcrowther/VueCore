@@ -3,6 +3,7 @@
     const { createConfirm } = useConfirmControl()
 
     const showJson          = ref(false)
+    const showCode          = ref(false)
     const inputDemo         = reactive(new InputDemoModel())
     const savedInputDemo    = ref(JSON.parse(JSON.stringify(inputDemo))) 
     const v$                = useVuelidate(inputDemoValidator, inputDemo)
@@ -25,35 +26,62 @@
 
     const resetInputDemo = () => { Object.assign(inputDemo, new InputDemoModel());  v$.value.$reset() }
 
+// ======================================================================
+// CodeBlock Example
+// ======================================================================
+
+const codeContent = 
+`
+// The input form markup for this example is succinct but does a lot, including 
+// full  validation behavior - passed into components using the 'v$' prop.
+ 
+<TextInput labelName="TextInput" v-model="inputDemo.TextInput" :v$ />
+<PhoneInput labelName="PhoneInput" v-model="inputDemo.PhoneInput" :v$ />
+<TextAreaInput labelName="TextAreaInput" v-model="inputDemo.TextAreaInput" :v$ />
+<PasswordInput labelName="PasswordInput" v-model="inputDemo.PasswordInput" :v$ />
+<DateInput labelName="DateInput" v-model="inputDemo.DateInput" :v$ />
+<TimeInput labelName="TimeInput" v-model="inputDemo.TimeInput" :v$ />
+<SliderInput labelName="SliderInput" v-model="inputDemo.SliderInput"
+    :min="0" :max="100" :step="5" :hideLabel="false" />
+<CheckboxInput labelName="CheckboxInput" v-model="inputDemo.CheckboxInput" />
+<SelectInput labelName="SelectInput" v-model="inputDemo.SelectInput" 
+    :optionsList="usStatesList" defaultText="-- SelectInput --" :v$ />
+<SearchInput v-model="inputDemo.SearchInput" :showAdvSearchButton="true" 
+    labelName="SearchInput" :compact="false" :v$ />
+<MultiSelectInput labelName="MultiSelectInput" v-model="inputDemo.MultiSelectInput" 
+    :optionsList="usStatesList" class="xl:mt-5 xl:col-span-2 3xl:col-span-3" :v$  />
+`
 </script>
 
 <template>
 
-    <div class="w-full flex justify-between items-center mb-4">
-        <div class="text-lg font-bold mb-5">
-            Input Examples
-        </div>
-        <span class="flex flex-wrap gap-1.5">
-            <button class="btn-cancel" :disabled="!isDirty" @click="resetInputDemo">
-                Reset
-            </button>
-            <button class="btn-primary" :disabled="!isDirty" @click="saveInputDemo">
-                Save
-            </button>
-        </span>
-    </div>
+   
+    <PageTitleBox pageTitle="Input Examples">
+        <button :disabled="!isDirty" class="btn-cancel flex items-center px-2" 
+            @click="resetInputDemo" title="Revert unsaved changes to Input Demo">
+            <IconSymbol width="18px" class="text-warm-600" icon="heroicons:arrow-left-20-solid" />
+        </button>
+        <button class="btn-primary" :disabled="isDirty" @click="saveInputDemo">
+            Save
+        </button>
+    </PageTitleBox>
 
-    <InfoBox class="text-sm text-slate-600 leading-6">
+    <InfoBox>
         This page is an input playground that binds many controls to one reactive
         <b>InputDemoModel</b>, so you can quickly test values, validation, and UI feedback
-        in a single form. As fields change, the page compares current values to the last
+        in a single form. The <b>CodeBlock</b> above shows how concise the markup stays,
+        even while wiring up a lot of behavior. As fields change, the page compares current values to the last
         saved snapshot; that dirty-state check controls when <b>Save</b> and <b>Reset</b>
         are enabled. Saving runs Vuelidate, asks for confirmation, stores a new baseline,
         and opens a JSON preview modal. Reset restores model defaults and clears validation
-        for a clean edit cycle.
+        for a clean edit cycle. See the source code to understand how the inputs 
+        are wired together.
     </InfoBox>
 
     <HelpBox class="">
+        <b>Code preview:</b> Open the <b>CodeBlock</b> to see the full input markup in one place.
+        It is intentionally concise, but still handles rich validation and synchronized model updates.
+        <br /><br />
         <b>Validation behavior:</b> Required and rule-based fields show errors inline as you interact.
         Use this page to verify both input formatting and validation messaging across controls.
         <br /><br />
@@ -65,6 +93,8 @@
         asks for confirmation, and opens a JSON preview modal so you can inspect the final payload.
         <b>Reset</b> restores default model values and clears validation state for a clean retest.
     </HelpBox>
+
+    <CodeBlock :codeContent title="Input Controls Markup" v-model="showCode" ></CodeBlock>
 
     <div id="inputDemo" class="p-5 pb-10 border border-gray-400 
         grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-x-6 gap-y-4 
@@ -84,7 +114,7 @@
         <SearchInput v-model="inputDemo.SearchInput" :showAdvSearchButton="true" 
             labelName="SearchInput" :compact="false" />
         <MultiSelectInput labelName="MultiSelectInput" v-model="inputDemo.MultiSelectInput" :optionsList="usStatesList" :v$ 
-            class="xl:mt-5 xl:col-span-2 3xl:col-span-3" />
+            class="xl:mt-3 xl:col-span-2 3xl:col-span-3" />
 
     </div>
 

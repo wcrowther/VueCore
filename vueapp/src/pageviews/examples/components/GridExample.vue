@@ -21,7 +21,7 @@
 
         <div class="text-lg font-bold mb-5">Resizable Grid</div>
 
-		<InfoBox class="mb-7">
+		<InfoBox>
 			<b>GridControl</b> renders a reactive checkered grid driven by <b>:rows</b> and <b>:cols</b> props.
 			Use the button to cycle through preset sizes and watch the grid re-render instantly.
 		</InfoBox>

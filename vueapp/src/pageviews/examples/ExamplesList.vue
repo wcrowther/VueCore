@@ -181,7 +181,7 @@ watch(() => searchFromUrl.value, (newVal, oldVal) =>
                 </span>
             </div>
 
-            <InfoBox class="mb-3">
+            <InfoBox class="!mb-3">
                 Examples list with simple search and paging.
             </InfoBox>
 

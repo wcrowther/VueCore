@@ -6,7 +6,7 @@
         Misc Controls
     </div>
 
-    <InfoBox class="mb-7">
+    <InfoBox>
         Below are new controls such as the MultiSelectInput, and AccordionControl that are still in development.
     </InfoBox>
 

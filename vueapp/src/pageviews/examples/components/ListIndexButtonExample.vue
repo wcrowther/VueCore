@@ -29,7 +29,7 @@
         <div class="w-full font-bold text-lg mb-5">
             List Index Button
         </div>
-        <InfoBox class="mb-5 basis-full flex-none">
+        <InfoBox>
             The <b>ListIndexButton</b> is a lightweight prev/next navigator for stepping through any array. 
             It binds to a zero-based index via <code>v-model</code> and accepts any array as <code>:rangeList</code>. 
             By default it displays the item's <code>name</code> property, but you can override this with the 

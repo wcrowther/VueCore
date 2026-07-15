@@ -14,7 +14,7 @@
                 <h2 class="text-2xl font-display font-bold flex-grow">{{ pageTitle }}</h2>
             </div> 
 
-            <InfoBox class="mb-8">
+            <InfoBox>
                 This page is still under construction but will contain information on the 
                 structure of the Asp.Net Minimal API backend project.
             </InfoBox> 

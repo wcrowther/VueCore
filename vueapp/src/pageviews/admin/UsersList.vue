@@ -152,7 +152,7 @@
                 </span>
             </div>
 
-            <InfoBox class="mb-3">
+            <InfoBox class="!mb-3">
                 Enter a numeric User Id or search text matching the start of a user's First or Last Name.
                 Results update automatically as you navigate through the list.
             </InfoBox>

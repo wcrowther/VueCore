@@ -135,7 +135,9 @@
 
         <div class="w-full flex justify-between items-center">
 
-            <h2 class="text-2xl font-display font-bold flex-grow">{{ accountTitle || 'Accounts'}}</h2>
+            <h2 class="text-2xl font-display font-bold flex-grow">
+                {{ accountTitle || 'Accounts'}}
+            </h2>
 
             <span class="flex flex-wrap gap-1.5"> 
 

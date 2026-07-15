@@ -1,4 +1,6 @@
 <script setup>
+import { stubTrue } from 'lodash';
+
 
 	const appStore                  = useAppStore()
     const { sideBarHidden }         = storeToRefs(appStore)
@@ -7,7 +9,8 @@
 
 	const props = defineProps(
 	{
-		sideBarId: 	{ type: String, default: '' }, 
+		id: 			{ type: String, default: '' },
+		showGradation: { type: Boolean, default: true }
 	});
 
     watch(() => windowWidth.value, (newVal, oldVal) => 
@@ -22,7 +25,7 @@
 
 <template>
 
-	<div class="flex" :id="props.sideBarId">
+	<div class="flex" :id="props.id">
 
 		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative ',
 			sideBarHidden ? 'w-0' : 'w-full xs:w-[300px]']">
@@ -32,8 +35,14 @@
 			</div>
 		</div>
         
-		<div class="w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px]">
-        	<slot name="default" />
+		<div class="relative w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px] overflow-hidden">
+
+        	<BackGradation v-if="props.showGradation" />      
+			  	
+			<div class="relative z-10">
+				<slot name="default" />
+			</div>
+			
     	</div> 
 
 	</div>

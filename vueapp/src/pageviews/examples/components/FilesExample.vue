@@ -7,7 +7,7 @@
 		File, Folder &amp; Upload Examples
 	</div>
 
-    <InfoBox class="mb-7">
+    <InfoBox>
         These controls are still in progress. The UploadControl works but the 
 		FolderExplorer and FileList controls are still in progress.
     </InfoBox>

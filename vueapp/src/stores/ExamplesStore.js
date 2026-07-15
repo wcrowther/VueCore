@@ -1,6 +1,10 @@
 // Uses Composition Api-style syntax
 
-import { examplesDataList } from '@/datalists/examplesDataList'
+import { useComponentLoader }   from '@/composables/UseComponentLoader'
+import { examplesDataList }     from '@/datalists/examplesDataList'
+
+const examplesFolder   = import.meta.glob('/src/pageviews/examples/components/*.vue')
+const loadedComponents = useComponentLoader(examplesFolder)
 
 export const useExamplesStore = defineStore('ExamplesStore', () =>
 {
@@ -10,12 +14,16 @@ export const useExamplesStore = defineStore('ExamplesStore', () =>
 
     // GETTERS ----------------------------------------------------------------
 
+    const getComponent   = (name)      => loadedComponents.getComponent(name)
+    const componentNames = computed(() => loadedComponents.componentNames)
+
     const sortedExamplesDataList = computed(() =>
     {
         if (sortType.value === 'alphabetical')
-            return [...examplesDataList].sort((a, b) => a.name.localeCompare(b.name))
+            return examplesDataList.filter(f => f.show === true)
+                                   .sort((a, b) => a.name.localeCompare(b.name))
 
-        return [...examplesDataList].sort((a, b) =>
+        return examplesDataList.filter(f => f.show === true).sort((a, b) =>
         {
             if (a.featured !== b.featured)
                 return a.featured ? -1 : 1
@@ -28,13 +36,14 @@ export const useExamplesStore = defineStore('ExamplesStore', () =>
 
             return a.name.localeCompare(b.name)
         })
-    }
-    )
+    })
 
     // EXPOSE PUBLIC API ------------------------------------------------------
 
     return {
         sortType,
         sortedExamplesDataList,
+        getComponent,
+        componentNames,
     }
 })

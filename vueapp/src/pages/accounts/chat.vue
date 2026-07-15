@@ -23,7 +23,7 @@
             </div>
 			<div class="z-20w-full min-h-[400px] relative">
 
-				<InfoBox class="mb-7">
+				<InfoBox>
 					This page demonstrates real-time messaging powered by <b>SignalR</b> — a persistent connection 
 					between the browser and the server. Open this page in multiple browser windows and send a message; 
 					it will appear instantly across all connected sessions without any page refresh.

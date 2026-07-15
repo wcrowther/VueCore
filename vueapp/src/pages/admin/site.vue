@@ -19,7 +19,7 @@
                 <h2 class="text-2xl font-display font-bold flex-grow">{{ pageTitle }}</h2>
             </div>
 
-            <InfoBox class="mb-5 relative z-20">
+            <InfoBox>
                 The <b>Site Map</b> below is dynamically generated at runtime by reading the structure from the pages folder.
             </InfoBox>
 

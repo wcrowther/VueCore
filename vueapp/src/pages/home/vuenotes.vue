@@ -19,7 +19,7 @@
                 <h2 class="text-2xl font-display font-bold flex-grow">{{ pageTitle }}</h2>
             </div> 
 
-            <InfoBox class="mb-8">
+            <InfoBox>
                 This page is to provide information on all the files and folders in the Vue/Vite 
                 project to provide guidance on what they are used for and why.
             </InfoBox> 

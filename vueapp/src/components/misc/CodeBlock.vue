@@ -7,7 +7,7 @@
 	const props = defineProps(
 	{
 		codeContent: 		{ type: String,  required: true },
-		language: 			{ type: String,  default: 'Code' },
+		title: 				{ type: String,  default: 'Code' },
 		showLineNumbers: 	{ type: Boolean, default: true },
 		trimEmptyLine: 		{ type: Boolean, default: true }, 
 		showDark: 			{ type: Boolean, default: false }
@@ -33,24 +33,24 @@
 
 	const wrapperClass		= computed(() => props.showDark ? 'bg-slate-900 border border-slate-800' : 'bg-gray-100 border border-gray-300')
 	const headerClass		= computed(() => props.showDark ? 'bg-slate-800/50 border-slate-600' : 'bg-gray-200 border-gray-300')
-	const languageClass		= computed(() => props.showDark ? 'text-slate-400' : 'text-gray-500')
+	const titleClass		= computed(() => props.showDark ? 'text-slate-400' : 'text-gray-500')
 	const lineNumberClass	= computed(() => props.showDark ? 'text-slate-500 border-slate-600' : 'text-gray-400 border-gray-300')
 	const displayClass		= computed(() => props.showDark ? 'text-slate-300' : 'text-gray-800')
-	const copiedClass		= computed(() => props.copied   ? 'bg-emerald-500/20 text-emerald-600' : 
+	const copiedClass		= computed(() => copiedToClipboard.value   ? 'bg-emerald-500/20 text-emerald-600' : 
 								   		 	 props.showDark ? 'text-slate-400 hover:bg-slate-700 hover:text-slate-100'
 								  			 				: 'text-gray-500 hover:bg-gray-300 hover:text-gray-800')
 </script>
 
 <template>
 	<div v-if="isSupported" 
-		@click="showCodeBlock=!showCodeBlock"
 		:class="['group relative my-4 rounded-lg overflow-hidden scrollbar-thin', wrapperClass]">
 
 		<!-- Header -->
-		<div :class="['flex items-center justify-between h-9 px-4 py-1 border-b', headerClass]">
+		<div @click="showCodeBlock=!showCodeBlock"
+			:class="['flex items-center justify-between h-9 px-4 py-1 border-b', headerClass]">
 
-			<span :class="['text-xs font-bold uppercase tracking-widest', languageClass]">
-				{{ language }}
+			<span :class="['text-xs font-bold uppercase tracking-widest', titleClass]">
+				{{ title }}
 			</span>
 
 			<RotateButton v-model="showCodeBlock" rotation="rotate-180" 
@@ -128,6 +128,6 @@ const confirmed = await createConfirm('Confirm this record?')
 </script>
 
 <template>
-	<CodeBlock :codeContent language="vuejs in <script>" showLineNumbers />
+	<CodeBlock :codeContent title="vuejs in <script>" showLineNumbers />
 </template>
 -->

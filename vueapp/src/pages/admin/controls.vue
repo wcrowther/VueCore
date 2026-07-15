@@ -29,7 +29,7 @@
 					Wizard border: {{ showWizardBorder ? 'ON' : 'OFF' }}
 				</div>
 
-				<InfoBox class="mb-7">
+				<InfoBox>
 					This page showcases a collection of reusable UI controls available in the application.
 					Use the tabs below to explore each category — <b>Wizard</b> walks through a multi-step form flow, 
 					<b>Files</b> demonstrates file and folder management, <b>Calendar</b> shows event scheduling, 

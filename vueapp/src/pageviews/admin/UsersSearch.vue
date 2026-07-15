@@ -26,7 +26,7 @@
             </span>
         </div>
 
-        <InfoBox class="mb-3">
+        <InfoBox class="!mb-3">
             Enter a UserId or search text for the start of an User First or Last Name.
         </InfoBox>
 
