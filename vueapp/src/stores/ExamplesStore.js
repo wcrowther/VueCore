@@ -3,7 +3,7 @@
 import { useComponentLoader }   from '@/composables/UseComponentLoader'
 import { examplesDataList }     from '@/datalists/examplesDataList'
 
-const examplesFolder   = import.meta.glob('/src/pageviews/examples/components/*.vue')
+const examplesFolder   = import.meta.glob('/src/pageviews/examples/views/*.vue')
 const loadedComponents = useComponentLoader(examplesFolder)
 
 export const useExamplesStore = defineStore('ExamplesStore', () =>
