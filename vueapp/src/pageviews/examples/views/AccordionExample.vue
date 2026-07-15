@@ -1,9 +1,8 @@
 
 <template>
 
-	<div class="text-lg font-bold mb-5">
-        AccordionControl
-    </div>
+    <PageTitleBox pageTitle="Account Details" />
+
     <div class="mb-7">
         <InfoBox>
             This is an example of a fully functioning AccordionControl (utilizing nested AccordionControls),

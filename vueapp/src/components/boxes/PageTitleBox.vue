@@ -12,7 +12,7 @@
 
     <div class="w-full flex justify-between items-center mb-5">
 
-        <h2 class="text-2xl font-display font-bold flex-grow">
+        <h2 class="text-2xl text-color-blue font-display font-bold flex-grow">
             <slot name="pageTitle">
                 {{ props.pageTitle }}
             </slot>
@@ -28,16 +28,23 @@
 
 <!-- EXAMPLE: 
 
-    <PageTitleBox pageTitle="Account Details">
+    <PageTitleBox pageTitle="Account Details" />  // No slot content
+
+    <PageTitleBox pageTitle="Account Details">  // With slot content
+
         <button class="btn-primary" @click="confirmSave">Save</button>
         <button class="btn-primary" @click="addAccount">Add</button>    
+
     </PageTitleBox>
 
-    <PageTitleBox pageTitle="Account Details">
+    <PageTitleBox pageTitle="Account Details"> // With slot content and custom pageTitle slot
+
         <template #pageTitle>
             {{ props.pageTitle ?? 'Account' }}
         </template>
+
         <button class="btn-primary" @click="confirmSave">Save</button>
-        <button class="btn-primary" @click="addAccount">Add</button>    
+        <button class="btn-primary" @click="addAccount">Add</button>   
+
     </PageTitleBox>
 -->

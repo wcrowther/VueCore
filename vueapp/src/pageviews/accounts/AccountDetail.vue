@@ -133,33 +133,26 @@
         <ConfirmControl v-if="showConfirmControl" v-model="showConfirmControl"
 			message="Save Account Data?" @confirmResult="saveAccountDetail"  />
 
-        <div class="w-full flex justify-between items-center">
+        <PageTitleBox :pageTitle="accountTitle || 'Accounts'">
 
-            <h2 class="text-2xl font-display font-bold flex-grow">
-                {{ accountTitle || 'Accounts'}}
-            </h2>
+            <button v-if="!isAddingAccount && accountIsDirty && hasKeys(account) && account.AccountId > 0" 
+                class="btn-cancel flex items-center px-2" @click="resetAccount" 
+                title="Revert unsaved changes to Account">
+                <IconSymbol width="18px" class="text-warm-600"  icon="heroicons:arrow-left-20-solid" />
+            </button>
 
-            <span class="flex flex-wrap gap-1.5"> 
+            <button v-if="isAddingAccount || hasKeys(account) && account.AccountId > 0" 
+                class="btn-primary" :disabled="!accountIsDirty" @click="confirmSave">
+                Save
+            </button>
 
-                <button v-if="!isAddingAccount && accountIsDirty && hasKeys(account) && account.AccountId > 0" 
-                    class="btn-cancel flex items-center px-2" @click="resetAccount" 
-                    title="Revert unsaved changes to Account">
-                    <IconSymbol width="18px" class="text-warm-600"  icon="heroicons:arrow-left-20-solid" />
-                </button>
+            <button v-if="!isAddingAccount" class="btn-primary" @click="addAccount">
+                Add
+            </button>    
+            
+            <button v-else class="btn-cancel" @click="cancelAdd">Cancel</button>
 
-                <button v-if="isAddingAccount || hasKeys(account) && account.AccountId > 0" 
-                    class="btn-primary" :disabled="!accountIsDirty" @click="confirmSave">
-                    Save
-                </button>
-
-                <button v-if="!isAddingAccount" class="btn-primary" @click="addAccount">
-                    Add
-                </button>    
-                
-                <button v-else class="btn-cancel" @click="cancelAdd">Cancel</button>
-
-            </span>
-        </div>
+        </PageTitleBox>
 
         <InfoBox>
             This panel displays the details for a single Account, including contact information and billing address.

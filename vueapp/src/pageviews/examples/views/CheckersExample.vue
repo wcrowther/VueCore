@@ -26,10 +26,9 @@
 
     <div ref="parentBox" class="w-full pb-5">
 
-		<div class="text-lg w-fit font-bold pb-3 relative">
-			Checkers Board 			
+    	<PageTitleBox pageTitle="Checkers Board"> 
 			<!-- <div class="font-normal text-sm">ParentBox width: {{ `${Math.trunc(width)}px` }}</div> -->
-		</div>
+		</PageTitleBox>
 
 		<InfoBox>
 			A fully playable checkers game built on <b>GridControl</b>'s scoped slot. Drag a piece to move it —

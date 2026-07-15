@@ -77,9 +77,7 @@
 
 <template>
 
-    <div class="text-lg font-bold mb-7">
-        CalendarGrid Example
-    </div>
+    <PageTitleBox pageTitle="CalendarGrid Example" />
 
     <div class="mb-5">
         A fully interactive monthly calendar built with slot-based customization. Events can be 

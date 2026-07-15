@@ -1,6 +1,6 @@
 export const examplesDataList =
     [
-        { name: 'Accordion', example: 'AccordionExample', show: false, featured: false, type: '', order: 5},
+        { name: 'Accordion', example: 'AccordionExample', show: true, featured: false, type: '', order: 5},
         { name: 'Calendar', example: 'CalendarExample', show: true, featured: false, type: '', order: 5},
         { name: 'Checkers', example: 'CheckersExample', show: true, featured: true, type: '', order: 5},
         { name: 'Composables', example: 'ComposablesExample', show: true, featured: false, type: '', order: 5},

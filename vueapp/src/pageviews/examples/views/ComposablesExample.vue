@@ -56,9 +56,8 @@ const confirmed = await createConfirm('Confirm this record?')
 
     <div>
 
-        <div class="text-lg font-bold mb-5">
-            Alert &amp; Confirm Composables
-        </div>
+        <PageTitleBox pageTitle="Alert &amp; Confirm Composables" />
+        
         <div class="mb-7">
             These composables allow you to programmatically trigger <b>Alert</b> and <b>Confirm</b> dialogs 
             from anywhere in your code — no component markup required. Both return a Promise, so you can 
