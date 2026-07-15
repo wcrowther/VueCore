@@ -8,7 +8,7 @@
 
 	<div class="mb-10">
 
-		<div class="text-lg font-bold mb-5">Content Editor</div>
+		<PageTitleBox pageTitle="Content Editor" />
 	
 		<div class="flex flex-wrap justify-between mt-10 mb-5">
 

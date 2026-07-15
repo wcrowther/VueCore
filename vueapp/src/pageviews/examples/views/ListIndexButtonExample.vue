@@ -25,10 +25,8 @@
 <template>
 
     <div class="w-full">
-    
-        <div class="w-full font-bold text-lg mb-5">
-            List Index Button
-        </div>
+
+        <PageTitleBox pageTitle="List Index Button" />
         <InfoBox>
             The <b>ListIndexButton</b> is a lightweight prev/next navigator for stepping through any array. 
             It binds to a zero-based index via <code>v-model</code> and accepts any array as <code>:rangeList</code>. 

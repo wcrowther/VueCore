@@ -1,20 +1,11 @@
-<script setup>
-    const homeTitle     = ref("Welcome to VueCore Dev Starter")
-</script>
+<script setup></script>
 
 <template>
 
     <div class="px-5 pt-5 pb-0 grow leading-relaxed h-full bg-gradient-main 
         sm:px-10 sm:pt-5" id="HomeIntro">
 
-        <div class="flex flex-wrap gap-5 mb-7">
-            <div class="w-full flex justify-between items-center">
-                <h2 class="text-2xl font-display font-bold flex-grow">{{ homeTitle }}</h2>
-                <span class="flex flex-wrap gap-1.5"> 
-                    <!-- <button  class="btn-primary" @click="confirmSave">Save</button> -->
-                </span>
-            </div>
-        </div> 
+        <PageTitleBox pageTitle="Welcome to VueCore Dev Starter" />
 
         <div class="flex flex-wrap gap-y-5">
 

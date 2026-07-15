@@ -3,9 +3,7 @@
 
 <template> 
 	
-	<div class="text-lg font-bold mb-5">
-		File, Folder &amp; Upload Examples
-	</div>
+	<PageTitleBox pageTitle="File, Folder &amp; Upload Examples" />
 
     <InfoBox>
         These controls are still in progress. The UploadControl works but the 

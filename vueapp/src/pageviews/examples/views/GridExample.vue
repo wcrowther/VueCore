@@ -19,7 +19,7 @@
 
     <div class="basis-full overflow-auto scrollbar-thin">
 
-        <div class="text-lg font-bold mb-5">Resizable Grid</div>
+        <PageTitleBox pageTitle="Resizable Grid" />
 
 		<InfoBox>
 			<b>GridControl</b> renders a reactive checkered grid driven by <b>:rows</b> and <b>:cols</b> props.

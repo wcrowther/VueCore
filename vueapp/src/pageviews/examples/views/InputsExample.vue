@@ -55,7 +55,6 @@ const codeContent =
 
 <template>
 
-   
     <PageTitleBox pageTitle="Input Examples">
         <button :disabled="!isDirty" class="btn-cancel flex items-center px-2" 
             @click="resetInputDemo" title="Revert unsaved changes to Input Demo">

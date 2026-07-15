@@ -6,32 +6,23 @@
     [ 
         { name: 'Inset None', inset: 0 },
 		{ name: 'Inset 24',   inset: 24 },
-        { name: 'Inset 48',   inset: 48 },
+        { name: 'Inset 48',   inset: 48 }
     ]
 
 </script>
 
 <template>
 
-    <div class="w-full flex justify-between items-center mb-4">
-
-        <div class="text-lg font-bold mb-5">
-            FullScreen Control
-        </div>
-
-        <span class="flex flex-wrap gap-1.5">
+    <PageTitleBox pageTitle="FullScreen Control">
 
             <ListIndexButton v-model="inset" :rangeList="insetList" 
                 class="!rounded-md !text-sm !text-[#121639] !py-0 !pt-[4px] !pb-[3px] 
                 !h-auto !leading-normal !tracking-wide hover:!bg-white hover:!border-color-primary 
                 !border !border-transparent" />
 
-            <PrimaryButton @click="fullScreen=!fullScreen">
-                FullScreen
-            </PrimaryButton>
+            <BooleanButton v-model="fullScreen" trueText="In Screen" falseText="Full Screen" />
 
-        </span>
-    </div>
+    </PageTitleBox>
 
 	<InfoBox>
 		<b>FullScreenControl</b> wraps any content and expands it to fill the viewport via a

@@ -14,13 +14,11 @@
 
 	<div class="mb-10">
 
-		<div class="text-lg font-bold mb-5">DetailBox</div>
-
-		<div class="mb-3 flex flex-wrap gap-2">
+		<PageTitleBox pageTitle="DetailBox">
 			<PrimaryButton v-if="!allOpen" title="Open All" @click="openAllDetailBoxes(); allOpen = true" />
 			<PrimaryButton v-if="allOpen" title="Close All" @click="closeAllDetailBoxes(); allOpen = false" />
 			<PrimaryButton title="Toggle All" @click="toggleAllDetailBoxes" />
-		</div>
+		</PageTitleBox>
 
 		<div class="flex flex-wrap justify-between mt-10 mb-5">
 

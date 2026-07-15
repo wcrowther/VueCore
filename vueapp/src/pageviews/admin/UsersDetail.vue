@@ -110,32 +110,24 @@
         <ConfirmControl v-model="showConfirmSave" message="Save User Data?" 
 			@confirmResult="saveUserDetail"  />
 
-        <div class="w-full flex justify-between items-center">
+        <PageTitleBox :pageTitle="userTitle || 'Users'">
 
-            <h2 class="text-2xl font-display font-bold flex-grow">
-                {{ userTitle || 'Users'}}
-            </h2>
+            <template v-if="isAddingUser || hasKeys(user) && user.UserId > 0">
+                <IconSymbol width="22px" @click="confirmSave" title="Save User"
+                    class="text-color-mid-blue hover:text-white mt-[2px]" icon="fa-solid:save" />
+            </template>
 
-            <span class="flex flex-wrap gap-3">   
+            <IconSymbol v-if="isAddingUser" width="28px" @click="cancelAdd" title="Cancel"
+                class="text-color-mid-blue hover:text-white" icon="heroicons:x-circle-16-solid" />
+            <IconSymbol v-else width="28px" @click="addUser" title="Add User"
+                class="text-color-mid-blue hover:text-white" icon="heroicons:plus-circle-16-solid" />
 
-                <template v-if="isAddingUser || hasKeys(user) && user.UserId > 0">
-                    <IconSymbol width="22px" @click="confirmSave" title="Save User"
-                        class="text-color-mid-blue hover:text-white mt-[2px]" icon="fa-solid:save" />
-                </template>
+            <template v-if="isAddingUser || hasKeys(user) && user.UserId > 0">
+                <IconSymbol width="28px" @click="confirmDelete" title="Delete User"
+                    class="text-color-mid-blue hover:text-white -ml-[4px]" icon="heroicons:trash-16-solid" />
+            </template>
 
-                <IconSymbol v-if="isAddingUser" width="28px" @click="cancelAdd" title="Cancel"
-                    class="text-color-mid-blue hover:text-white" icon="heroicons:x-circle-16-solid" />
-                <IconSymbol v-else width="28px" @click="addUser" title="Add User"
-                    class="text-color-mid-blue hover:text-white" icon="heroicons:plus-circle-16-solid" />
-
-                <template v-if="isAddingUser || hasKeys(user) && user.UserId > 0">
-                    <IconSymbol width="28px" @click="confirmDelete" title="Delete User"
-                        class="text-color-mid-blue hover:text-white -ml-[4px]" icon="heroicons:trash-16-solid" />
-                </template>
-
-            </span>
-
-        </div>
+        </PageTitleBox>
 
         <InfoBox>
             This panel displays the details for a single User, including their name, email, role, and account status.

@@ -2,9 +2,7 @@
 
 <template>
 
-    <div class="text-lg font-bold mb-5">
-        Misc Controls
-    </div>
+    <PageTitleBox pageTitle="Misc Controls" />
 
     <InfoBox>
         Below are new controls such as the MultiSelectInput, and AccordionControl that are still in development.

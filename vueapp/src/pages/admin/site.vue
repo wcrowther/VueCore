@@ -1,10 +1,6 @@
-// eslint-disable-next-line vue/multi-word-component-names
 <script setup>
-
-    const pageTitle     = ref('Site Map')
     const currentUrl    = import.meta.url
     const route         = useRoute();
-
 </script>
 
 <template>
@@ -13,11 +9,9 @@
 
 		<BackGradation />
 
-        <div class="p-5 pt-5 pb-14 sm:p-10 sm:pt-5">
+        <div class="relative p-5 pb-14 sm:p-10 sm:pt-5">
 
-            <div class="flex justify-between items-center mb-7 relative z-20">
-                <h2 class="text-2xl font-display font-bold flex-grow">{{ pageTitle }}</h2>
-            </div>
+            <PageTitleBox pageTitle="Site Map" />
 
             <InfoBox>
                 The <b>Site Map</b> below is dynamically generated at runtime by reading the structure from the pages folder.

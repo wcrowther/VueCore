@@ -10,8 +10,7 @@
 
 	<div class="mb-10">
 
-		
-        <div class="text-lg font-bold mb-5">Image Cropper</div>
+		<PageTitleBox pageTitle="Image Cropper" />
 	
 		<div class="flex flex-wrap justify-between mt-10 mb-5">
 
@@ -21,9 +20,8 @@
 
 		</div>
 
-		<KeepAlive>
-			<ImageCropper v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
-		</KeepAlive>
+		<ImageCropper v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
+
 	  	<textarea v-model="imageData" class="hidden w-full h-40 mt-4 border" />
 
 	</div>

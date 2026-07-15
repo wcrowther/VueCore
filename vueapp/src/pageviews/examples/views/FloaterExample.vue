@@ -6,9 +6,7 @@
 
 <template>
 
-	<div class="text-lg font-bold mb-5">
-        Floater Control
-    </div>
+    <PageTitleBox pageTitle="Floater Control" />
 
     <InfoBox>
         Info about floater controls.

@@ -2,9 +2,7 @@
 
 <template>
 
-    <div class="text-lg font-bold mb-5">
-        Intro
-    </div>
+    <PageTitleBox pageTitle="Intro" />
 
     <div class="">
        <router-link to="/examples/calendar" linkName="Calendar" class="font-bold hover:opacity-50">

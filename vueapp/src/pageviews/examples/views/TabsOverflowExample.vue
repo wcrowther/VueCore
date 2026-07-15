@@ -10,12 +10,11 @@
 
 <template>
 
-	<div class="flex justify-between text-lg font-bold mb-5">
-		<span>TabsOverflowControl Example</span>
+	<PageTitleBox pageTitle="TabsOverflowControl Example">
 
 		<ListIndexButton v-model="overflowIndex" :rangeList
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
-	</div>
+	</PageTitleBox>
 
 	<div class="mb-4 flex flex-wrap gap-3">
 		<button type="button" class="px-3 py-1 text-xs font-bold rounded-full border border-gray-400"

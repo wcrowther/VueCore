@@ -17,14 +17,12 @@
 
 <template>
 
-	<div class="flex justify-between text-lg font-bold mb-5">
-
-        <span>TabsBar Example</span>
+    <PageTitleBox pageTitle="TabsBar Example">
 
         <ListIndexButton v-model="overflowIndex" :rangeList
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
 
-    </div>  
+    </PageTitleBox>
     <div class="mb-7">
         <InfoBox>
             {{ modelValue }}

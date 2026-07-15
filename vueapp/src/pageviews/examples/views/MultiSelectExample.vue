@@ -18,26 +18,23 @@
 
 	<div class="mb-10">
 
-		<div class="flex flex-wrap justify-between  mt-10 mb-5">
-
-        	<div class="text-lg font-bold mb-5">MultiSelectInput</div>
+		<PageTitleBox pageTitle="MultiSelectInput">
 
 			<!-- <SwitchButton class="bg-color-primary text-white" buttonName="Mode" v-model="isCommaMode" /> -->
 			
-			<div class="mt-5 sm:mt-0 flex w-[350px]">
+			<div class="flex w-[350px]">
 				<ListIndexButton v-model="hideSelectedIndex" :rangeList="hideSelectedList"
 					class="w-[155px] !bg-white border border-color-dark-blue !text-color-dark-blue mr-2" />
 				
 				<ListIndexButton v-model="modeIndex" :rangeList="modeList"
 					class="w-[185px] !bg-white border border-color-dark-blue !text-color-dark-blue" />
 			</div>
-	
-			<InfoBox>
-				A powerful, searchable multi-select dropdown with a clean capsule or comma-separated display.
-				Supports flexible data formats, select-all shortcuts, and built-in Vuelidate validation — everything you need in one component.
-        	</InfoBox>
+		</PageTitleBox>
 
-		</div>
+		<InfoBox>
+            A powerful, searchable multi-select dropdown with a clean capsule or comma-separated display.
+            Supports flexible data formats, select-all shortcuts, and built-in Vuelidate validation — everything you need in one component.
+	    </InfoBox>
 
 		<MultiSelectInput labelName="U.S. States" v-model="selectedStates" :optionsList="usStatesList"
 			:mode="modeList[modeIndex].value" :hideSelected="hideSelectedList[hideSelectedIndex].value" />
