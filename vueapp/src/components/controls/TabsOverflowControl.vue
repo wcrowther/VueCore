@@ -1,5 +1,7 @@
 <script setup>
 
+	import { isEmptyOrSpace } from '@/helpers/global'
+
 	const props = defineProps(
 	{
 		id: 					{ type: String, default: 'TabsOverflowControl' },
@@ -12,7 +14,13 @@
 		overflow: {
 			type: String,
 			default: 'scroll',
-			validator: value => ['scroll', 'menu'].includes(value)
+			validator: value =>
+			{
+				if (isEmptyOrSpace(value) || ['scroll', 'menu'].includes(value))
+					return true
+
+				throw new Error(`[TabsOverflowControl] Invalid overflow value "${value}". Use "scroll", "menu", or an empty value.`)
+			}
 		},
 	})
 

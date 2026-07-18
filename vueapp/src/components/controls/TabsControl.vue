@@ -1,6 +1,6 @@
 <script setup>
 
-    import { useNormalizedTabList } from '@/composables/UseNormalizedTabList'
+    import { useFieldFromList } from '@/composables/UseFieldFromList'
 
     const props = defineProps(
     {
@@ -16,7 +16,7 @@
     const activeTabModel = defineModel('activeTab', { type: [String, Number], default: '' })
     const internalActiveTab = ref('')
 
-    const normalizedTabList = useNormalizedTabList(() => props.tabList, () => props.tabFieldName)
+    const normalizedTabList = useFieldFromList(() => props.tabList, () => props.tabFieldName)
 
     const activeTab = computed(
     {

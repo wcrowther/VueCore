@@ -30,15 +30,19 @@
 	const startY 			= ref(0)
 	const startCrop 		= ref(null)
 	const minCropSize 		= 50
+	const initialCropX 		= 50
+	const initialCropY 		= 50
+	const initialCropWidth 	= 200
 
-	const crop = ref(
-	{
-		x: 50,
-		y: 50,
-		width: 200,
-		height: 200
+	const getInitialCrop = () =>
+	({
+		x: initialCropX,
+		y: initialCropY,
+		width: initialCropWidth,
+		height: initialCropWidth / (props.aspectRatio > 0 ? props.aspectRatio : 1)
 	})
 
+	const crop 			= ref(getInitialCrop())
 	const displayScale 	= ref(1)
 	const canvasWidth 	= 800
 	const canvasHeight 	= 500
@@ -48,7 +52,7 @@
 		{ mode: 'n',  class: 'absolute top-[-6px] left-1/2 size-[10px] -translate-x-1/2 bg-white border border-[#111111] cursor-ns-resize' },
 		{ mode: 'ne', class: 'absolute top-[-7px] right-[-7px] size-3 bg-white border border-[#111111] cursor-nesw-resize' },
 		{ mode: 'e',  class: 'absolute top-1/2 right-[-6px] size-[10px] -translate-y-1/2 bg-white border border-[#111111] cursor-ew-resize' },
-		{ mode: 'se', class: 'absolute right-[-7px] bottom-[-7px] size-3 bg-white border border-[#111111] cursor-nwse-resize' },
+		{ mode: 'se', class: 'absolute bottom-[-7px] right-[-7px] size-3 bg-white border border-[#111111] cursor-nwse-resize' },
 		{ mode: 's',  class: 'absolute bottom-[-6px] left-1/2 size-[10px] -translate-x-1/2 bg-white border border-[#111111] cursor-ns-resize' },
 		{ mode: 'sw', class: 'absolute bottom-[-7px] left-[-7px] size-3 bg-white border border-[#111111] cursor-nesw-resize' },
 		{ mode: 'w',  class: 'absolute top-1/2 left-[-6px] size-[10px] -translate-y-1/2 bg-white border border-[#111111] cursor-ew-resize' }
@@ -113,12 +117,18 @@
 		const scaleX = canvasWidth / image.value.width
 		const scaleY = canvasHeight / image.value.height
 		displayScale.value = Math.min(scaleX, scaleY)
-		crop.value = 
-		{
-			x: 50,
-			y: 50,
-			width: 200,
-			height: 200 / props.aspectRatio
+		crop.value = getInitialCrop()
+	}
+
+	const getCropSourceRegion = () =>
+	{
+		const scale = 1 / displayScale.value
+
+		return {
+			sx: crop.value.x * scale,
+			sy: crop.value.y * scale,
+			sw: crop.value.width * scale,
+			sh: crop.value.height * scale
 		}
 	}
 
@@ -143,12 +153,8 @@
 		ctx.fillStyle = 'rgba(0,0,0,0.5)'
 		ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
-		// redraw cropped image section
-		const scale = 1 / displayScale.value
-		const sx = crop.value.x * scale
-		const sy = crop.value.y * scale
-		const sw = crop.value.width * scale
-		const sh = crop.value.height * scale
+		// Redraw only the selected source region into the crop box.
+		const { sx, sy, sw, sh } = getCropSourceRegion()
 
 		ctx.drawImage
 		(
@@ -367,11 +373,7 @@
 
 		const outputCanvas = document.createElement('canvas')
 		const ctx = outputCanvas.getContext('2d')
-		const scale = 1 / displayScale.value
-		const sx = crop.value.x * scale
-		const sy = crop.value.y * scale
-		const sw = crop.value.width * scale
-		const sh = crop.value.height * scale
+		const { sx, sy, sw, sh } = getCropSourceRegion()
 
 		outputCanvas.width = Math.max(1, Math.round(sw))
 		outputCanvas.height = Math.max(1, Math.round(sh))

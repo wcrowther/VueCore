@@ -19,9 +19,7 @@
         	</InfoBox>
 
 			<ContentEditor height="90%" width="90%" />
-
 		</div>
-
 
 	</div>
 

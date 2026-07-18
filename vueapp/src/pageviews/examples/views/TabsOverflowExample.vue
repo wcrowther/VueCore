@@ -48,6 +48,20 @@
 		<template #Fifth>       
             <div class="p-5"><div class="font-bold mb-3">Fifth Content</div></div>
         </template>
+		
+		<template #Sixth>       
+            <div class="p-5"><div class="font-bold mb-3">Sixth Content</div></div>
+        </template>
+        <template #Seventh>       
+            <div class="p-5"><div class="font-bold mb-3">Seventh Content</div></div>
+        </template>
+		<template #Eighth>       
+            <div class="p-5"><div class="font-bold mb-3">Eighth Content</div></div>
+        </template>
+		<template #Nineth>       
+            <div class="p-5"><div class="font-bold mb-3">Nineth Content</div></div>
+        </template> 
+		<!-- -->
 
 	</TabsOverflowControl>
 

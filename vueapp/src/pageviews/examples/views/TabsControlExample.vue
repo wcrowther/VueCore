@@ -73,7 +73,7 @@
 		</TabsControl>
 
 		<div class="font-bold mb-7">
-			3. Object list (requires tabFieldName)
+			3. Object list (tabFieldName optional; defaults to first field)
 		</div>
 		
 		<TabsControl :tabList="radiationTabs" tabFieldName="title" 

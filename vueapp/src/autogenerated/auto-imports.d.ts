@@ -72,6 +72,8 @@ declare global {
   const imageToolbarList: typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']
   const inject: typeof import('vue')['inject']
   const inputDemoValidator: typeof import('../helpers/validators.js')['inputDemoValidator']
+  const isEmpty: typeof import('../helpers/global.js')['isEmpty']
+  const isEmptyOrSpace: typeof import('../helpers/global.js')['isEmptyOrSpace']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
@@ -144,6 +146,7 @@ declare global {
   const useDetailBoxEventListener: typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']
   const useDropdownPlacement: typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']
   const useExamplesStore: typeof import('../stores/ExamplesStore.js')['useExamplesStore']
+  const useFieldFromList: typeof import('../composables/UseFieldFromList.js')['useFieldFromList']
   const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
@@ -268,6 +271,8 @@ declare module 'vue' {
     readonly imageToolbarList: UnwrapRef<typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly inputDemoValidator: UnwrapRef<typeof import('../helpers/validators.js')['inputDemoValidator']>
+    readonly isEmpty: UnwrapRef<typeof import('../helpers/global.js')['isEmpty']>
+    readonly isEmptyOrSpace: UnwrapRef<typeof import('../helpers/global.js')['isEmptyOrSpace']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
@@ -340,6 +345,7 @@ declare module 'vue' {
     readonly useDetailBoxEventListener: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']>
     readonly useDropdownPlacement: UnwrapRef<typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']>
     readonly useExamplesStore: UnwrapRef<typeof import('../stores/ExamplesStore.js')['useExamplesStore']>
+    readonly useFieldFromList: UnwrapRef<typeof import('../composables/UseFieldFromList.js')['useFieldFromList']>
     readonly useFileStore: UnwrapRef<typeof import('../stores/FileStore.js')['useFileStore']>
     readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>

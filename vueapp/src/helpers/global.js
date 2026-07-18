@@ -16,7 +16,11 @@ export const hasKeys = (obj) =>
     return Object.keys(obj).length > 0
 }
 
-export const numbersOnly = (str, otherCharacters = '') =>
+export const isEmpty        = value => value === undefined || value === null
+
+export const isEmptyOrSpace = value => isEmpty(value) || (typeof value === 'string' && value.trim() === '')
+
+export const numbersOnly    = (str, otherCharacters = '') =>
 {
     let output = ''
 
