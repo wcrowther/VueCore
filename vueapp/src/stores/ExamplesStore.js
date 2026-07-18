@@ -10,7 +10,8 @@ export const useExamplesStore = defineStore('ExamplesStore', () =>
 {
     // STATE ------------------------------------------------------------------
 
-    const sortType = ref('default')
+    const sortType                   = ref('default')
+    const disableShortcuts   = useLocalStorage('examplesDisableShortcuts', false)
 
     // GETTERS ----------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export const useExamplesStore = defineStore('ExamplesStore', () =>
 
     return {
         sortType,
+        disableShortcuts,
         sortedExamplesDataList,
         getComponent,
         componentNames,

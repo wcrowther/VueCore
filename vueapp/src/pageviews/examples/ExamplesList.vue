@@ -4,7 +4,7 @@ const selectedExample = defineModel('selectedExample', { type: String, default: 
 
 const route                                 = useRoute()
 const examplesStore                         = useExamplesStore()
-const { sortedExamplesDataList, sortType }  = storeToRefs(examplesStore)
+const { sortedExamplesDataList, sortType, disableShortcuts } = storeToRefs(examplesStore)
 
 const examplesSizeDefault 	= 20
 const itemsList 			= ref([])
@@ -128,7 +128,9 @@ const keys = function (e)
     else if (e.code === 'Home')     { searchInput.value?.focusInput(); e.preventDefault() }
 }
 
-KeyboardListeners(keys, showAdvSearch)
+const keyListenersDisabled = computed(() => showAdvSearch.value || disableShortcuts.value)
+
+KeyboardListeners(keys, keyListenersDisabled)
 
 // ===========================================================================
 
@@ -172,7 +174,7 @@ watch(() => searchFromUrl.value, (newVal, oldVal) =>
                     inputTitle="Search examples by name or example name." />
             </div>
 
-            <ExamplesFilters :sortType @showAdvancedSearch="showAdvSearch=true" />
+            <ExamplesFilters :sortType :disableShortcuts @showAdvancedSearch="showAdvSearch=true" />
 
             <div class="w-full flex justify-between items-center select-none my-3">
                 <ListPager class="mr-2" id="listPager" v-bind:pager="listPager" />
@@ -182,7 +184,7 @@ watch(() => searchFromUrl.value, (newVal, oldVal) =>
             </div>
 
             <InfoBox class="!mb-3">
-                Examples list with simple search and paging.
+                Examples list with search, paging, sorting, and keyboard shortcut options.
             </InfoBox>
 
             <MobilePagerPrevNext :pager="listPager" />

@@ -352,7 +352,6 @@ declare module 'vue' {
     readonly useImageStore: UnwrapRef<typeof import('../stores/ImageStore.js')['useImageStore']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
-    readonly useNormalizedTabList: UnwrapRef<typeof import('../composables/UseNormalizedTabList.js')['useNormalizedTabList']>
     readonly useOldImagesStore: UnwrapRef<typeof import('../stores/OldImagesStore.js')['useOldImagesStore']>
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('../composables/UsePagedList.js')['usePagedList']>

@@ -5,7 +5,11 @@
 
     const emits = defineEmits(['getListData'])
 
-    const sortOptionsList = {
+    const examplesStore = useExamplesStore()
+    const { disableShortcuts } = storeToRefs(examplesStore)
+
+    const sortOptionsList = 
+    {
         default: 'Default',
         alphabetical: 'Alphabetical'
     }
@@ -19,6 +23,7 @@
     const resetAdvSearch = () =>
     {
         sortType.value = 'default'
+        disableShortcuts.value = false
         emits('getListData')
     }
 
@@ -47,6 +52,9 @@
             <SelectInput labelName="Sort Type" v-model="sortType"
                 :optionsList="sortOptionsList" :showDefault="false"
                 title="Choose how examples are sorted in the list." />
+
+            <CheckboxInput labelName="Disable Keyboard Shortcuts" v-model="disableShortcuts"
+                class="mt-5" title="Enable/disable keyboard shortcuts for this list" />
         </div>
 
         <template #footer>

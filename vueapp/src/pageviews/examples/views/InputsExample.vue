@@ -68,13 +68,11 @@ const codeContent =
     <InfoBox>
         This page is an input playground that binds many controls to one reactive
         <b>InputDemoModel</b>, so you can quickly test values, validation, and UI feedback
-        in a single form. The <b>CodeBlock</b> above shows how concise the markup stays,
-        even while wiring up a lot of behavior. As fields change, the page compares current values to the last
-        saved snapshot; that dirty-state check controls when <b>Save</b> and <b>Reset</b>
-        are enabled. Saving runs Vuelidate, asks for confirmation, stores a new baseline,
+        in a single form. The <b>CodeBlock</b> above shows how concise the markup stays.
+        As fields change, the page compares values to the last saved snapshot, which controls
+        when <b>Save</b> and <b>Reset</b> are enabled. Saving runs Vuelidate, asks for confirmation,
         and opens a JSON preview modal. Reset restores model defaults and clears validation
-        for a clean edit cycle. See the source code to understand how the inputs 
-        are wired together.
+        for a clean retest.
     </InfoBox>
 
     <HelpBox class="">

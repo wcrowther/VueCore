@@ -2,7 +2,8 @@
 
     const props = defineProps(
     {
-        sortType: { type: String, default: 'default' }
+        sortType: { type: String, default: 'default' },
+        disableShortcuts: { type: Boolean, default: false }
     })
 
     const emits = defineEmits(['showAdvancedSearch'])
@@ -14,6 +15,9 @@
 
         if (props.sortType === 'alphabetical')
             filterList.push('Alphabetical')
+
+        if (props.disableShortcuts)
+            filterList.push('Shortcuts Disabled')
 
         return filterList.join(', ')
     })
