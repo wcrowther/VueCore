@@ -13,3 +13,11 @@ const decrement = () => count.value--
 		<button @click="increment" class="leading-6 text-center size-6 rounded-full bg-slate-300">+</button>
 	</div>
 </template>
+
+<!-- Example: 
+	The SimpleCounter component is a simple counter with increment and decrement buttons. 
+	that can be used to test whether a component keeps alive its state.
+	
+   	<SimpleCounter />
+-->
+

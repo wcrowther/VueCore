@@ -7,6 +7,7 @@ export const useAuthStore = defineStore('AuthStore',
         isAuthenticated:            false,
         isAuthChecked:              false,
         authCheckInFlight:          null,
+        refreshAuthInFlight:        null,
         isLoggingOut:               false,
         isBusy:                     false,
         error:                      '',
@@ -272,17 +273,37 @@ export const useAuthStore = defineStore('AuthStore',
         },
         async refreshAuth()
         {
-            // Most refresh endpoints rely on refresh-token cookies and reject body payloads.
-            // Try cookie-only first, then fall back to legacy payload shape if needed.
-            let result = await apiAuth('/authenticate/refreshAuth')
+            // Single-flight: multiple API calls can 401 at the same moment when the access
+            // token expires. Refresh tokens are single-use/rotated server-side, so letting
+            // concurrent callers each fire their own refresh causes all-but-one to fail
+            // (stale refresh-token cookie) and wrongly log the user out. Share one in-flight
+            // refresh promise across all concurrent callers instead.
+            if (this.refreshAuthInFlight)
+                return await this.refreshAuthInFlight
 
-            if (!result.success && this.userId)
-                result = await apiAuth('/authenticate/refreshAuth', { UserId: this.userId })
+            this.refreshAuthInFlight = (async () =>
+            {
+                try
+                {
+                    // Most refresh endpoints rely on refresh-token cookies and reject body payloads.
+                    // Try cookie-only first, then fall back to legacy payload shape if needed.
+                    let result = await apiAuth('/authenticate/refreshAuth')
 
-            if (result.success)
-                this.touchActivity()
+                    if (!result.success && this.userId)
+                        result = await apiAuth('/authenticate/refreshAuth', { UserId: this.userId })
 
-            return result.success
+                    if (result.success)
+                        this.touchActivity()
+
+                    return result.success
+                }
+                finally
+                {
+                    this.refreshAuthInFlight = null
+                }
+            })()
+
+            return await this.refreshAuthInFlight
         },
         async logout (route, options)
         {
