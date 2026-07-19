@@ -44,3 +44,18 @@ export const userValidator =
 	UserEmail:          { required, minLength: minLength(6) },
     Role:               { required }
 }
+
+export const inputDemoValidator =
+{
+    TextInput:          { required },
+    PhoneInput:         { required },
+    TextAreaInput:      { required, maxLength: maxLength(1000) },
+    CheckboxInput:      {},
+    DateInput:          { required },
+    MultiSelectInput:   { required },
+    PasswordInput:      { required, minLength: minLength(6) },
+    SearchInput:        {},
+    SelectInput:        { required },
+    SliderInput:        {},
+    TimeInput:          { required }
+}

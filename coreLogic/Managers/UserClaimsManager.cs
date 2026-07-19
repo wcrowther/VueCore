@@ -1,16 +1,12 @@
-using coreApi.Models;
+using coreData.Interfaces;
 using coreLogic.Interfaces;
-using coreLogic.Models.Generic;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Identity;
-using WildHare.Extensions;
 
 namespace coreLogic.Managers;
 
 public class UserClaimsManager(IHttpContextAccessor accessor)
-: IUserClaimsManager
+: IUserClaimsManager, ICurrentUserProvider
 {
 	public int? GetCurrentUserId()
 	{

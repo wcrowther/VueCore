@@ -1,12 +1,8 @@
-﻿using coreApi.Models;
-using coreLogic.Models.Generic;
+﻿namespace coreLogic.Interfaces;
 
-namespace coreLogic.Interfaces
+public interface IUserClaimsManager
 {
-	public interface IUserClaimsManager
-	{
-		public int? GetCurrentUserId();
+	public int? GetCurrentUserId();
 
-		public string GetCurrentUsername();
-	}
+	public string GetCurrentUsername();
 }

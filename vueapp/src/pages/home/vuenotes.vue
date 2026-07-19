@@ -1,9 +1,8 @@
 <script setup>
+
     import '@/styles/markdown.css'
 	import FilesFolders_md 	            from '@/markdown/FilesFolders.md'
 	import FilesFoldersHierarchy_md 	from '@/markdown/FilesFoldersHierarchy.md'
-
-    const pageTitle  = ref('Vue Notes')
 
 </script>
 
@@ -15,11 +14,9 @@
 
         <div class="relative p-5 pt-5 sm:p-10 sm:pt-5 pb-14">
 
-            <div class="flex justify-between items-center mb-7 relative z-20">
-                <h2 class="text-2xl font-display font-bold flex-grow">{{ pageTitle }}</h2>
-            </div> 
+            <PageTitleBox pageTitle="Vue Notes" />
 
-            <InfoBox class="mb-8">
+            <InfoBox>
                 This page is to provide information on all the files and folders in the Vue/Vite 
                 project to provide guidance on what they are used for and why.
             </InfoBox> 

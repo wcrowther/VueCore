@@ -10,9 +10,8 @@
 	const onDeleteClick = async (file) =>
 		await createConfirm(`Delete "${file.name}"?`, () => deleteFile(file.name))
 
-	const onPreviewClick = (file, idx, event) =>
+	const onPreviewClick = (file) =>
 	{
-		handleFileClick(idx, event)
 		onPreviewAreaClick(file)
 	}
 
@@ -74,10 +73,10 @@
 				@dragstart="startFileDrag(idx, file, $event)">
 
 				<div class="py-1 pl-5 pr-1 border-b border-gray-200 flex justify-end"
-					@click.stop="onPreviewClick(file, idx, $event)">
+					@click.stop.prevent="onPreviewClick(file, idx, $event)">
 					<img v-if="isImageFile(file.extension)"
 						:src="getFileUrl(file)"
-						class="size-8 object-cover block rounded-sm" />
+						class="size-8 object-contain block rounded-sm bg-white" />
 					<div v-else
 						class="size-8 bg-gray-300 rounded-sm" />
 				</div>

@@ -10,7 +10,7 @@
 </script>
 
 <template>
-    <div v-if="infoLevel > 1 || static" class="mb-3 text-sm">
+    <div v-if="infoLevel > 1 || static" class="mb-7 text-sm">
         <slot></slot>
     </div>
 </template>

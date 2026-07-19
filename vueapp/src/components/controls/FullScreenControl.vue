@@ -1,12 +1,11 @@
 <script setup>
 
-const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
-
+	const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 	const props = defineProps(
 	{
-		zIndex: 				{ type: Number, default: 999 },
-		fullScreenExitButton: 	{ type: Boolean, default: true },
-		fullScreenInset: 		{ type: [Number, String, Object], default: 0 },
+		zIndex: 		{ type: Number, default: 999 },
+		showExitButton:	{ type: Boolean, default: true },
+		inset: 			{ type: [Number, String, Object], default: 0 },
 	})
 
 	const toCssSize = value => typeof value === 'number' ? `${value}px` : value
@@ -17,7 +16,7 @@ const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 			return undefined
 
 		const style = { position: 'absolute' }
-		const inset = props.fullScreenInset
+		const inset = props.inset
 
 		if (typeof inset === 'number' || typeof inset === 'string') 
 		{
@@ -54,6 +53,8 @@ const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 	DisableGlobalKeys(fullScreen.value) // disable global Esc key etc
 	useScrollLock(fullScreen.value)
 
+	watchEffect(() => { document.documentElement.style.overflow = fullScreen.value ? 'hidden' : '' })
+
 </script>
 
 <template>
@@ -67,7 +68,7 @@ const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 				:class="fullScreen ? 'relative bg-white overflow-auto ' +
 				'scrollbar-thin shadow-lg shadow-color-dark-gray' : 'contents'">
 
-				<button v-if="fullScreen && props.fullScreenExitButton" type="button" aria-label="Exit fullscreen"
+				<button v-if="fullScreen && props.showExitButton" type="button" aria-label="Exit fullscreen"
 					title="Exit fullscreen" @click="fullScreen = false"
 					class="absolute right-3 top-3 z-10 size-8 rounded-full bg-white/90 hover:bg-white shadow-md flex-center">
 
@@ -83,19 +84,20 @@ const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 
 </template>
 
+
 <!-- Usage: 
 	--------------------------------------------------------------------------------------
 	NOTE: Classes applied to the FullScreenControl are only applied when fullScreen = true
 	--------------------------------------------------------------------------------------
 
-    <FullScreenControl v-model:fullScreen="fullScreen" :fullScreenInset="24" />
+    <FullScreenControl v-model:fullScreen="fullScreen" :inset="24" />
 		<div>Content Here</div>
 	</FullScreenControl>
 
-	<FullScreenControl v-model:fullScreen="fullScreen" fullScreenInset="2rem">...
+	<FullScreenControl v-model:fullScreen="fullScreen" inset="2rem">...
 
 	<FullScreenControl v-model:fullScreen="fullScreen" 
-		:fullScreenInset="{ top: 16, right: 24, bottom: 16, left: 24 }">...
+		:inset="{ top: 16, right: 24, bottom: 16, left: 24 }">...
 
 	<FullScreenControl v-model:fullScreen="fullScreen" :fullScreenExitButton="false">...
 -->

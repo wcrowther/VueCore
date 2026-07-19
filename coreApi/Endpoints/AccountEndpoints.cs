@@ -1,11 +1,9 @@
-﻿using coreApi.Helpers;
-using coreApi.Logic.Interfaces;
-using coreApi.Models;
-using coreApi.Models.Generic;
+using coreApi.Helpers;
+using coreData.Models;
+using coreLibrary.Models;
 using coreLogic.Interfaces;
-using coreLogic.Models.Generic;
+using coreLogic.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace coreApi;
 
@@ -44,14 +42,15 @@ public static partial class Endpoints
         });
 
 		endpoints.MapPost("/saveAccount", (	IAccountManager _accountManager,
-											IAuthManager _authManager,
-											[FromBody] Account account) =>
+										IAuthManager _authManager,
+										[FromBody] AccountVm account) =>
 		{
 			var acct = _accountManager.SaveAccount(account);
 
 			return Results.Ok(acct);
 		})
-		.Validate<Account>(false);
+		.Validate<AccountVm>(false);
 	}
 }
+
 

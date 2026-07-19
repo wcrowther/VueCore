@@ -1,54 +1,60 @@
 <script setup>
+import { stubTrue } from 'lodash';
+
+
+	const appStore                  = useAppStore()
+    const { sideBarHidden }         = storeToRefs(appStore)
+    const { width: windowWidth }    = useWindowSize()
+	const breakPoint 				= 501
 
 	const props = defineProps(
 	{
-		showSideBar: Boolean    
-	})
+		id: 			{ type: String, default: '' },
+		showGradation: { type: Boolean, default: true }
+	});
 
-	// Can move to props or change if needed
-	const widthCalc 	= 'calc(100vw*0.33)' // 1/3 of viewport width 
-	const maxPixelWidth = '200px'  		  	 // max width of sidebar
+    watch(() => windowWidth.value, (newVal, oldVal) => 
+    { 
+        if(newVal < breakPoint &&  oldVal >= breakPoint) 
+            sideBarHidden.value = true
+        else if (newVal >= breakPoint &&  oldVal < breakPoint)
+            sideBarHidden.value = false
+    });
 
 </script>
 
 <template>
-	<div class="flex relative overflow-hidden">
 
-		<div class="z-10 h-full absolute inset-0 border border-blue
-			xs:static xs:flex-none xs:transition-[width] xs:duration-500" 
-			:class="[props.showSideBar 
-                ? `w-full xs:w-[${widthCalc}] xs:max-w-[${maxPixelWidth}] pointer-events-auto` 
-                : 'xs:w-0 pointer-events-none']">
+	<div class="flex" :id="props.id">
 
-			<div class="absolute left-0 top-0 h-full w-full pointer-events-auto 
-				duration-500 transition-transform transform-gpu will-change-transform" 
-				:class="[`xs:w-[${widthCalc})] xs:max-w-[${maxPixelWidth}]`, 
-				props.showSideBar ? 'translate-x-0' : '-translate-x-full']">
+		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative ',
+			sideBarHidden ? 'w-0' : 'w-full xs:w-[300px]']">
 
-				<div class="h-full w-full border border-red">
-					<slot name="sidebar"></slot> <!-- Sidebar content -->
-				</div>
+			<div class="absolute right-0 w-full min-w-[300px] xs:relative xs:w-[300px] xs:min-w-1">
+				<slot name="sidebar" />
 			</div>
-
 		</div>
+        
+		<div class="relative w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px] overflow-hidden">
 
-		<div class="flex-1 min-w-0 transition-[padding,margin] duration-500">
-            <slot></slot><!-- main content --> 
-		</div>
+        	<BackGradation v-if="props.showGradation" />      
+			  	
+			<div class="relative z-10">
+				<slot name="default" />
+			</div>
+			
+    	</div> 
 
 	</div>
-</template>
 
+</template>
 
 <!-- Usage: 
 
 	<SidebarControl :showSideBar="true">
-
 		<template #sidebar>
 			// Sidebar content here
 		</template>
-
 		// Main content here
-
 	</SidebarControl>	
 -->

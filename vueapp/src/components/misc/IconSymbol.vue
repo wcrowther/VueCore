@@ -1,6 +1,7 @@
 <script setup>
 
     import { Icon } from '@iconify/vue'
+	import { useAttrs } from 'vue'
 
     /*  
     ============================================================================================
@@ -45,15 +46,23 @@
     ============================================================================================
     */
 
-	const props = defineProps(
-	{
-		inline: { type: Boolean, default: true }
-	});
+    defineOptions({ inheritAttrs: false })
+
+    const props = defineProps(
+    {
+        inline: { type: Boolean, default: true },
+        width: { type: [String, Number], default: undefined },
+        height: { type: [String, Number], default: undefined },
+    })
+
+    const attrs = useAttrs()
 
 
 </script>
 
 <template>
-    <Icon :inline="props.inline" :class="{'inline': props.inline}" />
+    <Icon v-bind="attrs" 
+        :inline="props.inline" :width="props.width" :height="props.height"
+        :class="{ 'inline': props.inline }" />
 </template>
 

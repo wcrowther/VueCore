@@ -2,8 +2,6 @@
 
     import { useSessionStorage } from '@vueuse/core'
 
-    const pageTitle  = ref('Control Examples')
-
 	const showWizardBorder =  useSessionStorage('showWizardBorder', false) 
 	const toggleBorder = () => showWizardBorder.value = !showWizardBorder.value
 
@@ -15,11 +13,9 @@
 
 		<BackGradation />
 
-        <div class="p-5 pt-5 sm:p-10 sm:pt-5 pb-14">
+		<div class="relative p-5 sm:p-10 pb-14">
 
-            <div class="flex justify-between items-center mb-7 relative">
-                <h2 class="text-2xl font-display font-bold flex-grow">{{ pageTitle }}</h2>
-            </div>
+            <PageTitleBox pageTitle="Control Examples" />
 
 			<div class="w-full min-h-[400px] relative">
 
@@ -29,7 +25,7 @@
 					Wizard border: {{ showWizardBorder ? 'ON' : 'OFF' }}
 				</div>
 
-				<InfoBox class="mb-7">
+				<InfoBox>
 					This page showcases a collection of reusable UI controls available in the application.
 					Use the tabs below to explore each category — <b>Wizard</b> walks through a multi-step form flow, 
 					<b>Files</b> demonstrates file and folder management, <b>Calendar</b> shows event scheduling, 

@@ -1,11 +1,11 @@
-﻿using coreApi.Models;
+﻿using coreLogic.Models;
 using coreLogic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace coreLogic.Managers;
 
-public class CookieManager(	AppSettings appSettings,
+public class CookieManager(	AppSettingsVm appSettings,
 							IHttpContextAccessor accessor) 
 : ICookieManager
 {

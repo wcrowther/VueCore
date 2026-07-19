@@ -1,5 +1,6 @@
-﻿using coreApi.Models;
-using coreApi.Models.Generic;
+using coreLogic.Models;
+using coreData.Models;
+using coreLibrary.Models;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -15,7 +16,7 @@ public class SwaggerExamplesHelper : ISchemaFilter
 			// ==========================================================
 
 			// For /v1/authenticate/login
-			Type t when t == typeof(AuthRequest) => new OpenApiObject
+			Type t when t == typeof(AuthRequestVm) => new OpenApiObject
 			{
 				["userName"] = new OpenApiString("testten"),
 				["password"] = new OpenApiString("GhostBirdhasflown!"),
@@ -40,3 +41,4 @@ public class SwaggerExamplesHelper : ISchemaFilter
 		};
 	}
 }
+

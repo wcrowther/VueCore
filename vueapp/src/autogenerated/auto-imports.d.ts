@@ -13,6 +13,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const EventModel: typeof import('../models/EventModel.js')['default']
   const IAuditable: typeof import('../models/IAuditable.js')['IAuditable']
+  const InputDemoModel: typeof import('../models/InputDemoModel.js')['default']
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
   const KeyboardListeners: typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']
   const MessageModel: typeof import('../models/MessageModel.js')['MessageModel']
@@ -40,6 +41,7 @@ declare global {
   const apiPut: typeof import('../composables/ApiCall.js')['apiPut']
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
+  const closeAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
@@ -53,7 +55,9 @@ declare global {
   const definePage: typeof import('unplugin-vue-router/runtime')['_definePage']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
+  const emitDetailBoxEvent: typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']
   const envConsts: typeof import('../datalists/envConsts.js')['envConsts']
+  const examplesDataList: typeof import('../datalists/examplesDataList.js')['examplesDataList']
   const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
   const findNodeByPath: typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']
   const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
@@ -65,7 +69,11 @@ declare global {
   const hasFilesInSubtree: typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']
   const hasKeys: typeof import('../helpers/global.js')['hasKeys']
   const hasPath: typeof import('../helpers/fileFolderHelpers.js')['hasPath']
+  const imageToolbarList: typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']
   const inject: typeof import('vue')['inject']
+  const inputDemoValidator: typeof import('../helpers/validators.js')['inputDemoValidator']
+  const isEmpty: typeof import('../helpers/global.js')['isEmpty']
+  const isEmptyOrSpace: typeof import('../helpers/global.js')['isEmptyOrSpace']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
@@ -73,6 +81,7 @@ declare global {
   const isRootName: typeof import('../helpers/fileFolderHelpers.js')['isRootName']
   const joinPath: typeof import('../helpers/fileFolderHelpers.js')['joinPath']
   const logJson: typeof import('../helpers/global.js')['logJson']
+  const longTabList: typeof import('../datalists/longTabList.js')['longTabList']
   const markRaw: typeof import('vue')['markRaw']
   const nextTick: typeof import('vue')['nextTick']
   const normalizePath: typeof import('../helpers/fileFolderHelpers.js')['normalizePath']
@@ -93,6 +102,7 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
+  const openAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']
   const pageSizeList: typeof import('../datalists/pageSizeList.js')['pageSizeList']
   const provide: typeof import('vue')['provide']
   const reactive: typeof import('vue')['reactive']
@@ -105,6 +115,7 @@ declare global {
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
   const storeToRefs: typeof import('pinia')['storeToRefs']
+  const stringToSafeArray: typeof import('../helpers/global.js')['stringToSafeArray']
   const timeFormat: typeof import('../helpers/global.js')['timeFormat']
   const toApiFolderPath: typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']
   const toApiParentPath: typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']
@@ -113,6 +124,7 @@ declare global {
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
   const toValue: typeof import('vue')['toValue']
+  const toggleAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const usPhoneFormat: typeof import('../helpers/global.js')['usPhoneFormat']
@@ -126,10 +138,15 @@ declare global {
   const useChatHub: typeof import('../composables/UseChatHub.js')['useChatHub']
   const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
+  const useComponentLoader: typeof import('../composables/UseComponentLoader.js')['useComponentLoader']
   const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
+  const useDetailBoxEventListener: typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']
+  const useDropdownPlacement: typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']
+  const useExamplesStore: typeof import('../stores/ExamplesStore.js')['useExamplesStore']
+  const useFieldFromList: typeof import('../composables/UseFieldFromList.js')['useFieldFromList']
   const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
@@ -142,6 +159,7 @@ declare global {
   const usePlatform: typeof import('../composables/UsePlatform.js')['usePlatform']
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
+  const useSaveNameControl: typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']
   const useScrollLock: typeof import('../composables/useScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
@@ -174,6 +192,9 @@ declare global {
   export type { EventModel } from '../models/EventModel.js'
   import('../models/EventModel.js')
   // @ts-ignore
+  export type { InputDemoModel } from '../models/InputDemoModel.js'
+  import('../models/InputDemoModel.js')
+  // @ts-ignore
   export type { UserModel } from '../models/UserModel.js'
   import('../models/UserModel.js')
 }
@@ -190,6 +211,7 @@ declare module 'vue' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly EventModel: UnwrapRef<typeof import('../models/EventModel.js')['default']>
     readonly IAuditable: UnwrapRef<typeof import('../models/IAuditable.js')['IAuditable']>
+    readonly InputDemoModel: UnwrapRef<typeof import('../models/InputDemoModel.js')['default']>
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
     readonly KeyboardListeners: UnwrapRef<typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']>
     readonly MessageModel: UnwrapRef<typeof import('../models/MessageModel.js')['MessageModel']>
@@ -217,6 +239,7 @@ declare module 'vue' {
     readonly apiPut: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPut']>
     readonly authRequestValidator: UnwrapRef<typeof import('../helpers/validators.js')['authRequestValidator']>
     readonly authSignupValidator: UnwrapRef<typeof import('../helpers/validators.js')['authSignupValidator']>
+    readonly closeAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -230,7 +253,9 @@ declare module 'vue' {
     readonly definePage: UnwrapRef<typeof import('unplugin-vue-router/runtime')['_definePage']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly emitDetailBoxEvent: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']>
     readonly envConsts: UnwrapRef<typeof import('../datalists/envConsts.js')['envConsts']>
+    readonly examplesDataList: UnwrapRef<typeof import('../datalists/examplesDataList.js')['examplesDataList']>
     readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
     readonly findNodeByPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']>
     readonly formatFileSize: UnwrapRef<typeof import('../helpers/global.js')['formatFileSize']>
@@ -242,7 +267,11 @@ declare module 'vue' {
     readonly hasFilesInSubtree: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']>
     readonly hasKeys: UnwrapRef<typeof import('../helpers/global.js')['hasKeys']>
     readonly hasPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasPath']>
+    readonly imageToolbarList: UnwrapRef<typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly inputDemoValidator: UnwrapRef<typeof import('../helpers/validators.js')['inputDemoValidator']>
+    readonly isEmpty: UnwrapRef<typeof import('../helpers/global.js')['isEmpty']>
+    readonly isEmptyOrSpace: UnwrapRef<typeof import('../helpers/global.js')['isEmptyOrSpace']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
@@ -250,6 +279,7 @@ declare module 'vue' {
     readonly isRootName: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['isRootName']>
     readonly joinPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['joinPath']>
     readonly logJson: UnwrapRef<typeof import('../helpers/global.js')['logJson']>
+    readonly longTabList: UnwrapRef<typeof import('../datalists/longTabList.js')['longTabList']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly normalizePath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['normalizePath']>
@@ -270,6 +300,7 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
+    readonly openAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']>
     readonly pageSizeList: UnwrapRef<typeof import('../datalists/pageSizeList.js')['pageSizeList']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -282,6 +313,7 @@ declare module 'vue' {
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
+    readonly stringToSafeArray: UnwrapRef<typeof import('../helpers/global.js')['stringToSafeArray']>
     readonly timeFormat: UnwrapRef<typeof import('../helpers/global.js')['timeFormat']>
     readonly toApiFolderPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']>
     readonly toApiParentPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']>
@@ -290,6 +322,7 @@ declare module 'vue' {
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
+    readonly toggleAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly usPhoneFormat: UnwrapRef<typeof import('../helpers/global.js')['usPhoneFormat']>
@@ -303,10 +336,15 @@ declare module 'vue' {
     readonly useChatHub: UnwrapRef<typeof import('../composables/UseChatHub.js')['useChatHub']>
     readonly useChatStore: UnwrapRef<typeof import('../stores/ChatStore.js')['useChatStore']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
+    readonly useComponentLoader: UnwrapRef<typeof import('../composables/UseComponentLoader.js')['useComponentLoader']>
     readonly useConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['useConfirmControl']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
+    readonly useDetailBoxEventListener: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']>
+    readonly useDropdownPlacement: UnwrapRef<typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']>
+    readonly useExamplesStore: UnwrapRef<typeof import('../stores/ExamplesStore.js')['useExamplesStore']>
+    readonly useFieldFromList: UnwrapRef<typeof import('../composables/UseFieldFromList.js')['useFieldFromList']>
     readonly useFileStore: UnwrapRef<typeof import('../stores/FileStore.js')['useFileStore']>
     readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
@@ -319,6 +357,7 @@ declare module 'vue' {
     readonly usePlatform: UnwrapRef<typeof import('../composables/UsePlatform.js')['usePlatform']>
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
+    readonly useSaveNameControl: UnwrapRef<typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']>
     readonly useScrollLock: UnwrapRef<typeof import('../composables/useScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>

@@ -1,4 +1,4 @@
-﻿using coreApi.Models;
+using coreLogic.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;

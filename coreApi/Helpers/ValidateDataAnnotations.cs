@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using coreApi.Helpers.Extensions;
 using System.Reflection;
 
@@ -11,6 +11,10 @@ public static class CustomRouteHandlerBuilder
 		builder.AddEndpointFilter(async (invocationContext, next) =>
 		{
 			var argument = invocationContext.Arguments.OfType<T>().FirstOrDefault();
+
+			if (argument is null)
+				return await next(invocationContext);
+
 			var response = argument.DataAnnotationsValidate();
 
 			if (!response.IsValid)

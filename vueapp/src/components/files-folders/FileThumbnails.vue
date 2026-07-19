@@ -1,11 +1,12 @@
 <script setup>
 
 	const fileStore 							 = useFileStore()
-	const imageStore 						 = useImageStore()
+	const imageStore 						 	 = useImageStore()
 	const { fileRows, selectedIndexSet,
 			fileThumbnailSize } 				 = storeToRefs(fileStore)
 	const { deleteFile, isImageFile, getFileUrl, 
-			handleFileClick, startFileDrag, selectFileIndex } 	 = fileStore
+			handleFileClick, startFileDrag, 
+			selectFileIndex } 	 				 = fileStore
 	const { onPreviewAreaClick } 				 = imageStore
 			
 	const { createConfirm } 					 = useConfirmControl()
@@ -52,7 +53,7 @@
 				<!-- Image -->
 				<img v-if="isImageFile(file.extension)"
 					:src="getFileUrl(file)"
-					class="object-cover w-full block"
+					class="object-contain w-full bg-white block"
 					@click.stop="onImageClick(file, idx, $event)"
 					:style="{ height: fileThumbnailSize + 'px' }" />
 

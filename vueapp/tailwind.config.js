@@ -14,7 +14,8 @@ export const theme = {
     md: '800px',
     lg: '1024px',
     xl: '1280px',
-    '2xl': '1536px'
+    '2xl': '1536px',
+    '3xl': '1920px'
   },
   extend: {
     dropShadow: {
@@ -37,6 +38,7 @@ export const theme = {
       'gradient-subnav': 'linear-gradient( 170deg, #bdbdbd 0%, white 10%)',
       'gradient-background': 'linear-gradient( to right, #7cb9da 20%, #1b2157 80%)',
       'gradient-main': 'linear-gradient( 205deg, #b8d7ed 0%, white 50%)',
+      'gradient-main-red': 'linear-gradient( 205deg, red 0%, white 50%)',
       'gradient-modal': 'linear-gradient( 205deg, #b8d7ed 30%, white 65%)',
       'gradient-side': 'linear-gradient( 205deg, #bdbdbd 0%, white 65%)',
       'gradient-side-alt': 'linear-gradient( 187deg, #868686 0%, white 75%)',

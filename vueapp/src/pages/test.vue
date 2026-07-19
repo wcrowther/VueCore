@@ -1,6 +1,6 @@
 <script setup>
 
-    import { useConfirmControl } from '@/composables/UseConfirmControl';
+    import { useConfirmControl } from '@/composables/UseConfirmControl'
 
     const isDirty               = ref(false)
     const enableGlobal           = useLocalStorage('enableGlobal', true)
@@ -25,6 +25,8 @@
 
     useUnsavedGuard(isDirty, () => createConfirm('You have unsaved data. Continue?'), enableGlobal.value)
 
+    const inlineCallback = () => console.log('Inline Confirm with Callback.')
+
 </script>
 
 <template>
@@ -40,10 +42,13 @@
 
             <PrimaryButton @click="handleSave" title="Save Something" class="bg-red" /> 
 
-            <!-- <ConfirmControl v-if="showConfirm" :message="confirmMessage"  @confirmResult="onConfirm"  /> -->
+            <PrimaryButton @click="createConfirm('Call Inline Callback?', inlineCallback)" title="Inline Confirm"  /> 
+
         </div>
 
-        <SwipeLeftRight />
+        <!-- LEGACY TEST CODE: <SwipeLeftRight /> -->
+
+        <TabsControlExample />
 
     </LayoutMain>
 

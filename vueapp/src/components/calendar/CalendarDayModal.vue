@@ -66,7 +66,7 @@
 
 <template>   
 
-	<ModalControl id="EventModal" v-model=showModal 
+	<ModalControl id="EventModal" v-model="showModal" 
         height="500px" :width="modalWidth" @closeModal="calendarDate=null" >
 
         <template #header>

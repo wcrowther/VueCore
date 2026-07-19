@@ -54,11 +54,16 @@ export async function apiCall(methodType, url, useAuth, body, isFormData, onProg
 		try
 		{
 			const token = await getAntiforgeryToken()
-			request.headers['X-XSRF-TOKEN'] = token
+			if (token)
+				request.headers['X-XSRF-TOKEN'] = token
 		}
 		catch (err)
 		{
-			console.error('Failed to get antiforgery token:', err)
+			const status = err?.response?.status
+			if (status === 401 || status === 403)
+				console.log('Antiforgery token is only available when logged in.')
+			else
+				console.error('Failed to get antiforgery token:', err)
 		}
 	}
 

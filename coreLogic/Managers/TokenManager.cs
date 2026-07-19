@@ -1,4 +1,5 @@
-﻿using coreApi.Models;
+﻿using coreData.Models;
+using coreLogic.Models;
 using coreLogic.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace coreLogic.Managers;
 
-public class TokenManager(AppSettings appSettings)
+public class TokenManager(AppSettingsVm appSettings)
 : ITokenManager
 {
 	public (string token, DateTime expiration) GenerateJwtToken(User user)

@@ -1,5 +1,5 @@
-using coreApi.Models;
-using coreLogic.Helpers;
+using coreLogic.Models;
+using coreLibrary.Helpers;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using System.Text;
@@ -23,7 +23,7 @@ namespace coreApi
 			_next = next;
 		}
 
-		public async Task Invoke(HttpContext httpContext, AppSettings app, IWebHostEnvironment env)
+		public async Task Invoke(HttpContext httpContext, AppSettingsVm app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{ 
@@ -72,4 +72,5 @@ namespace coreApi
 		}
 	}
 }
+
 
