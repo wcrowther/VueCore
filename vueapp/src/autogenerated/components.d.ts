@@ -42,7 +42,7 @@ declare module 'vue' {
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     DetailBox: typeof import('./../components/boxes/DetailBox.vue')['default']
     DetailBoxExample: typeof import('./../pageviews/examples/views/DetailBoxExample.vue')['default']
-    DropListControl: typeof import('./../components/misc/DropListControl.vue')['default']
+    DropList: typeof import('./../components/misc/DropList.vue')['default']
     ExamplesAdvSearch: typeof import('./../pageviews/examples/ExamplesAdvSearch.vue')['default']
     ExamplesFilters: typeof import('./../pageviews/examples/ExamplesFilters.vue')['default']
     ExamplesList: typeof import('./../pageviews/examples/ExamplesList.vue')['default']

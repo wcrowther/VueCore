@@ -153,7 +153,6 @@ declare global {
   const useImageStore: typeof import('../stores/ImageStore.js')['useImageStore']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useModel: typeof import('vue')['useModel']
-  const useNormalizedTabList: typeof import('../composables/UseNormalizedTabList.js')['useNormalizedTabList']
   const useOldImagesStore: typeof import('../stores/OldImagesStore.js')['useOldImagesStore']
   const usePagedList: typeof import('../composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('../composables/UsePagedList2.js')['usePagedList2']

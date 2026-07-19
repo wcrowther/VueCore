@@ -16,9 +16,6 @@
         if (props.sortType === 'alphabetical')
             filterList.push('Alphabetical')
 
-        if (props.disableShortcuts)
-            filterList.push('Shortcuts Disabled')
-
         return filterList.join(', ')
     })
 
@@ -26,10 +23,15 @@
 
 <template>
 
-    <div v-if="advancedFilters.length > 0"
-        class="text-sm text-gray-400 mt-3 cursor-pointer" @click="showAdvancedSearch">
-        <span class="font-bold">Filters/Sort: </span>
-        <span class="italic">{{ advancedFilters }}</span>
+    <div class="text-sm text-gray-400 mt-3 cursor-pointer" @click="showAdvancedSearch">
+        <span v-if="advancedFilters.length > 0" class="font-bold whitespace-nowrap">
+            Filters/Sort: 
+            <span class="italic mr-3">{{ advancedFilters }}</span>
+        </span>
+        <span class="italic">
+            {{ props.disableShortcuts ? 'Shortcuts&nbsp;Disabled' : '' }}
+        </span>
     </div>
+
 
 </template>

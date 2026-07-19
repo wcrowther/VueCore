@@ -1,7 +1,5 @@
 <script setup>
 
-	import { isEmptyOrSpace } from '@/helpers/global'
-
 	const props = defineProps(
 	{
 		id: 					{ type: String, default: 'TabsOverflowControl' },

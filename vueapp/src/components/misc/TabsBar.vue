@@ -219,6 +219,14 @@
 		isOverflowMenuOpen.value = false
 	}
 
+	const toggleOverflowMenu = () =>
+	{
+		if (isOverflowMenuOpen.value)
+			closeOverflowMenuNow()
+		else
+			openOverflowMenuNow()
+	}
+
 	const ensureActiveTabInView = () =>
 	{
 		const el = tabRefs.get(selectedTabId.value)
@@ -389,7 +397,8 @@
 				@mouseenter="openOverflowMenuWithDelay"
 				@mouseleave="closeOverflowMenuWithDelay"
 				@focusin="openOverflowMenuNow"
-				@focusout="onOverflowFocusOut">
+				@focusout="onOverflowFocusOut"
+				@click="toggleOverflowMenu">
 
 				<slot name="overflow-trigger"
 					:is-open="isOverflowMenuOpen" :hidden-count="hiddenTabs.length">
@@ -402,7 +411,7 @@
 			</div>
 		</div>
 
-		<DropListControl v-if="useMenuOverflow"
+		<DropList v-if="useMenuOverflow"
 			v-model="isOverflowMenuOpen" :list="hiddenTabs" :anchorEl="overflowTriggerRef"
 			:maxHeight="props.overflowMenuMaxHeight"
 			@select="selectOverflowTab" @hover-enter="openOverflowMenuNow" 
