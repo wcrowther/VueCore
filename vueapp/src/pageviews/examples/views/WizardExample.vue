@@ -32,7 +32,7 @@
         </InfoBox>
 
         <!-- FloaterControl here 
-				<FloaterControl :show="true" name="FloaterOne"
+				<FloaterControl v-model="showFloaterOne" name="FloaterOne" title="Floater One"
 					class="bg-white w-[400px] h-[300px] p-5">
 					Some floating content here.
 				</FloaterControl>

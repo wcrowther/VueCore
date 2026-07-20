@@ -5,11 +5,13 @@
     const appStore              = useAppStore()
     const { activeFloater  }    = storeToRefs(appStore)
 
+    const showFloater = defineModel({ type: Boolean, default: false })
+
     const props = defineProps({
         name:       { type: String,  required: true },
+        title:      { type: String,  default: null },
         initialX:   { type: Number,  default: 0 },
         initialY:   { type: Number,  default: 0 },
-        show:       { type: Boolean, default: false },
     })
 
     defineOptions({ inheritAttrs: false })
@@ -35,12 +37,23 @@
 
 <template>
 
-    <Teleport v-if="show" to="#modals" >
+    <Teleport v-if="showFloater" to="#modals" >
 
         <div :id="props.name" ref="floater" v-bind="$attrs" 
             :style="style" @mousedown="bringToFront"
             :class="['absolute  w-[200px] drop-shadow-xl border select-none',
                 activeFloater === props.name ? 'z-[2000]' : 'z-[1000]']">
+
+            <slot name="header">
+                <div class="p-2 bg-color-blue text-white font-bold select-none flex 
+                    justify-between items-center">
+                    <span>{{ title || 'Title' }}</span>
+                    <div class="size-4 bg-white hover:bg-color-light-blue rounded-full flex-center" 
+                        @click="showFloater = false">
+                        <IconSymbol width="12px" class="text-color-dark-gray" icon="heroicons-solid:x" />
+                    </div>
+                </div>
+            </slot>
 
             <slot></slot>
 
@@ -53,7 +66,7 @@
 
 <!-- Usage: 
 
-    <FloaterControl :show="true" name="FloaterTwo"
+    <FloaterControl v-model="showFloaterTwo" name="FloaterTwo" title="Floater Two"
         class="bg-white w-[400px] h-[300px] p-5">
         Some floating content here.
     </FloaterControl>

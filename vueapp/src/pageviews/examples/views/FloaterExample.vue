@@ -1,33 +1,43 @@
 <script setup>
 
-    const showPlatformInfo = ref(true)
-    const showFloaterOne = ref(true)
+    const floaterOne = ref(true)
+    const floaterTwo = ref(true)
 
 </script>
 
 <template>
 
-    <PageTitleBox pageTitle="Floater Control" />
+    <PageTitleBox pageTitle="Floater Control">
+    
+        <BooleanButton v-model="floaterOne"
+            trueText="Hide Floater One" falseText="Show Floater One" /> 
+
+        <BooleanButton v-model="floaterTwo"
+            trueText="Hide Floater Two" falseText="Show Floater Two" />
+
+    </PageTitleBox>
 
     <InfoBox>
         Info about floater controls.
     </InfoBox>
 
-    <FloaterControl :show="showFloaterOne" name="FloaterOne" 
+    <FloaterControl v-model.show="floaterOne" 
+        name="FloaterOne" title="Floater One"
         class="bg-white w-[400px] h-[300px]">
 
-        <div class="p-2 bg-color-blue text-white font-bold select-none flex 
-            justify-between items-center">
-            Platform Info
-            <div class="size-4 bg-white hover:bg-color-light-blue rounded-full flex-center" 
-				@click="showFloaterOne=false">
-				<IconSymbol width="12px" class="text-color-dark-gray" icon="heroicons-solid:x" />
-			</div>
-        </div>
-
         <div class="p-5">
-            Some floating content here.
+            <SimpleCounter />
         </div>
     </FloaterControl>
+
+    <FloaterControl v-model.show="floaterTwo" 
+        name="FloaterTwo" title="Floater Two"
+        class="bg-white w-[400px] h-[300px]">
+
+        <div class="p-5">
+            <SimpleCounter />
+        </div>
+    </FloaterControl>
+				
 				
 </template>

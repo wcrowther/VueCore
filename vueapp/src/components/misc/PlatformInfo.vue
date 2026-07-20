@@ -11,18 +11,9 @@
 
 <template>
 
-    <FloaterControl :show="showPlatformInfo" name="PlatformInfo" 
+    <FloaterControl v-model="showPlatformInfo" name="PlatformInfo" title="Platform Info"
         class="w-[200px] pb-3 mb-1 drop-shadow-xl text-sm/loose 
         leading-[25px] bg-white border"> 
-
-        <div class="p-2 bg-color-blue text-white font-bold select-none flex 
-            justify-between items-center">
-            Platform Info
-            <div class="size-4 bg-white hover:bg-color-light-blue rounded-full flex-center" 
-				@click="showPlatformInfo=false">
-				<IconSymbol width="12px" class="text-color-dark-gray" icon="heroicons-solid:x" />
-			</div>
-        </div>
 
         <div class="p-3">
             <div><b>Platform:</b> {{ platform.platform }}</div>
