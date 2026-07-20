@@ -18,7 +18,7 @@
             </slot>
         </h2>
 
-        <span class="flex flex-wrap gap-1.5">
+        <span class="flex flex-wrap justify-end gap-1.5">
             <slot />
         </span>
 

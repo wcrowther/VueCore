@@ -151,6 +151,7 @@ declare global {
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
   const useImageStore: typeof import('../stores/ImageStore.js')['useImageStore']
+  const useKeepInView: typeof import('../composables/UseKeepInView.js')['useKeepInView']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useModel: typeof import('vue')['useModel']
   const useOldImagesStore: typeof import('../stores/OldImagesStore.js')['useOldImagesStore']
@@ -349,6 +350,7 @@ declare module 'vue' {
     readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImageStore: UnwrapRef<typeof import('../stores/ImageStore.js')['useImageStore']>
+    readonly useKeepInView: UnwrapRef<typeof import('../composables/UseKeepInView.js')['useKeepInView']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useOldImagesStore: UnwrapRef<typeof import('../stores/OldImagesStore.js')['useOldImagesStore']>
