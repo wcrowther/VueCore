@@ -9,8 +9,8 @@
         spellCheck:  { type: Boolean },
         rows:        { type: Number, default: 4 },
         resizable:   { type: Boolean, default: true },
+        autogrow:    { type: Boolean, default: false },
 		v$:          { type: Object },
-
     })
 
     const modelValue = defineModel()
@@ -24,6 +24,7 @@
     }
 
     const resizeClass = computed(() => props.resizable ? 'resize-y' : 'resize-none')
+    const autoGrowClass = computed(() => props.autogrow ? '[field-sizing:content]' : '') // Tailwind 3 syntax
 
     defineExpose({ focus })
 </script>
@@ -45,7 +46,8 @@
             </template>
         </div>
 
-        <textarea :class="['w-full text-sm min-h-[34px] scrollbar-thin', resizeClass, { 'border-red': hasErrors }]"
+        <textarea :class="['w-full text-sm min-h-[88px] scrollbar-thin', 
+            resizeClass, autoGrowClass, { 'border-red': hasErrors }]"
             :id="props.labelName" :name="props.labelName"
             v-model="modelValue" v-bind="$attrs" ref="textArea"
             :rows="props.rows"

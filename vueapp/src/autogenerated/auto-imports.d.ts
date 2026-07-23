@@ -125,6 +125,8 @@ declare global {
   const toRefs: typeof import('vue')['toRefs']
   const toValue: typeof import('vue')['toValue']
   const toggleAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']
+  const toolTipPlugin: typeof import('../helpers/toolTipPlugin.js')['default']
+  const tooltipDirective: typeof import('../helpers/toolTipDirective.js')['tooltipDirective']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const usPhoneFormat: typeof import('../helpers/global.js')['usPhoneFormat']
@@ -324,6 +326,8 @@ declare module 'vue' {
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']>
+    readonly toolTipPlugin: UnwrapRef<typeof import('../helpers/toolTipPlugin.js')['default']>
+    readonly tooltipDirective: UnwrapRef<typeof import('../helpers/toolTipDirective.js')['tooltipDirective']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly usPhoneFormat: UnwrapRef<typeof import('../helpers/global.js')['usPhoneFormat']>

@@ -2,8 +2,7 @@
 
     const props = defineProps(
     {
-        sortType: { type: String, default: 'default' },
-        disableShortcuts: { type: Boolean, default: false }
+        sortType: { type: String, default: 'default' }
     })
 
     const emits = defineEmits(['showAdvancedSearch'])
@@ -27,9 +26,6 @@
         <span v-if="advancedFilters.length > 0" class="font-bold whitespace-nowrap">
             Filters/Sort: 
             <span class="italic mr-3">{{ advancedFilters }}</span>
-        </span>
-        <span class="italic">
-            {{ props.disableShortcuts ? 'Shortcuts&nbsp;Disabled' : '' }}
         </span>
     </div>
 

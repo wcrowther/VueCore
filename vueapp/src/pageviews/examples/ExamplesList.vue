@@ -183,9 +183,17 @@ watch(() => searchFromUrl.value, (newVal, oldVal) =>
                 </span>
             </div>
 
-            <InfoBox class="!mb-3">
-                Examples list with search, paging, sorting, and keyboard shortcut options.
-            </InfoBox>
+            <div class="flex w-full">
+                <InfoBox class="!mb-3">
+                    Examples list with search, paging, sorting, and keyboard shortcuts.
+                </InfoBox>
+
+                <span class="ml-auto">
+                    <IconSymbol :class="[keyListenersDisabled ? 'text-orange' : 'text-color-dark-gray']" 
+                        @click="disableShortcuts = !disableShortcuts" 
+                        title="Show / Hide Keyboard Shortcuts" width="24px" icon="codicon:record-keys" />
+                </span> 
+            </div>
 
             <MobilePagerPrevNext :pager="listPager" />
 

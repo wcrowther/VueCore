@@ -99,7 +99,7 @@ const codeContent =
 
         <TextInput labelName="TextInput" v-model="inputDemo.TextInput" :v$ />
         <PhoneInput labelName="PhoneInput" v-model="inputDemo.PhoneInput" :v$ />
-        <TextAreaInput labelName="TextAreaInput" v-model="inputDemo.TextAreaInput" :v$ />
+        <TextAreaInput labelName="TextAreaInput" autogrow v-model="inputDemo.TextAreaInput" :v$ />
         <PasswordInput labelName="PasswordInput" v-model="inputDemo.PasswordInput" :v$ />
         <DateInput labelName="DateInput" v-model="inputDemo.DateInput" :v$ />
         <TimeInput labelName="TimeInput" v-model="inputDemo.TimeInput" :v$ />

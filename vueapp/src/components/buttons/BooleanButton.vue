@@ -14,12 +14,11 @@
 
 <template>
 	
-	<PrimaryButton @click="modelValue = !modelValue"
-		:class="{'pr-2': (props.trueIcon || props.falseIcon)}">
+	<!-- Use this? :class="{'pr-2': (props.trueIcon || props.falseIcon)}" -->
+	<PrimaryButton @click="modelValue = !modelValue">
 
 		<slot>
-			<span class="inline-flex items-center gap-1">
-				
+			<span class="flex gap-1">
 				<span v-if="text">{{ text }}</span>
 				{{ modelValue ? trueText : falseText }}
 				<IconSymbol v-if="modelValue ? trueIcon : falseIcon" 

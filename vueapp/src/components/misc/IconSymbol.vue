@@ -21,10 +21,8 @@
     <IconSymbol width="28px" class="text-color-dark-gray" icon="fa7-solid:folder" />
     <IconSymbol width="28px" class="text-color-dark-gray" icon="fa7-solid:folder-open" />
     <IconSymbol width="28px" class="text-color-dark-gray" icon="heroicons:arrow-path" />
-
-    // Queen's Crown
     <IconSymbol width="28px" class="text-color-dark-gray" icon="icon-park-twotone:crown-three" />
-
+    <IconSymbol width="28px" class="text-color-dark-gray" icon="codicon:record-keys" />
     <IconSymbol class="text-blue" icon="material-symbols-light:play-arrow" />
     <IconSymbol class="text-blue" icon="material-symbols-light:arrow-back-2" />
     <IconSymbol class="text-color-dark-gray" icon="heroicons:pencil-square-solid" />

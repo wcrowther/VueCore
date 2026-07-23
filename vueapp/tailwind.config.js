@@ -100,7 +100,7 @@ export const theme = {
       'color-dark-gray': '#595A50',
       'color-red': '#e53119',
       'color-dark-red': '#b0321f',
-      'color-primary': '#8abfe5',
+      'color-primary': '#81caff',
       'color-secondary': '#9b6f24',
       'color-tertiary': '#d6901a',
       'color-blue-gray': '#99b3cf',

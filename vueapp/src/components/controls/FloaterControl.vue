@@ -40,10 +40,11 @@
         },
     })
 
-    const bringToFront = () => activeFloater.value = props.name 
+    const keepInView    = computed(() => props.fixed || props.keepInView)
+    const bringToFront  = () => activeFloater.value = props.name 
     const resetPosition = () => { x.value = props.initialX; y.value = props.initialY }
 
-    useKeepInView({ el: floater, x, y, enabled: toRef(props, 'keepInView'), fixed: toRef(props, 'fixed') })
+    useKeepInView({ el: floater, x, y, enabled: keepInView, fixed: toRef(props, 'fixed') })
  
 </script>
 

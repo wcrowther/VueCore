@@ -8,8 +8,10 @@
 
 	:root {
 		--logo-url: url('/images/VueCore_sans_white.png');
-		--gradient-brand: linear-gradient( 200deg, rgb(55, 48, 163, 0.5) 65%, rgb(132, 190, 224, 0.5) 100% ), linear-gradient( 205deg, rgb(0, 19, 10, 1.0) 17%, rgb(117, 182, 213, 1) 100% );
-		--gradient-navbar: linear-gradient(90deg, #7ab7d8 2%, #1c2157 50%);
+		--gradient-brand: 
+			linear-gradient(200deg, rgb(55, 48, 163, 0.5) 65%, #81caff 100% ),	
+			linear-gradient( 205deg, rgb(0, 19, 10, 1.0) 17%, #81caff 100% );
+		--gradient-navbar: linear-gradient(90deg, #73c4ff 2%, #1c2157 50%);
 		--gradient-back: linear-gradient( to bottom, #1c2157 30%, black 100%);
 		--gradient-footer: radial-gradient( circle, #77b1d5 30%, #242d66 100%);
 		--theme-footer-text: white;	
@@ -20,7 +22,7 @@
 
 	.alt-theme {
 		--logo-url: url('/images/VueCore_sans_navy.png');
-		--gradient-brand: linear-gradient(20deg, #b8d7ed 20%, transparent 60%);
+		--gradient-brand: linear-gradient(20deg, #81caff 20%, transparent 60%);
 		--gradient-navbar: linear-gradient(90deg, #f9f9f9 0%, #c2c2c2 100%);
 		--gradient-back: none;
 		--gradient-footer: radial-gradient(circle, #f7f7f7  15%, #c2c2c2 70%);

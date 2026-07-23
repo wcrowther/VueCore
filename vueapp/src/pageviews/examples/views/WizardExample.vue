@@ -11,11 +11,7 @@
 
     <div class="w-full min-h-[400px] relative">
 
-        <PageTitleBox pageTitle="Wizard Example">
-            <button class="btn-primary" @click="toggleBorder">
-                Wizard border: {{ showWizardBorder ? 'ON' : 'OFF' }}
-            </button>
-        </PageTitleBox>
+        <PageTitleBox pageTitle="Wizard Example"></PageTitleBox>
 
         <div class="float-right ml-5 mb-3 mt-1 flex items-center cursor-pointer px-4 py-2 h-6 text-xs leading-[1.3rem] 
 					select-none font-bold w-[140px] rounded-full border border-color-dark-blue !text-color-dark-blue"
@@ -39,7 +35,7 @@
 				-->
 
         <WizardControl class="mb-10" :useKeyControls="false" :showBorder="showWizardBorder"
-            :tabList="['Files', 'Comps', 'Calendar', 'Grid', 'Json', 'Misc']">
+            :tabList="['Files', 'Comps', 'Calendar', 'Grid', 'Json']">
 
             <template #Files>
                 <FilesExample />
@@ -59,10 +55,6 @@
 
             <template #Json>
                 <JsonTreeExample />
-            </template>
-
-            <template #Misc>
-                <MiscExample />
             </template>
 
         </WizardControl>

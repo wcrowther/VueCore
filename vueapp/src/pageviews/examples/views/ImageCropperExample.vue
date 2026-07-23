@@ -2,7 +2,7 @@
 
 	const imageData 		= ref(null)
 	const examplesStore 	= useExamplesStore()
-	const { disableShortcuts } = storeToRefs(examplesStore)
+	const { disableShortcuts } = storeToRefs(examplesStore) // rename to exampleShortcutsOff?
 
 	DisableGlobalKeys(true)
 

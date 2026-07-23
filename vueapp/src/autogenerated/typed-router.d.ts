@@ -46,7 +46,6 @@ declare module 'vue-router/auto/routes' {
     '/accounts/main/': RouteRecordInfo<'/accounts/main/', '/accounts/main', Record<never, never>, Record<never, never>>,
     '/accounts/main/[search]': RouteRecordInfo<'/accounts/main/[search]', '/accounts/main/:search', { search: ParamValue<true> }, { search: ParamValue<false> }>,
     '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
-    '/admin/controls': RouteRecordInfo<'/admin/controls', '/admin/controls', Record<never, never>, Record<never, never>>,
     '/admin/site': RouteRecordInfo<'/admin/site', '/admin/site', Record<never, never>, Record<never, never>>,
     '/admin/users': RouteRecordInfo<'/admin/users', '/admin/users', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,

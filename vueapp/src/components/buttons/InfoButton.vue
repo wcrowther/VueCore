@@ -20,7 +20,7 @@
 </template>
 
 
-<!-- USAGE
+<!-- USAGE - Help Level Button 
 	
 	<InfoButton />
 -->
