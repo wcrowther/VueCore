@@ -1,4 +1,5 @@
 const TOOLTIP_OFFSET = 8
+const TOOLTIP_SHOW_DELAY = 1000
 
 export default 
 {
@@ -6,8 +7,9 @@ export default
 	{
 		let tooltip = null
 		let activeElement = null
+		let showTimeout = null
 
-		function removeTooltip() 
+		const removeTooltip = () => 
 		{
 			if (tooltip) 
 			{
@@ -16,17 +18,25 @@ export default
 			}
 		}
 
-		function createTooltip(text) 
+		const clearShowTimeout = () => 
+		{
+			clearTimeout(showTimeout)
+			showTimeout = null
+		}
+
+		const createTooltip = (text) => 
 		{
 			removeTooltip()
 
+
+
 			tooltip = document.createElement('div')
-			tooltip.className = 'fixed z-[99999] px-2 py-1 text-xs text-white bg-orange rounded shadow ' +
-								'pointer-events-none whitespace-nowrap opacity-0 transition-opacity duration-150'
+			tooltip.className = 'fixed z-[99999] px-2 py-1 text-sm text-black bg-[#81caff] rounded shadow tracking-wider ' +
+								'pointer-events-none w-max max-w-xs whitespace-normal break-words opacity-0 transition-opacity duration-150 drop-shadow-md'
 			tooltip.textContent = text
 
 			const arrow = document.createElement('div')
-			arrow.className = 'absolute z-[-1] h-2 w-2 rotate-45 bg-orange-500'
+			arrow.className = 'absolute z-[-1] h-2 w-2 rotate-45 bg-[#81caff] drop-shadow-md'
 			tooltip.appendChild(arrow)
   			tooltip.arrowElement = arrow
 
@@ -35,12 +45,11 @@ export default
 			return tooltip
 		}
 
-		function positionTooltip(el) 
+		const positionTooltip = (el) => 
 		{
 			if (!tooltip || !el) return
 
-			const rect = el.getBoundingClientRect()
-
+			const rect 			= el.getBoundingClientRect()
 			const tooltipWidth 	= tooltip.offsetWidth
 			const tooltipHeight = tooltip.offsetHeight
 			const roomBelow 	= window.innerHeight - rect.bottom
@@ -67,20 +76,23 @@ export default
 			}
 		}
 
-		function showTooltip(el) 
+		const disableNativeTooltip = (el) => 
 		{
 			const text = el.dataset.tooltipText || el.getAttribute('title')
 
+			if (!text || el.dataset.tooltipText) return
+
+			el.dataset.tooltipText = text
+			el.setAttribute('aria-label', text)
+			el.removeAttribute('title')
+		}
+
+		const showTooltip = (el) => 
+		{
+			const text = el.dataset.tooltipText
+
 			if (!text)	return
 			activeElement = el
-
-			// Disable native browser tooltip
-			if (!el.dataset.tooltipText) 
-			{
-				el.dataset.tooltipText = text
-				el.setAttribute('aria-label', text)
-				el.removeAttribute('title')
-			}
 
 			createTooltip(text)
 			positionTooltip(el)
@@ -88,60 +100,59 @@ export default
 			requestAnimationFrame(() => {tooltip?.classList.remove('opacity-0')})
 		}
 
-		function hideTooltip() 
+		const hideTooltip = () => 
 		{
+			clearShowTimeout()
 			removeTooltip()
 			activeElement = null
 		}
 
-		function handleEnter(event) 
+		const scheduleShowTooltip = (el) => 
+		{
+			disableNativeTooltip(el)
+			clearShowTimeout()
+			showTimeout = setTimeout(() => showTooltip(el), TOOLTIP_SHOW_DELAY)
+		}
+
+		const handleEnter = (event) => 
 		{
 			const el = findTooltipElement(event.target)
 
 			if (!el || el === activeElement) return
-			showTooltip(el)
+			scheduleShowTooltip(el)
 		}
 
-		function handleLeave(event) {
-			if (!activeElement)
-				return
-
-			if (
-				activeElement.contains(
-					event.relatedTarget,
-				)
-			) {
-				return
-			}
-
+		const handleLeave = (event) => 
+		{
+			clearShowTimeout()
+			if (!activeElement)	return
+			if (activeElement.contains(event.relatedTarget)) return
 			hideTooltip()
 		}
 
-		function handleFocus(event) 
+		const handleFocus = (event) => 
 		{
-			const el =	event.target.closest('[title]') || event.target.closest('[data-tooltip-text]')
-
-			if (!el)return
-			showTooltip(el)
+			const el = findTooltipElement(event.target)
+			if (!el) return
+			scheduleShowTooltip(el)
 		}
 
-		function handleBlur(event) {
-			const el =	event.target.closest('[data-tooltip-text]')
-
+		const handleBlur = (event) => 
+		{
+			const el = findTooltipElement(event.target)
 			if (!el) return
 			hideTooltip()
 		}
 
-		function handleReposition() 
+		const handleReposition = () => 
 		{
 			if (!activeElement || !tooltip)	return
 			positionTooltip(activeElement)
 		}
 
-		function findTooltipElement(target) {
-			return target?.closest(
-				'[title],[data-tooltip-text]',
-			)
+		const findTooltipElement = (target) => 
+		{
+			return target?.closest('[title],[data-tooltip-text]')
 		}
 
 		document.addEventListener('mouseover', handleEnter)

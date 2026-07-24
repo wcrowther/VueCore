@@ -11,7 +11,7 @@
 		--gradient-brand: 
 			linear-gradient(200deg, rgb(55, 48, 163, 0.5) 65%, #81caff 100% ),	
 			linear-gradient( 205deg, rgb(0, 19, 10, 1.0) 17%, #81caff 100% );
-		--gradient-navbar: linear-gradient(90deg, #73c4ff 2%, #1c2157 50%);
+		--gradient-navbar: linear-gradient(90deg, #81caff 2%, #1c2157 50%);
 		--gradient-back: linear-gradient( to bottom, #1c2157 30%, black 100%);
 		--gradient-footer: radial-gradient( circle, #77b1d5 30%, #242d66 100%);
 		--theme-footer-text: white;	

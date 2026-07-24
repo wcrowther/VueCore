@@ -60,7 +60,8 @@ const codeContent =
             @click="resetInputDemo" title="Revert unsaved changes to Input Demo">
             <IconSymbol width="18px" class="text-warm-600" icon="heroicons:arrow-left-20-solid" />
         </button>
-        <button class="btn-primary" :disabled="isDirty" @click="saveInputDemo">
+        <button class="btn-primary" title="Example Save action for demo shows output in JSON preview"
+            :disabled="isDirty" @click="saveInputDemo">
             Save
         </button>
     </PageTitleBox>

@@ -43,6 +43,7 @@
 	})
 
 	const crop 			= ref(getInitialCrop())
+	const activeCropperTab = ref('Source')
 	const displayScale 	= ref(1)
 	const canvasWidth 	= 800
 	const canvasHeight 	= 500
@@ -450,6 +451,8 @@
 		await saveCropImage(fileName)
 	}
 
+	const switchTab =  () => activeCropperTab.value = activeCropperTab.value === 'Source' ? 'Crop' : 'Source'
+
 	// Keyboard Listeners  ================================================
 
 	const keys = (e) =>
@@ -462,13 +465,14 @@
 		let step = e.shiftKey ? 25 : (e.ctrlKey ? 10 : 1) 
 		// console.log(e.code);    
 
-		if (e.code === 'KeyS' && ctrl) { promptForSave(); 		e.preventDefault() }
-		if (e.code === 'ArrowLeft')    { nudgeCrop(-step, 0);	e.preventDefault() }
-		if (e.code === 'ArrowRight')   { nudgeCrop(step, 0); 	e.preventDefault() }
-		if (e.code === 'ArrowUp')      { nudgeCrop(0, -step);	e.preventDefault() }
-		if (e.code === 'ArrowDown')    { nudgeCrop(0, step); 	e.preventDefault() }
-		if (e.code === 'Home') 		   { moveCropTo(0, 0); 		e.preventDefault() }
-		if (e.code === 'End')  		   { moveCropTo(boundsX, boundsY); e.preventDefault() }
+		if (e.code === 'Tab' && e.shiftKey) { switchTab(); 					e.preventDefault() }
+		if (e.code === 'KeyS' && ctrl) 		{ promptForSave(); 				e.preventDefault() }
+		if (e.code === 'ArrowLeft')    		{ nudgeCrop(-step, 0);			e.preventDefault() }
+		if (e.code === 'ArrowRight')   		{ nudgeCrop(step, 0); 			e.preventDefault() }
+		if (e.code === 'ArrowUp')      		{ nudgeCrop(0, -step);			e.preventDefault() }
+		if (e.code === 'ArrowDown')    		{ nudgeCrop(0, step); 			e.preventDefault() }
+		if (e.code === 'Home') 		   		{ moveCropTo(0, 0); 			e.preventDefault() }
+		if (e.code === 'End')  		   		{ moveCropTo(boundsX, boundsY); e.preventDefault() }
 	}
 
 	KeyboardListeners(keys, disableKeys)
@@ -494,7 +498,7 @@
 <template>
 	<!-- <div class="flex flex-col gap-4"> -->
 
-		<TabsControl class="mb-10" :tabList="['Source', 'Crop']" keepAlive>
+		<TabsControl v-model:activeTab="activeCropperTab" class="mb-10" :tabList="['Source', 'Crop']" keepAlive>
 
 			<!-- Special built-in TabsControl slot -->
 			<template #Right>

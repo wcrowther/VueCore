@@ -19,13 +19,24 @@
 
 		<PageTitleBox pageTitle="Image Cropper" />
 	
-		<div class="flex flex-wrap justify-between mt-10 mb-5">
+		<InfoBox>
+			ImageCropper lets you choose an image, drag a fixed-ratio crop region, and preview the cropped output in real time.
+			This example is configured for a 1:1 square crop and is intended for avatar/profile-style images.
+        </InfoBox>
 
-			<InfoBox>
-				Possible new control for cropping images. May just get incorporated into ImageEditor.
-        	</InfoBox>
-
-		</div>
+		<HelpBox>
+			Use mouse drag to move the selection and corner/edge handles to resize.
+			Keyboard shortcuts:
+			<ul class="list-disc pl-6 mt-2 space-y-1">
+				<li><b>Shift + Tab</b>: Toggle between Source and Crop views (in this setup).</li>
+				<li><b>Arrow Keys</b>: Nudge the crop by 1px.</li>
+				<li><b>Ctrl + Arrow Keys</b>: Nudge by 10px.</li>
+				<li><b>Shift + Arrow Keys</b>: Nudge by 25px.</li>
+				<li><b>Home</b>: Move crop to top-left.</li>
+				<li><b>End</b>: Move crop to bottom-right within bounds.</li>
+				<li><b>Ctrl + S</b> (or <b>Cmd + S</b> on macOS): Save cropped image.</li>
+			</ul>
+        </HelpBox>
 
 		<div @mouseenter="onCropperMouseEnter" @mouseleave="onCropperMouseLeave">
 			<ImageCropper v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
