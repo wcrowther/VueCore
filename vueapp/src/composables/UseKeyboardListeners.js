@@ -125,3 +125,21 @@ export function KeyboardListeners(bindings, disabled = false)
 		newVal ? removeKeyListeners() : addKeyListeners()
 	})
 }
+
+/* EXAMPLE  UseKeyboardListeners
+
+	const disableKeys = ref(false)
+
+    const keys =
+    {
+        'Escape':       () => calendarDate.value = null,
+        'ArrowLeft': 	() => prevDay(),
+        'ArrowRight':   () => nextDay(),
+        'PageUp':       () => prevEvent(),
+        'PageDown':     () => nextEvent()
+    }
+
+	KeyboardListeners(keys, disableKeys)
+*/
+
+
