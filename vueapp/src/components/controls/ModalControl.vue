@@ -1,7 +1,5 @@
 <script setup>
 
-	import { useScrollLock } from '@/composables/UseScrollLock'
-
 	const showModal = defineModel({ type: Boolean })
 
 	const props = defineProps(

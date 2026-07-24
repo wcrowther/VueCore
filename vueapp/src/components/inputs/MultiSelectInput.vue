@@ -281,16 +281,17 @@
 
 	const disableKeys = ref(true) // Disable keys if this component is not focused
 
-	const keys = (e) =>
+	const keys = 
 	{
-		if      (e.key === 'ArrowDown')                  { highlightNext();    e.preventDefault(); }
-		else if (e.key === 'ArrowUp')                    { highlightPrev();    e.preventDefault(); }
-		else if (e.key === 'Enter')                      { confirmSelection(); e.preventDefault(); }
-		else if (e.key === 'Escape')                     { closeDropdown()      }
-		else if (e.key === 'Backspace' && !search.value) { removeLastSelected() }
+		'ArrowDown':	() => highlightNext(),
+		'ArrowUp':    	() => highlightPrev(),
+		'Enter':     	() => confirmSelection(),
+		'Escape':    	() => closeDropdown(),
+		'Backspace': 	() => { if (!search.value) removeLastSelected() }
 	}
 
 	KeyboardListeners(keys, disableKeys)
+	DisableGlobalKeys(disableKeys.value) // disable global Esc key etc
 
 	const onFocus = () => { disableKeys.value = false; openDropdown() }
 	const onBlur  = () => { disableKeys.value = true;  window.setTimeout(() => closeDropdown(), 150) }

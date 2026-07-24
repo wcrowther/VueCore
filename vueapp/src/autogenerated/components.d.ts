@@ -46,7 +46,6 @@ declare module 'vue' {
     ExamplesAdvSearch: typeof import('./../pageviews/examples/ExamplesAdvSearch.vue')['default']
     ExamplesFilters: typeof import('./../pageviews/examples/ExamplesFilters.vue')['default']
     ExamplesList: typeof import('./../pageviews/examples/ExamplesList.vue')['default']
-    ExamplesPage: typeof import('../pageviews/examples/ExamplesView.vue/index.js')['default']
     ExamplesView: typeof import('./../pageviews/examples/ExamplesView.vue')['default']
     FileExplorer: typeof import('./../components/files-folders/FileExplorer.vue')['default']
     FileRows: typeof import('./../components/files-folders/FileRows.vue')['default']

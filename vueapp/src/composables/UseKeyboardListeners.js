@@ -1,16 +1,9 @@
-export function KeyboardListeners2(bindings, disabled = false, options = {})
+export function KeyboardListeners(bindings, disabled = false)
 {
 	const isDisabled = typeof disabled === 'function'
-						? computed(disabled)
-						: (isRef(disabled) ? disabled : ref(disabled))
-
-	const isMac = () =>
-	{
-		if (typeof options.isMac === 'function')
-			return !!options.isMac()
-
-		return !!options.isMac
-	}
+							? computed(disabled)
+							: (isRef(disabled) ? disabled : ref(disabled))
+	const { platform } = usePlatform()
 
 	const parseCombo = (combo, index) =>
 	{
@@ -66,7 +59,7 @@ export function KeyboardListeners2(bindings, disabled = false, options = {})
 		return rule
 	}
 
-	const getCtrlPressed = (e) => isMac() ? e.metaKey : e.ctrlKey
+	const getCtrlPressed = (e) => platform.value === 'MacOS' ? e.metaKey : e.ctrlKey
 
 	const isMatch = (e, rule) =>
 	{
@@ -92,6 +85,8 @@ export function KeyboardListeners2(bindings, disabled = false, options = {})
 
 	const onKeyDown = (e) =>
 	{
+		e.ctrlOrMeta = getCtrlPressed(e)
+
 		for (const item of rules)
 		{
 			if (!isMatch(e, item.rule))
@@ -121,8 +116,8 @@ export function KeyboardListeners2(bindings, disabled = false, options = {})
 		isAttached = false
 	}
 
-	onMounted(() => { if (!isDisabled.value) addKeyListeners() })
-	onUnmounted(() => { removeKeyListeners() })
+	onMounted(() 	=> { if (!isDisabled.value) addKeyListeners() })
+	onUnmounted(() 	=> { removeKeyListeners() })
 
 	watch(isDisabled, (newVal, oldVal) =>
 	{

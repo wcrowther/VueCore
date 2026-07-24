@@ -15,8 +15,7 @@ declare global {
   const IAuditable: typeof import('../models/IAuditable.js')['IAuditable']
   const InputDemoModel: typeof import('../models/InputDemoModel.js')['default']
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
-  const KeyboardListeners: typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']
-  const KeyboardListeners2: typeof import('../composables/UseKeyboardListeners2.js')['KeyboardListeners2']
+  const KeyboardListeners: typeof import('../composables/UseKeyboardListeners.js')['KeyboardListeners']
   const MessageModel: typeof import('../models/MessageModel.js')['MessageModel']
   const MinutesToMs: typeof import('../helpers/global.js')['MinutesToMs']
   const PageItem: typeof import('../models/PagerModel.js')['PageItem']
@@ -164,7 +163,7 @@ declare global {
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
   const useSaveNameControl: typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']
-  const useScrollLock: typeof import('../composables/useScrollLock.js')['useScrollLock']
+  const useScrollLock: typeof import('../composables/UseScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
@@ -217,8 +216,7 @@ declare module 'vue' {
     readonly IAuditable: UnwrapRef<typeof import('../models/IAuditable.js')['IAuditable']>
     readonly InputDemoModel: UnwrapRef<typeof import('../models/InputDemoModel.js')['default']>
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
-    readonly KeyboardListeners2: UnwrapRef<typeof import('../composables/UseKeyboardListeners2.js')['KeyboardListeners2']>
-    readonly KeyboardListeners: UnwrapRef<typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']>
+    readonly KeyboardListeners: UnwrapRef<typeof import('../composables/UseKeyboardListeners.js')['KeyboardListeners']>
     readonly MessageModel: UnwrapRef<typeof import('../models/MessageModel.js')['MessageModel']>
     readonly MinutesToMs: UnwrapRef<typeof import('../helpers/global.js')['MinutesToMs']>
     readonly PageItem: UnwrapRef<typeof import('../models/PagerModel.js')['PageItem']>
@@ -366,7 +364,7 @@ declare module 'vue' {
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
     readonly useSaveNameControl: UnwrapRef<typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']>
-    readonly useScrollLock: UnwrapRef<typeof import('../composables/useScrollLock.js')['useScrollLock']>
+    readonly useScrollLock: UnwrapRef<typeof import('../composables/UseScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>

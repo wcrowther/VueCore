@@ -78,17 +78,14 @@
 
     // Listeners   ====================================================================================
 
-    const keys = function (e)   
+    const keys = 
     {
-        // console.log(e.code);    
-        if      (e.code === 'ArrowUp')    { listPager.value.goToPrevious();     e.preventDefault();}
-        else if (e.code === 'ArrowDown')  { listPager.value.goToNext();         e.preventDefault();}
-        else if (e.code === 'Home')       { listPager.value.goToFirstPage();    e.preventDefault();}
-        else if (e.code === 'End')        { listPager.value.goToLastPage();     e.preventDefault();}
-        else if (e.code === 'PageDown')   { listPager.value.goToPreviousPage(); e.preventDefault();}
-        else if (e.code === 'PageUp')     { listPager.value.goToNextPage();     e.preventDefault();} 
-
-        // 'Ctrl+S' to Save is in AccountDetail control
+        'ArrowUp':    () => listPager.value.goToPrevious(),
+        'ArrowDown':  () => listPager.value.goToNext(),
+        'Home':       () => listPager.value.goToFirstPage(),
+        'End':        () => listPager.value.goToLastPage(),
+        'PageDown':   () => listPager.value.goToPreviousPage(),
+        'PageUp':     () => listPager.value.goToNextPage()
     }
 
 	KeyboardListeners(keys);

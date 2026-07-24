@@ -1,7 +1,5 @@
 <script setup>
 
-	import { useScrollLock } from '@/composables/UseScrollLock'
-
 	const emits = defineEmits(['saveNameResult'])
 	const props = defineProps(
 	{
@@ -17,14 +15,10 @@
 	const saveNameInput 	= ref(null)
 	const disableKeys 		= computed(() => !showSaveNameEntry.value)
 
-	const keys = function (e)
-	{
-		if (e.code === 'Escape')
-		{
-			onCancel()
-			e.preventDefault()
-		}
-	}
+    const keys =
+    {
+		'Escape': () => onCancel()
+    }
 
 	KeyboardListeners(keys, disableKeys)
 	DisableGlobalKeys(showSaveNameEntry)

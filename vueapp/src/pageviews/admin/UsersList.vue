@@ -80,20 +80,16 @@
 
     // Listeners   ====================================================================================
 
-    const keys = function (e)   
+    const keys = 
     {
-        if      (e.code === 'ArrowUp')   { listPager.value.goToPrevious();      e.preventDefault();}
-        else if (e.code === 'ArrowDown') { listPager.value.goToNext();          e.preventDefault();}
-        else if (e.code === 'PageDown')  { listPager.value.goToPreviousPage();  e.preventDefault();}
-        else if (e.code === 'PageUp')    { listPager.value.goToNextPage();      e.preventDefault();} 
-        else if (e.code === 'Home')      { searchInput.value.focusInput();      e.preventDefault();} 
-
+        'ArrowUp':    () => listPager.value.goToPrevious(),
+        'ArrowDown':  () => listPager.value.goToNext(),
+        'PageDown':   () => listPager.value.goToPreviousPage(),
+        'PageUp':     () => listPager.value.goToNextPage(),
+        'Home':       () => searchInput.value.focusInput()
     }
 
     // 'Ctrl+S' to Save is in UsersDetail control
-
-    // ALT: else if (e.code === 'Home') { listPager.value.goToFirstPage(); e.preventDefault();}
-    // ALT: else if (e.code === 'End')  { listPager.value.goToLastPage();  e.preventDefault();}
 
 	KeyboardListeners(keys);
 

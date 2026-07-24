@@ -2,10 +2,12 @@
 
 const selectedExample = defineModel('selectedExample', { type: String, default: '' })
 
-const route                                 = useRoute()
-const examplesStore                         = useExamplesStore()
-const { sortedExamplesDataList, sortType, disableShortcuts } = storeToRefs(examplesStore)
-
+const route                 = useRoute()
+const examplesStore         = useExamplesStore()
+const { 
+    sortedExamplesDataList, 
+    sortType, 
+    disableShortcuts      } = storeToRefs(examplesStore)
 const examplesSizeDefault 	= 20
 const itemsList 			= ref([])
 const listPager 			= ref(new PagerModel(new SearchModel(), examplesSizeDefault))
@@ -17,6 +19,7 @@ const examplesPageSize 		= useLocalStorage('examplesPageSize', examplesSizeDefau
 const searchFromUrl         = computed(() => route.params.search || null)
 const activeListItemId 		= computed(() => activeItem.value?.example || '')
 const urlPriorityTerms      = computed(() => stringToSafeArray(searchFromUrl.value))
+const keyListenersDisabled  = computed(() => showAdvSearch.value || disableShortcuts.value)
 
 listPager.value.PageSize 	= Number(examplesPageSize.value)
 
@@ -117,18 +120,16 @@ const refreshList = (newRecord = 1, forceRefresh = false) =>
         setActiveItem()
 }
 
-// ===========================================================================
+// Keyboard Listeners  ================================================
 
-const keys = function (e) 
+const keys = 
 {
-    if (e.code === 'ArrowUp')       { listPager.value.goToPrevious(); e.preventDefault() }
-    else if (e.code === 'ArrowDown'){ listPager.value.goToNext(); e.preventDefault() }
-    else if (e.code === 'PageDown') { listPager.value.goToPreviousPage(); e.preventDefault() }
-    else if (e.code === 'PageUp')   { listPager.value.goToNextPage(); e.preventDefault() }
-    else if (e.code === 'Home')     { searchInput.value?.focusInput(); e.preventDefault() }
+    'ArrowUp':    () => listPager.value.goToPrevious(),
+    'ArrowDown':  () => listPager.value.goToNext(),
+    'PageDown':   () => listPager.value.goToPreviousPage(),
+    'PageUp':     () => listPager.value.goToNextPage(),
+    'Home':       () => searchInput.value?.focusInput()
 }
-
-const keyListenersDisabled = computed(() => showAdvSearch.value || disableShortcuts.value)
 
 KeyboardListeners(keys, keyListenersDisabled)
 

@@ -1,7 +1,5 @@
 <script setup>
 
-	import { useScrollLock } from '@/composables/UseScrollLock'
-
 	const emits = defineEmits(['alertResult'])
 	const props = defineProps(
 	{
@@ -17,9 +15,9 @@
 	
 	DisableGlobalKeys(showAlert) // disable global Esc key if confirm is showing
 
-    const keys = function (e)   
+    const keys = 
     {
-		if (e.code === 'Escape'){ onClose(); e.preventDefault(); } 
+		'Escape': () => onClose()
     }
 
 	KeyboardListeners(keys, () => !showAlert.value) // can use an arrow function to invert bool

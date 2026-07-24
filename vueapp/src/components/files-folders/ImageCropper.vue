@@ -1,7 +1,6 @@
 <script setup>
 
 	import { useSaveNameControl } from '@/composables/UseSaveNameControl'
-	import { KeyboardListeners2 } from '@/composables/UseKeyboardListeners2'
 
 	const props = defineProps(
 	{
@@ -12,7 +11,6 @@
 		outputType: 	{ type: String, default: 'image/png' }
 	})
 
-	const { platform }			    = usePlatform()
 	const emit 						= defineEmits([ 'update:modelValue', 'change' ])
 	const imageStore 				= useImageStore()
 	const uploadStore 				= useUploadStore()
@@ -458,41 +456,32 @@
 
 	const getStep = (e) =>
 	{
-		const ctrl = platform.value === 'MacOS' ? e.metaKey : e.ctrlKey
-
+		const ctrl = e.ctrlOrMeta ?? e.ctrlKey
 		return e.shiftKey ? 25 : (ctrl ? 10 : 1)
 	}
 
-	const getCropBounds = () =>
+	const getBounds = () =>
 	{
 		const imageBounds = getImageDisplayBounds()
-
 		return {
 			x: Math.max(imageBounds.x, imageBounds.x + imageBounds.width - crop.value.width),
 			y: Math.max(imageBounds.y, imageBounds.y + imageBounds.height - crop.value.height)
 		}
 	}
 
-	KeyboardListeners2(
+	const keys =
 	{
-		'Shift+Tab': () => switchTab(),
-		'Ctrl+KeyS': () => promptForSave(),
-		'ArrowLeft': (e) => nudgeCrop(-getStep(e), 0),
-		'ArrowRight': (e) => nudgeCrop(getStep(e), 0),
-		'ArrowUp': (e) => nudgeCrop(0, -getStep(e)),
-		'ArrowDown': (e) => nudgeCrop(0, getStep(e)),
-		'Home': () => moveCropTo(0, 0),
-		'End': () =>
-		{
-			const bounds = getCropBounds()
+		'Shift+Tab': 	() => switchTab(),
+		'Ctrl+KeyS': 	() => promptForSave(),
+		'Home': 		() => moveCropTo(0, 0),
+		'End': 			() => moveCropTo(getBounds().x, getBounds().y),
+		'ArrowLeft': 	(e) => nudgeCrop(-getStep(e), 0),
+		'ArrowRight': 	(e) => nudgeCrop(getStep(e), 0),
+		'ArrowUp': 		(e) => nudgeCrop(0, -getStep(e)),
+		'ArrowDown': 	(e) => nudgeCrop(0, getStep(e)),
+	}
 
-			moveCropTo(bounds.x, bounds.y)
-		}
-	},
-	disableKeys,
-	{
-		isMac: () => platform.value === 'MacOS'
-	})
+	KeyboardListeners(keys, disableKeys)
 
 	// Watch & Mounted  ===================================================
 

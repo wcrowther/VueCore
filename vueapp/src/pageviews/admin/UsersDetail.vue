@@ -72,30 +72,23 @@
     }
 
     // Listeners   =============================================================================
-
-    const keys = function (e)   
+``
+    const keys = 
     {
-        let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey 
-        if (e.code === 'KeyS' && ctrl) { confirmSave();  e.preventDefault(); }
+        'Ctrl+KeyS': () => onfirmSave()
     }
 
 	KeyboardListeners(keys);
 
     // Lifecycle & Watches  ==========================================================================
 
-    onMounted(()    => 
-    {
-        getUserDetail()
-
-    })
+    onMounted(() => getUserDetail())
 
     watch(() => detailUserId.value, (newVal, oldVal) => 
     {
         // console.log('User userId newval: ' + newVal + ' oldVal: ' + oldVal)
 
-        if(newVal === oldVal) 
-            return
-
+        if(newVal === oldVal) return
         getUserDetail()  
     });
 

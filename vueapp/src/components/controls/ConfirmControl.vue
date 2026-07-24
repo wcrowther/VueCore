@@ -1,7 +1,5 @@
 <script setup>
 
-	import { useScrollLock } from '@/composables/UseScrollLock'
-
 	const emits = defineEmits(['confirmResult'])
 	const props = defineProps(
 	{
@@ -17,9 +15,9 @@
 
     // Keyboard Listeners  ==============================================================
 	
-    const keys = function (e)   
+    const keys =
     {
-		if (e.code === 'Escape'){ onCancel(); e.preventDefault(); } 
+		'Escape': () => onCancel()
     }
 
 	KeyboardListeners(keys, disableKeys)

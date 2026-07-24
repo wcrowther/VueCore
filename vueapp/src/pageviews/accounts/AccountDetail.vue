@@ -3,7 +3,6 @@
     const appStore                  = useAppStore()    
     const toastStore                = useToastStore()
     const accountsStore             = useAccountsStore()
-    const { platform }			    = usePlatform()
 
     const { showJsonEntities }      = storeToRefs(appStore)
     const { account,    
@@ -16,6 +15,7 @@
         
     const isAddingAccount           = ref(false)
     const showConfirmControl        = ref(false)
+    const detailInput               = ref(null)
 
     //const swipe                     = ref('')
     //const accountDetailRef          = useTemplateRef('accountDetail');
@@ -80,15 +80,14 @@
 
     // Keyboard Listeners  =====================================================================
 
-    const keys = function (e)   
-    {
-		let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey  
-
-        if (e.code === 'KeyS' && ctrl ) { trySave(); e.preventDefault(); }
-        else if (e.code === 'End')      { detailInput.value.focusInput(); e.preventDefault();} 
-    }
-
-	KeyboardListeners(keys)    
+     const keys = 
+     {
+	 	'Ctrl+KeyS':() => trySave(),
+	 	'Meta+KeyS':() => trySave(),
+     	'End':      () => detailInput.value?.focus()
+     }
+     
+	 KeyboardListeners(keys)    
 
     // Lifecycle & Watches  ===================================================================
 
@@ -192,7 +191,7 @@
 
             <CreatorBox v-if="!isAddingAccount" :IAuditable="account" />
 
-            <TextInput  labelName="Account Name" v-model="account.AccountName" :v$ />
+            <TextInput ref="detailInput" labelName="Account Name" v-model="account.AccountName" :v$ />
             <TextInput  labelName="Main Email" ruleName="AccountEmail" v-model="account.AccountEmail" :v$ />
             <PhoneInput labelName="Main Phone" ruleName="AccountPhone" v-model="account.AccountPhone" :v$ />
             <TextAreaInput labelName="Notes" ruleName="Notes" v-model="account.Notes" :v$ />

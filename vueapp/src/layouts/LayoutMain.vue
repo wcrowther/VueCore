@@ -10,18 +10,14 @@
 
 	// Keyboard Listeners  ===========================================================================
 
-	const keys = function (e)   
-    {
-		// Disable global keys like Escape (Esc) key by using disableGlobalKeys
-		if (e.code === 'Escape'){ sideBarHidden.value = !sideBarHidden.value; e.preventDefault(); } 
-
-		let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey   
-		
-        if (e.code === 'KeyH' && ctrl ){ setInfoLevel(1); e.preventDefault() }
-        if (e.code === 'F1' ){ setInfoLevel(1); e.preventDefault() }
+	const keys = 
+	{
+		'Escape': 		() => sideBarHidden.value = !sideBarHidden.value,
+		'Ctrl+KeyH':	() => setInfoLevel(1),
+		'F1':    		() => setInfoLevel(1) 
 	}
 
-	KeyboardListeners(keys, disableGlobalKeys) 	// Sets Key listeners for all pages using this layout
+	KeyboardListeners(keys, disableGlobalKeys) // Sets Key listeners for all pages using this layout
 	SetHtmlHeadBody() 							// Sets CSS 'theme' or 'alt-theme' for this layout
 
 </script>

@@ -25,17 +25,15 @@
     const currentIndex  = computed(() => props.tabList.indexOf(activeTab.value)+1 ?? 1) // 1-based 
     const prevTab       = () => activeTab.value = props.tabList[currentIndex.value <= 1  ? props.tabList.length-1  : currentIndex.value-2];
     const nextTab       = () => activeTab.value = props.tabList[currentIndex.value >= props.tabList.length ? 0 : currentIndex.value]
-
-    if(props.useKeyControls)
+    
+    
+    const keys =
     {
-        const keys = function (e)  
-	    {
-	    	if      (e.code === 'ArrowLeft')  { prevTab(); e.preventDefault();}
-	    	else if (e.code === 'ArrowRight') { nextTab(); e.preventDefault();}
-	    }
-
-	    KeyboardListeners(keys);
+        'ArrowLeft': 	() => prevTab(),
+        'ArrowRight': 	() => nextTab()
     }
+
+    KeyboardListeners(keys, props.useKeyControls)
 
 </script>
 

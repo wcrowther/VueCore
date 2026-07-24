@@ -48,19 +48,18 @@
 
 	DisableGlobalKeys(calendarDate) // disable Esc key if modal is showing
 
-	const keys = function (e)   
+    const keys =
     {
-		if (e.code === 'Escape'){ calendarDate.value=null; e.preventDefault();}
-        else if (e.code === 'ArrowLeft')  { prevDay();     e.preventDefault();} 
-        else if (e.code === 'ArrowRight') { nextDay();     e.preventDefault();} 
-        else if (e.code === 'PageUp')     { prevEvent();   e.preventDefault();} 
-        else if (e.code === 'PageDown')   { nextEvent();   e.preventDefault();} 
+        'Escape':       () => calendarDate.value = null,
+        'ArrowLeft': 	() => prevDay(),
+        'ArrowRight':   () => nextDay(),
+        'PageUp':       () => prevEvent(),
+        'PageDown':     () => nextEvent()
     }
 
 	KeyboardListeners(keys, disableKeys)
 
     const modalWidth = computed(() => windowWidth.value > 500 ? '500px' : `${windowWidth.value}px`)
-
 
 </script> 
 

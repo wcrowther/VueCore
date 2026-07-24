@@ -40,13 +40,12 @@
 	})
 
 	defineOptions({ inheritAttrs: false })
-	useScrollLock(fullScreen)
 
 	// Keyboard Listeners  ==============================================================
 	
-    const keys = function (e)   
+    const keys = 
     {
-		if (e.code === 'Escape'){ fullScreen.value=false; e.preventDefault(); } 
+		'Escape': () => { fullScreen.value = false }
     }
 
 	KeyboardListeners(keys)

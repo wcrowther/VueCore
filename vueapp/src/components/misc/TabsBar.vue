@@ -287,12 +287,12 @@
 
 	// =============================================================================
 
-	const keys = e =>
+	const keys = 
 	{
-		if (e.code === 'ArrowLeft')      { selectPreviousTab(); e.preventDefault() }
-		else if (e.code === 'ArrowRight'){ selectNextTab();     e.preventDefault() }
-		else if (e.code === 'Home')      { selectFirstTab();    e.preventDefault() }
-		else if (e.code === 'End')       { selectLastTab();     e.preventDefault() }
+		'ArrowLeft': 	() => selectPreviousTab(),
+		'ArrowRight': 	() => selectNextTab(),
+		'Home':     	() => selectFirstTab(),
+		'End':      	() => selectLastTab()
 	}
 
 	KeyboardListeners(keys, disableShortcuts)

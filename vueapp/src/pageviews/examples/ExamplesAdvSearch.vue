@@ -33,9 +33,9 @@
 
     DisableGlobalKeys(showModal.value) // disable Esc key if modal is showing
 
-    const keys = function (e)
+    const keys = 
     {
-        if (e.code === 'Escape') { showModal.value = false; e.preventDefault() }
+        'Escape': () => showModal.value = false
     }
 
     KeyboardListeners(keys)
