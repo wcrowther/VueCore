@@ -16,6 +16,7 @@ declare global {
   const InputDemoModel: typeof import('../models/InputDemoModel.js')['default']
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
   const KeyboardListeners: typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']
+  const KeyboardListeners2: typeof import('../composables/UseKeyboardListeners2.js')['KeyboardListeners2']
   const MessageModel: typeof import('../models/MessageModel.js')['MessageModel']
   const MinutesToMs: typeof import('../helpers/global.js')['MinutesToMs']
   const PageItem: typeof import('../models/PagerModel.js')['PageItem']
@@ -216,6 +217,7 @@ declare module 'vue' {
     readonly IAuditable: UnwrapRef<typeof import('../models/IAuditable.js')['IAuditable']>
     readonly InputDemoModel: UnwrapRef<typeof import('../models/InputDemoModel.js')['default']>
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
+    readonly KeyboardListeners2: UnwrapRef<typeof import('../composables/UseKeyboardListeners2.js')['KeyboardListeners2']>
     readonly KeyboardListeners: UnwrapRef<typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']>
     readonly MessageModel: UnwrapRef<typeof import('../models/MessageModel.js')['MessageModel']>
     readonly MinutesToMs: UnwrapRef<typeof import('../helpers/global.js')['MinutesToMs']>

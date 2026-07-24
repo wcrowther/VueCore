@@ -1,6 +1,7 @@
 <script setup>
 
 	import { useSaveNameControl } from '@/composables/UseSaveNameControl'
+	import { KeyboardListeners2 } from '@/composables/UseKeyboardListeners2'
 
 	const props = defineProps(
 	{
@@ -455,27 +456,43 @@
 
 	// Keyboard Listeners  ================================================
 
-	const keys = (e) =>
+	const getStep = (e) =>
 	{
-		const imageBounds = getImageDisplayBounds()
-		const boundsX = Math.max(imageBounds.x, imageBounds.x + imageBounds.width - crop.value.width)
-		const boundsY = Math.max(imageBounds.y, imageBounds.y + imageBounds.height - crop.value.height)
-		
-		let ctrl = platform.value === "MacOS" ? e.metaKey : e.ctrlKey 
-		let step = e.shiftKey ? 25 : (e.ctrlKey ? 10 : 1) 
-		// console.log(e.code);    
+		const ctrl = platform.value === 'MacOS' ? e.metaKey : e.ctrlKey
 
-		if (e.code === 'Tab' && e.shiftKey) { switchTab(); 					e.preventDefault() }
-		if (e.code === 'KeyS' && ctrl) 		{ promptForSave(); 				e.preventDefault() }
-		if (e.code === 'ArrowLeft')    		{ nudgeCrop(-step, 0);			e.preventDefault() }
-		if (e.code === 'ArrowRight')   		{ nudgeCrop(step, 0); 			e.preventDefault() }
-		if (e.code === 'ArrowUp')      		{ nudgeCrop(0, -step);			e.preventDefault() }
-		if (e.code === 'ArrowDown')    		{ nudgeCrop(0, step); 			e.preventDefault() }
-		if (e.code === 'Home') 		   		{ moveCropTo(0, 0); 			e.preventDefault() }
-		if (e.code === 'End')  		   		{ moveCropTo(boundsX, boundsY); e.preventDefault() }
+		return e.shiftKey ? 25 : (ctrl ? 10 : 1)
 	}
 
-	KeyboardListeners(keys, disableKeys)
+	const getCropBounds = () =>
+	{
+		const imageBounds = getImageDisplayBounds()
+
+		return {
+			x: Math.max(imageBounds.x, imageBounds.x + imageBounds.width - crop.value.width),
+			y: Math.max(imageBounds.y, imageBounds.y + imageBounds.height - crop.value.height)
+		}
+	}
+
+	KeyboardListeners2(
+	{
+		'Shift+Tab': () => switchTab(),
+		'Ctrl+KeyS': () => promptForSave(),
+		'ArrowLeft': (e) => nudgeCrop(-getStep(e), 0),
+		'ArrowRight': (e) => nudgeCrop(getStep(e), 0),
+		'ArrowUp': (e) => nudgeCrop(0, -getStep(e)),
+		'ArrowDown': (e) => nudgeCrop(0, getStep(e)),
+		'Home': () => moveCropTo(0, 0),
+		'End': () =>
+		{
+			const bounds = getCropBounds()
+
+			moveCropTo(bounds.x, bounds.y)
+		}
+	},
+	disableKeys,
+	{
+		isMac: () => platform.value === 'MacOS'
+	})
 
 	// Watch & Mounted  ===================================================
 
