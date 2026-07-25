@@ -23,11 +23,10 @@
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
 
     </PageTitleBox>
-    <div class="mb-7">
-        <InfoBox>
-            {{ modelValue }}
-        </InfoBox>
-    </div>
+
+    <InfoBox>
+        This example demonstrates the usage of the TabsBar component with different overflow behaviors.
+    </InfoBox>
 
     <TabsBar v-model="modelValue" :tabs="longTabList" 
         :overflow="rangeList[overflowIndex]" enableShortcuts />

@@ -68,6 +68,11 @@
 		height: `${crop.value.height}px`
 	}))
 
+	const canSave = computed(() => !!props.modelValue && !isSaving.value)
+	const saveButtonTitle = computed(() => isSaving.value ? 'Saving...' : 'Save')
+	const getCanSave = () => canSave.value
+	const getSaveButtonTitle = () => saveButtonTitle.value
+
 	const onFileChange = (event) =>
 	{
 		const file = event.target.files?.[0]
@@ -452,6 +457,14 @@
 
 	const switchTab =  () => activeCropperTab.value = activeCropperTab.value === 'Source' ? 'Crop' : 'Source'
 
+	defineExpose(
+	{
+		openFilePicker,
+		promptForSave,
+		getCanSave,
+		getSaveButtonTitle
+	})
+
 	// Keyboard Listeners  ================================================
 
 	const getStep = (e) =>
@@ -502,16 +515,11 @@
 </script>
 
 <template>
-	<!-- <div class="flex flex-col gap-4"> -->
+	
+		<TabsControl v-model:activeTab="activeCropperTab" class="mb-10" 
+			:tabList="['Source', 'Crop']" keepAlive contentBorder>
 
-		<TabsControl v-model:activeTab="activeCropperTab" class="mb-10" :tabList="['Source', 'Crop']" keepAlive>
-
-			<!-- Special built-in TabsControl slot -->
-			<template #Right>
-				<PrimaryButton title="Choose Image" @click="openFilePicker" class="mr-2" />
-				<PrimaryButton :title="isSaving ? 'Saving...' : 'Save'" :disabled="!modelValue || isSaving" @click="promptForSave" />
-				<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
-			</template>
+			<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
 
         	<template #Source>    		
 				<div class="relative border border-gray-300 overflow-hidden select-none"
@@ -519,6 +527,7 @@
 
 					<canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight" 
 						class="absolute inset-0" />
+
 					<div v-if="image" id="image-crop"
 						class="absolute border border-white !bg-transparent cursor-move" :style="cropStyle"
 						@mousedown="startDrag($event, 'move')">
@@ -537,7 +546,6 @@
 			</template>
 
     	</TabsControl>
-	<!-- </div> -->
 
 </template>
 

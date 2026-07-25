@@ -1,6 +1,7 @@
 <script setup>
 
 	const imageData 		= ref(null)
+	const imageCropperRef 	= ref(null)
 	const examplesStore 	= useExamplesStore()
 	const { disableShortcuts } = storeToRefs(examplesStore) // rename to exampleShortcutsOff?
 
@@ -16,7 +17,11 @@
 	<div class="mb-10">
 
 		<PageTitleBox pageTitle="Image Cropper">
-			Move buttons here.
+			<PrimaryButton title="Choose Image" @click="imageCropperRef?.openFilePicker()" />
+			<PrimaryButton
+				:title="imageCropperRef?.getSaveButtonTitle?.() || 'Save'"
+				:disabled="!imageCropperRef?.getCanSave?.()"
+				@click="imageCropperRef?.promptForSave()" />
 		</PageTitleBox>	
 	
 		<InfoBox>
@@ -40,7 +45,7 @@
         </HelpBox>
 
 		<div @mouseenter="onCropperMouseEnter" @mouseleave="onCropperMouseLeave">
-			<ImageCropper v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
+			<ImageCropper ref="imageCropperRef" v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
 		</div>
 
 	  	<textarea v-model="imageData" class="hidden w-full h-40 mt-4 border" />

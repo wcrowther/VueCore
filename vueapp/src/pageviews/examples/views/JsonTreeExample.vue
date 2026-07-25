@@ -19,10 +19,17 @@
 <template>
 
     <PageTitleBox pageTitle="JsonTree Control Example" />
-    <div class="mb-7">
-        This control is designed to display Json in a nicely-formated collapsable hiearchy.
-        The code also shows how to call public methods on controls like 'expandAll' and 'collapseAll'.
-    </div>
+    
+    <InfoBox>
+        This control displays JSON in a formatted, collapsible hierarchy.
+        It also includes buttons to toggle raw JSON and copy the current JSON output.
+        Use the button below to toggle through different JSON examples.
+    </InfoBox>
+
+    <HelpBox class="mb-4">
+        Tip: Right-click a hierarchy item to collapse or expand that level.
+    </HelpBox>
+
     <div class="flex justify-start mb-4">
         <ListIndexButton v-model="sourceIndex" :rangeList="jsonSourceList" 
             class="py-1 px-5 font-bold tracking-wide select-none" />
