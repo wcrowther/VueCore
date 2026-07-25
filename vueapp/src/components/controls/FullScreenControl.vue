@@ -3,13 +3,14 @@
 	const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
 	const props = defineProps(
 	{
-		zIndex: 		{ type: Number, default: 999 },
-		showExitButton:	{ type: Boolean, default: true },
-		inset: 			{ type: [Number, String, Object], default: 0 },
+		zIndex: 			{ type: Number, default: 999 },
+		showExitButton:		{ type: Boolean, default: true },
+		exitButtonOnLeft: 	{ type: Boolean, default: false },
+		inset: 				{ type: [Number, String, Object], default: 0 },
 	})
 
 	const toCssSize = value => typeof value === 'number' ? `${value}px` : value
-
+	const exitPosition = computed(() => props.exitButtonOnLeft ? 'left-3' : 'right-3')
 	const panelStyle = computed(() => 
 	{
 		if (!fullScreen.value)
@@ -49,8 +50,8 @@
     }
 
 	KeyboardListeners(keys)
-	DisableGlobalKeys(fullScreen.value) // disable global Esc key etc
-	useScrollLock(fullScreen.value)
+	DisableGlobalKeys(fullScreen) // disable global Esc key etc
+	useScrollLock(fullScreen)
 
 	watchEffect(() => { document.documentElement.style.overflow = fullScreen.value ? 'hidden' : '' })
 
@@ -69,7 +70,7 @@
 
 				<button v-if="fullScreen && props.showExitButton" type="button" aria-label="Exit fullscreen"
 					title="Exit fullscreen" @click="fullScreen = false"
-					class="absolute right-3 top-3 z-10 size-8 rounded-full bg-white/90 hover:bg-white shadow-md flex-center">
+					:class="[exitPosition,'absolute top-3 z-10 size-8 rounded-full bg-gray-200/90 hover:bg-white shadow-md flex-center']">
 
 					<IconSymbol width="18px" class="text-color-dark-gray" icon="heroicons:x-mark" />
 				</button>

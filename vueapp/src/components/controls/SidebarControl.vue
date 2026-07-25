@@ -1,23 +1,23 @@
 <script setup>
-import { stubTrue } from 'lodash';
-
 
 	const appStore                  = useAppStore()
     const { sideBarHidden }         = storeToRefs(appStore)
     const { width: windowWidth }    = useWindowSize()
-	const breakPoint 				= 501
-
+	
 	const props = defineProps(
 	{
-		id: 			{ type: String, default: '' },
-		showGradation: { type: Boolean, default: true }
+		id: 		   { type: String, default: '' },
+		showGradation: { type: Boolean, default: true },
+		breakPoint:    { type: Number, default: 501 }
 	});
+
+	const breakPoint = computed(() => props.breakPoint)
 
     watch(() => windowWidth.value, (newVal, oldVal) => 
     { 
-        if(newVal < breakPoint &&  oldVal >= breakPoint) 
+        if(newVal < breakPoint.value &&  oldVal >= breakPoint.value) 
             sideBarHidden.value = true
-        else if (newVal >= breakPoint &&  oldVal < breakPoint)
+        else if (newVal >= breakPoint.value &&  oldVal < breakPoint.value)
             sideBarHidden.value = false
     });
 

@@ -10,8 +10,9 @@ export const useExamplesStore = defineStore('ExamplesStore', () =>
 {
     // STATE ------------------------------------------------------------------
 
-    const sortType                   = ref('default')
+    const sortType           = ref('default')
     const disableShortcuts   = useLocalStorage('examplesDisableShortcuts', false)
+    const showFullscreen     = ref(false)
 
     // GETTERS ----------------------------------------------------------------
 
@@ -47,5 +48,6 @@ export const useExamplesStore = defineStore('ExamplesStore', () =>
         sortedExamplesDataList,
         getComponent,
         componentNames,
+        showFullscreen
     }
 })

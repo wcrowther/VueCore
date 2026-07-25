@@ -4,8 +4,6 @@
 	const examplesStore 	= useExamplesStore()
 	const { disableShortcuts } = storeToRefs(examplesStore) // rename to exampleShortcutsOff?
 
-	DisableGlobalKeys(true)
-
 	const onCropperMouseEnter = () => { disableShortcuts.value = true }
 	const onCropperMouseLeave = () => { disableShortcuts.value = false }
 

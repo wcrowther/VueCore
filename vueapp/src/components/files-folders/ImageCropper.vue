@@ -469,7 +469,7 @@
 		}
 	}
 
-	const keys =
+	const keys =		// e is the keyboard event passed into the key handler functions
 	{
 		'Shift+Tab': 	() => switchTab(),
 		'Ctrl+KeyS': 	() => promptForSave(),

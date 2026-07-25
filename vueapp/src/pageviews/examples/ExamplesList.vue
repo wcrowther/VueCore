@@ -1,164 +1,162 @@
 <script setup>
 
-const selectedExample = defineModel('selectedExample', { type: String, default: '' })
+    const selectedExample = defineModel('selectedExample', { type: String, default: '' })
 
-const route                 = useRoute()
-const examplesStore         = useExamplesStore()
-const { 
-    sortedExamplesDataList, 
-    sortType, 
-    disableShortcuts      } = storeToRefs(examplesStore)
-const examplesSizeDefault 	= 20
-const itemsList 			= ref([])
-const listPager 			= ref(new PagerModel(new SearchModel(), examplesSizeDefault))
-const showAdvSearch 		= ref(false)
-const activeItem 			= ref(null)
-const currentPage 			= ref(0)
-const searchInput 			= useTemplateRef('searchInput')
-const examplesPageSize 		= useLocalStorage('examplesPageSize', examplesSizeDefault)
-const searchFromUrl         = computed(() => route.params.search || null)
-const activeListItemId 		= computed(() => activeItem.value?.example || '')
-const urlPriorityTerms      = computed(() => stringToSafeArray(searchFromUrl.value))
-const keyListenersDisabled  = computed(() => showAdvSearch.value || disableShortcuts.value)
+    const route                 = useRoute()
+    const examplesStore         = useExamplesStore()
+    const { sortedExamplesDataList, sortType, disableShortcuts, showFullscreen      
+                                } = storeToRefs(examplesStore)
+    const examplesSizeDefault 	= 20
+    const itemsList 			= ref([])
+    const listPager 			= ref(new PagerModel(new SearchModel(), examplesSizeDefault))
+    const showAdvSearch 		= ref(false)
+    const activeItem 			= ref(null)
+    const currentPage 			= ref(0)
+    const searchInput 			= useTemplateRef('searchInput')
+    const examplesPageSize 		= useLocalStorage('examplesPageSize', examplesSizeDefault)
+    const searchFromUrl         = computed(() => route.params.search || null)
+    const activeListItemId 		= computed(() => activeItem.value?.example || '')
+    const urlPriorityTerms      = computed(() => stringToSafeArray(searchFromUrl.value))
+    const keyListenersDisabled  = computed(() => showAdvSearch.value || disableShortcuts.value)
 
-listPager.value.PageSize 	= Number(examplesPageSize.value)
+    listPager.value.PageSize 	= Number(examplesPageSize.value)
 
-const isActiveItem 			= (id)      => activeListItemId.value === id
-const listHasRecords 		= ()        => itemsList.value.length > 0
-const refreshItem 			= (offset)  => refreshList(listPager.value.currentFirst() + offset)
+    const isActiveItem 			= (id)      => activeListItemId.value === id
+    const listHasRecords 		= ()        => itemsList.value.length > 0
+    const refreshItem 			= (offset)  => refreshList(listPager.value.currentFirst() + offset)
 
-const getFilteredList = () =>
-{
-    const filter = (listPager.value.Search.Filter || '').trim().toLowerCase()
-    const visibleExamples = sortedExamplesDataList.value.filter((item) => item.show === true)
-    const termsFromUrl = urlPriorityTerms.value
-
-    const applyUrlPriority = (list) =>
+    const getFilteredList = () =>
     {
-        if (!termsFromUrl.length)
-            return list
+        const filter = (listPager.value.Search.Filter || '').trim().toLowerCase()
+        const visibleExamples = sortedExamplesDataList.value.filter((item) => item.show === true)
+        const termsFromUrl = urlPriorityTerms.value
 
-        const withRank = list.map((item, originalIndex) =>
+        const applyUrlPriority = (list) =>
         {
-            const name = item.name.toLowerCase()
-            const example = item.example.toLowerCase()
-            const rank = termsFromUrl.findIndex((term) => name.includes(term) || example.includes(term))
+            if (!termsFromUrl.length)
+                return list
 
-            return {
-                item,
-                originalIndex,
-                rank: rank === -1 ? Number.MAX_SAFE_INTEGER : rank
-            }
+            const withRank = list.map((item, originalIndex) =>
+            {
+                const name = item.name.toLowerCase()
+                const example = item.example.toLowerCase()
+                const rank = termsFromUrl.findIndex((term) => name.includes(term) || example.includes(term))
+
+                return {
+                    item,
+                    originalIndex,
+                    rank: rank === -1 ? Number.MAX_SAFE_INTEGER : rank
+                }
+            })
+
+            withRank.sort((a, b) =>
+            {
+                if (a.rank !== b.rank)
+                    return a.rank - b.rank
+
+                return a.originalIndex - b.originalIndex
+            })
+
+            return withRank.map((x) => x.item)
+        }
+
+        if (!filter) return applyUrlPriority(visibleExamples)
+
+        const terms = stringToSafeArray(filter)
+
+        if (!terms.length) return applyUrlPriority(visibleExamples)
+
+        const filtered = visibleExamples.filter((item) => 
+        {
+            const name      = item.name.toLowerCase()
+            const example   = item.example.toLowerCase()
+            return  terms.some((term) => name.includes(term) || example.includes(term)) 
         })
 
-        withRank.sort((a, b) =>
-        {
-            if (a.rank !== b.rank)
-                return a.rank - b.rank
-
-            return a.originalIndex - b.originalIndex
-        })
-
-        return withRank.map((x) => x.item)
+        return applyUrlPriority(filtered)
     }
 
-    if (!filter) return applyUrlPriority(visibleExamples)
+    const setActiveItem = () =>
+    {
+        activeItem.value = itemsList.value[listPager.value.offset()] || null
+        currentPage.value = listPager.value.currentPage()
+        selectedExample.value = activeItem.value?.example || ''
+    }
 
-    const terms = stringToSafeArray(filter)
+    const getListData = () =>
+    {
+        const filtered = getFilteredList()
+        listPager.value.TotalCount = filtered.length
 
-    if (!terms.length) return applyUrlPriority(visibleExamples)
+        if (!filtered.length) 
+        {
+            itemsList.value = []
+            activeItem.value = null
+            selectedExample.value = ''
+            return
+        }
 
-    const filtered = visibleExamples.filter((item) => 
-	{
-        const name      = item.name.toLowerCase()
-        const example   = item.example.toLowerCase()
-        return  terms.some((term) => name.includes(term) || example.includes(term)) 
+        if (listPager.value.CurrentRecord > filtered.length)
+            listPager.value.CurrentRecord = 1
+
+        const firstIndex = listPager.value.currentFirst() - 1
+        const lastIndex = firstIndex + listPager.value.PageSize
+
+        itemsList.value = filtered.slice(firstIndex, lastIndex)
+        examplesPageSize.value = listPager.value.PageSize
+
+        setActiveItem()
+    }
+
+    const refreshList = (newRecord = 1, forceRefresh = false) =>
+    {
+        listPager.value.CurrentRecord = newRecord
+
+        if ((listPager.value.currentPage() !== currentPage.value) || forceRefresh)
+            getListData()
+        else
+            setActiveItem()
+    }
+
+    // Keyboard Listeners  ================================================
+
+    const keys = 
+    {
+        'ArrowUp':    () => listPager.value.goToPrevious(),
+        'ArrowDown':  () => listPager.value.goToNext(),
+        'PageDown':   () => listPager.value.goToPreviousPage(),
+        'PageUp':     () => listPager.value.goToNextPage(),
+        'Home':       () => searchInput.value?.focusInput()
+    }
+
+    KeyboardListeners(keys, keyListenersDisabled)
+
+    // ===========================================================================
+
+    onMounted(() => 
+    {
+        refreshList(1, true)
+        searchInput.value?.focusInput()
     })
 
-    return applyUrlPriority(filtered)
-}
 
-const setActiveItem = () =>
-{
-    activeItem.value = itemsList.value[listPager.value.offset()] || null
-    currentPage.value = listPager.value.currentPage()
-    selectedExample.value = activeItem.value?.example || ''
-}
-
-const getListData = () =>
-{
-    const filtered = getFilteredList()
-    listPager.value.TotalCount = filtered.length
-
-    if (!filtered.length) 
+    watch(() => listPager.value.CurrentRecord, (newVal, oldVal) => 
     {
-        itemsList.value = []
-        activeItem.value = null
-        selectedExample.value = ''
-        return
-    }
+        if (newVal === oldVal) return
+        refreshList(newVal)
+    })
 
-    if (listPager.value.CurrentRecord > filtered.length)
-        listPager.value.CurrentRecord = 1
+    watch(() => listPager.value.Search.Filter, (newVal, oldVal) => 
+    {
+        if (newVal === oldVal || newVal.slice(-1) === ',' || newVal.slice(-1) === ' ') return
+        useDebounceFn(() => refreshList(1, true), 300)()
+    })
 
-    const firstIndex = listPager.value.currentFirst() - 1
-    const lastIndex = firstIndex + listPager.value.PageSize
-
-    itemsList.value = filtered.slice(firstIndex, lastIndex)
-    examplesPageSize.value = listPager.value.PageSize
-
-    setActiveItem()
-}
-
-const refreshList = (newRecord = 1, forceRefresh = false) =>
-{
-    listPager.value.CurrentRecord = newRecord
-
-    if ((listPager.value.currentPage() !== currentPage.value) || forceRefresh)
-        getListData()
-    else
-        setActiveItem()
-}
-
-// Keyboard Listeners  ================================================
-
-const keys = 
-{
-    'ArrowUp':    () => listPager.value.goToPrevious(),
-    'ArrowDown':  () => listPager.value.goToNext(),
-    'PageDown':   () => listPager.value.goToPreviousPage(),
-    'PageUp':     () => listPager.value.goToNextPage(),
-    'Home':       () => searchInput.value?.focusInput()
-}
-
-KeyboardListeners(keys, keyListenersDisabled)
-
-// ===========================================================================
-
-onMounted(() => 
-{
-    refreshList(1, true)
-    searchInput.value?.focusInput()
-})
-
-
-watch(() => listPager.value.CurrentRecord, (newVal, oldVal) => 
-{
-    if (newVal === oldVal) return
-    refreshList(newVal)
-})
-
-watch(() => listPager.value.Search.Filter, (newVal, oldVal) => 
-{
-    if (newVal === oldVal || newVal.slice(-1) === ',' || newVal.slice(-1) === ' ') return
-    useDebounceFn(() => refreshList(1, true), 300)()
-})
-
-watch(() => searchFromUrl.value, (newVal, oldVal) =>
-{
-    if (newVal === oldVal) return
-    refreshList(1, true)
-})
+    watch(() => searchFromUrl.value, (newVal, oldVal) =>
+    {
+        if (newVal === oldVal) return
+        refreshList(1, true)
+    })
 
 </script>
 
@@ -184,17 +182,9 @@ watch(() => searchFromUrl.value, (newVal, oldVal) =>
                 </span>
             </div>
 
-            <div class="flex w-full">
-                <InfoBox class="!mb-3">
-                    Examples list with search, paging, sorting, and keyboard shortcuts.
-                </InfoBox>
-
-                <span class="ml-auto">
-                    <IconSymbol :class="[keyListenersDisabled ? 'text-orange' : 'text-color-dark-gray']" 
-                        @click="disableShortcuts = !disableShortcuts" 
-                        title="Show / Hide Keyboard Shortcuts" width="24px" icon="codicon:record-keys" />
-                </span> 
-            </div>
+            <InfoBox class="!mb-3">
+                Examples list with search, paging, sorting, and keyboard shortcuts.
+            </InfoBox>
 
             <MobilePagerPrevNext :pager="listPager" />
 
@@ -206,7 +196,23 @@ watch(() => searchFromUrl.value, (newVal, oldVal) =>
             <thead class="text-left bg-gradient-table-head border-t border-gray-300">
                 <tr>
                     <th class="w-6 sm:w-8 py-5 bg-[#ddd]"></th>
-                    <th class="min-w-[100px]">Example</th>
+                    <th class="min-w-[100px]">
+                        <div class="flex items-center pr-5">
+                            <span>Example</span>
+                            <span class="ml-auto flex items-center gap-3">
+
+                               <IconSymbol :class="[disableShortcuts ? 'text-orange' : 'text-color-dark-gray']"
+                                    @click="disableShortcuts = !disableShortcuts"
+                                    title="Enable / Disable Example List Keyboard Shortcuts" width="26px"
+                                    icon="codicon:record-keys" />
+
+                                <IconSymbol class="text-color-dark-gray" 
+                                    @click="showFullscreen = !showFullscreen"
+                                    title="Show Example in Fullscreen" width="20px"
+                                    icon="heroicons:arrows-pointing-out-20-solid" />
+                            </span>
+                        </div>
+                    </th>
                 </tr>
             </thead>
 

@@ -12,7 +12,7 @@
 
     <UploadControl accept="image/*,.md" class="bg-gradient-main mb-3" />
 
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 mb-7
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-0 mb-7
         border border-gray-400 bg-white">
         <FolderExplorer class="lg:border-r border-gray-400" />
         <FileExplorer class="border-t border-gray-400 lg:border-none" />

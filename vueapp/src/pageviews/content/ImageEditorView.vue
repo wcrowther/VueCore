@@ -4,7 +4,7 @@
 
     // Keyboard Listeners  ================================================
 	
-	DisableGlobalKeys(showModal.value) // disable Esc key if modal is showing  
+    DisableGlobalKeys(showModal) // disable Esc key if modal is showing  
 
     const keys =
     {

@@ -291,7 +291,7 @@
 	}
 
 	KeyboardListeners(keys, disableKeys)
-	DisableGlobalKeys(disableKeys.value) // disable global Esc key etc
+	DisableGlobalKeys(() => !disableKeys.value) // disable global Esc key etc
 
 	const onFocus = () => { disableKeys.value = false; openDropdown() }
 	const onBlur  = () => { disableKeys.value = true;  window.setTimeout(() => closeDropdown(), 150) }

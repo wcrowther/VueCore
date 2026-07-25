@@ -1,17 +1,20 @@
 <script setup>
-    const appStore              = useAppStore()
-    const { sideBarHidden,
-			showSideButton } 	= storeToRefs(appStore)
+
+	const appStore 	= useAppStore()
+    const { sideBarHidden, showSideButton } = storeToRefs(appStore)
 
 </script>
 
 <template>
+
 	<LayoutMain>
 		
 		<SubNavBar>
 
 			<template #leftalign>
-				<RotateButton v-model="sideBarHidden" v-show="showSideButton" title="toggle search" /> 
+
+				<RotateButton v-model="sideBarHidden" v-show="showSideButton" title="Toggle examples sidebar." /> 
+
 			</template>
 
 			<div class="pr-5">
@@ -28,5 +31,6 @@
 		<router-view />
 
 	</LayoutMain>
+
 </template>
 	
