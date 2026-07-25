@@ -509,7 +509,7 @@
 			<!-- Special built-in TabsControl slot -->
 			<template #Right>
 				<PrimaryButton title="Choose Image" @click="openFilePicker" class="mr-2" />
-					<PrimaryButton :title="isSaving ? 'Saving...' : 'Save'" :disabled="!modelValue || isSaving" @click="promptForSave" />
+				<PrimaryButton :title="isSaving ? 'Saving...' : 'Save'" :disabled="!modelValue || isSaving" @click="promptForSave" />
 				<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
 			</template>
 

@@ -15,7 +15,9 @@
 
 	<div class="mb-10">
 
-		<PageTitleBox pageTitle="Image Cropper" />
+		<PageTitleBox pageTitle="Image Cropper">
+			Move buttons here.
+		</PageTitleBox>	
 	
 		<InfoBox>
 			ImageCropper lets you choose an image, drag a fixed-ratio crop region, and preview the cropped output in real time.
@@ -23,7 +25,8 @@
         </InfoBox>
 
 		<HelpBox>
-			Use mouse drag to move the selection and corner/edge handles to resize.
+			Use mouse drag to move the selection and corner/edge handles to resize. 
+			While your mouse is over this control, the ExampleList keyboard shortcuts are temporarily disabled.
 			Keyboard shortcuts:
 			<ul class="list-disc pl-6 mt-2 space-y-1">
 				<li><b>Shift + Tab</b>: Toggle between Source and Crop views (in this setup).</li>
