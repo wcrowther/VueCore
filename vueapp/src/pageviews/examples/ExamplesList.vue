@@ -4,7 +4,7 @@
 
     const route                 = useRoute()
     const examplesStore         = useExamplesStore()
-    const { sortedExamplesDataList, sortType, disableShortcuts, showFullscreen      
+    const { sortedExamplesDataList, sortType, disableExamplesShortcuts, showFullscreen      
                                 } = storeToRefs(examplesStore)
     const examplesSizeDefault 	= 20
     const itemsList 			= ref([])
@@ -17,7 +17,7 @@
     const searchFromUrl         = computed(() => route.params.search || null)
     const activeListItemId 		= computed(() => activeItem.value?.example || '')
     const urlPriorityTerms      = computed(() => stringToSafeArray(searchFromUrl.value))
-    const keyListenersDisabled  = computed(() => showAdvSearch.value || disableShortcuts.value)
+    const keyListenersDisabled  = computed(() => showAdvSearch.value || disableExamplesShortcuts.value)
 
     listPager.value.PageSize 	= Number(examplesPageSize.value)
 
@@ -173,7 +173,7 @@
                     inputTitle="Search examples by name or example name." />
             </div>
 
-            <ExamplesFilters :sortType :disableShortcuts @showAdvancedSearch="showAdvSearch=true" />
+            <ExamplesFilters :sortType :disableExamplesShortcuts @showAdvancedSearch="showAdvSearch=true" />
 
             <div class="w-full flex justify-between items-center select-none my-3">
                 <ListPager class="mr-2" id="listPager" v-bind:pager="listPager" />
@@ -201,8 +201,8 @@
                             <span>Example</span>
                             <span class="ml-auto flex items-center gap-3">
 
-                               <IconSymbol :class="[disableShortcuts ? 'text-orange' : 'text-color-dark-gray']"
-                                    @click="disableShortcuts = !disableShortcuts"
+                               <IconSymbol :class="[disableExamplesShortcuts ? 'text-orange' : 'text-color-dark-gray']"
+                                    @click="disableExamplesShortcuts = !disableExamplesShortcuts"
                                     title="Enable / Disable Example List Keyboard Shortcuts" width="26px"
                                     icon="codicon:record-keys" />
 

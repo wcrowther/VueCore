@@ -31,7 +31,7 @@
 		<b>Esc</b> also closes it. Scroll is locked while fullscreen is active.
 	</InfoBox>
 
-    <FullScreenControl v-model:fullScreen="fullScreen" 
+    <FullScreenControl v-model:fullScreen="fullScreen" :backGradation="true"
         :inset="insetList[inset].inset" class="flex justify-center">
         <img src="/images/super_string_theory.jpg" class="aspect-auto"
             :style="fullScreen ? {} : { maxWidth: '400px' }" />

@@ -1,11 +1,13 @@
 <script setup>
 
 	const fullScreen = defineModel('fullScreen', { type: Boolean, default: false })
+	const attrs = useAttrs()
 	const props = defineProps(
 	{
 		zIndex: 			{ type: Number, default: 999 },
 		showExitButton:		{ type: Boolean, default: true },
 		exitButtonOnLeft: 	{ type: Boolean, default: false },
+		showGradation: 		{ type: Boolean, default: true },
 		inset: 				{ type: [Number, String, Object], default: 0 },
 	})
 
@@ -40,6 +42,22 @@
 		return style
 	})
 
+	const forwardedAttrs = computed(() =>
+	{
+		const { backGradation, ...rest } = attrs
+		return rest
+	})
+
+	const useBackGradation = computed(() =>
+	{
+		const legacyValue = attrs.backGradation
+
+		if (legacyValue !== undefined)
+			return legacyValue !== false && legacyValue !== 'false'
+
+		return props.showGradation
+	})
+
 	defineOptions({ inheritAttrs: false })
 
 	// Keyboard Listeners  ==============================================================
@@ -61,21 +79,28 @@
 
 	<Teleport to="#modals" :disabled="!fullScreen">
 
-		<div :class="fullScreen ? 'fixed inset-0 flex bg-black/35' : 'contents'" 
+		<div :class="fullScreen ? 'fixed inset-0 flex isolate' : 'contents'" 
 			:style="fullScreen ? { zIndex: props.zIndex } : undefined">
 
-			<div v-bind="fullScreen ? $attrs : undefined" :style="panelStyle" 
-				:class="fullScreen ? 'relative bg-white overflow-auto ' +
+			<div v-if="fullScreen" class="absolute inset-0 z-[1] bg-black/35"></div>
+
+			<div v-bind="fullScreen ? forwardedAttrs : undefined" :style="panelStyle" 
+				:class="fullScreen ? 'relative z-[2] bg-white overflow-auto ' +
 				'scrollbar-thin shadow-lg shadow-color-dark-gray' : 'contents'">
+
+				<BackGradation v-if="fullScreen && useBackGradation" class="!h-full !bottom-0 !z-0" />
 
 				<button v-if="fullScreen && props.showExitButton" type="button" aria-label="Exit fullscreen"
 					title="Exit fullscreen" @click="fullScreen = false"
-					:class="[exitPosition,'absolute top-3 z-10 size-8 rounded-full bg-gray-200/90 hover:bg-white shadow-md flex-center']">
+					:class="[exitPosition,'absolute top-3 z-10 size-8 rounded-full bg-gray-200/90',
+					'hover:bg-white shadow-md shadow-gray-400 flex-center']">
 
 					<IconSymbol width="18px" class="text-color-dark-gray" icon="heroicons:x-mark" />
 				</button>
 
-				<slot />
+				<div class="relative z-10">
+					<slot />
+				</div>
 
 			</div>
 		</div>

@@ -1,14 +1,14 @@
 <script setup>
 
-	const imageData 		= ref(null)
-	const imageCropperRef 	= ref(null)
-	const examplesStore 	= useExamplesStore()
-	const { disableShortcuts } = storeToRefs(examplesStore) // rename to exampleShortcutsOff?
+	const imageData 					= ref(null)
+	const imageCropperRef 				= ref(null)
+	const examplesStore 				= useExamplesStore()
+	const { disableExamplesShortcuts } 	= storeToRefs(examplesStore) 
 
-	const onCropperMouseEnter = () => { disableShortcuts.value = true }
-	const onCropperMouseLeave = () => { disableShortcuts.value = false }
+	const onCropperMouseEnter = () => { disableExamplesShortcuts.value = true }
+	const onCropperMouseLeave = () => { disableExamplesShortcuts.value = false }
 
-	onUnmounted(() => { disableShortcuts.value = false })
+	onUnmounted(() => { disableExamplesShortcuts.value = false })
 
 </script>
 
