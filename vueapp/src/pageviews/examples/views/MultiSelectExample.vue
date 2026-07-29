@@ -1,16 +1,16 @@
 <script setup>
 
-	const selectedStates 	= ref([])
 
-	// const isCommaMode	= ref(false)
-	// const multSelectMode	= computed(() => isCommaMode.value ? 'comma' : 'capsule')
-
-	const modeIndex       	= ref(0)
 	const modeList    		= [ { name: 'Mode: Capsule', value: 'capsule'},
 								{ name: 'Mode: Comma Separated', value: 'comma'} ]
-	const hideSelectedIndex = ref(0)
 	const hideSelectedList  = [ { name: 'HideSelected: false', value: false},
-								{ name: 'HideSelected: true', value: true} ]							
+								{ name: 'HideSelected: true', value: true} ]	
+								
+	const selectedStates 	= ref([])
+	const modeIndex       	= ref(0)					
+	const hideSelectedIndex = ref(0)							
+	const mode 				= computed(() => modeList[modeIndex.value].value)
+	const hideSelected 		= computed(() => hideSelectedList[hideSelectedIndex.value].value)	
 
 </script>
 
@@ -33,11 +33,21 @@
 
 		<InfoBox>
             A powerful, searchable multi-select dropdown with a clean capsule or comma-separated display.
-            Supports flexible data formats, select-all shortcuts, and built-in Vuelidate validation — everything you need in one component.
+            Supports flexible data formats, select-all shortcuts, and built-in Vuelidate validation — 
+			everything you need in one component.
 	    </InfoBox>
 
-		<MultiSelectInput labelName="U.S. States" v-model="selectedStates" :optionsList="usStatesList"
-			:mode="modeList[modeIndex].value" :hideSelected="hideSelectedList[hideSelectedIndex].value" />
+		<HelpBox>
+			<b>Quick use:</b> Type to filter, then click items to select. Use the Mode toggle to switch between
+			<b>Capsule</b> and <b>Comma Separated</b> display while keeping the same selected values.
+			Turn <b>HideSelected</b> on to hide items you've already picked.
+			<br /><br />
+			<b>Keyboard tips:</b> Use <b>↑ / ↓</b> to move through options, and press <b>Enter</b> to toggle
+			the highlighted item selection.
+		</HelpBox>
+
+		<MultiSelectInput labelName="U.S. States" v-model="selectedStates" 
+			:optionsList="usStatesList" :mode :hideSelected />
 	</div>
 
 </template>

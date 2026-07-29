@@ -93,13 +93,13 @@
 		isOpen.value = false
 	}
 
-	watch(isOpen, isMenuOpen =>
+	watch(isOpen, async isMenuOpen =>
 	{
-		if (isMenuOpen)
-		{
-			updatePosition()
-			nextTick(() => updatePosition())
-		}
+		if (!isMenuOpen) return
+
+		// Position after Teleport content renders so the first click target stays stable.
+		await nextTick()
+		updatePosition()
 	})
 
 	watch(() => props.list, async () =>

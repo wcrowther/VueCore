@@ -186,6 +186,20 @@
                 Examples list with search, paging, sorting, and keyboard shortcuts.
             </InfoBox>
 
+            <HelpBox>
+                <b>Quick navigation:</b> Type in search to filter by display name or example key,
+                then click a row to load that example.
+                <br /><br />
+                <b>Keyboard shortcuts:</b> Use <b>↑ / ↓</b> to move through examples,
+                <b>Page Up / Page Down</b> to jump by page, and <b>Home</b> to focus the search box.
+                <br /><br />
+                <b>Keyboard icon</b> (<b>record-keys</b>): click to enable or disable list shortcuts.
+                When shortcuts are disabled, the icon turns <b>orange</b>.
+                <br /><br />
+                <b>Fullscreen icon</b> (<b>arrows-pointing-out</b>): opens the selected example in fullscreen
+                for easier viewing. Click it again or press <b>Esc</b> to exit.
+            </HelpBox>
+
             <MobilePagerPrevNext :pager="listPager" />
 
         </div>
