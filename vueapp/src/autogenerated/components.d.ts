@@ -37,6 +37,7 @@ declare module 'vue' {
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']
     ContentEditor: typeof import('./../components/files-folders/ContentEditor.vue')['default']
     ContentEditorExample: typeof import('./../pageviews/examples/views/ContentEditorExample.vue')['default']
+    ContentExample: typeof import('./../pageviews/examples/views/ContentExample.vue')['default']
     ContextMenu: typeof import('./../components/misc/ContextMenu.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']

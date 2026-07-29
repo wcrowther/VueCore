@@ -38,17 +38,29 @@
 
 	    <TabsControl v-model:activeTab="activeEditorTab"
 			class="mb-10" :tabList="['Files', 'Images', 'Content']" >
-			<template #Files>       
-    			<UploadControl accept="image/*" class="bg-gradient-main mb-3" />
+
+			<template #Files> 
+
+				<InfoBox class="my-5">
+					This editor provides a unified workspace for managing files, images, and written content.
+					Use the upload area to add files, browse folders in the left panel, and inspect or edit
+					content in the right panel. It keeps everyday content tasks streamlined in one focused workflow.
+				</InfoBox>
+
+    			<UploadControl accept="image/*" class="bg-gradient-main mt-3 mb-5" />
+
     			<div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 mb-7
     			    border border-gray-400 bg-white">
     			    <FolderExplorer class="lg:border-r border-gray-400" />
     			    <FileExplorer class="border-t border-gray-400 lg:border-none" />
     			</div>
+
         	</template>
+
         	<template #Images>       
         	    <ImageEditor />
         	</template>
+
 			<template #Content>       
         	    <MarkdownEditor />
         	</template>
