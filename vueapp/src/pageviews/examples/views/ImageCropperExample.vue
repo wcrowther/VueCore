@@ -39,7 +39,10 @@
 				<li><b>Ctrl + Arrow Keys</b>: Nudge by 10px.</li>
 				<li><b>Shift + Arrow Keys</b>: Nudge by 25px.</li>
 				<li><b>Home</b>: Move crop to top-left.</li>
-				<li><b>End</b>: Move crop to bottom-right within bounds.</li>
+				<li><b>End</b>: Move crop to bottom-left.</li>
+				<li><b>Page Up</b>: Move crop to top-right.</li>
+				<li><b>Page Down</b>: Move crop to bottom-right.</li>
+				<li><b>Ctrl + A</b> (or <b>Cmd + A</b> on macOS): Select the whole image.</li>
 				<li><b>Ctrl + S</b> (or <b>Cmd + S</b> on macOS): Save cropped image.</li>
 			</ul>
         </HelpBox>

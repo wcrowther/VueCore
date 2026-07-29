@@ -173,13 +173,13 @@
 		ctx.strokeRect( crop.value.x, crop.value.y, crop.value.width, crop.value.height )
 	}
 
-	const getImageDisplayBounds = () =>
+	const displayBounds = computed(() =>
 	({
 		x: 0,
 		y: 0,
 		width: image.value ? image.value.width * displayScale.value : canvasWidth,
 		height: image.value ? image.value.height * displayScale.value : canvasHeight
-	})
+	}))
 
 	const applyCrop = (nextCrop, mode = 'move') =>
 	{
@@ -475,11 +475,18 @@
 
 	const getBounds = () =>
 	{
-		const imageBounds = getImageDisplayBounds()
+		const imageBounds = displayBounds.value
 		return {
 			x: Math.max(imageBounds.x, imageBounds.x + imageBounds.width - crop.value.width),
 			y: Math.max(imageBounds.y, imageBounds.y + imageBounds.height - crop.value.height)
 		}
+	}
+
+	const selectWholeImage = () =>
+	{
+		if (!image.value) return
+		const imageBounds = displayBounds.value
+		applyCrop({	x: imageBounds.x, y: imageBounds.y, width: imageBounds.width, height: imageBounds.height}, 'move')
 	}
 
 	const keys =		// e is the keyboard event passed into the key handler functions
@@ -487,7 +494,10 @@
 		'Shift+Tab': 	() => switchTab(),
 		'Ctrl+KeyS': 	() => promptForSave(),
 		'Home': 		() => moveCropTo(0, 0),
-		'End': 			() => moveCropTo(getBounds().x, getBounds().y),
+		'End': 			() => moveCropTo(0, getBounds().y),
+		'PageUp': 		() => moveCropTo(getBounds().x, 0),
+		'PageDown': 	() => moveCropTo(getBounds().x, getBounds().y),
+		'Ctrl+KeyA': 	() => selectWholeImage(),
 		'ArrowLeft': 	(e) => nudgeCrop(-getStep(e), 0),
 		'ArrowRight': 	(e) => nudgeCrop(getStep(e), 0),
 		'ArrowUp': 		(e) => nudgeCrop(0, -getStep(e)),

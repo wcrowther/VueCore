@@ -14,6 +14,7 @@ declare global {
   const EventModel: typeof import('../models/EventModel.js')['default']
   const IAuditable: typeof import('../models/IAuditable.js')['IAuditable']
   const InputDemoModel: typeof import('../models/InputDemoModel.js')['default']
+  const InterviewModel: typeof import('../models/InterviewModel.js')['default']
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
   const KeyboardListeners: typeof import('../composables/UseKeyboardListeners.js')['KeyboardListeners']
   const MessageModel: typeof import('../models/MessageModel.js')['MessageModel']
@@ -72,6 +73,11 @@ declare global {
   const imageToolbarList: typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']
   const inject: typeof import('vue')['inject']
   const inputDemoValidator: typeof import('../helpers/validators.js')['inputDemoValidator']
+  const interviewContactValidator: typeof import('../helpers/validators.js')['interviewContactValidator']
+  const interviewEducationValidator: typeof import('../helpers/validators.js')['interviewEducationValidator']
+  const interviewJobHistoryValidator: typeof import('../helpers/validators.js')['interviewJobHistoryValidator']
+  const interviewSkillsGoalsValidator: typeof import('../helpers/validators.js')['interviewSkillsGoalsValidator']
+  const interviewValidator: typeof import('../helpers/validators.js')['interviewValidator']
   const isEmpty: typeof import('../helpers/global.js')['isEmpty']
   const isEmptyOrSpace: typeof import('../helpers/global.js')['isEmptyOrSpace']
   const isProxy: typeof import('vue')['isProxy']
@@ -153,6 +159,7 @@ declare global {
   const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
   const useImageStore: typeof import('../stores/ImageStore.js')['useImageStore']
+  const useInterviewStore: typeof import('../stores/InterviewStore.js')['useInterviewStore']
   const useKeepInView: typeof import('../composables/UseKeepInView.js')['useKeepInView']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useModel: typeof import('vue')['useModel']
@@ -198,6 +205,9 @@ declare global {
   export type { InputDemoModel } from '../models/InputDemoModel.js'
   import('../models/InputDemoModel.js')
   // @ts-ignore
+  export type { InterviewModel } from '../models/InterviewModel.js'
+  import('../models/InterviewModel.js')
+  // @ts-ignore
   export type { UserModel } from '../models/UserModel.js'
   import('../models/UserModel.js')
 }
@@ -215,6 +225,7 @@ declare module 'vue' {
     readonly EventModel: UnwrapRef<typeof import('../models/EventModel.js')['default']>
     readonly IAuditable: UnwrapRef<typeof import('../models/IAuditable.js')['IAuditable']>
     readonly InputDemoModel: UnwrapRef<typeof import('../models/InputDemoModel.js')['default']>
+    readonly InterviewModel: UnwrapRef<typeof import('../models/InterviewModel.js')['default']>
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
     readonly KeyboardListeners: UnwrapRef<typeof import('../composables/UseKeyboardListeners.js')['KeyboardListeners']>
     readonly MessageModel: UnwrapRef<typeof import('../models/MessageModel.js')['MessageModel']>
@@ -273,6 +284,11 @@ declare module 'vue' {
     readonly imageToolbarList: UnwrapRef<typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly inputDemoValidator: UnwrapRef<typeof import('../helpers/validators.js')['inputDemoValidator']>
+    readonly interviewContactValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewContactValidator']>
+    readonly interviewEducationValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewEducationValidator']>
+    readonly interviewJobHistoryValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewJobHistoryValidator']>
+    readonly interviewSkillsGoalsValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewSkillsGoalsValidator']>
+    readonly interviewValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewValidator']>
     readonly isEmpty: UnwrapRef<typeof import('../helpers/global.js')['isEmpty']>
     readonly isEmptyOrSpace: UnwrapRef<typeof import('../helpers/global.js')['isEmptyOrSpace']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
@@ -354,6 +370,7 @@ declare module 'vue' {
     readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImageStore: UnwrapRef<typeof import('../stores/ImageStore.js')['useImageStore']>
+    readonly useInterviewStore: UnwrapRef<typeof import('../stores/InterviewStore.js')['useInterviewStore']>
     readonly useKeepInView: UnwrapRef<typeof import('../composables/UseKeepInView.js')['useKeepInView']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>

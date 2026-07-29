@@ -1,9 +1,54 @@
 <script setup>
 
     import { useSessionStorage } from '@vueuse/core'
+    import { interviewValidator } from '@/helpers/validators'
 
 	const showWizardBorder =  useSessionStorage('showWizardBorder', false) 
 	const toggleBorder = () => showWizardBorder.value = !showWizardBorder.value
+
+    const toastStore = useToastStore()
+    const interviewStore = useInterviewStore()
+    const v$ = useVuelidate(interviewValidator, interviewStore.interview)
+
+    const interview1Ref = ref(null)
+    const interview2Ref = ref(null)
+    const interview3Ref = ref(null)
+    const interview4Ref = ref(null)
+
+    const validationMessageMap =
+    {
+        Name: 'Please complete the Name and Contact step before continuing.',
+        Education: 'Please complete the Education step before continuing.',
+        Job_History: 'Please complete the Job History step before continuing.',
+        Skills: 'Please complete the Skills step before continuing.'
+    }
+
+    const beforeChange = async ({ fromTab, direction }) =>
+    {
+        if (direction !== 'next') return true
+        if (fromTab === 'Summary') return true
+
+        const validatorsByTab =
+        {
+            Name: interview1Ref.value?.validateStep,
+            Education: interview2Ref.value?.validateStep,
+            Job_History: interview3Ref.value?.validateStep,
+            Skills: interview4Ref.value?.validateStep
+        }
+
+        const validateFn = validatorsByTab[fromTab]
+        if (!validateFn) return true
+
+        const isValid = await validateFn()
+
+        if (!isValid)
+        {
+            toastStore.showWarning(validationMessageMap[fromTab] || 'Please complete the current step first.')
+            return false
+        }
+
+        return true
+    }
 
 </script>
 
@@ -34,27 +79,27 @@
 				</FloaterControl>
 				-->
 
-        <WizardControl class="mb-10" :useKeyControls="false" :showBorder="showWizardBorder"
-            :tabList="['Files', 'Comps', 'Calendar', 'Grid', 'Json']">
+        <WizardControl class="mb-10" :showBorder="showWizardBorder" :beforeChange="beforeChange"
+            :tabList="['Name', 'Education', 'Job_History', 'Skills', 'Summary']">
 
-            <template #Files>
-                <FilesExample />
+            <template #Name>
+                <Interview1Example ref="interview1Ref" :v$="v$" />
             </template>
 
-            <template #Comps>
-                <ComposablesExample />
+            <template #Education>
+                <Interview2Example ref="interview2Ref" :v$="v$" />
             </template>
 
-            <template #Calendar>
-                <CalendarExample />
+            <template #Job_History>
+                <Interview3Example ref="interview3Ref" :v$="v$" />
             </template>
 
-            <template #Grid>
-                <GridExample />
+            <template #Skills>
+                <Interview4Example ref="interview4Ref" :v$="v$" />
             </template>
 
-            <template #Json>
-                <JsonTreeExample />
+            <template #Summary>
+                <InterviewSummary />
             </template>
 
         </WizardControl>
