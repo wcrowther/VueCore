@@ -16,8 +16,8 @@ export const examplesDataList =
         { name: 'ListIndexButton', example: 'ListIndexButtonExample', show: true, featured: false, type: '', order: 5},
         { name: 'Misc', example: 'MiscExample', show: false, featured: false, type: '', order: 5},
         { name: 'MultiSelect', example: 'MultiSelectExample', show: true, featured: false, type: '', order: 5},
-        { name: 'TabsBar', example: 'TabsBarExample', show: true, featured: false, type: '', order: 5},
+        { name: 'TabsBar', example: 'TabsBarExample', show: false, featured: false, type: '', order: 5},
         { name: 'TabsControl', example: 'TabsControlExample', show: true, featured: false, type: '', order: 5},
         { name: 'TabsOverflowControl', example: 'TabsOverflowExample', show: true, featured: false, type: '', order: 5},
-        { name: 'Wizard', example: 'WizardExample', show: true, featured: false, type: '', order: 5},
+        { name: 'Wizard', example: 'WizardExample', show: false, featured: false, type: '', order: 5},
     ]
