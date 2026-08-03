@@ -1,10 +1,9 @@
-﻿using coreApi.Helpers;
-using coreApi.Models;
+using coreApi.Helpers;
+using coreData.Models;
 using coreLogic.Interfaces;
 using coreLogic.Models;
-using coreLogic.Models.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
+using coreLibrary.Models;
+using Microsoft.AspNetCore.Antiforgery;
 using WildHare.Extensions;
 
 namespace coreApi;
@@ -18,55 +17,115 @@ public static partial class Endpoints
 					  .WithTags("Authenticate");
 
 
+		// =========================================================
+		// me (get current authenticated user profile)
+		// =========================================================
 
-		// me - get current user claims for JWT testing
-		endpoints.MapGet("/me", (ClaimsPrincipal user) =>
+		endpoints.MapGet("/me", ( IAuthManager _authManager ) =>
 		{
-			return user.Claims.Select(c => new { c.Type, c.Value });
+			Returns<UserVm> returns = _authManager.GetCurrentUser();
 
+			if (!returns.Ok || returns.Data is null)
+				return Results.Unauthorized();
+
+			return Results.Ok(ToProfileResponse(returns.Data));
+		})
+		.RequireAuthorization();
+
+		// =========================================================
+		// antiforgery token
+		// =========================================================
+
+		endpoints.MapGet("/antiforgery/token", (IAntiforgery antiforgery, HttpContext context) =>
+		{
+			var tokens = antiforgery.GetAndStoreTokens(context);
+			return Results.Ok(new { token = tokens.RequestToken });
+		})
+		.RequireAuthorization()
+		.WithName("GetAntiforgeryToken");
+
+		// =========================================================
+		// logout
+		// =========================================================
+
+		endpoints.MapPost("/logout", ( ICookieManager _cookieManager,
+									  IAuthManager _authManager ) =>
+		{
+			_authManager.RevokeRefreshToken();
+			_cookieManager.ClearAuthCookies();
+			return Results.Ok();
 		});
 
+		// =========================================================
 		// login
-		endpoints.MapPost("/login", (	AuthRequest model, 
-										IAuthManager _authManager
-									) =>
+		// =========================================================
+
+		endpoints.MapPost("/login", ( AuthRequestVm model, 
+									  IAuthManager _authManager ) =>
 		{
             Returns<AuthUser> returns = _authManager.Authenticate(model);
 
 			return	returns.Ok
-					? Results.Ok(returns.Data)
+					? Results.Ok(ToProfileResponse(returns.Data))
 					: Results.Unauthorized();
 		})
-		.Validate<AuthRequest>(false)
-        .WithName("Login");
+		.Validate<AuthRequestVm>(false)
+		.Produces(StatusCodes.Status200OK) 
+		.Produces(StatusCodes.Status401Unauthorized) 
+		.WithName("Login");
 
-		// signup
-		endpoints.MapPost("/signup", (	UserToCreate model, 
-										IAuthManager _authManager
-									 ) =>
+		// =========================================================
+		// signup 
+		// =========================================================
+
+		endpoints.MapPost("/signup", ( UserToCreate model, 
+									   IAuthManager _authManager ) =>
 		{
 			Returns<AuthUser> returns = _authManager.Signup(model);
 
 			return	returns.Ok 
-					? Results.Ok(returns.Data) 
+					? Results.Ok(ToProfileResponse(returns.Data)) 
 					: Results.BadRequest(returns.Error.Message);
 		})
 		.Validate<UserToCreate>(false)
 		.WithName("Signup");
 
+		// =========================================================
 		// refreshAuth
-		endpoints.MapPost("/refreshAuth", (	AuthRefreshRequest request, 
-											IAuthManager _authManager
-										  ) =>
+		// =========================================================
+
+		endpoints.MapPost("/refreshAuth", ( AuthRefreshRequest request, 
+											IAuthManager _authManager ) =>
 		{
 			Returns<AuthUser> returns = _authManager.RefreshAuth(request);
 
 			return	returns.Ok 
-					? Results.Ok(returns.Data) 
+					? Results.Ok(ToProfileResponse(returns.Data)) 
 					: Results.BadRequest(returns.Error.Message);
 		})
 		.Validate<AuthRefreshRequest>(false)
 		.WithName("RefreshAuth");
 	}
+
+	private static object ToProfileResponse(UserVm user) => new
+	{
+		user.UserId,
+		user.FirstName,
+		user.LastName,
+		user.UserName,
+		user.UserEmail,
+		user.Role
+	};
+
+	private static object ToProfileResponse(AuthUser user) => new
+	{
+		user.UserId,
+		user.FirstName,
+		user.LastName,
+		user.UserName,
+		user.UserEmail,
+		user.Role
+	};
 }
+
 

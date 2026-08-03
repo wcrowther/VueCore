@@ -9,7 +9,7 @@
 </script>
 
 <template>
-    <Teleport to="body" v-if="showBreakpoints" >
+    <Teleport to="#modals" v-if="showBreakpoints" >
         <div class="fixed left-4 bottom-4" @click="showWinWidth=!showWinWidth">
             <div class="capsule hidden xxs:block xs:hidden"  
                 title="436px+">
@@ -35,9 +35,13 @@
                 title="1280px+">
                 xl <span v-if="showWinWidth">&nbsp;{{ winWidth }}px</span>
             </div>
-            <div class="capsule hidden 2xl:block"           
+            <div class="capsule hidden 2xl:block 3xl:hidden"           
                 title="1536px+">
                 2xl <span v-if="showWinWidth">&nbsp;{{ winWidth }}px</span>
+            </div>            
+            <div class="capsule hidden 3xl:block"           
+                title="1920px+">
+                3xl <span v-if="showWinWidth">&nbsp;{{ winWidth }}px</span>
             </div>
         </div>
     </Teleport>

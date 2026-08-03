@@ -1,9 +1,7 @@
 <script setup>
-
-	RedirectToPage('/admin','/admin/users')
-
     const appStore              = useAppStore()
-    const { sideBarHidden }     = storeToRefs(appStore)
+    const { sideBarHidden,
+			showSideButton } 	= storeToRefs(appStore)
 
 </script>
 
@@ -13,7 +11,7 @@
 		<SubNavBar>
 
 			<template #leftalign>
-				<RotateButton v-model="sideBarHidden" class="" title="toggle search"  /> 
+				<RotateButton v-model="sideBarHidden" v-show="showSideButton" title="toggle search" /> 
 			</template>
 
 			<div class="pr-5">
@@ -23,13 +21,9 @@
 
 				<span class="px-1 text-gray-300">|</span>
 
-				<router-link to="/admin/notes" class="px-1 py-2 font-bold hover:opacity-50" 
-					active-class="text-orange" linkName="AdminNotes">Notes</router-link>
-
-				<span class="px-1 text-gray-300">|</span>
-
 				<router-link to="/admin/site" class="px-1 py-2 font-bold hover:opacity-50" 
 					active-class="text-orange" linkName="AdminSite">Site</router-link>
+			
 			</div>  
 
 		</SubNavBar>

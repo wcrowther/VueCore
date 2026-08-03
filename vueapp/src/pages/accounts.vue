@@ -1,9 +1,7 @@
 <script setup>
-
-	RedirectToPage('/accounts','/accounts/main')
-
     const appStore              = useAppStore()
-    const { sideBarHidden }     = storeToRefs(appStore)
+    const { sideBarHidden, 
+			showSideButton } 	= storeToRefs(appStore)
 
 </script>
 
@@ -13,29 +11,23 @@
 		<SubNavBar> 
 
 			<template #leftalign>
-				<RotateButton v-model="sideBarHidden" class="" title="toggle search"  /> 
-				<!-- <div>{{ sideBarHidden }}</div> -->
+				<RotateButton v-model="sideBarHidden" v-show="showSideButton" title="toggle search" /> 
 			</template>
 
 			<div class="pr-5">
+			
 				<router-link to="/accounts/main"  linkName="AccountsMain"
-					class="px-1 py-2 font-bold hover:opacity-50" active-class="subnav-active">
+					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
 					Main
 				</router-link>
 
-				<span class="px-1 text-gray-300">|</span>
+				<span class="px-1 text-gray-300">|</span>                     
 
-				<router-link to="/accounts/messages" linkName="AccountsMessages" 
-					class="px-1 py-2 font-bold hover:opacity-50" active-class="subnav-active">
-					Messages
+				<router-link to="/accounts/chat" linkName="AccountsChat" 
+					class="px-1 py-2 font-bold hover:opacity-50" active-class="text-orange">
+					Chat
 				</router-link>
 
-				<span class="px-1 text-gray-300">|</span>
-
-				<router-link to="/accounts/wizard" linkName="AccountsWizard" 
-					class="px-1 py-2 font-bold hover:opacity-50" active-class="subnav-active">
-					Wizard
-				</router-link>
 			</div>
 
 		</SubNavBar>
@@ -44,11 +36,3 @@
 	
 	</LayoutMain>
 </template>
-
-<style lang="postcss" scoped>
-    .subnav-active {
-        @apply text-orange hover:opacity-50
-    }
-
-</style> 
-	

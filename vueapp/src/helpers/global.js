@@ -16,7 +16,11 @@ export const hasKeys = (obj) =>
     return Object.keys(obj).length > 0
 }
 
-export const numbersOnly = (str, otherCharacters = '') =>
+export const isEmpty        = value => value === undefined || value === null
+
+export const isEmptyOrSpace = value => isEmpty(value) || (typeof value === 'string' && value.trim() === '')
+
+export const numbersOnly    = (str, otherCharacters = '') =>
 {
     let output = ''
 
@@ -55,15 +59,41 @@ export const usPhoneFormat = (str) =>
 
         return `${country}(${areacode}) ${prefix}-${line}`
     }
-
     return out
+}
+
+export const formatFileSize = (value) =>
+{
+	const bytes = Number(value)
+
+	if (!Number.isFinite(bytes) || bytes < 0) return "-"
+
+	if (bytes < 1024) return `${bytes} B`
+	    const kb = bytes / 1024
+
+	if (kb < 1024) return `${kb.toFixed(1)} KB`
+	    const mb = kb / 1024
+    
+	if (mb < 1024) return `${mb.toFixed(1)} MB`
+	    const gb = mb / 1024
+
+	return `${gb.toFixed(1)} GB`
 }
 
 // USING DAYJS :  https://day.js.org/docs/en/display/format
 
-export const dateTimeFormat = (date, format) => dayjs(date).format(format || "MM-DD-YYYY h:mm:ss a")
-export const dateFormat     = (date) => dayjs(date).format("MM-DD-YYYY")
-export const timeFormat     = (date) => dayjs(date).format("HH:mm:ss")
+export const dateTimeFormat     = (date, format) => dayjs(date).format(format || "MM-DD-YYYY h:mm:ss a")
+export const dateFormat         = (date) => dayjs(date).format("MM-DD-YYYY")
+export const dateTimeISO        = (date) => dayjs(date).toISOString()
+export const dateISO            = (date) => dayjs(date).toISOString().slice(0,10)
+export const weekdayFull        = (date) => dayjs(date).format('dddd - MMMM D, YYYY')
+export const timeFormat         = (date) => dayjs(date).format("HH:mm:ss")
+export const addDays            = (date, days) => 
+{
+    const newDate = new Date(date); 
+    newDate.setDate(newDate.getDate() + days);
+    return newDate; 
+}
 
 export const IsDuplicateMessage = (message, self)  =>
 {
@@ -75,3 +105,13 @@ export const IsDuplicateMessage = (message, self)  =>
 
     return isDuplicate
 }
+
+export const MinutesToMs = (mins, minMinutes = 1)  =>
+{
+    const parsedMins = Number(mins)
+    const safeMins   = Number.isFinite(parsedMins) ? parsedMins : minMinutes
+
+    return Math.max(minMinutes, safeMins) * 60 * 1000
+}
+
+export const stringToSafeArray = (value) => (value || '').toLowerCase().split(',').map((term) => term.trim()).filter(Boolean)

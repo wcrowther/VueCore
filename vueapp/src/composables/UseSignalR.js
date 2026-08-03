@@ -1,6 +1,5 @@
 import * as signalR from '@microsoft/signalr'
 
-const appStore      = useAppStore()
 let hubConnection   = null // Singleton instance
 let usageCount      = 0 // tracks how many components are using the connection
 
@@ -12,7 +11,7 @@ export function useSignalR()
     if (!hubConnection) 
     {
         hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl(`${appStore.baseApiUrl}/chathub`)
+            .withUrl(`${envConsts.baseApiUrl}/chathub`)
             .withAutomaticReconnect()
             .build();
 

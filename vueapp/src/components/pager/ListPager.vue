@@ -39,7 +39,7 @@
              </tr>
          </table>
 
-        <ListPagerDebugger :pager="pager" :show="pagerDebugger" />
+        <ListPagerDebugger :pager="pager" v-model:show="pagerDebugger" />
      </div>
 </template>
 

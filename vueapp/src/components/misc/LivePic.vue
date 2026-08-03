@@ -1,9 +1,8 @@
 
 <script setup>
 
-    // import { ref, reactive, onMounted, computed } from 'vue'
-
-    const props = defineProps(
+    const play  = defineModel ('play', { type: Boolean, default: true })
+    const props = defineProps (
     {
         url:            { type: String, required: true      },
         height:         { type: String, default: '400px'    },
@@ -17,36 +16,154 @@
         position2:      { type: String, default: '80% 50%'  }          
     })
 
-    const zoomIn	        = ref(false)
-    const toggleZoom        = () => zoomIn.value = !zoomIn.value
-    const totalDuration     = computed(() => props.duration + props.wait ) 
+    const livePic            = ref(null)
+    const liveAnimation      = ref(null)
+    const phaseLabel         = ref('ZoomOut')
+    const playbackState      = computed(() => play.value ? 'running' : 'paused')
+    const cycleDuration      = computed(() => (props.duration + props.wait) * 2)
 
-    const animation         = reactive(
-    { 
+    let startTimerId         = null
+    let phaseTimerId         = null
+
+    const animation          = computed(() =>
+    ({ 
         backgroundImage:        `url('${props.url}')`,
         height:                 props.height,
         width:                  props.width,
-        transitionDuration:     `${props.duration}ms`,
-        backgroundSize:         computed(() => zoomIn.value ? props.zoom2 : props.zoom1 ),
-		backgroundPosition:     computed(() => zoomIn.value ? props.position2 : props.position1 )
-    })
+        backgroundSize:         props.zoom1,
+		backgroundPosition:     props.position1
+    }))
 
-	onMounted(() => 
-	{ 
-        setTimeout(function()
+    const stopPhaseTimer     = () =>
+    {
+        if (phaseTimerId !== null)
         {
-            toggleZoom()
-			window.setInterval(toggleZoom, totalDuration.value)
+            window.clearInterval(phaseTimerId)
+            phaseTimerId = null
+        }
+    }
 
-		}, props.initialWait)
+    const updatePhaseLabel   = () =>
+    {
+        if (!liveAnimation.value)
+        {
+            phaseLabel.value = 'ZoomOut'
+            return
+        }
+
+        const currentTime = Number(liveAnimation.value.currentTime ?? 0)
+        const cycleTime   = cycleDuration.value
+        const halfCycle   = props.duration + props.wait
+
+        if (cycleTime === 0)
+        {
+            phaseLabel.value = 'ZoomOut'
+            return
+        }
+
+        phaseLabel.value = currentTime % cycleTime < halfCycle ? 'ZoomIn' : 'ZoomOut'
+    }
+
+    const startPhaseTimer    = () =>
+    {
+        stopPhaseTimer()
+        updatePhaseLabel()
+        phaseTimerId = window.setInterval(updatePhaseLabel, 200)
+    }
+
+    const destroyAnimation   = () =>
+    {
+        stopPhaseTimer()
+
+        if (startTimerId !== null)
+        {
+            window.clearTimeout(startTimerId)
+            startTimerId = null
+        }
+
+        if (liveAnimation.value)
+        {
+            liveAnimation.value.cancel()
+            liveAnimation.value = null
+        }
+
+        phaseLabel.value = 'ZoomOut'
+    }
+
+    const createAnimation    = () =>
+    {
+        if (!livePic.value)
+            return
+
+        const totalCycle = cycleDuration.value
+
+        liveAnimation.value = livePic.value.animate(
+        [
+            { backgroundSize: props.zoom1, backgroundPosition: props.position1, offset: 0 },
+            { backgroundSize: props.zoom2, backgroundPosition: props.position2, offset: props.duration / totalCycle },
+            { backgroundSize: props.zoom2, backgroundPosition: props.position2, offset: (props.duration + props.wait) / totalCycle },
+            { backgroundSize: props.zoom1, backgroundPosition: props.position1, offset: (2 * props.duration + props.wait) / totalCycle },
+            { backgroundSize: props.zoom1, backgroundPosition: props.position1, offset: 1 }
+        ],
+        {
+            duration:    totalCycle,
+            iterations:  Infinity,
+            easing:      'linear',
+            fill:        'both'
+        })
+
+        if (!play.value)
+            liveAnimation.value.pause()
+
+        startPhaseTimer()
+    }
+
+    const restartAnimation   = () =>
+    {
+        destroyAnimation()
+        startTimerId = window.setTimeout(createAnimation, props.initialWait)
+    }
+
+	watch(play, isPlaying =>
+	{
+		if (!liveAnimation.value)
+			return
+
+		if (isPlaying)
+			liveAnimation.value.play()
+		else
+			liveAnimation.value.pause()
+
+		updatePhaseLabel()
 	})
+
+	watch (
+		() => 
+        [
+            props.url, 
+            props.height, 
+            props.width, 
+            props.initialWait, 
+            props.wait, 
+            props.duration, 
+            props.zoom1, 
+            props.zoom2, 
+            props.position1, 
+            props.position2
+        ],
+		restartAnimation
+	)
+
+	onMounted(restartAnimation)
+	onBeforeUnmount(destroyAnimation)
 
 </script>
 
 <template>
 
-	<div class="bg-no-repeat transition-all text-white relative" :style="animation" >        
-		<!-- <span class="p-1 pl-2 inline-block">{{zoomIn ? 'ZoomIn': 'ZoomOut'}}</span> -->
+	<div ref="livePic" class="bg-no-repeat text-white relative" 
+        :style="animation">
+        <slot :phaseLabel :playbackState />      
 	</div>
 
 </template>

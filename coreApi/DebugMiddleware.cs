@@ -1,15 +1,21 @@
-using coreApi.Models;
-using coreLogic.Helpers;
+using coreLogic.Models;
+using coreLibrary.Helpers;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using WildHare.Extensions;
+using static System.Diagnostics.Debug;
 
 namespace coreApi
 {
 	public class DebugMiddleware
 	{
+		// -------------------------------------
+		// USAGE in Program.cs:
+		// -------------------------------------
+		// app.UseMiddleware<DebugMiddleware>();
+
 		private readonly RequestDelegate _next;
 
 		public DebugMiddleware(RequestDelegate next)
@@ -17,37 +23,43 @@ namespace coreApi
 			_next = next;
 		}
 
-		public async Task Invoke(HttpContext httpContext, AppSettings appSettings)
+		public async Task Invoke(HttpContext httpContext, AppSettingsVm app, IWebHostEnvironment env)
 		{
-			bool showJsonPostDebug = appSettings.ShowJsonPostDebug;
+			if (env.IsDevelopment())
+			{ 
+				// Useful for intercepting the raw request, especially if model binding, etc. goes wrong...
+				WriteLine("=".Repeat(100));
+				WriteLine($"DebugMiddleware ({httpContext.Request.Method}) {env.EnvironmentName} request for {httpContext.Request.Path} ");
+				WriteLine($"Received ({httpContext.Request.ContentLength ?? 0} bytes) at {DateTime.Now}");
 
-			// Useful for intercepting the raw request, especially if model binding, etc. goes wrong...
-			// Debug.WriteLine($"Request for {httpContext.Request.Path} received ({httpContext.Request.ContentLength ?? 0} bytes)");
+				if (app.ShowJsonPostDebug && 
+					(httpContext.Request.Method == HttpMethods.Post || httpContext.Request.Method == HttpMethods.Put)
+					&& IsJsonRequest(httpContext))
+				{
+					// Enable buffering so the body can be read multiple times
+					httpContext.Request.EnableBuffering();
 
-			if (showJsonPostDebug && httpContext.Request.Method == HttpMethods.Post && IsJsonRequest(httpContext))
-			{
-				// Enable buffering so the body can be read multiple times
-				httpContext.Request.EnableBuffering();
+					// Read the request body stream as string
+					httpContext.Request.Body.Position = 0;
 
-				// Read the request body stream as string
-				httpContext.Request.Body.Position = 0;
+					using var reader = new StreamReader
+					(
+						httpContext.Request.Body,
+						encoding:							Encoding.UTF8,
+						detectEncodingFromByteOrderMarks:	false,
+						bufferSize:							1024,
+						leaveOpen:							true  // leave it open
+					);
 
-				using var reader = new StreamReader
-				(
-					httpContext.Request.Body,
-					encoding:							Encoding.UTF8,
-					detectEncodingFromByteOrderMarks:	false,
-					bufferSize:							1024,
-					leaveOpen:							true  // leave it open
-				);
+					var body = await reader.ReadToEndAsync();
 
-				var body = await reader.ReadToEndAsync();
+					// Reset the stream position for the next middleware/controller
+					httpContext.Request.Body.Position = 0;
 
-				// Reset the stream position for the next middleware/controller
-				httpContext.Request.Body.Position = 0;
-
-				Debug.WriteLine($"Request Json Body: {body.MaskJsonSecrets("password")}");
-				Debug.WriteLine("-".Repeat(70));
+					WriteLine($"Request JSON Body");
+					WriteLine("-".Repeat(100));
+					WriteLine($"{body.MaskJsonSecrets("password","secret","token")}");
+				}
 			}
 
 			// Call the next middleware delegate in the pipeline 
@@ -58,17 +70,7 @@ namespace coreApi
 		{
 			return httpContext.Request.ContentType?.Contains("application/json", StringComparison.OrdinalIgnoreCase) == true;
 		}
-
-		private static bool SanitizeJson(HttpContext httpContext)
-		{
-			return httpContext.Request.ContentType?.Contains("application/json", StringComparison.OrdinalIgnoreCase) == true;
-		}
 	}
 }
 
-// USAGE:
-// if (env.IsDevelopment() )
-// {
-//		app.UseMiddleware<DebugMiddleware>();
-// }
 

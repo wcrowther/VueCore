@@ -14,7 +14,7 @@
 </script>
 
 <template>
-    <div class="mb-3">
+    <div class="mb-3 w-full">
         <div class="pb-1 flex justify-between items-baseline">
             <span class="text-color-dark-blue font-bold whitespace-nowrap text-xs">
                 {{props.labelName}}
@@ -27,18 +27,19 @@
             </template>
         </div>
         <div class="flex justify-center items-center relative">
-            <input class="w-full text-sm pr-12" :id="props.labelName" :name="props.labelName" spellcheck="false"
+        
+            <input :id="props.labelName" :name="props.labelName" 
+                class="w-full text-sm pr-12" spellcheck="false"
                 :type="showPassword ? 'text' : 'password'" v-model="modelValue" />
 
-                <IconSymbol v-if="!showPassword" @click="showPassword=true" 
-                    width="20px" class="eye-symbol" icon="heroicons-solid:eye-slash" />
-                <IconSymbol v-if="showPassword" @click="showPassword=false"
-                    width="20px" class="eye-symbol" icon="heroicons-solid:eye" />
+            <IconSymbol v-if="showPassword" 
+                width="18px" class="absolute right-3 text-color-dark-gray" 
+                @click="showPassword=false" icon="heroicons-solid:eye" />
+            <IconSymbol v-else 
+                width="18px" class="absolute right-3 text-color-dark-gray" 
+                @click="showPassword=true" icon="heroicons-solid:eye-slash" />
         </div>
     </div>
 </template>
 
-<style lang="postcss" scoped>
-    .eye-symbol     { @apply absolute right-3 h-5 w-5 text-color-dark-gray }
-</style> 
- 
+

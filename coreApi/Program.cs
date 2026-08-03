@@ -1,8 +1,8 @@
 using coreApi;
-using coreApi.Data;
 using coreApi.Helpers;
-using coreApi.Models;
-using coreLogic.Helpers;
+using coreData;
+using coreLogic.Managers;
+using coreLogic.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,14 +11,18 @@ using System.Text;
 using WildHare.Extensions;
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
-// ========================================================================================================
+// ----------------------------------------------------------------------------------------
+// Configure Application
+// ----------------------------------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
 
 var environment = builder.Environment;
 
 builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.PropertyNamingPolicy = null; });
-builder.Services.AddSingleton(builder.Configuration.GetSection("App").Get<AppSettings>());
+builder.Services.AddSingleton(builder.Configuration.GetSection("App").Get<AppSettingsVm>());
+builder.Services.AddSingleton(new FolderManager(builder.Configuration["App:FoldersRoot"]));
+builder.Services.AddSingleton(new FileManager(builder.Configuration["App:FoldersRoot"], builder.Environment));
 
 builder.Services.AddSignalR().AddJsonProtocol(options =>
 {
@@ -28,7 +32,7 @@ builder.Services.AddSignalR().AddJsonProtocol(options =>
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowSpecificOrigin",
-		policy => policy.WithOrigins(builder.Configuration["App:AllowedOrigins"].Split(";", true))
+		policy => policy.WithOrigins(builder.Configuration["App:AllowedOrigins"].Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
 						.AllowCredentials()
 						.AllowAnyHeader()
 						.AllowAnyMethod());
@@ -42,7 +46,7 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-builder.Services.AddDbContext<CoreApiDataContext>(options =>
+builder.Services.AddDbContext<DataContext>(options =>
 	options.UseSqlite(builder.Configuration.GetConnectionString("CoreApiData"))
 );
 
@@ -62,6 +66,19 @@ builder.Services.AddAuthentication(cfg =>
         IssuerSigningKey    = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["App:AuthSigningKey"])),
 		RoleClaimType		= "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
 	};
+	c.Events = new JwtBearerEvents
+	{
+		OnMessageReceived = context =>
+		{
+			if (string.IsNullOrEmpty(context.Token) &&
+				context.Request.Cookies.TryGetValue("accessToken", out var cookieToken))
+			{
+				context.Token = cookieToken;
+			}
+
+			return Task.CompletedTask;
+		}
+	};
 	c.IncludeErrorDetails   = environment.IsDevelopment();
 });
 
@@ -74,15 +91,19 @@ builder.Services.AddEndpointsApiExplorer();  // OpenApi
 
 builder.Services.AddMyCustomSwaggerGen();
 
+builder.Services.AddAntiforgery(options => { options.HeaderName = "X-XSRF-TOKEN"; });
+
 builder.Services.AddMyServices();  // Dependency Injection of My Services
 
-// ========================================================================================================
+// ----------------------------------------------------------------------------------------
+// Build Application
+// ----------------------------------------------------------------------------------------
 
 var app = builder.Build();
 
 app.UseStaticFiles();
 
-app.UseMyCustomSwagger();
+app.MapFallbackToFile("/index.html");
 
 app.UseHttpsRedirection();
 
@@ -92,16 +113,15 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.RegisterMyEndpoints();
+app.UseMiddleware<DebugMiddleware>(); // Only runs in Development
 
-app.RegisterRealtimeHubs();
+app.UseAntiforgery();
 
-app.MapFallbackToFile("/index.html");
+app.UseMyEndpoints();
 
-if (environment.IsDevelopment())
-{
-	app.UseMiddleware<DebugMiddleware>();
-}
+app.UseMyRealtimeHubs();
+
+app.UseMyCustomSwagger();
 
 // ========================================================================================================
 

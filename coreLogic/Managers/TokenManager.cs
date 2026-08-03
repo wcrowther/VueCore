@@ -1,4 +1,5 @@
-﻿using coreApi.Models;
+﻿using coreData.Models;
+using coreLogic.Models;
 using coreLogic.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,13 +9,15 @@ using System.Text;
 
 namespace coreLogic.Managers;
 
-public class TokenManager(AppSettings appSettings)
+public class TokenManager(AppSettingsVm appSettings)
 : ITokenManager
 {
 	public (string token, DateTime expiration) GenerateJwtToken(User user)
 	{
 		var baseClaims = new List<Claim>()
 			{
+				new (ClaimTypes.NameIdentifier,              user.UserId.ToString()),
+				new (ClaimTypes.Name,                        user.UserName),
 				new (JwtRegisteredClaimNames.Sub,        user.UserId.ToString()),
 				new (JwtRegisteredClaimNames.Jti,        Guid.NewGuid().ToString()),
 				new (JwtRegisteredClaimNames.UniqueName, user.UserName),
@@ -58,7 +61,9 @@ public class TokenManager(AppSettings appSettings)
 		var (token, expiration) = GenerateRefreshTokenAndExpiration();
 
 		user.RefreshToken           = token;
+		user.RefreshTokenIssuedAt   = DateTime.Now;
 		user.RefreshTokenExpiration = expiration;
+		user.RefreshTokenRevokedAt  = null;
 
 		return user;
 	}

@@ -1,87 +1,86 @@
-using coreApi.Models;
-using coreApi.Models.Generic;
-using coreLogic.Data.Interfaces;
-using coreLogic.Data.Repos;
+using coreData.Interfaces;
+using coreData.Models;
+using coreLibrary.Models;
+using coreLogic.Adapters;
 using coreLogic.Interfaces;
-using Microsoft.AspNetCore.Http;
+using coreLogic.Models;
 using bCrypt = BCrypt.Net.BCrypt;
 
 namespace coreLogic.Managers;
 
-public class UserManager(	IUserRepo userRepo,
-							ICookieManager cookieManager,
-							ITokenManager tokenManager
-						)
-: IUserManager
+// =====================================================================
+// WARNING: In a PRODUCTION system you will need to authorize that
+// users have rights to modify users based on particular roles.
+// This is not implemented in this simplified version of the code.
+// =====================================================================
+
+public class UserManager(IUserRepo userRepo, ICookieManager cookieManager, ITokenManager tokenManager)
+    : IUserManager
 {
-	public User GetUserByUsername(string username)
-	{
-		var user = userRepo.GetUserByUserName(username);
+    public UserVm GetUserByUsername(string username)
+    {
+        var user = userRepo.GetUserByUserName(username);
+        PopulateAuditableNames(user);
+        return user.ToUserVm();
+    }
 
-		PopulateAuditableNames(ref user);
+    public UserVm GetUserById(int id)
+    {
+        var user = userRepo.GetUserById(id);
+        PopulateAuditableNames(user);
+        return user.ToUserVm();
+    }
 
-		return user;
-	}
+    public IEnumerable<UserVm> GetAllUsers()
+    {
+        return userRepo.GetAllUsers().ToUserVmList();
+    }
 
-	public User GetUserById(int id)
-	{
-		var user = userRepo.GetUserById(id);
+    public PagedList<UserVm, SearchForUser> GetPagedUsers(Pager<SearchForUser> pager)
+    {
+        pager ??= new Pager<SearchForUser>();
+        var pagedUsers = userRepo.GetPagedUsers(pager);
+        return new PagedList<UserVm, SearchForUser>
+        {
+            Pager     = pagedUsers.Pager,
+            ListItems = pagedUsers.ListItems?.ToUserVmList()
+        };
+    }
 
-		PopulateAuditableNames(ref user);
+    // SEE ABOVE FOR USER CAUTIONS
+    public UserVm SaveUser(UserVm userVm)
+    {
+        var user = userVm.ToUser();
+        var saved = userRepo.SaveUser(user);
+        PopulateAuditableNames(saved);
+        return saved.ToUserVm();
+    }
 
-		return user;
-	}
+    // SEE ABOVE FOR USER CAUTIONS
+    public UserVm CreateUser(UserToCreate userToCreate)
+    {
+        tokenManager.CreateNewRefreshTokenForUser(userToCreate);
+        var createdUser = userRepo.CreateUser(userToCreate, bCrypt.HashPassword(userToCreate.Password));
+        cookieManager.SetRefreshTokenCookie(createdUser.RefreshToken);
+        return createdUser.ToUserVm();
+    }
 
-	public IEnumerable<User> GetAllUsers()
-	{
-		return userRepo.GetAllUsers();
-	}
+    public UserVm UpdateUserRefreshToken(UserVm userVm)
+    {
+        var user = userVm.ToUser();
+        tokenManager.CreateNewRefreshTokenForUser(user);
+        var saved = userRepo.UpdateRefreshToken(user);
+        cookieManager.SetRefreshTokenCookie(saved.RefreshToken);
+        return saved.ToUserVm();
+    }
 
-	public PagedList<User> GetPagedUsers(Pager pager)
-	{
-		pager ??= new Pager();
+    // ==========================================================================================
 
-		return userRepo.GetPagedUsers(pager);
-	}
-
-	public User SaveUser(User user)
-	{
-		var usr = userRepo.SaveUser(user);
-
-		PopulateAuditableNames(ref usr);
-
-		return usr;
-	}
-
-	public User CreateUser(UserToCreate userToCreate)
-	{
-		tokenManager.CreateNewRefreshTokenForUser(userToCreate);
-
-		var createdUser = userRepo.CreateUser(userToCreate, bCrypt.HashPassword(userToCreate.Password));
-
-		cookieManager.SetRefreshTokenCookie(createdUser.RefreshToken);
-
-		return createdUser;
-	}
-
-	public User UpdateUserRefreshToken(User user)
-	{
-		tokenManager.CreateNewRefreshTokenForUser(user);
-
-		var refreshedUser = SaveUser(user);
-
-		cookieManager.SetRefreshTokenCookie(user.RefreshToken);
-
-		return refreshedUser;
-	}
-
-	// ==========================================================================================
-
-	private void PopulateAuditableNames(ref User user)
-	{
-		if (user is null) return;
-
-		user.CreatorName     = userRepo.GetUsernameById(user.CreatorId);
-		user.ModifierName    = userRepo.GetUsernameById(user.ModifierId);
-	}
+    private void PopulateAuditableNames(User user)
+    {
+        if (user is null) return;
+        user.CreatorName  = userRepo.GetUsernameById(user.CreatorId);
+        user.ModifierName = userRepo.GetUsernameById(user.ModifierId);
+    }
 }
+

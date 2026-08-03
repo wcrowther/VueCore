@@ -1,18 +1,13 @@
 	
 <script setup>
 
-    const appStore     		= useAppStore()
-    const { altTheme }		= storeToRefs(appStore)
-
 	SetHtmlHeadBody() 			// Sets CSS 'theme' or 'alt-theme' for this layout
-	
+
 </script>
 
 <template>
 
-	<!-- Adding theme here cascades down to the whole page  -->	
-	<div id="layout-auth"
-		class="h-full" :class="[altTheme ? 'alt-theme': 'theme']">
+	<div id="layout-auth" class="h-full">
 
 		<div id="background-div" 
 			class="fixed top-0 bottom-0 left-0 right-0 bg-gradient-back">
@@ -24,7 +19,7 @@
 				<BrandLogo />
 			</BrandBar>  
 
-			<div class="border-r border-gray-200 shadow-theme-layout ">
+			<div class="bg-white border-r border-gray-200 shadow-theme-layout ">
 				<slot></slot>
 			</div>	
 

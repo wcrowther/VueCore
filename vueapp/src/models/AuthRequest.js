@@ -1,8 +1,9 @@
 
-function AuthRequest (userName, password)
+export default class AuthRequest
 {
-	this.UserName	= userName || ''
-	this.Password	= password || ''
+	constructor() 
+    {
+		this.UserName	= ''
+		this.Password	= ''
+	}
 }
-
-export { AuthRequest }

@@ -9,7 +9,7 @@
 
 	<LayoutAuth>
 
-		<div id="login" class="p-10 pb-12 relative h-full bg-white"> 
+		<div id="login" class="p-10 pb-12 relative h-full"> 
 
 			<LoginView v-if="!showNewUser">
 				<span class="btn-secondary" @click="showNewUser=true">New User Signup</span>

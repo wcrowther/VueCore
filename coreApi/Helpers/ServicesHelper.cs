@@ -1,9 +1,6 @@
-﻿using coreApi.Data;
-using coreApi.Data.Interfaces;
-using coreApi.Logic;
-using coreApi.Logic.Interfaces;
-using coreLogic.Data.Interfaces;
-using coreLogic.Data.Repos;
+using coreData;
+using coreData.Interfaces;
+using coreData.Repos;
 using coreLogic.Interfaces;
 using coreLogic.Managers;
 
@@ -13,9 +10,10 @@ public static class ServicesHelper
 {
 	public static void AddMyServices(this IServiceCollection services)
     {
-		services.AddDbContext<CoreApiDataContext>();
+		services.AddDbContext<DataContext>();
 
 		// Logic Services
+		services.AddScoped<ICurrentUserProvider,	UserClaimsManager>();
 		services.AddScoped<IAccountManager,		AccountManager>();
         services.AddScoped<IUserManager,		UserManager>();
 		services.AddScoped<IAuthManager,		AuthManager>();

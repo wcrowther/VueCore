@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace coreApi.Helpers;
 
@@ -8,7 +8,7 @@ public static class EndpointsHelper
 	// registered by this helper. See existing examples in the Endpoints folder.
 	// 'No action descriptors found...' warning can be ignored as it is for Controller routes.
 
-	public static void RegisterMyEndpoints(this WebApplication app)
+	public static void UseMyEndpoints(this WebApplication app)
 	{
 		var staticMethods = typeof(Endpoints).GetMethods().Where(a => a.IsStatic && a.IsPublic);
 

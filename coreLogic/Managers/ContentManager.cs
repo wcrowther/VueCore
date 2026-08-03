@@ -1,9 +1,9 @@
-using coreApi.Data.Interfaces;
-using coreApi.Models.Generic;
+using coreData.Interfaces;
+using coreData.Models;
+using coreLibrary.Models;
 using coreLogic.Interfaces;
-using coreLogic.Models;
 
-namespace coreApi.Logic;
+namespace coreLogic.Managers;
 
 public class ContentManager( IContentRepo contentRepo) 
 : IContentManager

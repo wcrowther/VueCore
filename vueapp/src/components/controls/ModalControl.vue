@@ -1,40 +1,30 @@
 <script setup>
 
-	const props = defineProps({
-		showModal:          Boolean, 
-		title:            	String,
-		teleportToBody:   	{ type: Boolean, default: true },
+	const showModal = defineModel({ type: Boolean })
+
+	const props = defineProps(
+	{
+		title:            	{ type: String, default: null },
+		teleportToModals:   { type: Boolean, default: true },
 		height:           	{ type: String, default: '300px' },
 		width:            	{ type: String, default: '500px' },
 		overlayClickCloses: { type: Boolean, default: false },
+		showFooter: 		{ type: Boolean, default: true },
 	})
 
 	defineOptions({ inheritAttrs: false })
 
-	const emits 		= defineEmits(["closeModal"])
-	const closeModal 	= () =>  emits('closeModal')
-	
-	onMounted(() =>   { document.body.style.overflow = 'hidden'; })
-	onUnmounted(() => { document.body.style.overflow = 'auto'; })
-
-    watch(() => props.showModal, (newVal) => 
-    {
-		// Prevents scrolling behind overlay. 
-		document.body.style.overflow    = newVal ? 'hidden': 'auto'
-
-		// code: document.body.style.marginRight = newVal ? '16px': 'initial'
-    })
-
+	useScrollLock(showModal)
 
 </script>
 
 <template>
-	<Teleport to="body" :disabled="!teleportToBody">    
+	<Teleport to="#modals" :disabled="!teleportToModals">    
 		<Transition name="modal">
 
 			<div v-if="showModal" id="ModalOverlay"
 				@click.self="props.overlayClickCloses && closeModal"
-                class="flex fixed z-[9999] top-0 left-0 w-full h-full bg-black 
+                class="flex fixed z-[999] top-0 left-0 w-full h-full bg-black 
 					bg-opacity-30 transition-opacity ease-in-out duration-75">
 
 				<div class="flex flex-col m-auto  max-w-screen transition-all relative 
@@ -42,22 +32,25 @@
 					:style="{ height: props.height, width: props.width }">
 
 					<div class="shrink-0 flex justify-between items-center pl-8 pr-5 w-full h-14 
-						text-lg font-bold bg-gradient-modal select-none ">
+						text-lg font-bold bg-gradient-modal select-none">
+
 						<slot name="header">
 							<span>{{title || 'Title'}}</span>
-							<div class="h-7 w-7 bg-white hover:bg-color-light-blue rounded-full flex-center" 
-								@click="closeModal">
-								<IconSymbol width="22px" class="text-color-dark-gray" icon="heroicons-solid:x" />
+							<div class="h-7 w-7 bg-white/50 hover:bg-color-light-blue rounded-full flex-center" 
+								@click="showModal=false">
+								<IconSymbol width="18px" class="text-color-dark-gray" icon="heroicons-solid:x" />
 							</div>
 						</slot>
+
 					</div>
 					
-					<!-- Content -->
-					<div class="pb-8 h-full items-stretch scrollbar-thin" 
+					<!-- Content - Gets ModalControls attributes ($attrs) on this div -->
+					<div class="pb-8 h-full items-stretch scrollbar-thin overflow-auto"
 						v-bind="$attrs"
-						><slot>Default body</slot></div>
+						><slot><div class="p-5 pb-0">Default content</div></slot></div>
 
-					<div class="shrink-0 p-4 pb-6 w-full h-18 flex justify-end gap-2 select-none">
+					<div v-if="showFooter"
+						class="shrink-0 p-4 pb-6 w-full h-18 flex justify-end gap-2 select-none">
 						<slot name="footer">
 							<button class="btn-primary" @click="closeModal">Ok</button>
 						</slot>
@@ -86,10 +79,5 @@
 
 <!-- Usage: 
 
-    <AccountAdvSearch v-if="showAdvSearch" 
-        v-model:showModal="showAdvSearch" v-model:listPager="listPager" @getListData="getListData" />
-
-	NOTE: 'v-if' above is used to ensure the modal is only initialized when it is actually needed,
-	preventing it from mounting on page load. Removing v-if would cause lifecycle hooks like onMounted 
-	(e.g., keyboard listeners) to run immediately, which could override the LayoutEscapeKey behavior.
+    <ModalControl v-if="showAdvSearch" v-model="showAdvSearch"  />
 -->

@@ -1,8 +1,8 @@
-﻿using coreApi.Helpers;
-using coreApi.Logic.Interfaces;
-using coreApi.Models;
-using coreApi.Models.Generic;
+using coreApi.Helpers;
+using coreData.Models;
+using coreLibrary.Models;
 using coreLogic.Interfaces;
+using coreLogic.Managers;
 using coreLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 using WildHare.Extensions;
@@ -14,8 +14,11 @@ public static partial class Endpoints
 	public static void ContentEndpoints(this WebApplication app)
 	{
 		var endpoints = app.MapGroup("/v1/content")
-					  .WithOpenApi()
-					  .WithTags("Content");
+							.RequireAuthorization()
+							.WithOpenApi()
+						    .WithTags("Content");
+
+		// ---- Legacy Image Endpoints  -------------------------------------------------------------------
 
 		endpoints.MapPost("/getimages", (IContentManager _contentManager) =>
 		{
@@ -36,5 +39,115 @@ public static partial class Endpoints
 						Results.Ok(results);
 		})
 		.WithName("GetPagedImages");
+
+		// ---- Uploads Endpoints --------------------------------------------------------------------------
+
+		endpoints.MapPost("/upload", async (IFormFile file, [FromServices] FileManager fileManager) =>
+		{
+			var fileName = await fileManager.UploadFile(file);
+
+			return Results.Ok(new { file = fileName });
+		})
+		.WithName("Upload");
+
+		// ---- File Endpoints ------------------------------------------------------------------------------
+
+		endpoints.MapGet("/folders", (FolderManager folderManager) =>
+		{
+			return Results.Ok(folderManager.GetTree());
+		});
+
+		endpoints.MapPost("/folders", ([FromBody] FolderRequest req, [FromServices] FolderManager folderManager) =>
+		{
+			folderManager.CreateFolder(req.ParentPath, req.Name);
+			return Results.Ok();
+		});
+
+		endpoints.MapDelete("/folders", ([FromBody] FolderRequest req, [FromServices] FolderManager folderManager) =>
+		{
+			folderManager.DeleteFolder(req.ParentPath, req.Name);
+			return Results.Ok();
+		});
+
+		endpoints.MapPut("/renamefolder", ([FromBody] RenameFolderRequest request, [FromServices] FolderManager folderManager) =>
+		{
+			folderManager.RenameFolder(request.ParentPath, request.OldName, request.NewName);
+			return Results.Ok();
+		});
+
+		// ---- File Endpoints ------------------------------------------------------------------------------
+
+		endpoints.MapGet("/files/{*folderPath}", ([FromServices] FileManager fileManager, string folderPath) =>
+		{
+			var results = fileManager.GetFiles(folderPath);
+
+			return results is null
+						? Results.NotFound(new { message = "Folder not found" })
+						: Results.Ok(results);
+		})
+		.WithName("GetFiles");
+
+		endpoints.MapGet("/file/{*filePath}", ([FromServices] FileManager fileManager, string filePath) =>
+		{
+			var fullPath = fileManager.GetFilePath(filePath);
+			if (fullPath is null)
+				return Results.NotFound();
+
+			var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+			if (!provider.TryGetContentType(fullPath, out var contentType))
+				contentType = "application/octet-stream";
+
+			return Results.Stream(System.IO.File.OpenRead(fullPath), contentType);
+		})
+		.WithName("GetFile");
+
+		endpoints.MapPut("/renamefile", ([FromBody] RenameFileRequest request, [FromServices] FileManager fileManager) =>
+		{
+			fileManager.RenameFile(request.FolderPath, request.OldName, request.NewName);
+			return Results.Ok();
+		})
+		.WithName("RenameFile");
+
+		endpoints.MapDelete("/files", ([FromBody] DeleteFilesRequest request, [FromServices] FileManager fileManager) =>
+		{
+			fileManager.DeleteFiles(request.FolderPath, request.FileNames);
+			return Results.Ok();
+		})
+		.WithName("DeleteFiles");
+
+		endpoints.MapPost("/movefiles", ([FromBody] MoveFilesRequest request, [FromServices] FileManager fileManager) =>
+		{
+			if (string.IsNullOrWhiteSpace(request.SourcePath))
+				return Results.BadRequest(new { message = "SourcePath is required" });
+
+			if (string.IsNullOrWhiteSpace(request.TargetPath))
+				return Results.BadRequest(new { message = "TargetPath is required" });
+
+			if (request.FileNames is null || request.FileNames.Count == 0)
+				return Results.BadRequest(new { message = "FileNames is required and must not be empty" });
+
+			if (request.SourcePath == request.TargetPath)
+				return Results.BadRequest(new { message = "SourcePath and TargetPath must be different" });
+
+			if (request.SourcePath.Contains("..") || request.TargetPath.Contains(".."))
+				return Results.BadRequest(new { message = "Invalid path" });
+
+			try
+			{
+				var result = fileManager.MoveFiles(request.SourcePath, request.TargetPath, request.FileNames);
+
+				return Results.Ok(result);
+			}
+			catch (DirectoryNotFoundException ex)
+			{
+				return Results.NotFound(new { message = ex.Message });
+			}
+			catch (Exception)
+			{
+				return Results.Problem("An unexpected error occurred", statusCode: 500);
+			}
+		})
+		.WithName("MoveFiles");
 	}
 }
+

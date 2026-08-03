@@ -1,13 +1,11 @@
-﻿using coreApi.Models;
-using coreApi.Models.Generic;
-using coreLogic.Models;
+using coreData.Models;
+using coreLibrary.Models;
 
-namespace coreLogic.Interfaces
+namespace coreLogic.Interfaces;
+
+public interface IContentManager
 {
-	public interface IContentManager
-	{
-		Task<List<Image>> GetImages();
+	Task<List<Image>> GetImages();
 
-		Task<PagedList<Image>> GetPagedImages(Pager pager);
-	}
+	Task<PagedList<Image>> GetPagedImages(Pager pager);
 }

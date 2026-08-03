@@ -1,22 +1,19 @@
 <script setup>
 
+    const show = defineModel('show', { type: Boolean, default: false })
+
     const pager = computed(() => props.pager); 
 
     const props = defineProps({
         pager: { type: PagerModel, required: true },
-        show:  { type: Boolean, default: false }
     })
 
 </script>
 
 <template>
 
-    <FloaterControl :show name="PagerDebugger" 
+    <FloaterControl v-model="show" name="PagerDebugger" title="Pager Debugger"
         class="w-[200px] pb-3 mb-1 drop-shadow-xl text-sm/loose leading-[25px] bg-white border"> 
-
-        <div class="p-2 bg-color-blue text-white font-bold select-none">
-            Pager Debugger
-        </div>
 
         <div class="px-2 bg-[#ddd]">CurrentRecord:   {{ pager.CurrentRecord }}</div>
         <div class="px-2 bg-[#ddd]">GroupSize:       {{ pager.GroupSize }}</div>

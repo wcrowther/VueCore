@@ -1,10 +1,16 @@
 <script setup>
 	const appStore                      = useAppStore()
 	const { infoLevel }                 = storeToRefs(appStore)
+
+    const props = defineProps(
+	{
+        static:  { type: Boolean, default: false },
+	});
+
 </script>
 
 <template>
-    <div v-if="infoLevel > 1" class="text-sm mb-3">
+    <div v-if="infoLevel > 1 || static" class="mb-7 text-sm">
         <slot></slot>
     </div>
 </template>
@@ -16,7 +22,11 @@ USE:  Wrap around content that you only want to appear when infoLevel is Info (2
 EXAMPLES: 
 
     <InfoBox>
-        Voluptates accusamus repudiandae quam officiis temporibus dicta ipsa iure? 
+        Conditional generic directions or information to display on the page.
+    </InfoBox>
+
+    <InfoBox :static="true">
+        Always display generic directions or information to display on the page 
     </InfoBox>
 -->
 

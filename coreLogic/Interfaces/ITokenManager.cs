@@ -1,4 +1,4 @@
-﻿using coreApi.Models;
+﻿using coreData.Models;
 
 namespace coreLogic.Interfaces;
 

@@ -2,35 +2,49 @@
 
     const props = defineProps (
     {
-        labelName:  { type: String, required: true }, 
-        ruleName:   { type: String }, 
-        spellCheck: { type: Boolean },
-        v$:         { type: Object }
+        hideLabel:   Boolean,
+        labelName:   { type: String }, 
+        placeholder: { type: String }, 
+        ruleName:    { type: String }, 
+        spellCheck:  { type: Boolean },
+        v$:          { type: Object }
     })
 
     const modelValue = defineModel()
-    const rule  = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ',''))
+    const rule       = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ',''))
+    const hasErrors  = computed(() => props.v$ && props.v$[rule.value] && props.v$[rule.value]?.$errors.length > 0 )
+    const textInput  = ref(null)
+    const focus      = () => 
+    { 
+        textInput.value.focus();
+        textInput.value.setSelectionRange(0,0)
+    }
 
+    defineExpose({ focus })
 </script>
 
 <template>
-    <div class="mb-3">
-        <div class="pb-1 flex justify-between items-baseline">
-            <label class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
+    <div class="mb-3 w-full">
+
+        <div :class="['flex justify-between items-baseline', {'pb-1': !props.hideLabel } ]">
+            <label v-if="props.labelName && !props.hideLabel"
+                class="text-color-dark-blue font-bold whitespace-nowrap text-xs"
                 :for="props.labelName">
                 {{props.labelName}}
             </label>
-            <template v-if="v$ && v$[rule] && v$[rule].$errors">
+            <template v-if="hasErrors">
                 <span class="italic font-bold text-right text-xs text-color-red" 
                     v-for="error in v$[rule].$errors" :key="error.$uid">
-                    {{ error.$message }}
+                    {{ error.$message }} 
                 </span>
             </template>
         </div>
-        <div class="flex justify-center items-center relative">
-            <input class="w-full text-sm" type="text" :id="props.labelName" :name="props.labelName"
-                v-model="modelValue" v-bind="$attrs" :spellcheck="props.spellCheck" />
-        </div>
+
+        <input :class="['w-full text-sm', {'border-red': hasErrors}]" 
+            type="text" :id="props.labelName" :name="props.labelName"
+            v-model="modelValue" v-bind="$attrs" ref="textInput"
+            :placeholder="props.placeholder" :spellcheck="props.spellCheck" />
+
     </div>
 </template>
 

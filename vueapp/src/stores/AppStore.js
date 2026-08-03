@@ -1,39 +1,104 @@
 
-export const useAppStore = defineStore('AppStore',
+// Uses Composition Api-style syntax
+
+export const useAppStore = defineStore('AppStore', () => 
 {
-    state: () => 
-    ({
-        sideBarHidden:          false,
-        layoutEscapeKeyOn:      true,
-        showPrevNext:           useLocalStorage('showPrevNext',  true),
-        showBreakpoints:        useLocalStorage('showBreakpoints', false),
-        showNotification:       useLocalStorage('showNotification', true),
-        showNewChatMessages:    useLocalStorage('showNewChatMessages', true),
-        persistSearch:          useLocalStorage('persistSearch', false),
-        altTheme:               useLocalStorage('altTheme', false),
-        infoLevel:              useLocalStorage('infoLevel', 2),
-        pagerDebugger:          useLocalStorage('pagerDebugger', false),
-        pagerDebuggerX:         useLocalStorage('pagerDebuggerX', 400),
-        pagerDebuggerY:         useLocalStorage('pagerDebuggerY', 30),
-        activeFloater:          useLocalStorage('activeFloater', ''),
-        baseApiUrl:             import.meta.env.VITE_API_URL,
-        apiDocsUrl:             import.meta.env.VITE_API_DOCS_URL,
-        baseUrl:                import.meta.env.BASE_URL,
-        mode:                   import.meta.env.MODE
-    }),
-    getters:{},
-    actions:{
-        async resetLocalStorage ()
-        {
-            var local =  [ 'showPrevNext','showBreakpoints','persistSearch','altTheme',
-                           'infoLevel','pagerDebugger','pagerDebuggerX','pagerDebuggerY',
-                           'activeFloater','showNewChatMessages' ];
+    const router                = useRouter()  // used below
+    
+    // State ------------------------------------------------------------------
 
-            local.forEach(item => { localStorage.removeItem(item) });
+    const sideBarHidden         = ref(false)
+    const showSideButton        = ref(false)
+    const disableGlobalKeys     = ref(false)
+    const showPrevNext          = useLocalStorage('showPrevNext', true)
+    const showBreakpoints       = useLocalStorage('showBreakpoints', false)
+    const showNotification      = useLocalStorage('showNotification', true)
+    const showNewChatMessages   = useLocalStorage('showNewChatMessages', true)
+    const showJsonEntities      = useLocalStorage('showJsonEntities', false)
+    const persistSearch         = useLocalStorage('persistSearch', false)
+    const altTheme              = useLocalStorage('altTheme', false)
+    const fullWidth             = useLocalStorage('fullWidth', false)
+    const infoLevel             = useLocalStorage('infoLevel', 2)
+    const activeFloater         = useLocalStorage('activeFloater', '')
+    const pagerDebugger         = useLocalStorage('pagerDebugger', false)
+    const pagerDebuggerX        = useLocalStorage('pagerDebuggerX', 400)
+    const pagerDebuggerY        = useLocalStorage('pagerDebuggerY', 30)
+    const showPlatformInfo      = useLocalStorage('showPlatformInfo', false)
+	
+    // Getters ------------------------------------------------------------------
 
-            useToastStore().showInfo(`Removed local App preferences`)
-            setTimeout(() => { this.router.go(0); }, 2000);
-        }
+	const infoLevelText = computed(() =>
+	{
+		switch (infoLevel.value)
+		{
+			case 1: return "?"
+			case 2: return "Info"
+			case 3: return "Help"
+			default: return "Info"
+		}
+	})
+
+    // Actions ------------------------------------------------------------------
+
+    async function resetLocalStorage() 
+    {
+        const local =  
+        [   
+            'showPrevNext', 'showBreakpoints', 'showNotification',
+            'showNewChatMessages','showJsonEntities', 'persistSearch', 
+            'altTheme', 'fullWidth', 'infoLevel', 'activeFloater', 
+            'pagerDebugger', 'pagerDebuggerX', 'pagerDebuggerY', 'showPlatformInfo', 
+        ]
+
+        local.forEach(item => localStorage.removeItem(item))
+
+        const toast = useToastStore()
+        toast.showInfo('Removed local App preferences')
+
+        setTimeout(() => router.go(0), 2000)
+    }
+
+    const setInfoLevel  = (num) => 
+	{
+		const min = 1
+	    const max = 3
+
+        let val = infoLevel.value + num
+
+		if(val < min)
+			val = max
+		else if(val > max)
+			val = min
+
+		infoLevel.value = val
+	}
+
+    // Return ------------------------------------------------------------------
+
+    return {
+        // Refs
+        sideBarHidden,
+        showSideButton,
+        showPrevNext,
+        showBreakpoints,
+        showNotification,
+        showNewChatMessages,
+        showJsonEntities,
+        persistSearch,
+        altTheme,
+        fullWidth,
+        infoLevel,
+        pagerDebugger,
+        pagerDebuggerX,
+        pagerDebuggerY,
+        showPlatformInfo,
+        activeFloater,
+        disableGlobalKeys,
+
+        infoLevelText,
+
+        // actions
+        resetLocalStorage,
+        setInfoLevel
     }
 })
-

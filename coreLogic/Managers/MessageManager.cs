@@ -1,50 +1,44 @@
-using Microsoft.Extensions.Options;
-using coreApi.Data.Interfaces;
-using coreApi.Models;
-using coreApi.Models.Generic;
-using coreApi.Logic.Interfaces;
-using Microsoft.AspNetCore.Http;
-using coreLogic.Data.Interfaces;
-using SQLitePCL;
+using coreData.Interfaces;
+using coreData.Models;
+using coreLogic.Adapters;
 using coreLogic.Interfaces;
+using coreLogic.Models;
 
-namespace coreApi.Logic;
+namespace coreLogic.Managers;
 
-public class MessageManager(	IMessageRepo messageRepo,
-								IUserRepo userRepo
-							)
-: IMessageManager
+public class MessageManager(IMessageRepo messageRepo, IUserRepo userRepo)
+    : IMessageManager
 {
-    public async Task<List<Message>> GetAllMessages()
+    public async Task<List<MessageVm>> GetAllMessages()
     {
-        return await messageRepo.GetAllMessages();
+        var messages = await messageRepo.GetAllMessages();
+        return messages.ToMessageVmList();
     }
 
-	public async Task<int> GetMaxMessageId()
-	{
-		return await messageRepo.GetMaxMessageId();
-	}
+    public async Task<int> GetMaxMessageId()
+    {
+        return await messageRepo.GetMaxMessageId();
+    }
 
-	public async Task<Message> SaveMessage(Message message)
-	{
-		var savedMessage = await messageRepo.SaveMessage(message);
+    public async Task<MessageVm> SaveMessage(MessageVm messageVm)
+    {
+        var message = messageVm.ToMessage();
+        var saved   = await messageRepo.SaveMessage(message);
+        PopulateAuditableNames(saved);
+        return saved.ToMessageVm();
+    }
 
-		PopulateMessageAuditableNames(ref savedMessage);
+    // ==========================================================================================
 
-		return savedMessage;
-	}
+    private void PopulateAuditableNames(Message message)
+    {
+        if (message is null) return;
 
-	// ==========================================================================================
+        message.CreatorName = userRepo.GetUsernameById(message.CreatorId);
 
-	private void PopulateMessageAuditableNames(ref Message message)
-	{
-		if (message is null) return;
-
-		message.CreatorName  = userRepo.GetUsernameById(message.CreatorId);
-
-		if (message.CreatorId == message.ModifierId)
-			message.ModifierName = message.CreatorName;
-		else
-			message.ModifierName = userRepo.GetUsernameById(message.ModifierId);
-	}
+        if (message.CreatorId == message.ModifierId)
+            message.ModifierName = message.CreatorName;
+        else
+            message.ModifierName = userRepo.GetUsernameById(message.ModifierId);
+    }
 }

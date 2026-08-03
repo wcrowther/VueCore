@@ -1,13 +1,9 @@
-﻿using coreApi.Helpers;
+using coreApi.Helpers;
 using coreApi.Hubs;
-using coreApi.Logic.Interfaces;
-using coreApi.Models;
-using coreApi.Models.Generic;
 using coreLogic.Interfaces;
-using coreLogic.Models.Generic;
+using coreLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System.Security.Claims;
 
 namespace coreApi;
 
@@ -35,8 +31,8 @@ public static partial class Endpoints
 		});
 
 		endpoints.MapPost("/saveMessage", (	IMessageManager _messageManager,
-											IHubContext<ChatHub> hubContext,
-											[FromBody] Message message) =>
+										IHubContext<ChatHub> hubContext,
+										[FromBody] MessageVm message) =>
 		{
 			var savedMessage = _messageManager.SaveMessage(message);
 
@@ -48,7 +44,7 @@ public static partial class Endpoints
 
 			return Results.Ok(savedMessage); 
 		})
-		.Validate<Message>(false);
+		.Validate<MessageVm>(false);
 	}
 }
 

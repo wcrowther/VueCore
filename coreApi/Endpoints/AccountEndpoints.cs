@@ -1,11 +1,9 @@
-﻿using coreApi.Helpers;
-using coreApi.Logic.Interfaces;
-using coreApi.Models;
-using coreApi.Models.Generic;
+using coreApi.Helpers;
+using coreData.Models;
+using coreLibrary.Models;
 using coreLogic.Interfaces;
-using coreLogic.Models.Generic;
+using coreLogic.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace coreApi;
 
@@ -18,12 +16,14 @@ public static partial class Endpoints
 							.WithOpenApi()
 							.WithTags("Accounts");
 
-        endpoints.MapGet("/getAllAccounts", (IAccountManager _accountManager) =>
+		endpoints.MapGet("/getAllAccounts", (IAccountManager _accountManager) =>
         {
             var accounts = _accountManager.GetAllAccounts();
 
             return Results.Ok(accounts);
-        });
+        })
+		.WithSummary("Retrieves a list of all Accounts")
+		.WithDescription("This endpoint returns a comprehensive list of all Accounts."); 
 
         endpoints.MapPost("/getPagedAccounts", ( IAccountManager _accountManager, 
 												 [FromBody] Pager<SearchForAccount> pager) =>
@@ -42,14 +42,15 @@ public static partial class Endpoints
         });
 
 		endpoints.MapPost("/saveAccount", (	IAccountManager _accountManager,
-											IAuthManager _authManager,
-											[FromBody] Account account) =>
+										IAuthManager _authManager,
+										[FromBody] AccountVm account) =>
 		{
 			var acct = _accountManager.SaveAccount(account);
 
 			return Results.Ok(acct);
 		})
-		.Validate<Account>(false);
+		.Validate<AccountVm>(false);
 	}
 }
+
 

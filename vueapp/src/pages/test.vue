@@ -1,10 +1,11 @@
 <script setup>
 
-    //const appStore              = useAppStore()
-    //const { sideBarHidden }     = storeToRefs(appStore)
-    const isDirty               = ref(false)
+    import { useConfirmControl } from '@/composables/UseConfirmControl'
 
-    const { fnShowConfirm }      = useConfirmDialog();
+    const isDirty               = ref(false)
+    const enableGlobal           = useLocalStorage('enableGlobal', true)
+
+    const { createConfirm }     = useConfirmControl();
     
     const handleSave = async () => 
     {
@@ -14,7 +15,7 @@
             return
         }   
         
-        const confirmed = await fnShowConfirm('Are you sure you want to save this item?')
+        const confirmed = await createConfirm('Are you sure you want to save this item?')
     
         if (confirmed) 
             console.log('Item saved!') 
@@ -22,39 +23,32 @@
             console.log('Save cancelled.')
      }
 
-    // Use ConfirmControl composable (not ConfirmDialog component)
-    // import useConfirmControl from '@/composables/useConfirmControl.js'
-    // const { confirm, showConfirm, confirmMessage, onConfirm, onCancel } = useConfirmControl()
+    useUnsavedGuard(isDirty, () => createConfirm('You have unsaved data. Continue?'), enableGlobal.value)
 
-    useUnsavedChangesGuard(isDirty, fnShowConfirm, false)
+    const inlineCallback = () => console.log('Inline Confirm with Callback.')
 
 </script>
 
 <template>
 	<LayoutMain>
+    
         <div class="bg-gray h-12 p-3 flex items-center gap-3">
 
             <!-- <PrimaryButton @click="sideBarHidden = !sideBarHidden" title="Show / Hide" /> -->
 
-            <PrimaryButton @click="isDirty = !isDirty"> Is Dirty? {{ isDirty }}</PrimaryButton>   
+            <PrimaryButton @click="isDirty = !isDirty"> Is Dirty? {{ isDirty }}</PrimaryButton>  
+
+            <PrimaryButton @click="enableGlobal = !enableGlobal"> Enable Global? {{ enableGlobal }}</PrimaryButton>   
 
             <PrimaryButton @click="handleSave" title="Save Something" class="bg-red" /> 
 
-            <!-- <ConfirmControl v-if="showConfirm" :message="confirmMessage"  @confirmResult="onConfirm"  /> -->
+            <PrimaryButton @click="createConfirm('Call Inline Callback?', inlineCallback)" title="Inline Confirm"  /> 
+
         </div>
 
+        <!-- LEGACY TEST CODE: <SwipeLeftRight /> -->
 
-        <SidebarStaticControl>
-
-            <template #sidebar>
-                <div class="bg-orange w-full flex-1 p-5">sidebar</div>
-            </template>
-
-            <template #default>
-                <div class="bg-yellow w-full flex-1 p-5">default</div>
-            </template>
-
-        </SidebarStaticControl>	 
+        <TabsControlExample />
 
     </LayoutMain>
 

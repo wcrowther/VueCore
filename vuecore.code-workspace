@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "vueapp"
+		},
+		{
+			"path": "coreApi"
+		},
+		{
+			"path": "coreData"
+		},
+		{
+			"path": "coreLogic"
+		}
+	],
+	"settings": {}
+}

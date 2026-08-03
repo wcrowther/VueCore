@@ -1,0 +1,22 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="QA" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="coreApi/coreApi.csproj" />
+  <Project Path="coreData/coreData.csproj">
+    <BuildType Solution="QA|*" Project="Debug" />
+  </Project>
+  <Project Path="coreLibrary/coreLibrary.csproj" />
+  <Project Path="coreLogic/coreLogic.csproj" />
+  <Project Path="vueapp/vueapp.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
+

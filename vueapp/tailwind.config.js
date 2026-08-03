@@ -14,7 +14,8 @@ export const theme = {
     md: '800px',
     lg: '1024px',
     xl: '1280px',
-    '2xl': '1536px'
+    '2xl': '1536px',
+    '3xl': '1920px'
   },
   extend: {
     dropShadow: {
@@ -30,14 +31,14 @@ export const theme = {
       'gradient-navbar': 'var(--gradient-navbar)',
       'gradient-back': 'var(--gradient-back)',
       'gradient-footer': 'var(--gradient-footer)',
-
       'gradient-source': 'linear-gradient( 0, transparent 40%, white 60%)', 
       'gradient-modal-bar': 'linear-gradient( 58deg, #e8e8e8 20%, rgb(125 125 125) 100%)',
       'gradient-table-head': 'linear-gradient( 58deg, #dddddd 50%, #bdbdbd 100%)',
       'gradient-tab-bar': 'linear-gradient( 58deg, #1c2157 50%, black 100%)',
       'gradient-subnav': 'linear-gradient( 170deg, #bdbdbd 0%, white 10%)',
       'gradient-background': 'linear-gradient( to right, #7cb9da 20%, #1b2157 80%)',
-      'gradient-main': 'linear-gradient( 205deg, #b8d7ed 0%, white 60%)',
+      'gradient-main': 'linear-gradient( 205deg, #b8d7ed 0%, white 50%)',
+      'gradient-main-red': 'linear-gradient( 205deg, red 0%, white 50%)',
       'gradient-modal': 'linear-gradient( 205deg, #b8d7ed 30%, white 65%)',
       'gradient-side': 'linear-gradient( 205deg, #bdbdbd 0%, white 65%)',
       'gradient-side-alt': 'linear-gradient( 187deg, #868686 0%, white 75%)',
@@ -99,13 +100,14 @@ export const theme = {
       'color-dark-gray': '#595A50',
       'color-red': '#e53119',
       'color-dark-red': '#b0321f',
-      'color-primary': '#99b3cf',
+      'color-primary': '#81caff',
       'color-secondary': '#9b6f24',
       'color-tertiary': '#d6901a',
       'color-blue-gray': '#99b3cf',
       'color-light-blue': '#b8d7ed ',
       'color-mid-blue': '#6fa2ca',
       'color-blue': '#1c2157',
+      'color-orange': '#f97316',
       'color-dark-blue': '#3e5091',
       'color-theme-footer-text': 'var(--theme-footer-text)',
       'color-theme-nav-tab-text': 'var(--theme-footer-text)',
@@ -121,8 +123,11 @@ export const theme = {
     }
   }
 };
-export const plugins = [
+
+export const plugins = 
+[
   require('@tailwindcss/forms'),
+  require('@tailwindcss/typography')
 ];
 
 

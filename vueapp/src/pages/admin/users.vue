@@ -1,19 +1,20 @@
 
-<script setup></script>
+<script setup>
+
+	ShowSideButtonInSubNav()
+    
+</script>
 
 <template>
 
-    <div id="admin-users"
-        class="flex">
-
-        <MainSidebar>
+    <SidebarControl id="adminUsers">
+    
+        <template #sidebar>
             <UsersList />
-        </MainSidebar>     
+        </template>
 
-        <MainRight>
-            <UsersDetail />
-        </MainRight>  
+        <UsersDetail />
 
-    </div> 
+    </SidebarControl>	
 
 </template>

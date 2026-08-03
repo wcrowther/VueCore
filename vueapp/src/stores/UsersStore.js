@@ -3,7 +3,7 @@ export const useUsersStore = defineStore('UsersStore',
 {
     state: () => 
     ({
-        usersPager:      new PagerModel(),
+        usersPager:      new PagerModel(new SearchForUser),
         usersList:       [],
         user:            new UserModel(),
         detailUserId:    0
@@ -25,7 +25,7 @@ export const useUsersStore = defineStore('UsersStore',
                 
                 if(result.success) 
                 {
-                    this.usersPager  = Object.assign(new PagerModel(), result.data.Pager)
+                    this.usersPager  = PagerModel.fromJson(result.data.Pager, () => new SearchForUser()) 
                     this.usersList   = result.data.ListItems   
                 }
             }

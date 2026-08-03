@@ -1,0 +1,34 @@
+	{
+		"id": 123,
+		"name": "Will Crowther",
+		"address": { 
+      		"city": "Austin", 
+      		"state": "TX" 
+    	},
+		"tags": [
+      		"alpha", 
+      		"beta"
+    	],
+		"details": {
+			"level": 2,
+			"active": true,
+			"nested value 1": { 
+          		"key": "deep",
+				"value": "234234",
+				"array": [
+					"one",
+					"two",
+					"three"
+				]
+        	},
+			"nested value 2": { 
+          		"key": "deep",
+				"value": "666777",
+				"array": [
+					"alpha",
+					"bravo",
+					"charlie"
+				]
+        	}
+		}
+	}

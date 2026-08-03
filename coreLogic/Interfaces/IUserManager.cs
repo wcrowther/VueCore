@@ -1,22 +1,23 @@
-﻿using coreApi.Models;
-using coreApi.Models.Generic;
-using Microsoft.AspNetCore.Http;
+using coreData.Models;
+using coreLibrary.Models;
+using coreLogic.Models;
 
 namespace coreLogic.Interfaces;
 
 public interface IUserManager
-{	
-	User GetUserByUsername(string username);
+{
+    UserVm GetUserByUsername(string username);
 
-	User GetUserById(int id);
-	
-	IEnumerable<User> GetAllUsers();
+    UserVm GetUserById(int id);
 
-	PagedList<User> GetPagedUsers(Pager pager);
+    IEnumerable<UserVm> GetAllUsers();
 
-	User SaveUser(User user);
+    PagedList<UserVm, SearchForUser> GetPagedUsers(Pager<SearchForUser> pager);
 
-	User CreateUser(UserToCreate userToCreate);
+    UserVm SaveUser(UserVm user);
 
-	User UpdateUserRefreshToken(User user);
+    UserVm CreateUser(UserToCreate userToCreate);
+
+    UserVm UpdateUserRefreshToken(UserVm user);
 }
+

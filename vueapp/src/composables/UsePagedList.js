@@ -22,11 +22,13 @@ export function usePagedList(options)
 
     // Local storage defaults ==============================================================
 
-    const listPageSizeDefault = useLocalStorage(pageSizeDefaultName, 15)
-    listPager.value.PageSize  = listPageSizeDefault
+    const listPageSizeDefault       = useLocalStorage(pageSizeDefaultName, 15)
+    listPager.value.PageSize        = listPageSizeDefault
 
-    const searchFilterDefault = useLocalStorage(searchFilterDefaultName, '')
-    listPager.value.Search    = new SearchModel(persistSearch.value ? searchFilterDefault.value : '')
+    const searchFilterDefault       = useLocalStorage(searchFilterDefaultName, '')
+    listPager.value.Search          = createSearchModel()
+    //listPager.value.Search.Filter   = persistSearch.value && !!listPager.value.Search.Filter 
+    //                                    ? searchFilterDefault.value : ''
 
     // Computeds ============================================================================
 
@@ -64,7 +66,6 @@ export function usePagedList(options)
         {
             let newPager           = new PagerModel(createSearchModel()) 
             newPager.Search.Filter = listPager.value.Search.Filter
-            newPager.PageSize      = listPager.value.PageSize  // WILL REMOVE TO ADV SEARCH
             listPager.value        = newPager
         }
 
@@ -92,13 +93,6 @@ export function usePagedList(options)
         refreshList(newVal)
     })
 
-    watch(() => listPager.value.PageSize, (newVal, oldVal) => 
-	{
-        if (newVal === oldVal) 
-			return
-
-        useDebounceFn(() => refreshList(1, true), 1000)()
-    })
 
     watch(() => listPager.value.Search.Filter, (newVal, oldVal) => 
 	{
@@ -110,6 +104,7 @@ export function usePagedList(options)
         if (persistSearch.value)
             searchFilterDefault.value = newVal
     })
+
 
     return {
         // state

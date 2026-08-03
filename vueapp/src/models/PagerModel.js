@@ -74,10 +74,15 @@ class PagerModel
         const beginPage = this.firstPageInGroup(this.currentGroup())
         const endPage = (beginPage + this.GroupSize) - 1
 
-        for (let i = beginPage; i <= endPage; i++) {
+        for (let i = beginPage; i <= endPage; i++) 
+        {
             const firstInPage = ((i - 1) * this.PageSize) + 1
-            if (firstInPage > this.TotalCount) break
+
+            if (firstInPage > this.TotalCount) 
+                break
+
             const isSelected = (this.currentPage() === i)
+
             this.pages.push(new PageItem(i.toString(), firstInPage, i, isSelected))
         }
     }
@@ -117,7 +122,7 @@ class SearchModel
 
 class SearchForAccount extends SearchModel 
 {
-    constructor(filter = '', filterType = 'startswith', sort = '', sortDesc = false, stateProvinceFilter = '', postalCodeFilter = '') 
+    constructor(filter = '', filterType = 'startswith', sort = '', sortDesc = false, stateProvinceFilter = [], postalCodeFilter = '') 
     {
         super(filter, filterType, sort, sortDesc)
         this.StateProvinceFilter    = stateProvinceFilter
@@ -127,6 +132,20 @@ class SearchForAccount extends SearchModel
     static fromJson(json = {}) 
     {
         return Object.assign(new SearchForAccount(), json)
+    }
+}
+
+class SearchForUser extends SearchModel 
+{
+    constructor(filter = '', filterType = 'startswith', sort = '', sortDesc = false, roleFilter = '' ) 
+    {
+        super(filter, filterType, sort, sortDesc)
+        this.RoleFilter    = roleFilter
+    }
+
+    static fromJson(json = {}) 
+    {
+        return Object.assign(new SearchForUser(), json)
     }
 }
 
@@ -173,5 +192,6 @@ export {
     PagedList,
     SearchModel,
     SearchForAccount,
+    SearchForUser,
     Result
 }

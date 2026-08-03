@@ -1,19 +1,24 @@
 	
 <script setup>
 
-    const appStore   							= useAppStore()
-    const { sideBarHidden, layoutEscapeKeyOn }	= storeToRefs(appStore)
+    const { platform }			= usePlatform()
+	const appStore   			= useAppStore()
+    const { sideBarHidden, 
+		    disableGlobalKeys,
+			fullWidth }			= storeToRefs(appStore)
+	const { setInfoLevel }		= appStore
 
-    // Keyboard Listeners & AutoRefreshAuth  ========================================================
-    // --- Disable global Escape for layout by setting app.layoutEscapeKeyOn to false
-    const keys = function (e)   
-    {
-		if (e.code === 'Escape' && layoutEscapeKeyOn.value){ sideBarHidden.value = !sideBarHidden.value; e.preventDefault(); } 
-    }
+	// Keyboard Listeners  ===========================================================================
 
-	KeyboardListeners(keys)		// Sets Key listeners for all pages using this layout
-	AutoRefreshAuth()			// Refreshes JWT Tokens
-	SetHtmlHeadBody() 			// Sets CSS 'theme' or 'alt-theme' for this layout
+	const keys = 
+	{
+		'Escape': 		() => sideBarHidden.value = !sideBarHidden.value,
+		'Ctrl+KeyH':	() => setInfoLevel(1),
+		'F1':    		() => setInfoLevel(1) 
+	}
+
+	KeyboardListeners(keys, disableGlobalKeys) // Sets Key listeners for all pages using this layout
+	SetHtmlHeadBody() 							// Sets CSS 'theme' or 'alt-theme' for this layout
 
 </script>
 
@@ -25,10 +30,10 @@
 			class="fixed top-0 bottom-0 left-0 right-0 bg-gradient-back">
 		</div>
 
-		<div class="main-width mb-10 relative z-0 h-full">
+		<div :class="['mx-auto mb-10 relative z-0 h-full', {'main-width': !fullWidth}]">
 
 			<!-- Debugging variable here if needed
-			<div class="text-white p-3">layoutEscapeKeyOn: {{ layoutEscapeKeyOn }}</div> -->
+			<div class="text-white p-3">disableGlobalKeys: {{ disableGlobalKeys }}</div> -->
 
 			<BreakPoints />
 			
@@ -37,7 +42,7 @@
 				<BrandLogo />
 			</BrandBar>
 
-			<MainNavBar class="shadow-theme-layout" />
+			<MainNavBar class="shadow-theme-layout"></MainNavBar>
 
 			<MainContent>
 				<slot></slot>
@@ -45,7 +50,9 @@
 			
 			<FooterBox class="shadow-theme-layout" />
 
-			<NotificationControl></NotificationControl>
+			<NotificationControl />
+			
+			<PlatformInfo />
 			
 		</div>
 

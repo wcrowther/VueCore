@@ -26,8 +26,8 @@
 <template>  
 
     <LayoutMain>
-        <div class="text-xl pt-20 font-bold text-center text-color-red ">
-            Page "{{ currentPath }}" not found. Redirecting to Homepage in {{ secondsDelay }} seconds...
+        <div class="text-md pt-20 font-bold text-center text-color-red ">
+            Page "{{ currentPath }}" not found.
         </div>
     </LayoutMain>
     

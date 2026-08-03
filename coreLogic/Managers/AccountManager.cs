@@ -1,56 +1,54 @@
-using Microsoft.Extensions.Options;
-using coreApi.Data.Interfaces;
-using coreApi.Models;
-using coreApi.Models.Generic;
-using coreApi.Logic.Interfaces;
-using Microsoft.AspNetCore.Http;
-using coreLogic.Data.Interfaces;
-using SQLitePCL;
+using coreData.Interfaces;
+using coreData.Models;
+using coreLibrary.Models;
+using coreLogic.Adapters;
+using coreLogic.Interfaces;
+using coreLogic.Models;
 
-namespace coreApi.Logic;
+namespace coreLogic.Managers;
 
-public class AccountManager (	IAccountRepo accountRepo,
-								IUserRepo userRepo
-							)
-: IAccountManager
+public class AccountManager(IAccountRepo accountRepo, IUserRepo userRepo)
+    : IAccountManager
 {
-    public async Task<List<Account>> GetAllAccounts()
+    public async Task<List<AccountVm>> GetAllAccounts()
     {
-        return await accountRepo.GetAllAccounts();
+        var accounts = await accountRepo.GetAllAccounts();
+        return accounts.ToAccountVmList();
     }
 
-    public async Task<Account> GetAccountById(int accountId)
+    public async Task<AccountVm> GetAccountById(int accountId)
     {
-		var account = await accountRepo.GetAccountById(accountId);
+        var account = await accountRepo.GetAccountById(accountId);
+        PopulateAuditableNames(account);
+        return account.ToAccountVm();
+    }
 
-		PopulateAccountAuditableNames(ref account);
-
-		return account;
-	}
-
-    public async Task<PagedList<Account,SearchForAccount>> GetPagedAccounts(Pager<SearchForAccount> pager)
+    public async Task<PagedList<AccountVm, SearchForAccount>> GetPagedAccounts(Pager<SearchForAccount> pager)
     {
         pager ??= new Pager<SearchForAccount>();
-
-        return await accountRepo.GetPagedAccounts(pager);
+        var pagedAccounts = await accountRepo.GetPagedAccounts(pager);
+        return new PagedList<AccountVm, SearchForAccount>
+        {
+            Pager     = pagedAccounts.Pager,
+            ListItems = pagedAccounts.ListItems?.ToAccountVmList()
+        };
     }
 
-	public async Task<Account> SaveAccount(Account account)
-	{
-		var acct = await accountRepo.SaveAccount(account);
+    public async Task<AccountVm> SaveAccount(AccountVm accountVm)
+    {
+        var account = accountVm.ToAccount();
+        var saved   = await accountRepo.SaveAccount(account);
+        PopulateAuditableNames(saved);
+        return saved.ToAccountVm();
+    }
 
-		PopulateAccountAuditableNames(ref acct);
+    // ==========================================================================================
 
-		return acct;
-	}
-
-	// ==========================================================================================
-
-	private void PopulateAccountAuditableNames(ref Account account)
-	{
-		if (account is null) return;
-
-		account.CreatorName     = userRepo.GetUsernameById(account.CreatorId);
-		account.ModifierName    = userRepo.GetUsernameById(account.ModifierId);
-	}
+    private void PopulateAuditableNames(Account account)
+    {
+        if (account is null) return;
+        account.CreatorName  = userRepo.GetUsernameById(account.CreatorId);
+        account.ModifierName = userRepo.GetUsernameById(account.ModifierId);
+    }
 }
+

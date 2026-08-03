@@ -6,57 +6,91 @@
 export {}
 declare global {
   const AccountModel: typeof import('../models/AccountModel.js')['default']
-  const AuthRefreshRequest: typeof import('../models/AuthRefreshRequest.js')['AuthRefreshRequest']
-  const AuthRequest: typeof import('../models/AuthRequest.js')['AuthRequest']
+  const AuthRequest: typeof import('../models/AuthRequest.js')['default']
   const AuthUser: typeof import('../models/AuthUser.js')['AuthUser']
-  const AutoRefreshAuth: typeof import('../composables/AutoRefreshAuth.js')['AutoRefreshAuth']
-  const DisableLayoutEscapeKey: typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']
+  const DisableGlobalKeys: typeof import('../composables/DisableGlobalKeys.js')['DisableGlobalKeys']
   const Draggable: typeof import('@vueuse/core')['useDraggable']
   const EffectScope: typeof import('vue')['EffectScope']
+  const EventModel: typeof import('../models/EventModel.js')['default']
   const IAuditable: typeof import('../models/IAuditable.js')['IAuditable']
+  const InputDemoModel: typeof import('../models/InputDemoModel.js')['default']
+  const InterviewModel: typeof import('../models/InterviewModel.js')['default']
   const IsDuplicateMessage: typeof import('../helpers/global.js')['IsDuplicateMessage']
-  const KeyboardListeners: typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']
+  const KeyboardListeners: typeof import('../composables/UseKeyboardListeners.js')['KeyboardListeners']
   const MessageModel: typeof import('../models/MessageModel.js')['MessageModel']
+  const MinutesToMs: typeof import('../helpers/global.js')['MinutesToMs']
   const PageItem: typeof import('../models/PagerModel.js')['PageItem']
   const PagedList: typeof import('../models/PagerModel.js')['PagedList']
   const PagerModel: typeof import('../models/PagerModel.js')['PagerModel']
   const RedirectToPage: typeof import('../composables/RedirectToPage.js')['RedirectToPage']
   const Result: typeof import('../models/PagerModel.js')['Result']
   const SearchForAccount: typeof import('../models/PagerModel.js')['SearchForAccount']
+  const SearchForUser: typeof import('../models/PagerModel.js')['SearchForUser']
   const SearchModel: typeof import('../models/PagerModel.js')['SearchModel']
   const SetHtmlHeadBody: typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']
-  const UseConfirmControl: typeof import('../composables/UseConfirmControl.js')['default']
-  const UserModel: typeof import('../models/UserModel.js')['UserModel']
+  const ShowSideButtonInSubNav: typeof import('../composables/ShowSideButtonInSubNav.js')['ShowSideButtonInSubNav']
+  const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
+  const addDays: typeof import('../helpers/global.js')['addDays']
+  const apiAuth: typeof import('../composables/ApiCall.js')['apiAuth']
   const apiCall: typeof import('../composables/ApiCall.js')['apiCall']
+  const apiDelete: typeof import('../composables/ApiCall.js')['apiDelete']
+  const apiFormPost: typeof import('../composables/ApiCall.js')['apiFormPost']
   const apiGet: typeof import('../composables/ApiCall.js')['apiGet']
+  const apiPatch: typeof import('../composables/ApiCall.js')['apiPatch']
   const apiPost: typeof import('../composables/ApiCall.js')['apiPost']
+  const apiPut: typeof import('../composables/ApiCall.js')['apiPut']
   const authRequestValidator: typeof import('../helpers/validators.js')['authRequestValidator']
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
+  const closeAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
   const dateFormat: typeof import('../helpers/global.js')['dateFormat']
+  const dateISO: typeof import('../helpers/global.js')['dateISO']
   const dateTimeFormat: typeof import('../helpers/global.js')['dateTimeFormat']
+  const dateTimeISO: typeof import('../helpers/global.js')['dateTimeISO']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineLoader: typeof import('vue-router/auto')['defineLoader']
   const definePage: typeof import('unplugin-vue-router/runtime')['_definePage']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
-  const filterTypes: typeof import('../helpers/filterTypes.js')['filterTypes']
+  const emitDetailBoxEvent: typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']
+  const envConsts: typeof import('../datalists/envConsts.js')['envConsts']
+  const examplesDataList: typeof import('../datalists/examplesDataList.js')['examplesDataList']
+  const filterTypesList: typeof import('../datalists/filterTypesList.js')['filterTypesList']
+  const findNodeByPath: typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']
+  const formatFileSize: typeof import('../helpers/global.js')['formatFileSize']
+  const fruitsList: typeof import('../datalists/fruitsList.js')['fruitsList']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
+  const handleApiError: typeof import('../composables/ApiErrorHandler.js')['handleApiError']
+  const hasFilesInSubtree: typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']
   const hasKeys: typeof import('../helpers/global.js')['hasKeys']
+  const hasPath: typeof import('../helpers/fileFolderHelpers.js')['hasPath']
+  const imageToolbarList: typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']
   const inject: typeof import('vue')['inject']
+  const inputDemoValidator: typeof import('../helpers/validators.js')['inputDemoValidator']
+  const interviewContactValidator: typeof import('../helpers/validators.js')['interviewContactValidator']
+  const interviewEducationValidator: typeof import('../helpers/validators.js')['interviewEducationValidator']
+  const interviewJobHistoryValidator: typeof import('../helpers/validators.js')['interviewJobHistoryValidator']
+  const interviewSkillsGoalsValidator: typeof import('../helpers/validators.js')['interviewSkillsGoalsValidator']
+  const interviewValidator: typeof import('../helpers/validators.js')['interviewValidator']
+  const isEmpty: typeof import('../helpers/global.js')['isEmpty']
+  const isEmptyOrSpace: typeof import('../helpers/global.js')['isEmptyOrSpace']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const isRootName: typeof import('../helpers/fileFolderHelpers.js')['isRootName']
+  const joinPath: typeof import('../helpers/fileFolderHelpers.js')['joinPath']
   const logJson: typeof import('../helpers/global.js')['logJson']
+  const longTabList: typeof import('../datalists/longTabList.js')['longTabList']
   const markRaw: typeof import('vue')['markRaw']
   const nextTick: typeof import('vue')['nextTick']
+  const normalizePath: typeof import('../helpers/fileFolderHelpers.js')['normalizePath']
   const numbersOnly: typeof import('../helpers/global.js')['numbersOnly']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']
@@ -74,51 +108,75 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
-  const pagerPageSize: typeof import('../helpers/pagerPageSize.js')['pagerPageSize']
+  const openAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']
+  const pageSizeList: typeof import('../datalists/pageSizeList.js')['pageSizeList']
   const provide: typeof import('vue')['provide']
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']
   const resolveComponent: typeof import('vue')['resolveComponent']
-  const roleList: typeof import('../helpers/roleList.js')['roleList']
+  const rolesList: typeof import('../datalists/roleList.js')['rolesList']
+  const sampleCalendarEvents: typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
   const storeToRefs: typeof import('pinia')['storeToRefs']
+  const stringToSafeArray: typeof import('../helpers/global.js')['stringToSafeArray']
   const timeFormat: typeof import('../helpers/global.js')['timeFormat']
+  const toApiFolderPath: typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']
+  const toApiParentPath: typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']
+  const toPathSegments: typeof import('../helpers/fileFolderHelpers.js')['toPathSegments']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
   const toValue: typeof import('vue')['toValue']
+  const toggleAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']
+  const toolTipPlugin: typeof import('../helpers/toolTipPlugin.js')['default']
+  const tooltipDirective: typeof import('../helpers/toolTipDirective.js')['tooltipDirective']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const usPhoneFormat: typeof import('../helpers/global.js')['usPhoneFormat']
-  const usStatesList: typeof import('../helpers/usStates.js')['usStatesList']
+  const usStatesList: typeof import('../datalists/usStatesList.js')['usStatesList']
   const useAccountsStore: typeof import('../stores/AccountsStore.js')['useAccountsStore']
+  const useAlertControl: typeof import('../composables/UseAlertControl.js')['useAlertControl']
   const useAppStore: typeof import('../stores/AppStore.js')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('../stores/AuthStore.js')['useAuthStore']
-  const useChatHub: typeof import('../composables/ChatHub.js')['useChatHub']
+  const useCalendarStore: typeof import('../stores/CalendarStore.js')['useCalendarStore']
+  const useChatHub: typeof import('../composables/UseChatHub.js')['useChatHub']
+  const useChatStore: typeof import('../stores/ChatStore.js')['useChatStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
-  const useConfirmDialog: typeof import('../composables/UseConfirmDialog.js')['useConfirmDialog']
+  const useComponentLoader: typeof import('../composables/UseComponentLoader.js')['useComponentLoader']
+  const useConfirmControl: typeof import('../composables/UseConfirmControl.js')['useConfirmControl']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
+  const useDetailBoxEventListener: typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']
+  const useDropdownPlacement: typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']
+  const useExamplesStore: typeof import('../stores/ExamplesStore.js')['useExamplesStore']
+  const useFieldFromList: typeof import('../composables/UseFieldFromList.js')['useFieldFromList']
+  const useFileStore: typeof import('../stores/FileStore.js')['useFileStore']
+  const useFolderStore: typeof import('../stores/FolderStore.js')['useFolderStore']
   const useId: typeof import('vue')['useId']
-  const useImagesStore: typeof import('../stores/ImagesStore.js')['useImagesStore']
+  const useImageStore: typeof import('../stores/ImageStore.js')['useImageStore']
+  const useInterviewStore: typeof import('../stores/InterviewStore.js')['useInterviewStore']
+  const useKeepInView: typeof import('../composables/UseKeepInView.js')['useKeepInView']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
-  const useMessageStore: typeof import('../stores/MessageStore.js')['useMessageStore']
-  const useMessagesStore: typeof import('../stores/MessagesStore.js')['useMessagesStore']
   const useModel: typeof import('vue')['useModel']
+  const useOldImagesStore: typeof import('../stores/OldImagesStore.js')['useOldImagesStore']
   const usePagedList: typeof import('../composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('../composables/UsePagedList2.js')['usePagedList2']
+  const usePlatform: typeof import('../composables/UsePlatform.js')['usePlatform']
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
+  const useSaveNameControl: typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']
+  const useScrollLock: typeof import('../composables/UseScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useToastStore: typeof import('../stores/ToastStore.js')['useToastStore']
-  const useUnsavedChangesGuard: typeof import('../composables/UnsavedChangesGuard.js')['useUnsavedChangesGuard']
+  const useUnsavedGuard: typeof import('../composables/UseUnsavedGuard.js')['useUnsavedGuard']
+  const useUploadStore: typeof import('../stores/UploadStore.js')['useUploadStore']
   const useUsersStore: typeof import('../stores/UsersStore.js')['useUsersStore']
   const useVuelidate: typeof import('@vuelidate/core')['useVuelidate']
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
@@ -127,6 +185,7 @@ declare global {
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
   const watchSyncEffect: typeof import('vue')['watchSyncEffect']
+  const weekdayFull: typeof import('../helpers/global.js')['weekdayFull']
 }
 // for type re-export
 declare global {
@@ -136,6 +195,21 @@ declare global {
   // @ts-ignore
   export type { AccountModel } from '../models/AccountModel.js'
   import('../models/AccountModel.js')
+  // @ts-ignore
+  export type { AuthRequest } from '../models/AuthRequest.js'
+  import('../models/AuthRequest.js')
+  // @ts-ignore
+  export type { EventModel } from '../models/EventModel.js'
+  import('../models/EventModel.js')
+  // @ts-ignore
+  export type { InputDemoModel } from '../models/InputDemoModel.js'
+  import('../models/InputDemoModel.js')
+  // @ts-ignore
+  export type { InterviewModel } from '../models/InterviewModel.js'
+  import('../models/InterviewModel.js')
+  // @ts-ignore
+  export type { UserModel } from '../models/UserModel.js'
+  import('../models/UserModel.js')
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -143,57 +217,91 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly AccountModel: UnwrapRef<typeof import('../models/AccountModel.js')['default']>
-    readonly AuthRefreshRequest: UnwrapRef<typeof import('../models/AuthRefreshRequest.js')['AuthRefreshRequest']>
-    readonly AuthRequest: UnwrapRef<typeof import('../models/AuthRequest.js')['AuthRequest']>
+    readonly AuthRequest: UnwrapRef<typeof import('../models/AuthRequest.js')['default']>
     readonly AuthUser: UnwrapRef<typeof import('../models/AuthUser.js')['AuthUser']>
-    readonly AutoRefreshAuth: UnwrapRef<typeof import('../composables/AutoRefreshAuth.js')['AutoRefreshAuth']>
-    readonly DisableLayoutEscapeKey: UnwrapRef<typeof import('../composables/DisableLayoutEscapeKey.js')['DisableLayoutEscapeKey']>
+    readonly DisableGlobalKeys: UnwrapRef<typeof import('../composables/DisableGlobalKeys.js')['DisableGlobalKeys']>
     readonly Draggable: UnwrapRef<typeof import('@vueuse/core')['useDraggable']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly EventModel: UnwrapRef<typeof import('../models/EventModel.js')['default']>
     readonly IAuditable: UnwrapRef<typeof import('../models/IAuditable.js')['IAuditable']>
+    readonly InputDemoModel: UnwrapRef<typeof import('../models/InputDemoModel.js')['default']>
+    readonly InterviewModel: UnwrapRef<typeof import('../models/InterviewModel.js')['default']>
     readonly IsDuplicateMessage: UnwrapRef<typeof import('../helpers/global.js')['IsDuplicateMessage']>
-    readonly KeyboardListeners: UnwrapRef<typeof import('../composables/KeyboardListeners.js')['KeyboardListeners']>
+    readonly KeyboardListeners: UnwrapRef<typeof import('../composables/UseKeyboardListeners.js')['KeyboardListeners']>
     readonly MessageModel: UnwrapRef<typeof import('../models/MessageModel.js')['MessageModel']>
+    readonly MinutesToMs: UnwrapRef<typeof import('../helpers/global.js')['MinutesToMs']>
     readonly PageItem: UnwrapRef<typeof import('../models/PagerModel.js')['PageItem']>
     readonly PagedList: UnwrapRef<typeof import('../models/PagerModel.js')['PagedList']>
     readonly PagerModel: UnwrapRef<typeof import('../models/PagerModel.js')['PagerModel']>
     readonly RedirectToPage: UnwrapRef<typeof import('../composables/RedirectToPage.js')['RedirectToPage']>
     readonly Result: UnwrapRef<typeof import('../models/PagerModel.js')['Result']>
     readonly SearchForAccount: UnwrapRef<typeof import('../models/PagerModel.js')['SearchForAccount']>
+    readonly SearchForUser: UnwrapRef<typeof import('../models/PagerModel.js')['SearchForUser']>
     readonly SearchModel: UnwrapRef<typeof import('../models/PagerModel.js')['SearchModel']>
     readonly SetHtmlHeadBody: UnwrapRef<typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']>
-    readonly UseConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['default']>
-    readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['UserModel']>
+    readonly ShowSideButtonInSubNav: UnwrapRef<typeof import('../composables/ShowSideButtonInSubNav.js')['ShowSideButtonInSubNav']>
+    readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
+    readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
+    readonly apiAuth: UnwrapRef<typeof import('../composables/ApiCall.js')['apiAuth']>
     readonly apiCall: UnwrapRef<typeof import('../composables/ApiCall.js')['apiCall']>
+    readonly apiDelete: UnwrapRef<typeof import('../composables/ApiCall.js')['apiDelete']>
+    readonly apiFormPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiFormPost']>
     readonly apiGet: UnwrapRef<typeof import('../composables/ApiCall.js')['apiGet']>
+    readonly apiPatch: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPatch']>
     readonly apiPost: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPost']>
+    readonly apiPut: UnwrapRef<typeof import('../composables/ApiCall.js')['apiPut']>
     readonly authRequestValidator: UnwrapRef<typeof import('../helpers/validators.js')['authRequestValidator']>
     readonly authSignupValidator: UnwrapRef<typeof import('../helpers/validators.js')['authSignupValidator']>
+    readonly closeAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly dateFormat: UnwrapRef<typeof import('../helpers/global.js')['dateFormat']>
+    readonly dateISO: UnwrapRef<typeof import('../helpers/global.js')['dateISO']>
     readonly dateTimeFormat: UnwrapRef<typeof import('../helpers/global.js')['dateTimeFormat']>
+    readonly dateTimeISO: UnwrapRef<typeof import('../helpers/global.js')['dateTimeISO']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineLoader: UnwrapRef<typeof import('vue-router/auto')['defineLoader']>
     readonly definePage: UnwrapRef<typeof import('unplugin-vue-router/runtime')['_definePage']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
-    readonly filterTypes: UnwrapRef<typeof import('../helpers/filterTypes.js')['filterTypes']>
+    readonly emitDetailBoxEvent: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']>
+    readonly envConsts: UnwrapRef<typeof import('../datalists/envConsts.js')['envConsts']>
+    readonly examplesDataList: UnwrapRef<typeof import('../datalists/examplesDataList.js')['examplesDataList']>
+    readonly filterTypesList: UnwrapRef<typeof import('../datalists/filterTypesList.js')['filterTypesList']>
+    readonly findNodeByPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['findNodeByPath']>
+    readonly formatFileSize: UnwrapRef<typeof import('../helpers/global.js')['formatFileSize']>
+    readonly fruitsList: UnwrapRef<typeof import('../datalists/fruitsList.js')['fruitsList']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly handleApiError: UnwrapRef<typeof import('../composables/ApiErrorHandler.js')['handleApiError']>
+    readonly hasFilesInSubtree: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']>
     readonly hasKeys: UnwrapRef<typeof import('../helpers/global.js')['hasKeys']>
+    readonly hasPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasPath']>
+    readonly imageToolbarList: UnwrapRef<typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly inputDemoValidator: UnwrapRef<typeof import('../helpers/validators.js')['inputDemoValidator']>
+    readonly interviewContactValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewContactValidator']>
+    readonly interviewEducationValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewEducationValidator']>
+    readonly interviewJobHistoryValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewJobHistoryValidator']>
+    readonly interviewSkillsGoalsValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewSkillsGoalsValidator']>
+    readonly interviewValidator: UnwrapRef<typeof import('../helpers/validators.js')['interviewValidator']>
+    readonly isEmpty: UnwrapRef<typeof import('../helpers/global.js')['isEmpty']>
+    readonly isEmptyOrSpace: UnwrapRef<typeof import('../helpers/global.js')['isEmptyOrSpace']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly isRootName: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['isRootName']>
+    readonly joinPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['joinPath']>
     readonly logJson: UnwrapRef<typeof import('../helpers/global.js')['logJson']>
+    readonly longTabList: UnwrapRef<typeof import('../datalists/longTabList.js')['longTabList']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
+    readonly normalizePath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['normalizePath']>
     readonly numbersOnly: UnwrapRef<typeof import('../helpers/global.js')['numbersOnly']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
@@ -211,51 +319,75 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
-    readonly pagerPageSize: UnwrapRef<typeof import('../helpers/pagerPageSize.js')['pagerPageSize']>
+    readonly openAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']>
+    readonly pageSizeList: UnwrapRef<typeof import('../datalists/pageSizeList.js')['pageSizeList']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
-    readonly roleList: UnwrapRef<typeof import('../helpers/roleList.js')['roleList']>
+    readonly rolesList: UnwrapRef<typeof import('../datalists/roleList.js')['rolesList']>
+    readonly sampleCalendarEvents: UnwrapRef<typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
+    readonly stringToSafeArray: UnwrapRef<typeof import('../helpers/global.js')['stringToSafeArray']>
     readonly timeFormat: UnwrapRef<typeof import('../helpers/global.js')['timeFormat']>
+    readonly toApiFolderPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiFolderPath']>
+    readonly toApiParentPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toApiParentPath']>
+    readonly toPathSegments: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['toPathSegments']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
+    readonly toggleAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['toggleAllDetailBoxes']>
+    readonly toolTipPlugin: UnwrapRef<typeof import('../helpers/toolTipPlugin.js')['default']>
+    readonly tooltipDirective: UnwrapRef<typeof import('../helpers/toolTipDirective.js')['tooltipDirective']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly usPhoneFormat: UnwrapRef<typeof import('../helpers/global.js')['usPhoneFormat']>
-    readonly usStatesList: UnwrapRef<typeof import('../helpers/usStates.js')['usStatesList']>
+    readonly usStatesList: UnwrapRef<typeof import('../datalists/usStatesList.js')['usStatesList']>
     readonly useAccountsStore: UnwrapRef<typeof import('../stores/AccountsStore.js')['useAccountsStore']>
+    readonly useAlertControl: UnwrapRef<typeof import('../composables/UseAlertControl.js')['useAlertControl']>
     readonly useAppStore: UnwrapRef<typeof import('../stores/AppStore.js')['useAppStore']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('../stores/AuthStore.js')['useAuthStore']>
-    readonly useChatHub: UnwrapRef<typeof import('../composables/ChatHub.js')['useChatHub']>
+    readonly useCalendarStore: UnwrapRef<typeof import('../stores/CalendarStore.js')['useCalendarStore']>
+    readonly useChatHub: UnwrapRef<typeof import('../composables/UseChatHub.js')['useChatHub']>
+    readonly useChatStore: UnwrapRef<typeof import('../stores/ChatStore.js')['useChatStore']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
-    readonly useConfirmDialog: UnwrapRef<typeof import('../composables/UseConfirmDialog.js')['useConfirmDialog']>
+    readonly useComponentLoader: UnwrapRef<typeof import('../composables/UseComponentLoader.js')['useComponentLoader']>
+    readonly useConfirmControl: UnwrapRef<typeof import('../composables/UseConfirmControl.js')['useConfirmControl']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
+    readonly useDetailBoxEventListener: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['useDetailBoxEventListener']>
+    readonly useDropdownPlacement: UnwrapRef<typeof import('../composables/UseDropdownPlacement.js')['useDropdownPlacement']>
+    readonly useExamplesStore: UnwrapRef<typeof import('../stores/ExamplesStore.js')['useExamplesStore']>
+    readonly useFieldFromList: UnwrapRef<typeof import('../composables/UseFieldFromList.js')['useFieldFromList']>
+    readonly useFileStore: UnwrapRef<typeof import('../stores/FileStore.js')['useFileStore']>
+    readonly useFolderStore: UnwrapRef<typeof import('../stores/FolderStore.js')['useFolderStore']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
-    readonly useImagesStore: UnwrapRef<typeof import('../stores/ImagesStore.js')['useImagesStore']>
+    readonly useImageStore: UnwrapRef<typeof import('../stores/ImageStore.js')['useImageStore']>
+    readonly useInterviewStore: UnwrapRef<typeof import('../stores/InterviewStore.js')['useInterviewStore']>
+    readonly useKeepInView: UnwrapRef<typeof import('../composables/UseKeepInView.js')['useKeepInView']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
-    readonly useMessageStore: UnwrapRef<typeof import('../stores/MessageStore.js')['useMessageStore']>
-    readonly useMessagesStore: UnwrapRef<typeof import('../stores/MessagesStore.js')['useMessagesStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
+    readonly useOldImagesStore: UnwrapRef<typeof import('../stores/OldImagesStore.js')['useOldImagesStore']>
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('../composables/UsePagedList.js')['usePagedList']>
+    readonly usePlatform: UnwrapRef<typeof import('../composables/UsePlatform.js')['usePlatform']>
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
+    readonly useSaveNameControl: UnwrapRef<typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']>
+    readonly useScrollLock: UnwrapRef<typeof import('../composables/UseScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useToastStore: UnwrapRef<typeof import('../stores/ToastStore.js')['useToastStore']>
-    readonly useUnsavedChangesGuard: UnwrapRef<typeof import('../composables/UnsavedChangesGuard.js')['useUnsavedChangesGuard']>
+    readonly useUnsavedGuard: UnwrapRef<typeof import('../composables/UseUnsavedGuard.js')['useUnsavedGuard']>
+    readonly useUploadStore: UnwrapRef<typeof import('../stores/UploadStore.js')['useUploadStore']>
     readonly useUsersStore: UnwrapRef<typeof import('../stores/UsersStore.js')['useUsersStore']>
     readonly useVuelidate: UnwrapRef<typeof import('@vuelidate/core')['useVuelidate']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
@@ -264,5 +396,6 @@ declare module 'vue' {
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
     readonly watchSyncEffect: UnwrapRef<typeof import('vue')['watchSyncEffect']>
+    readonly weekdayFull: UnwrapRef<typeof import('../helpers/global.js')['weekdayFull']>
   }
 }
