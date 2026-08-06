@@ -10,7 +10,7 @@
 
 <template>
 
-    <div class="w-full flex justify-between items-center mb-5">
+    <div class="w-full flex justify-between items-center mb-10">
 
         <h2 class="text-2xl text-color-blue font-display font-bold flex-grow">
             <slot name="pageTitle">

@@ -27,12 +27,14 @@
     <div class="w-full">
 
         <PageTitleBox pageTitle="List Index Button" />
+
         <InfoBox>
             The <b>ListIndexButton</b> is a lightweight prev/next navigator for stepping through any array. 
             It binds to a zero-based index via <code>v-model</code> and accepts any array as <code>:rangeList</code>. 
             By default it displays the item's <code>name</code> property, but you can override this with the 
             <code>textName</code> prop. Set <code>:wrapBack="false"</code> to prevent cycling past the first or last item.
         </InfoBox>
+        
         <div class="basis-full mb-5">
             <ListIndexButton v-model="listIndex" :rangeList class="w-fit mb-2" />
             List Index ({{ listIndex }}) - zero-based : {{ rangeList[listIndex] }}

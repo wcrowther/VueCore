@@ -15,7 +15,7 @@
 
 <template>
     <div v-if="infoLevel > 2 || pin" 
-        :class="['text-sm border-y border-[#f97316] bg-white/75  w-full',
+        :class="['text-sm border-y border-[#f97316]  w-full',
             props.compact ? 'mb-3 px-3 py-2' : 'mb-5 px-6 py-5']">
 
         <span v-if="!props.compact"
@@ -32,6 +32,8 @@
 <!-- 
 USE:  Wrap around content that you only want to appear when infoLevel is Help (3) determined 
     by the InfoLevel control. Optional 'compact' parameter for streamlined version.
+
+Background: bg-white/75 or transparent?
 
 EXAMPLES: 
 

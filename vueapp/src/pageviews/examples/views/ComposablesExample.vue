@@ -58,12 +58,12 @@ const confirmed = await createConfirm('Confirm this record?')
 
         <PageTitleBox pageTitle="Alert &amp; Confirm Composables" />
         
-        <div class="mb-7">
+        <InfoBox>
             These composables allow you to programmatically trigger <b>Alert</b> and <b>Confirm</b> dialogs 
             from anywhere in your code — no component markup required. Both return a Promise, so you can 
             <code>await</code> the result inline and branch logic based on the user's response.
             Check the browser console to see the resolved values after interacting with each dialog.
-        </div>
+        </InfoBox>
 
         <CodeBlock :codeContent title="vuejs code" />
         

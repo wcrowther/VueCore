@@ -1,14 +1,27 @@
 <script setup>
+import Examples from '@/pages/examples.vue'
+
 
     const { createConfirm } = useConfirmControl()
+    const toastStore         = useToastStore()
 
     const showJson          = ref(false)
     const showCode          = ref(false)
+    const showAdvSearch     = ref(false)
     const inputDemo         = reactive(new InputDemoModel())
     const savedInputDemo    = ref(JSON.parse(JSON.stringify(inputDemo))) 
     const v$                = useVuelidate(inputDemoValidator, inputDemo)
 
     const isDirty = computed(() => JSON.stringify(inputDemo) !== JSON.stringify(savedInputDemo.value) )
+
+    watch(showAdvSearch, (isAdvSearchShown) =>
+    {
+        if (!isAdvSearchShown) return
+
+        const msg = 'AdvSearch is not enabled for this instance. See the Account Search page for an example.'   
+        toastStore.showInfo(msg)
+        showAdvSearch.value = false
+    })
 
     const saveInputDemo = async () =>
     {
@@ -46,8 +59,8 @@ const codeContent =
 <CheckboxInput labelName="CheckboxInput" v-model="inputDemo.CheckboxInput" />
 <SelectInput labelName="SelectInput" v-model="inputDemo.SelectInput" 
     :optionsList="usStatesList" defaultText="-- SelectInput --" :v$ />
-<SearchInput v-model="inputDemo.SearchInput" :showAdvSearchButton="true" 
-    labelName="SearchInput" :compact="false" :v$ />
+<SearchInput v-model="inputDemo.SearchInput" v-model:showAdvSearch="showAdvSearch"
+    :showAdvSearchButton="true" labelName="SearchInput" :compact="false" />
 <MultiSelectInput labelName="MultiSelectInput" v-model="inputDemo.MultiSelectInput" 
     :optionsList="usStatesList" class="xl:mt-5 xl:col-span-2 3xl:col-span-3" :v$  />
 `
@@ -76,20 +89,25 @@ const codeContent =
         for a clean retest.
     </InfoBox>
 
-    <HelpBox class="">
-        <b>Code preview:</b> Open the <b>CodeBlock</b> to see the full input markup in one place.
-        It is intentionally concise, but still handles rich validation and synchronized model updates.
-        <br /><br />
-        <b>Validation behavior:</b> Required and rule-based fields show errors inline as you interact.
-        Use this page to verify both input formatting and validation messaging across controls.
-        <br /><br />
-        <b>Control tips:</b> <b>SearchInput</b> supports advanced search via the <b>+</b> button,
-        <b>SliderInput</b> moves in step increments, and <b>MultiSelectInput</b> supports selecting
-        multiple items while keeping the model synchronized.
-        <br /><br />
-        <b>Save and reset flow:</b> Buttons activate only after edits are detected. <b>Save</b> validates,
-        asks for confirmation, and opens a JSON preview modal so you can inspect the final payload.
-        <b>Reset</b> restores default model values and clears validation state for a clean retest.
+    <HelpBox>
+        <div class="mb-5">
+            <b>Code preview:</b> Open the <b>CodeBlock</b> to see the full input markup in one place.
+            It is intentionally concise, but still handles rich validation and synchronized model updates.
+        </div>
+        <div class="mb-5">
+            <b>Validation behavior:</b> Required and rule-based fields show errors inline as you interact.
+            Use this page to verify both input formatting and validation messaging across controls.
+        </div>
+        <div class="mb-5">
+            <b>Control tips:</b> <b>SearchInput</b> supports advanced search via the <b>+</b> button,
+            <b>SliderInput</b> moves in step increments, and <b>MultiSelectInput</b> supports selecting
+            multiple items while keeping the model synchronized.
+        </div>
+        <div>
+            <b>Save and reset flow:</b> Buttons activate only after edits are detected. <b>Save</b> validates,
+            asks for confirmation, and opens a JSON preview modal so you can inspect the final payload.
+            <b>Reset</b> restores default model values and clears validation state for a clean retest.
+        </div>
     </HelpBox>
 
     <CodeBlock :codeContent title="Input Controls Markup" v-model="showCode" ></CodeBlock>
@@ -109,8 +127,8 @@ const codeContent =
         <CheckboxInput labelName="CheckboxInput" v-model="inputDemo.CheckboxInput" />
         <SelectInput labelName="SelectInput" v-model="inputDemo.SelectInput" 
             :optionsList="usStatesList" defaultText="-- SelectInput --" :v$ />
-        <SearchInput v-model="inputDemo.SearchInput" :showAdvSearchButton="true" 
-            labelName="SearchInput" :compact="false" />
+        <SearchInput v-model="inputDemo.SearchInput" v-model:showAdvSearch="showAdvSearch"
+            :showAdvSearchButton="true" labelName="SearchInput" :compact="false" />
         <MultiSelectInput labelName="MultiSelectInput" v-model="inputDemo.MultiSelectInput" :optionsList="usStatesList" :v$ 
             class="xl:mt-3 xl:col-span-2 3xl:col-span-3" />
 

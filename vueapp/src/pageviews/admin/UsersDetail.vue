@@ -98,7 +98,7 @@
 
 <template>
 
-    <div class="relative flex flex-wrap gap-5" id="UsersDetailView">
+    <div id="UsersDetailView" class="">
 
         <ConfirmControl v-model="showConfirmSave" message="Save User Data?" 
 			@confirmResult="saveUserDetail"  />
@@ -140,37 +140,35 @@
             and return to the previously selected user.
         </HelpBox>
 
-        <JsonTreeControl v-if="showJsonEntities" :json="user" class="w-full" 
-            label="User Detail Json" :isOpen="false" />
+        <div class="relative flex flex-wrap gap-5">
+        
+            <JsonTreeControl v-if="showJsonEntities" :json="user" class="w-full"
+                label="User Detail Json" :isOpen="false" />
 
-        <div v-if="(!user || user.UserId === 0)  && !isAddingUser" class="w-[300px] font-bold">
-            No User to display
-        </div>
-
-        <div v-if="user && user.UserId > 0 || isAddingUser"  
-            class="w-[300px] flex-1 border border-color-blue-gray bg-white p-5 min-w-[200px] grow">
-
-            <TitleBox v-if="!isAddingUser">
-                <span class="text-color-dark-blue font-bold whitespace-nowrap text-l">
-                    UserName: {{user.UserName}}
-                </span>
-                <span class="text-color-dark-blue font-bold whitespace-nowrap text-l">
-                    UserId: {{user.UserId}}
-                </span>
-            </TitleBox>
-
-            <CreatorBox v-if="!isAddingUser" :IAuditable="user" />
-
-            <template v-if="isAddingUser">
-                <TextInput labelName="UserName"     v-model="user.UserName"     :v$ />                
-                <TextInput labelName="UserPassword" v-model="user.UserPassword" :v$ />                
-            </template>
-
-            <TextInput labelName="First Name" v-model="user.FirstName" :v$ />
-            <TextInput labelName="Last Name"  v-model="user.LastName"  :v$ />
-            <TextInput labelName="UserEmail"  v-model="user.UserEmail" :v$ />
-            <SelectInput labelName="Role"     v-model="user.Role" :optionsList="rolesList" :v$ />
-
+            <div v-if="(!user || user.UserId === 0)  && !isAddingUser" class="w-[300px] font-bold">
+                No User to display
+            </div>
+            <div v-if="user && user.UserId > 0 || isAddingUser"
+                class="w-[300px] flex-1 border border-color-blue-gray bg-white p-5 min-w-[200px] grow">
+                <TitleBox v-if="!isAddingUser">
+                    <span class="text-color-dark-blue font-bold whitespace-nowrap text-l">
+                        UserName: {{user.UserName}}
+                    </span>
+                    <span class="text-color-dark-blue font-bold whitespace-nowrap text-l">
+                        UserId: {{user.UserId}}
+                    </span>
+                </TitleBox>
+                <CreatorBox v-if="!isAddingUser" :IAuditable="user" />
+                <template v-if="isAddingUser">
+                    <TextInput labelName="UserName"     v-model="user.UserName"     :v$ />
+                    <TextInput labelName="UserPassword" v-model="user.UserPassword" :v$ />
+                </template>
+                <TextInput labelName="First Name" v-model="user.FirstName" :v$ />
+                <TextInput labelName="Last Name"  v-model="user.LastName"  :v$ />
+                <TextInput labelName="UserEmail"  v-model="user.UserEmail" :v$ />
+                <SelectInput labelName="Role"     v-model="user.Role" :optionsList="rolesList" :v$ />
+            </div>
+            
         </div>
 
     </div>

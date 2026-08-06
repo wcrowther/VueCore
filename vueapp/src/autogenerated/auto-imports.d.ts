@@ -170,7 +170,7 @@ declare global {
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
   const useSaveNameControl: typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']
-  const useScrollLock: typeof import('../composables/UseScrollLock.js')['useScrollLock']
+  const useScrollLock: typeof import('../composables/useScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
@@ -381,7 +381,7 @@ declare module 'vue' {
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
     readonly useSaveNameControl: UnwrapRef<typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']>
-    readonly useScrollLock: UnwrapRef<typeof import('../composables/UseScrollLock.js')['useScrollLock']>
+    readonly useScrollLock: UnwrapRef<typeof import('../composables/useScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>

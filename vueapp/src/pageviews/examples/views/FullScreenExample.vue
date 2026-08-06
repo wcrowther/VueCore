@@ -15,12 +15,12 @@
 
     <PageTitleBox pageTitle="FullScreen Control">
 
-            <ListIndexButton v-model="inset" :rangeList="insetList" 
-                class="!rounded-md !text-sm !text-[#121639] !py-0 !pt-[4px] !pb-[3px] 
-                !h-auto !leading-normal !tracking-wide hover:!bg-white hover:!border-color-primary 
-                !border !border-transparent" />
+        <ListIndexButton v-model="inset" :rangeList="insetList" 
+            class="!rounded-md !text-sm !text-[#121639] !py-0 !pt-[4px] !pb-[3px] 
+            !h-auto !leading-normal !tracking-wide hover:!bg-white hover:!border-color-primary 
+            !border !border-transparent" />
 
-            <BooleanButton v-model="fullScreen" trueText="In Screen" falseText="Full Screen" />
+        <BooleanButton v-model="fullScreen" trueText="In Screen" falseText="Full Screen" />
 
     </PageTitleBox>
 

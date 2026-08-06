@@ -127,7 +127,8 @@
 </script>
 
 <template>
-    <div class="flex flex-wrap gap-5" id="AccountDetailView" ref="accountDetail">
+    <div  id="AccountDetailView" ref="accountDetail"
+        class="" >
         
         <ConfirmControl v-if="showConfirmControl" v-model="showConfirmControl"
 			message="Save Account Data?" @confirmResult="saveAccountDetail"  />
@@ -172,81 +173,72 @@
             previously selected account.
         </HelpBox>
 
-        <JsonTreeControl v-if="showJsonEntities" 
-            label="Account Detail Json" :json="account" class="w-full" 
-            :isOpen="false" :showRawJson="false" />
-
-        <div v-if="(!account || account.AccountId === 0)  && !isAddingAccount" 
-            class="basis-[300px] font-bold">
-            No Account to display
-        </div>
-
-        <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="AccountInfo"
-            class="basis-[300px] min-w-[200px] p-5 flex-1 border border-color-blue-gray bg-white">
-
-            <TitleBox v-if="!isAddingAccount">
-                <span>{{account.AccountName}}</span>
-                <span>Account Id: {{account.AccountId}}</span>
-            </TitleBox>
-
-            <CreatorBox v-if="!isAddingAccount" :IAuditable="account" />
-
-            <TextInput ref="detailInput" labelName="Account Name" v-model="account.AccountName" :v$ />
-            <TextInput  labelName="Main Email" ruleName="AccountEmail" v-model="account.AccountEmail" :v$ />
-            <PhoneInput labelName="Main Phone" ruleName="AccountPhone" v-model="account.AccountPhone" :v$ />
-            <TextAreaInput labelName="Notes" ruleName="Notes" v-model="account.Notes" :v$ />
-
-            <div class="mt-3 mb-5 flex flex-wrap justify-between gap-5">
-                <CheckboxInput labelName="Is Active"  v-model="account.IsActive" compact />
-                <CheckboxInput labelName="Is Invoice" v-model="account.IsInvoice" compact />
-                <CheckboxInput labelName="Is AutoPay" v-model="account.IsAutoPay" compact />
+        <div class="flex flex-wrap gap-5">
+            <JsonTreeControl v-if="showJsonEntities"
+                label="Account Detail Json" :json="account" class="w-full"
+                :isOpen="false" :showRawJson="false" />
+            <div v-if="(!account || account.AccountId === 0)  && !isAddingAccount"
+                class="basis-[300px] font-bold">
+                No Account to display
+            </div>
+            <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="AccountInfo"
+                class="basis-[300px] min-w-[200px] p-5 flex-1 border border-color-blue-gray bg-white">
+                <TitleBox v-if="!isAddingAccount">
+                    <span>{{account.AccountName}}</span>
+                    <span>Account Id: {{account.AccountId}}</span>
+                </TitleBox>
+                <CreatorBox v-if="!isAddingAccount" :IAuditable="account" />
+                <TextInput ref="detailInput" labelName="Account Name" v-model="account.AccountName" :v$ />
+                <TextInput  labelName="Main Email" ruleName="AccountEmail" v-model="account.AccountEmail" :v$ />
+                <PhoneInput labelName="Main Phone" ruleName="AccountPhone" v-model="account.AccountPhone" :v$ />
+                <TextAreaInput labelName="Notes" ruleName="Notes" v-model="account.Notes" :v$ />
+                <div class="mt-3 mb-5 flex flex-wrap justify-between gap-5">
+                    <CheckboxInput labelName="Is Active"  v-model="account.IsActive" compact />
+                    <CheckboxInput labelName="Is Invoice" v-model="account.IsInvoice" compact />
+                    <CheckboxInput labelName="Is AutoPay" v-model="account.IsAutoPay" compact />
+                </div>
             </div>
 
-        </div>
-
-        <!-- ALT VERSION FOR MULTIPLE ADDRESSES - NOT YET IMPLEMENTED 
-        
-        <div v-if="account && account.AccountId > 0 || isAddingAccount" id="MultiAddress" 
-            class="basis-[300px] min-w-[200px] flex-1 border pt-2 border-color-blue-gray bg-white ">
- 
-            <TabsOverflowControl :tabList="['Account', 'Second', 'Third']" altDesign
-                class="w-full">
-                     
-                <template #Account>
-                    <div class="m-5">
-                        <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
-                        <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
-                        
-                        <div class="flex justify-between gap-3">
-                            <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
-                                :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
-                            <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
-                        </div>
-                    </div>
-                </template>
-
-            </TabsOverflowControl> 
-
-        </div>
-        -->
-
-        <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="Address" 
-            class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">
-
-            <!-- -->
-            <TitleBox class="bg-transparent">
-                <span>Account Address</span>
-            </TitleBox> 
+            <!-- ALT VERSION FOR MULTIPLE ADDRESSES - NOT YET IMPLEMENTED
             
-            <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
-            <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
-
-            <div class="flex justify-between gap-3">
-                <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
-                    :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
-                <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
+            <div v-if="account && account.AccountId > 0 || isAddingAccount" id="MultiAddress"
+                class="basis-[300px] min-w-[200px] flex-1 border pt-2 border-color-blue-gray bg-white ">
+                <TabsOverflowControl :tabList="['Account', 'Second', 'Third']" altDesign
+                    class="w-full">
+            
+                    <template #Account>
+                        <div class="m-5">
+                            <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
+                            <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
+            
+                            <div class="flex justify-between gap-3">
+                                <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
+                                    :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
+                                <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
+                            </div>
+                        </div>
+                    </template>
+                </TabsOverflowControl>
             </div>
-                 
+            -->
+
+            <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="Address"
+                class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">
+                <!-- -->
+                <TitleBox class="bg-transparent">
+                    <span>Account Address</span>
+                </TitleBox>
+            
+                <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
+                <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
+                <div class="flex justify-between gap-3">
+                    <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
+                        :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
+                    <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
+                </div>
+            
+            </div>
+
         </div>
 
     </div>

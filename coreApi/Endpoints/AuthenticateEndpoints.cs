@@ -94,16 +94,19 @@ public static partial class Endpoints
 		// refreshAuth
 		// =========================================================
 
-		endpoints.MapPost("/refreshAuth", ( AuthRefreshRequest request, 
+		endpoints.MapPost("/refreshAuth", ( HttpContext ctx,
 											IAuthManager _authManager ) =>
 		{
+			if (!int.TryParse(ctx.Request.Cookies["userId"], out var userId))
+				return Results.Unauthorized();
+
+			var request = new AuthRefreshRequest { UserId = userId };
 			Returns<AuthUser> returns = _authManager.RefreshAuth(request);
 
 			return	returns.Ok 
 					? Results.Ok(ToProfileResponse(returns.Data)) 
 					: Results.BadRequest(returns.Error.Message);
 		})
-		.Validate<AuthRefreshRequest>(false)
 		.WithName("RefreshAuth");
 	}
 

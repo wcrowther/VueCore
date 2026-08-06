@@ -29,6 +29,7 @@
 				<ListIndexButton v-model="modeIndex" :rangeList="modeList"
 					class="w-[185px] !bg-white border border-color-dark-blue !text-color-dark-blue" />
 			</div>
+			
 		</PageTitleBox>
 
 		<InfoBox>

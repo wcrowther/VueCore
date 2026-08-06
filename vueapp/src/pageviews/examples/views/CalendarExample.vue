@@ -77,15 +77,27 @@
 
 <template>
 
-    <PageTitleBox pageTitle="CalendarGrid Example" />
+    <PageTitleBox pageTitle="Calendar Example" />
 
-    <div class="mb-5">
+    <InfoBox>
         A fully interactive monthly calendar built with slot-based customization. Events can be 
         <b>dragged and dropped</b> between days, and clicking a day opens a <b>day detail modal</b> 
         where events can be added, edited, or deleted (with a confirm prompt before deletion). 
         The calendar header exposes navigation slots for previous/next month and a Today button. 
         Both the header and each day cell are fully templatable via named slots.
-    </div>
+    </InfoBox>
+
+    <HelpBox>
+        <div class="mb-5">
+            <b>Calendar shortcuts:</b> use the left/right controls in the header to move between months,
+            and use <b>Today</b> to jump back to the current month.
+        </div>
+        <div class="mb-5">
+            <b>Current data setup:</b> this example uses static event data that is kept in sync with the
+            currently displayed month for demo purposes. The event list can be swapped to a real data source
+            (API/database) with minimal changes because all interactions already flow through the calendar store.
+        </div>
+    </HelpBox>
 
     <CalendarGrid :dateInMonth @drop="onDropEvent" 
         class="border border-gray mb-10">

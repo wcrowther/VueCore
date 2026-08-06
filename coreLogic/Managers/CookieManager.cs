@@ -31,6 +31,17 @@ public class CookieManager(	AppSettingsVm appSettings,
 		});
 	}
 
+	public void SetUserIdCookie(int userId)
+	{
+		accessor.HttpContext.Response.Cookies.Append("userId", userId.ToString(), new CookieOptions
+		{
+			HttpOnly	= true,
+			Secure		= true,
+			SameSite	= SameSiteMode.None,
+			Expires		= DateTime.Now.AddDays(appSettings.RefreshTokenExpirationDays)
+		});
+	}
+
 	public void ClearAuthCookies()
 	{
 		accessor.HttpContext.Response.Cookies.Delete("accessToken", new CookieOptions
@@ -41,6 +52,13 @@ public class CookieManager(	AppSettingsVm appSettings,
 		});
 
 		accessor.HttpContext.Response.Cookies.Delete("refreshToken", new CookieOptions
+		{
+			HttpOnly	= true,
+			Secure		= true,
+			SameSite	= SameSiteMode.None
+		});
+
+		accessor.HttpContext.Response.Cookies.Delete("userId", new CookieOptions
 		{
 			HttpOnly	= true,
 			Secure		= true,
