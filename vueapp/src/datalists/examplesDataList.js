@@ -11,7 +11,7 @@ export const examplesDataList =
         { name: 'Grid', example: 'GridExample', show: true, featured: false, type: '', order: 5},
         { name: 'ImageCropper', example: 'ImageCropperExample', show: true, featured: false, type: '', order: 5},
         { name: 'Inputs', example: 'InputsExample', show: true, featured: true, type: '', order: 2},
-        { name: 'Intro', example: 'ExamplesIntro', show: true, featured: true, type: '', order: 1},
+        { name: 'Intro', example: 'IntroToExamples', show: true, featured: true, type: '', order: 1},
         { name: 'JsonTree', example: 'JsonTreeExample', show: true, featured: false, type: '', order: 5},
         { name: 'ListIndexButton', example: 'ListIndexButtonExample', show: true, featured: false, type: '', order: 5},
         { name: 'Misc', example: 'MiscExample', show: false, featured: false, type: '', order: 5},

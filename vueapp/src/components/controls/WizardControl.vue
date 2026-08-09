@@ -35,28 +35,6 @@
     const canGoPrev = computed(() => props.wrap || currentTabIndex.value > 0)
     const canGoNext = computed(() => props.wrap || currentTabIndex.value < props.tabList.length - 1)
 
-    const resolveTargetIndex = (offset) =>
-    {
-        const target = currentTabIndex.value + offset
-        const lastIndex = props.tabList.length - 1
-
-        if (props.wrap)
-        {
-            if (target < 0) return lastIndex
-            if (target > lastIndex) return 0
-            return target
-        }
-
-        return Math.min(lastIndex, Math.max(0, target))
-    }
-
-    const getDirection = (fromIndex, toIndex) =>
-    {
-        if (toIndex > fromIndex) return 'next'
-        if (toIndex < fromIndex) return 'prev'
-        return 'stay'
-    }
-
     const navigateTo = async (toTab, trigger = 'manual') =>
     {
         if (isNavigating.value) return false
@@ -67,7 +45,7 @@
 
         if (toIndex < 0) return false
 
-        const direction = getDirection(fromIndex, toIndex)
+        const direction = toIndex > fromIndex ? 'next' : toIndex < fromIndex ? 'prev' : 'stay'
         const payload =
         {
             fromTab,
@@ -107,21 +85,18 @@
         }
     }
 
-    const nextTab = async (trigger = 'next-button') =>
+    const stepTab = (offset, trigger) =>
     {
-        if (!canGoNext.value) return
-
-        const nextIndex = resolveTargetIndex(1)
-        await navigateTo(props.tabList[nextIndex], trigger)
+        const target = currentTabIndex.value + offset
+        const last = props.tabList.length - 1
+        const idx = props.wrap
+            ? (target < 0 ? last : target > last ? 0 : target)
+            : Math.min(last, Math.max(0, target))
+        return navigateTo(props.tabList[idx], trigger)
     }
 
-    const prevTab = async (trigger = 'prev-button') =>
-    {
-        if (!canGoPrev.value) return
-
-        const prevIndex = resolveTargetIndex(-1)
-        await navigateTo(props.tabList[prevIndex], trigger)
-    }
+    const nextTab = (trigger = 'next-button') => canGoNext.value && stepTab(1, trigger)
+    const prevTab = (trigger = 'prev-button') => canGoPrev.value && stepTab(-1, trigger)
 
     const setActiveTab = async (tab) => await navigateTo(tab, 'tab-click')
     
@@ -159,7 +134,7 @@
         </div>
 
         <!-- Content -->
-        <div :class="['relative z-10 h-full min-h-60 opacity-100 pb-3 bg-transparent',
+        <div :class="['relative z-10  h-full min-h-60 opacity-100 pb-3 bg-transparent',
             'overflow-y-auto overflow-x-hidden scrollbar-thin box-border', showBorder ? 'border border-black p-7': 'mt-7']">
 
            <template v-for="(tab,idx) in props.tabList" :key="idx">
@@ -169,26 +144,27 @@
            </template>  
 
            <slot :nextTab="nextTab" :prevTab="prevTab" :activeTab="activeTab" :currentIndex="currentTabIndex + 1">
-                <div :class="['group text-right font-bold absolute flex items-center justify-end',
-                    'underline-offset-2 w-fit select-none',
-                    canGoPrev ? 'cursor-pointer hover:underline hover:text-orange' : 'opacity-50 cursor-not-allowed',
-                    showBorder ? 'top-7 left-7' : 'top-0 left-5']"
-                    @click="prevTab" >
-                    <IconSymbol class="mr-1"
-                        :class="canGoPrev ? 'text-black group-hover:text-orange' : 'text-gray-400'"
-                        title="Previous Wizard Item" width="24px" icon="material-symbols-light:play-arrow" />
-                    Prev
-                </div>
+                <div :class="['absolute flex items-center gap-4 font-bold select-none',
+                    showBorder ? 'top-[38px] right-10' : 'top-[10px] right-4']">
 
-                <div :class="['group text-right font-bold absolute flex items-center justify-end',
-                    'underline-offset-2 w-fit select-none',
-                    canGoNext ? 'cursor-pointer hover:underline hover:text-orange' : 'opacity-50 cursor-not-allowed',
-                    showBorder ? 'top-7 right-7' : 'top-0 right-5']"
-                    @click="nextTab" >
-                    Next
-                    <IconSymbol class="ml-1"
-                        :class="canGoNext ? 'text-black group-hover:text-orange' : 'text-gray-400'"
-                        title="Next Wizard Item" width="24px" icon="material-symbols-light:play-arrow" />
+                    <div :class="['group flex items-center underline-offset-2 text-color-mid-blue',
+                        canGoPrev ? 'cursor-pointer hover:underline hover:text-orange' : 'opacity-50 cursor-not-allowed']"
+                        @click="prevTab">
+                        <IconSymbol class="mr-1"
+                            :class="canGoPrev ? 'text-color-mid-blue group-hover:text-orange' : 'text-gray-400'"
+                            title="Previous Wizard Item" width="24px" icon="material-symbols-light:arrow-back-2" />
+                        Prev
+                    </div>
+
+                    <div :class="['group flex items-center underline-offset-2 text-color-mid-blue',
+                        canGoNext ? 'cursor-pointer hover:underline hover:text-orange' : 'opacity-50 cursor-not-allowed']"
+                        @click="nextTab">
+                        Next
+                        <IconSymbol class="ml-1"
+                            :class="canGoNext ? 'text-color-mid-blue group-hover:text-orange' : 'text-gray-400'"
+                            title="Next Wizard Item" width="24px" icon="material-symbols-light:play-arrow" />
+                    </div>
+
                 </div>
            </slot>
         </div>

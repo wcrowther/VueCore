@@ -120,14 +120,29 @@ export const theme = {
     },
     fontSize: {
       xxs: ['0.5rem', { lineHeight: '.75rem' }],
-    }
+    },
+    containers: {
+    '2xs': '16rem',     /* 256px  custom */
+    //  'xs':	'20rem',  /* 320px  default */
+    //  'sm':	'24rem',  /* 384px  default */
+    //  'md':	'28rem',  /* 448px  default */
+    //  'lg':	'32rem',  /* 512px  default */
+    //  'xl':	'36rem',  /* 576px  default */
+    //  '2xl': '42rem', /* 672px  default */
+    //  '3xl': '48rem', /* 768px  default */
+    //  '4xl': '56rem', /* 896px  default */
+    //  '5xl': '64rem', /* 1024px default */
+    //  '6xl': '72rem', /* 1152px default */
+    //  '7xl': '80rem', /* 1280px default */
+    },
   }
 };
 
 export const plugins = 
 [
   require('@tailwindcss/forms'),
-  require('@tailwindcss/typography')
+  require('@tailwindcss/typography'),
+  require('@tailwindcss/container-queries')
 ];
 
 

@@ -40,11 +40,8 @@
 
 		<TitleBox class="!m-0 !mb-4">Step 1: Name and Contact Info</TitleBox>
 
-		<p class="mb-4 text-sm leading-6">
-			Start with your basic interview contact details.
-		</p>
-
-		<div class="mb-4">
+		<div class="flex items-baseline justify-between mb-4">
+			<p class="text-sm leading-6">Start with your basic interview contact details.</p>
 			<button type="button" class="text-xs font-bold underline underline-offset-2 !text-color-dark-blue hover:!text-orange"
 				@click="autoFillStep">
 				AutoFill Step
