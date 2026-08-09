@@ -22,8 +22,8 @@
         <PageTitleBox pageTitle="Resizable Grid" />
 
 		<InfoBox>
-			<b>GridControl</b> renders a reactive checkered grid driven by <b>:rows</b> and <b>:cols</b> props.
-			Use the button to cycle through preset sizes and watch the grid re-render instantly.
+            <b>GridControl</b> renders a reactive grid driven by <b>:rows</b> and <b>:cols</b> props.
+            Use the button to cycle through preset sizes, then use the scoped slot to customize each cell (including checkerboard patterns).
 		</InfoBox>
 
         <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" 
@@ -31,7 +31,21 @@
 
         <!-- GRID CONTROL -->
 
-        <GridControl :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols" />
+        <GridControl class="mb-10 border-4 border-gray-600" 
+            :rows="gridSizes[gridIndex].rows" :cols="gridSizes[gridIndex].cols"
+            v-slot="{ isEvenCell }">
+
+            <div :class="[ 'size-10 aspect-square',
+                isEvenCell ? 'bg-gray-400' : 'bg-slate-200' ]">
+            </div>
+
+        </GridControl>
+
+	    <GridControl :rows="30" :cols="50" v-slot="{ isEvenCell }">
+	    	<div :class="[ 'size-3 border border-blue aspect-square',
+	    		isEvenCell ? 'bg-slate-100' : 'bg-white' ]" >
+	    	</div>
+	    </GridControl>
 
     </div>
 

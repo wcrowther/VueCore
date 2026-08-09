@@ -13,7 +13,7 @@
 
 <template>
 
-	<div class="w-fit grid gap-0 border-4 border-gray-600" 
+	<div class="w-fit grid gap-0" 
 		:style="{ gridTemplateRows: `repeat(${props.rows}, 1fr)`, 
 		gridTemplateColumns: `repeat(${props.cols}, 1fr)`}">
 
@@ -22,15 +22,17 @@
 			<template v-for="(_, colIndex) in props.cols" 
 				:key="`${rowIndex}-${colIndex}`">
 
-				<div :class="['flex justify-center items-center', 
-					(rowIndex + colIndex) % 2 === 0 
-						? 'bg-gray-400'  
-						: 'bg-slate-200']" 
+				<div class="flex justify-center items-center"
 					:id="`${rowIndex}-${colIndex}`" 
 					:style="{ gridRow: rowIndex+1, gridColumn: colIndex+1 }">
 
-					<slot :title="`${rowIndex}-${colIndex}`">
-						<div class="size-10"></div>
+					<slot :title="`${rowIndex}-${colIndex}`"
+						:rowIndex="rowIndex" :colIndex="colIndex"
+						:row="rowIndex + 1"	:col="colIndex + 1"
+						:id="`${rowIndex}-${colIndex}`"	:isEvenCell="(rowIndex + colIndex) % 2 === 0">
+
+						<div class="size-10" />
+
 					</slot>
 				</div>
 
@@ -46,6 +48,17 @@
 	// Note: use colon (:) to bind the rows and cols props as numbers instead of strings.
 
 	<GridControl :rows="5" :cols="7" class="size-10 bg-white border border-blue aspect-square" />
+
+	<GridControl :rows="5" :cols="7" v-slot="{ rowIndex, colIndex, row, col, id, isEvenCell }">
+		<div
+			:class="[
+				'size-10 border border-blue aspect-square',
+				isEvenCell ? 'bg-slate-200' : 'bg-white'
+			]"
+		>
+			{{ row }},{{ col }}
+		</div>
+	</GridControl>
 
 
 	<div>Rows: {{ props.rows }}</div>

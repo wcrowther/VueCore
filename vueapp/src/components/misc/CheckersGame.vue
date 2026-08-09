@@ -260,12 +260,13 @@
 
         </div>
 
-        <GridControl :rows="8" :cols="8">
+        <GridControl :rows="8" :cols="8" class="border-4 border-gray-600">
 
-            <template #default="{ title }">
+            <template #default="{ title, isEvenCell }">
 
                 <div :style="squareStyle"
                     :class="['flex items-center justify-center',
+                    isEvenCell ? 'bg-gray-400' : 'bg-slate-200',
                     { 'ring-2 ring-inset ring-yellow-400 bg-yellow-100/40': validMoves.has(title) }]"
                     @click="onSquareTap(title)"
                     @dragover.prevent
