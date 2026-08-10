@@ -44,6 +44,7 @@ declare global {
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
   const closeAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']
   const computed: typeof import('vue')['computed']
+  const conwayAlgorithm: typeof import('../helpers/lifeAlgorithms.js')['conwayAlgorithm']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
   const dateFormat: typeof import('../helpers/global.js')['dateFormat']
@@ -255,6 +256,7 @@ declare module 'vue' {
     readonly authSignupValidator: UnwrapRef<typeof import('../helpers/validators.js')['authSignupValidator']>
     readonly closeAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
+    readonly conwayAlgorithm: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['conwayAlgorithm']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly dateFormat: UnwrapRef<typeof import('../helpers/global.js')['dateFormat']>

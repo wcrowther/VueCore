@@ -1,34 +1,5 @@
-<script>
-
-// Pluggable algorithm signature: (current, next, rows, cols, wrapEdges) => void
-function conwayAlgorithm(current, next, rows, cols, wrapEdges) 
-{
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-            let n = 0
-            for (let dr = -1; dr <= 1; dr++) {
-                for (let dc = -1; dc <= 1; dc++) {
-                    if (dr === 0 && dc === 0) continue
-                    let nr, nc
-                    if (wrapEdges) {
-                        nr = (r + dr + rows) % rows
-                        nc = (c + dc + cols) % cols
-                    } else {
-                        nr = r + dr
-                        nc = c + dc
-                        if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue
-                    }
-                    n += current[nr * cols + nc]
-                }
-            }
-            const idx = r * cols + c
-            next[idx] = n === 3 || (n === 2 && current[idx]) ? 1 : 0
-        }
-    }
-}
-</script>
-
 <script setup>
+    import { conwayAlgorithm } from '@/helpers/lifeAlgorithms.js'
 
     const props = defineProps(
     {
@@ -37,12 +8,14 @@ function conwayAlgorithm(current, next, rows, cols, wrapEdges)
         cols:       { type: Number,   default: 100 },
         speed:      { type: Number,   default: 150 },
         cellSize:   { type: String,   default: 'size-2' },
+        cellClass:  { type: String,   default: 'bg-black' },
         algorithm:  { type: Function, default: conwayAlgorithm },
     })
 
     const generation = ref(0)
     const isPaused   = ref(true)
     const wrapEdges  = ref(true)
+    const cellBack = computed(() => props.cellClass)
 
     const { createConfirm } = useConfirmControl()
 
@@ -54,15 +27,18 @@ function conwayAlgorithm(current, next, rows, cols, wrapEdges)
     let next       = null
     let intervalId = null
     let isPainting = false
+    let eraseMode  = false  // drag follows the state set on initial mousedown
 
     function renderDiff(prev, curr) 
     {
         const cols  = props.cols
         const total = props.rows * cols
-        for (let i = 0; i < total; i++) {
-            if (prev[i] !== curr[i]) {
+        for (let i = 0; i < total; i++) 
+        {
+            if (prev[i] !== curr[i]) 
+            {
                 const el = document.getElementById(`${(i / cols) | 0}-${i % cols}`)
-                if (el) el.classList.toggle('bg-black', curr[i] === 1)
+                if (el) el.classList.toggle(cellBack.value, curr[i] === 1)
             }
         }
     }
@@ -98,27 +74,29 @@ function conwayAlgorithm(current, next, rows, cols, wrapEdges)
         return [parts[0] | 0, parts[1] | 0]
     }
 
-    function paintCell(r, c) 
+    function paintCell(r, c, alive) 
     {
         const idx = r * props.cols + c
-        if (current[idx] === 1) return
-        current[idx] = 1
+        if (current[idx] === (alive ? 1 : 0)) return
+        current[idx] = alive ? 1 : 0
         const el = document.getElementById(`${r}-${c}`)
-        if (el) el.classList.add('bg-black')
+        if (el) el.classList.toggle(cellBack.value, alive)
     }
 
     function onGridMouseDown(e) 
     {
-        isPainting = true
         const cell = getCellFromEvent(e)
-        if (cell) paintCell(cell[0], cell[1])
+        if (!cell) return
+        eraseMode  = current[cell[0] * props.cols + cell[1]] === 1
+        isPainting = true
+        paintCell(cell[0], cell[1], !eraseMode)
     }
 
     function onGridMouseMove(e) 
     {
         if (!isPainting) return
         const cell = getCellFromEvent(e)
-        if (cell) paintCell(cell[0], cell[1])
+        if (cell) paintCell(cell[0], cell[1], !eraseMode)
     }
 
     function onDocMouseUp() 
@@ -138,9 +116,10 @@ function conwayAlgorithm(current, next, rows, cols, wrapEdges)
         generation.value = 0
         const cols  = props.cols
         const total = props.rows * cols
-        for (let i = 0; i < total; i++) {
+        for (let i = 0; i < total; i++) 
+        {
             const el = document.getElementById(`${(i / cols) | 0}-${i % cols}`)
-            if (el) el.classList.remove('bg-black')
+            if (el) el.classList.remove(cellBack.value)
         }
     }
 
@@ -170,16 +149,19 @@ function conwayAlgorithm(current, next, rows, cols, wrapEdges)
         next    = new Uint8Array(props.rows * props.cols)
         document.addEventListener('mouseup', onDocMouseUp)
 
-        if (savedBoard.value?.board?.length === props.rows * props.cols) {
+        if (savedBoard.value?.board?.length === props.rows * props.cols) 
+        {
             current.set(savedBoard.value.board)
             generation.value = savedBoard.value.generation ?? 0
             wrapEdges.value  = savedBoard.value.wrapEdges  ?? false
             const cols  = props.cols
             const total = props.rows * cols
-            for (let i = 0; i < total; i++) {
-                if (current[i] === 1) {
+            for (let i = 0; i < total; i++) 
+            {
+                if (current[i] === 1) 
+                {
                     const el = document.getElementById(`${(i / cols) | 0}-${i % cols}`)
-                    if (el) el.classList.add('bg-black')
+                    if (el) el.classList.add(cellBack.value)
                 }
             }
         }
@@ -222,7 +204,7 @@ function conwayAlgorithm(current, next, rows, cols, wrapEdges)
             @mousemove="onGridMouseMove" @dragstart.prevent>
 
             <GridControl :rows="props.rows" :cols="props.cols" 
-                :class="['border-r border-b border-gray-300', { 'm-auto' : props.fullScreen }]">
+                class="border-r border-b border-gray-300">
                 <template #default>
                     <div :class="[props.cellSize, 'border-l border-t border-gray-300']"></div>
                 </template>

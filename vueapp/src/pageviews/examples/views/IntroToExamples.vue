@@ -41,7 +41,7 @@
         </HelpBox>
 
         <div class="mt-8 mb-2">
-            <h2 class="text-xl font-bold mb-6 border-b border-gray-200 pb-2">Featured Examples</h2>
+            <h2 class="text-xl font-bold mb-6 border-b-2 border-color-blue-gray pb-2">Featured Examples</h2>
 
             <!-- Inputs -->
             <div class="mb-8 overflow-hidden">
