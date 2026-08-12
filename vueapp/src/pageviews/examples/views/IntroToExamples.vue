@@ -93,17 +93,17 @@
                 
             </div>
 
-            <!-- Checkers -->
+            <!-- Checkers Game -->
             <div class="mb-8 overflow-hidden">
 
                 <router-link to="/examples/checkers" class="text-color-dark-blue hover:opacity-60">
-                    <img src="/images/checkers example crop.png" 
+                    <img src="/images/checkers game.png" 
                         alt="Checkers preview" class="float-right ml-6 mb-3 w-[180px] rounded border border-gray-300 shadow-sm" />
                 </router-link>
 
                 <h3 class="font-bold text-base mb-2">
                     <router-link to="/examples/checkers" class="text-color-dark-blue hover:opacity-60">
-                        Checkers
+                        Checkers Game
                     </router-link>
                 </h3>
 
@@ -117,6 +117,33 @@
                 </p>
 
             </div>
+
+            <!-- Conway's Life -->
+            <div class="mb-8 after:content-[''] after:block after:clear-both">
+
+                <router-link to="/examples/conwayslife" class="text-color-dark-blue hover:opacity-60">
+                    <img src="/images/conways life.png"
+                        alt="Conway's Life preview" class="float-left mr-6 mb-3 w-[180px] rounded border border-gray-300 shadow-sm" />
+                </router-link>
+
+                <h3 class="font-bold text-base mb-2">
+                    <router-link to="/examples/conwayslife" class="text-color-dark-blue hover:opacity-60">
+                        Conway's Life
+                    </router-link>
+                </h3>
+
+                <p class="text-sm leading-relaxed text-gray-700">
+                    A fully interactive Conway's Game of Life built on the <b>GridControl</b> scoped slot.
+                    Click cells to toggle their state, then run the simulation and watch patterns evolve
+                    according to Conway's classic rules. It demonstrates how a grid of reactive state
+                    combined with a single algorithm function is enough to model complex emergent behavior —
+                    no canvas, no external libraries. The rule set is pluggable, so swapping in variants
+                    like <em>HighLife</em>, <em>Replicator</em> or <em>Day &amp; Night</em> is straightforward.
+                </p>
+
+            </div>
+
+            
         </div>
 
 	    <!-- CONTENT SIZING INSTEAD OF WINDOW WIDTH 

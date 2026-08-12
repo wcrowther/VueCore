@@ -1,21 +1,36 @@
 <script setup>
-    import { conwayAlgorithm } from '@/helpers/lifeAlgorithms.js'
+
+    import {  runAlgorithm, conwaysRule, highLifeRule, replicatorRule, seedsRule, 
+              morleyRule, dayAndNightRule, mazeRule, diamoebaRule, amoebaRule, stainsRule } from '@/helpers/lifeAlgorithms.js'
 
     const props = defineProps(
     {
-        fullScreen: { type: Boolean,  default: false },
-        rows:       { type: Number,   default: 100 },
-        cols:       { type: Number,   default: 100 },
-        speed:      { type: Number,   default: 150 },
-        cellSize:   { type: String,   default: 'size-2' },
-        cellClass:  { type: String,   default: 'bg-black' },
-        algorithm:  { type: Function, default: conwayAlgorithm },
+        fullScreen: { type: Boolean, default: false },
+        rows:       { type: Number,  default: 100 },
+        cols:       { type: Number,  default: 100 },
+        speed:      { type: Number,  default: 150 },
+        cellSize:   { type: String,  default: 'size-2' },
+        cellClass:  { type: String,  default: 'bg-black' },
     })
 
-    const generation = ref(0)
-    const isPaused   = ref(true)
-    const wrapEdges  = ref(true)
-    const cellBack = computed(() => props.cellClass)
+    const ruleOptions = [
+        { label: "Conway's Life", fn: conwaysRule  },
+        { label: 'HighLife',      fn: highLifeRule  },
+        { label: 'Replicator',    fn: replicatorRule },
+        { label: 'Seeds',         fn: seedsRule     },
+        { label: 'Morley',        fn: morleyRule    },
+        { label: 'Day & Night',   fn: dayAndNightRule },
+        { label: 'Maze',          fn: mazeRule      },
+        { label: 'Diamoeba',      fn: diamoebaRule  },
+        { label: 'Amoeba',        fn: amoebaRule    },
+        { label: 'Stains',        fn: stainsRule    },
+    ]
+
+    const generation  = ref(0)
+    const isPaused    = ref(true)
+    const wrapEdges   = ref(true)
+    const selectedRule = ref(ruleOptions[0])
+    const cellBack    = computed(() => props.cellClass)
 
     const { createConfirm } = useConfirmControl()
 
@@ -45,7 +60,7 @@
 
     function tick() 
     {
-        props.algorithm(current, next, props.rows, props.cols, wrapEdges.value)
+        runAlgorithm(current, next, props.rows, props.cols, wrapEdges.value, selectedRule.value.fn)
         renderDiff(current, next)
         ;[current, next] = [next, current]
         generation.value++
@@ -127,7 +142,8 @@
     {
         isPaused.value = true
 
-        savedBoard.value = {
+        savedBoard.value = 
+        {
             board:      Array.from(current),
             generation: generation.value,
             wrapEdges:  wrapEdges.value,
@@ -196,6 +212,9 @@
                 <input type="checkbox" v-model="wrapEdges" class="cursor-pointer" />
                 Wrap edges
             </label>
+            <select v-model="selectedRule" class="text-xs border border-gray-400 rounded px-1 py-0.5 cursor-pointer">
+                <option v-for="r in ruleOptions" :key="r.label" :value="r">{{ r.label }}</option>
+            </select>
             <span class="ml-auto text-xs text-gray-500 tabular-nums">Gen {{ generation }}</span>
         </div>
 

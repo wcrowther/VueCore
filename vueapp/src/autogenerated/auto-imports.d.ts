@@ -32,6 +32,7 @@ declare global {
   const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
   const addDays: typeof import('../helpers/global.js')['addDays']
+  const amoebaRule: typeof import('../helpers/lifeAlgorithms.js')['amoebaRule']
   const apiAuth: typeof import('../composables/ApiCall.js')['apiAuth']
   const apiCall: typeof import('../composables/ApiCall.js')['apiCall']
   const apiDelete: typeof import('../composables/ApiCall.js')['apiDelete']
@@ -45,17 +46,21 @@ declare global {
   const closeAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']
   const computed: typeof import('vue')['computed']
   const conwayAlgorithm: typeof import('../helpers/lifeAlgorithms.js')['conwayAlgorithm']
+  const conwayRule: typeof import('../helpers/lifeAlgorithms.js')['conwayRule']
+  const conwaysRule: typeof import('../helpers/lifeAlgorithms.js')['conwaysRule']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
   const dateFormat: typeof import('../helpers/global.js')['dateFormat']
   const dateISO: typeof import('../helpers/global.js')['dateISO']
   const dateTimeFormat: typeof import('../helpers/global.js')['dateTimeFormat']
   const dateTimeISO: typeof import('../helpers/global.js')['dateTimeISO']
+  const dayAndNightRule: typeof import('../helpers/lifeAlgorithms.js')['dayAndNightRule']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineLoader: typeof import('vue-router/auto')['defineLoader']
   const definePage: typeof import('unplugin-vue-router/runtime')['_definePage']
   const defineStore: typeof import('pinia')['defineStore']
+  const diamoebaRule: typeof import('../helpers/lifeAlgorithms.js')['diamoebaRule']
   const effectScope: typeof import('vue')['effectScope']
   const emitDetailBoxEvent: typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']
   const envConsts: typeof import('../datalists/envConsts.js')['envConsts']
@@ -71,6 +76,7 @@ declare global {
   const hasFilesInSubtree: typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']
   const hasKeys: typeof import('../helpers/global.js')['hasKeys']
   const hasPath: typeof import('../helpers/fileFolderHelpers.js')['hasPath']
+  const highLifeRule: typeof import('../helpers/lifeAlgorithms.js')['highLifeRule']
   const imageToolbarList: typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']
   const inject: typeof import('vue')['inject']
   const inputDemoValidator: typeof import('../helpers/validators.js')['inputDemoValidator']
@@ -87,9 +93,12 @@ declare global {
   const isRef: typeof import('vue')['isRef']
   const isRootName: typeof import('../helpers/fileFolderHelpers.js')['isRootName']
   const joinPath: typeof import('../helpers/fileFolderHelpers.js')['joinPath']
+  const lifeAlgorithm: typeof import('../helpers/lifeAlgorithms.js')['lifeAlgorithm']
   const logJson: typeof import('../helpers/global.js')['logJson']
   const longTabList: typeof import('../datalists/longTabList.js')['longTabList']
   const markRaw: typeof import('vue')['markRaw']
+  const mazeRule: typeof import('../helpers/lifeAlgorithms.js')['mazeRule']
+  const morleyRule: typeof import('../helpers/lifeAlgorithms.js')['morleyRule']
   const nextTick: typeof import('vue')['nextTick']
   const normalizePath: typeof import('../helpers/fileFolderHelpers.js')['normalizePath']
   const numbersOnly: typeof import('../helpers/global.js')['numbersOnly']
@@ -115,12 +124,16 @@ declare global {
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']
+  const replicatorRule: typeof import('../helpers/lifeAlgorithms.js')['replicatorRule']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const rolesList: typeof import('../datalists/roleList.js')['rolesList']
+  const runAlgorithm: typeof import('../helpers/lifeAlgorithms.js')['runAlgorithm']
   const sampleCalendarEvents: typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']
+  const seedsRule: typeof import('../helpers/lifeAlgorithms.js')['seedsRule']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
+  const stainsRule: typeof import('../helpers/lifeAlgorithms.js')['stainsRule']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const stringToSafeArray: typeof import('../helpers/global.js')['stringToSafeArray']
   const timeFormat: typeof import('../helpers/global.js')['timeFormat']
@@ -244,6 +257,7 @@ declare module 'vue' {
     readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
     readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
+    readonly amoebaRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['amoebaRule']>
     readonly apiAuth: UnwrapRef<typeof import('../composables/ApiCall.js')['apiAuth']>
     readonly apiCall: UnwrapRef<typeof import('../composables/ApiCall.js')['apiCall']>
     readonly apiDelete: UnwrapRef<typeof import('../composables/ApiCall.js')['apiDelete']>
@@ -256,18 +270,20 @@ declare module 'vue' {
     readonly authSignupValidator: UnwrapRef<typeof import('../helpers/validators.js')['authSignupValidator']>
     readonly closeAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
-    readonly conwayAlgorithm: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['conwayAlgorithm']>
+    readonly conwaysRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['conwaysRule']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly dateFormat: UnwrapRef<typeof import('../helpers/global.js')['dateFormat']>
     readonly dateISO: UnwrapRef<typeof import('../helpers/global.js')['dateISO']>
     readonly dateTimeFormat: UnwrapRef<typeof import('../helpers/global.js')['dateTimeFormat']>
     readonly dateTimeISO: UnwrapRef<typeof import('../helpers/global.js')['dateTimeISO']>
+    readonly dayAndNightRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['dayAndNightRule']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineLoader: UnwrapRef<typeof import('vue-router/auto')['defineLoader']>
     readonly definePage: UnwrapRef<typeof import('unplugin-vue-router/runtime')['_definePage']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
+    readonly diamoebaRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['diamoebaRule']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly emitDetailBoxEvent: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['emitDetailBoxEvent']>
     readonly envConsts: UnwrapRef<typeof import('../datalists/envConsts.js')['envConsts']>
@@ -283,6 +299,7 @@ declare module 'vue' {
     readonly hasFilesInSubtree: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']>
     readonly hasKeys: UnwrapRef<typeof import('../helpers/global.js')['hasKeys']>
     readonly hasPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasPath']>
+    readonly highLifeRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['highLifeRule']>
     readonly imageToolbarList: UnwrapRef<typeof import('../datalists/imagesToolbarList.js')['imageToolbarList']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly inputDemoValidator: UnwrapRef<typeof import('../helpers/validators.js')['inputDemoValidator']>
@@ -302,6 +319,8 @@ declare module 'vue' {
     readonly logJson: UnwrapRef<typeof import('../helpers/global.js')['logJson']>
     readonly longTabList: UnwrapRef<typeof import('../datalists/longTabList.js')['longTabList']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly mazeRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['mazeRule']>
+    readonly morleyRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['morleyRule']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly normalizePath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['normalizePath']>
     readonly numbersOnly: UnwrapRef<typeof import('../helpers/global.js')['numbersOnly']>
@@ -327,12 +346,16 @@ declare module 'vue' {
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
+    readonly replicatorRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['replicatorRule']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly rolesList: UnwrapRef<typeof import('../datalists/roleList.js')['rolesList']>
+    readonly runAlgorithm: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['runAlgorithm']>
     readonly sampleCalendarEvents: UnwrapRef<typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']>
+    readonly seedsRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['seedsRule']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly stainsRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['stainsRule']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly stringToSafeArray: UnwrapRef<typeof import('../helpers/global.js')['stringToSafeArray']>
     readonly timeFormat: UnwrapRef<typeof import('../helpers/global.js')['timeFormat']>

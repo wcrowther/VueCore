@@ -26,7 +26,7 @@
 
     <div ref="parentBox" class="w-full pb-5">
 
-    	<PageTitleBox pageTitle="Checkers Board"></PageTitleBox>
+    	<PageTitleBox pageTitle="Checkers Game"></PageTitleBox>
 
 		<InfoBox>
 			A fully playable checkers game built on <b>GridControl</b>'s scoped slot. Drag a piece to move it —
