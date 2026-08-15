@@ -72,14 +72,8 @@
             and <b>Misc</b> contains additional utility components.
         </InfoBox>
 
-        <!-- FloaterControl here 
-				<FloaterControl v-model="showFloaterOne" name="FloaterOne" title="Floater One"
-					class="bg-white w-[400px] h-[300px] p-5">
-					Some floating content here.
-				</FloaterControl>
-				-->
-
-        <WizardControl class="mb-10" :showBorder="showWizardBorder" :beforeChange="beforeChange"
+        <WizardControl class="mb-10" :wrap="false" 
+            :showBorder="showWizardBorder" :beforeChange="beforeChange" 
             :tabList="['Name', 'Education', 'Job_History', 'Skills', 'Summary']">
 
             <template #Name>

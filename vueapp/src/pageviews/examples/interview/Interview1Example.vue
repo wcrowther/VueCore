@@ -36,7 +36,7 @@
 
 <template>
 
-	<div>
+	<div class="pb-7">
 
 		<TitleBox class="!m-0 !mb-4">Step 1: Name and Contact Info</TitleBox>
 

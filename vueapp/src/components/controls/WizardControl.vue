@@ -135,7 +135,8 @@
 
         <!-- Content -->
         <div :class="['relative z-10  h-full min-h-60 opacity-100 pb-3 bg-transparent',
-            'overflow-y-auto overflow-x-hidden scrollbar-thin box-border', showBorder ? 'border border-black p-7': 'mt-7']">
+            'overflow-y-auto overflow-x-hidden scrollbar-thin box-border', 
+            showBorder  ? 'border border-black p-5' : 'mt-7']">
 
            <template v-for="(tab,idx) in props.tabList" :key="idx">
                 <template v-if="activeTab == tab">
@@ -145,7 +146,7 @@
 
            <slot :nextTab="nextTab" :prevTab="prevTab" :activeTab="activeTab" :currentIndex="currentTabIndex + 1">
                 <div :class="['absolute flex items-center gap-4 font-bold select-none',
-                    showBorder ? 'top-[38px] right-10' : 'top-[10px] right-4']">
+                    showBorder ? 'top-[30px] right-10' : 'top-[10px] right-4']">
 
                     <div :class="['group flex items-center underline-offset-2 text-color-mid-blue',
                         canGoPrev ? 'cursor-pointer hover:underline hover:text-orange' : 'opacity-50 cursor-not-allowed']"
