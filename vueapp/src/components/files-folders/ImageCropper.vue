@@ -1,6 +1,6 @@
 <script setup>
 
-	import { useSaveNameControl } from '@/composables/UseSaveNameControl'
+	import { usePromptControl } from '@/composables/UsePromptControl'
 
 	const props = defineProps(
 	{
@@ -16,7 +16,12 @@
 	const uploadStore 				= useUploadStore()
 	const { imageCropperSource, selectedFileName } 	= storeToRefs(imageStore)
 	const { uploadFile } 			= uploadStore
-	const { createSaveNameControl } = useSaveNameControl()
+	const { createPromptControl } = usePromptControl(
+	{
+		message: 'Enter a file name for the cropped image',
+		labelName: 'File Name',
+		confirmText: 'Save'
+	})
 
 	const canvasRef 		= ref(null)
 	const fileInputRef 		= ref(null)
@@ -448,7 +453,7 @@
 	{
 		if (!props.modelValue || isSaving.value) return
 
-		const fileName = await createSaveNameControl(getCroppedFileName())
+		const fileName = await createPromptControl(getCroppedFileName())
 
 		if (!fileName) return
 

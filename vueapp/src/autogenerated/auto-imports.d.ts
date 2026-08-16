@@ -45,8 +45,6 @@ declare global {
   const authSignupValidator: typeof import('../helpers/validators.js')['authSignupValidator']
   const closeAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['closeAllDetailBoxes']
   const computed: typeof import('vue')['computed']
-  const conwayAlgorithm: typeof import('../helpers/lifeAlgorithms.js')['conwayAlgorithm']
-  const conwayRule: typeof import('../helpers/lifeAlgorithms.js')['conwayRule']
   const conwaysRule: typeof import('../helpers/lifeAlgorithms.js')['conwaysRule']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
@@ -93,7 +91,6 @@ declare global {
   const isRef: typeof import('vue')['isRef']
   const isRootName: typeof import('../helpers/fileFolderHelpers.js')['isRootName']
   const joinPath: typeof import('../helpers/fileFolderHelpers.js')['joinPath']
-  const lifeAlgorithm: typeof import('../helpers/lifeAlgorithms.js')['lifeAlgorithm']
   const logJson: typeof import('../helpers/global.js')['logJson']
   const longTabList: typeof import('../datalists/longTabList.js')['longTabList']
   const markRaw: typeof import('vue')['markRaw']
@@ -181,9 +178,9 @@ declare global {
   const usePagedList: typeof import('../composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('../composables/UsePagedList2.js')['usePagedList2']
   const usePlatform: typeof import('../composables/UsePlatform.js')['usePlatform']
+  const usePromptControl: typeof import('../composables/UsePromptControl.js')['usePromptControl']
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
-  const useSaveNameControl: typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']
   const useScrollLock: typeof import('../composables/useScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
@@ -403,9 +400,9 @@ declare module 'vue' {
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('../composables/UsePagedList.js')['usePagedList']>
     readonly usePlatform: UnwrapRef<typeof import('../composables/UsePlatform.js')['usePlatform']>
+    readonly usePromptControl: UnwrapRef<typeof import('../composables/UsePromptControl.js')['usePromptControl']>
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
-    readonly useSaveNameControl: UnwrapRef<typeof import('../composables/UseSaveNameControl.js')['useSaveNameControl']>
     readonly useScrollLock: UnwrapRef<typeof import('../composables/useScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>

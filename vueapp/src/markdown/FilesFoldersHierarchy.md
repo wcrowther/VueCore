@@ -51,7 +51,7 @@ vueapp*
 				- JsonTreeControl.vue
 				- ModalControl.vue
 				- NotificationControl.vue
-				- SaveNameControl.vue
+				- PromptControl.vue
 				- SidebarControl.vue
 				- TabsControl.vue
 				- TabsOverflowControl.vue
@@ -128,7 +128,7 @@ vueapp*
 			- UsePagedList.js
 			- UsePagedList2.js
 			- UsePlatform.js
-			- UseSaveNameControl.js
+			- UsePromptControl.js
 			- useScrollLock.js
 			- UseSignalR.js
 			- UseUnsavedGuard.js

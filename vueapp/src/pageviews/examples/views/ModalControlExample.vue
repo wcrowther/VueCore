@@ -3,14 +3,6 @@
     const showModal = ref(false)
     const overlayClosesModal = ref(false)
 
-    const { createSaveNameControl } = useSaveNameControl()
-    const savedFileName = ref('')
-
-    const promptForSaveName = async () =>
-    {
-        savedFileName.value = await createSaveNameControl('MyFile.png')
-    }
-
 </script>
 
 <template>
@@ -30,14 +22,12 @@
         <p>
             Rather than building a dialog from scratch, several purpose-built controls wrap <b>ModalControl</b>
             to add their own fields, keyboard shortcuts, and reset logic. The Advanced Search panels are a good
-            example of this pattern, and <b>useSaveNameControl</b> shows the same dialog reused imperatively
-            through a composable instead of being declared inline:
+            example of this pattern:
         </p>
         <ul class="list-disc pl-6 mt-2">
             <li>AccountAdvSearch</li>
             <li>UsersAdvSearch</li>
             <li>ExamplesAdvSearch</li>
-            <li>useSaveNameControl</li>
         </ul>
     </InfoBox>
 
@@ -60,11 +50,6 @@
 	<div class="mb-4">
 		Click the "Open Modal" button above to display the modal dialog or click 
 		<span @click="showModal=true" class="text-blue-500 font-bold cursor-pointer">here</span>.
-	</div>
-
-	<div class="mb-4 flex items-center gap-3">
-		<PrimaryButton title="Prompt for Save Name" @click="promptForSaveName" />
-		<span v-if="savedFileName">Saved as: <b>{{ savedFileName }}</b></span>
 	</div>
 
     <ModalControl v-model="showModal" title="ModalControl Example" height="360px" width="560px"

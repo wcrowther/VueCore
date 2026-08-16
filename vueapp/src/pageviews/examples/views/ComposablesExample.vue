@@ -28,15 +28,20 @@
         }
 	}	
 
-	const { createSaveNameControl } = useSaveNameControl()
-	const savedFileName = ref('')
+    const { createPromptControl } = usePromptControl(
+    {
+        message: 'Enter some text',
+        labelName: 'Text',
+        confirmText: 'Submit'
+    })
+    const promptedText = ref('')
 
-	const trySaveName = async () =>
+	const tryPrompt = async () =>
 	{
-		const placeholder = 'MyFile.png'
-        const nameEntered = await createSaveNameControl(placeholder)
-		savedFileName.value = nameEntered || ''
-        console.log(`Saved file name: ${savedFileName.value}`)
+        const textSuggestion = 'Example text'
+        const enteredText = await createPromptControl(textSuggestion)
+        promptedText.value = enteredText || ''
+        console.log(`Entered text: ${promptedText.value}`)
 	}
 
 // ======================================================================
@@ -53,8 +58,9 @@ const alertDisplayed = await createAlert('Alert for the user.')
 // Code to display Confirm control
 const confirmed = await createConfirm('Confirm this record?')
 
-// Code to display SaveNameControl and get the entered file name
-const nameEntered = await createSaveNameControl('MyFile.png')
+// Code to display PromptControl with custom props
+const { createPromptControl } = usePromptControl({ message: 'Enter some text', confirmText: 'Submit' })
+const enteredText = await createPromptControl('Example text')
 
 // In <template> Create Confirm control inline
 <PrimaryButton @click="createConfirm('Confirm this record?', () => console.log('Inline Callback!'))">
@@ -70,11 +76,11 @@ const nameEntered = await createSaveNameControl('MyFile.png')
 
     <div>
 
-        <PageTitleBox pageTitle="Alert &amp; Confirm Composables" />
+        <PageTitleBox pageTitle="Dialog Composables" />
         
         <InfoBox>
             These composables allow you to programmatically trigger <b>Alert</b>, <b>Confirm</b>, and
-            <b>SaveNameControl</b> dialogs from anywhere in your code — no component markup required. Each
+            <b>PromptControl</b> dialogs from anywhere in your code — no component markup required. Each
             returns a Promise, so you can <code>await</code> the result inline and branch logic based on the
             user's response. Check the browser console to see the resolved values after interacting with each dialog.
         </InfoBox>
@@ -87,7 +93,7 @@ const nameEntered = await createSaveNameControl('MyFile.png')
                 <b>ConfirmControl</b> asks the user to confirm or cancel an action and resolves to a boolean. A second parameter can be used for an inline callback.
             </p>
             <p class="mb-3">
-                <b>SaveNameControl</b> prompts for a file name and resolves to the entered name or <code>null</code>
+                <b>PromptControl</b> prompts for text and resolves to the entered value or <code>null</code>
                 when the user cancels.
             </p>
         </div>
@@ -98,7 +104,7 @@ const nameEntered = await createSaveNameControl('MyFile.png')
             <PrimaryButton class="mr-3" @click="createConfirm('Confirm this record?', () => console.log('Inline callback!'))">
                 Confirm with Callback
             </PrimaryButton>
-            <PrimaryButton class="mt-5 mr-3" @click="trySaveName">Save Name</PrimaryButton>
+            <PrimaryButton class="mt-5 mr-3" @click="tryPrompt">Prompt for Text</PrimaryButton>
         </div>
 
         <div v-if="showConfirmedText" 
@@ -107,10 +113,10 @@ const nameEntered = await createSaveNameControl('MyFile.png')
             Confirmed!
         </div>
 
-        <div v-if="savedFileName" 
+        <div v-if="promptedText" 
             class="mt-5 font-bold text-orange" title="Click to reset"
-            @click="savedFileName=''">
-            Saved as: {{ savedFileName }}
+            @click="promptedText=''">
+            Entered: {{ promptedText }}
         </div>
 
         <CodeBlock :codeContent="codeContent" title="vuejs code" />
