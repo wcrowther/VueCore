@@ -16,6 +16,8 @@
 
 	defineOptions({ inheritAttrs: false })
 
+	DisableGlobalKeys(showModal) // disable Esc key if modal is showing
+
 	useScrollLock(showModal)
 
 </script>
@@ -84,7 +86,30 @@
 </style>
 
 
-<!-- Usage: 
+<!-- Usage Examples: 
 
-    <ModalControl v-if="showAdvSearch" v-model="showAdvSearch"  />
+    // In this example, using a v-if condition, the ModalControl will only be created when the condition is true
+	<ModalControl v-if="showAdvSearch" v-model="showAdvSearch"  />
+
+    <ModalControl v-model="showModal" title="Advanced Search" height="400px" width="500px">
+        <div class="p-5 pb-0">Content Here</div>
+    </ModalControl>
+
+    <ModalControl v-model="showModal" height="600px" width="600px" :overlayClosesModal="true">...
+
+    <ModalControl v-model="showModal" :teleportToModals="false" :showFooter="false">...
+
+    <ModalControl v-model="showModal" title="Confirm">
+        <template #footer>
+            <button class="btn-primary" @click="onConfirm">Yes</button>
+            <button class="btn-delete" @click="showModal=false">No</button>
+        </template>
+    </ModalControl>
+
+    <ModalControl v-model="showModal">
+        <template #header>
+            <span>Custom Header</span>
+        </template>
+        <div class="p-5">Content Here</div>
+    </ModalControl>
 -->

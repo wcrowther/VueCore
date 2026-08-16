@@ -13,10 +13,22 @@
     </PageTitleBox>
 
     <InfoBox>
-        <b>ModalControl</b> displays focused content above the page whenever its <b>v-model</b> boolean is
-        true. It includes a title header with a close button, a scrollable content area, and a footer with an
-        Ok button by default. Use the <b>header</b> and <b>footer</b> slots to replace those sections, or set
-        <b>:showFooter="false"</b> when no footer is needed. The component locks page scrolling while open.
+        <p class="mb-4">
+            <b>ModalControl</b> displays focused content above the page whenever its <b>v-model</b> boolean is
+            true. It includes a title header with a close button, a scrollable content area, and a footer with an
+            Ok button by default. Use the <b>header</b> and <b>footer</b> slots to replace those sections, or set
+            <b>:showFooter="false"</b> when no footer is needed. The component locks page scrolling while open.
+        </p>
+        <p>
+            Rather than building a dialog from scratch, several purpose-built controls wrap <b>ModalControl</b>
+            to add their own fields, keyboard shortcuts, and reset logic. The Advanced Search panels are a good
+            example of this pattern:
+        </p>
+        <ul class="list-disc pl-6 mt-2">
+            <li>AccountAdvSearch</li>
+            <li>UsersAdvSearch</li>
+            <li>ExamplesAdvSearch</li>
+        </ul>
     </InfoBox>
 
     <HelpBox>
