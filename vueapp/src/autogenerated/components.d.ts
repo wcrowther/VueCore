@@ -106,6 +106,7 @@ declare module 'vue' {
     MiscExample: typeof import('./../pageviews/examples/views/MiscExample.vue')['default']
     MobilePagerPrevNext: typeof import('./../components/pager/MobilePagerPrevNext.vue')['default']
     ModalControl: typeof import('./../components/controls/ModalControl.vue')['default']
+    ModalControlExample: typeof import('./../pageviews/examples/views/ModalControlExample.vue')['default']
     MultiSelectExample: typeof import('./../pageviews/examples/views/MultiSelectExample.vue')['default']
     MultiSelectInput: typeof import('./../components/inputs/MultiSelectInput.vue')['default']
     NavBar: typeof import('./../components/layout/NavBar.vue')['default']

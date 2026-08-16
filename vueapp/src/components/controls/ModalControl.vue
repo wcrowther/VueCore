@@ -8,9 +8,11 @@
 		teleportToModals:   { type: Boolean, default: true },
 		height:           	{ type: String, default: '300px' },
 		width:            	{ type: String, default: '500px' },
-		overlayClickCloses: { type: Boolean, default: false },
+		overlayClosesModal: { type: Boolean, default: false },
 		showFooter: 		{ type: Boolean, default: true },
 	})
+	
+	const closeModal = () => showModal.value = false
 
 	defineOptions({ inheritAttrs: false })
 
@@ -22,15 +24,18 @@
 	<Teleport to="#modals" :disabled="!teleportToModals">    
 		<Transition name="modal">
 
+			<!-- Modal Overlay (the semi-transparent background behind the modal) -->
 			<div v-if="showModal" id="ModalOverlay"
-				@click.self="props.overlayClickCloses && closeModal"
+				@click.self="props.overlayClosesModal && closeModal()"
                 class="flex fixed z-[999] top-0 left-0 w-full h-full bg-black 
 					bg-opacity-30 transition-opacity ease-in-out duration-75">
 
+				<!-- Modal Container -->
 				<div class="flex flex-col m-auto  max-w-screen transition-all relative 
 					bg-white rounded-sm shadow-lg shadow-color-dark-gray"
 					:style="{ height: props.height, width: props.width }">
 
+					<!-- Modal Header -->
 					<div class="shrink-0 flex justify-between items-center pl-8 pr-5 w-full h-14 
 						text-lg font-bold bg-gradient-modal select-none">
 
@@ -44,11 +49,13 @@
 
 					</div>
 					
-					<!-- Content - Gets ModalControls attributes ($attrs) on this div -->
+					<!-- Modal Content - Gets ModalControls attributes ($attrs) on this div -->
 					<div class="pb-8 h-full items-stretch scrollbar-thin overflow-auto"
 						v-bind="$attrs"
-						><slot><div class="p-5 pb-0">Default content</div></slot></div>
+						><slot><div class="p-5 pb-0">Default content</div></slot>
+					</div>
 
+					<!-- Modal Footer -->
 					<div v-if="showFooter"
 						class="shrink-0 p-4 pb-6 w-full h-18 flex justify-end gap-2 select-none">
 						<slot name="footer">

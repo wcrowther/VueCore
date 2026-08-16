@@ -58,7 +58,7 @@ public class AuthManager(
         if (savedUser is null)
             return Returns<AuthUser>.Failure($"Not able to save user {authRequest.UserName}.");
 
-        cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
+        cookieManager.SetRefreshTokenCookie(savedUser?.RefreshToken ?? "");
 
         return Returns<AuthUser>.Result(GetAuthResponse(savedUser));
     }
@@ -68,15 +68,16 @@ public class AuthManager(
         if (userToCreate is null)
             return Returns<AuthUser>.Failure("UserToCreate cannot be null.");
 
-        var existingUser = userRepo.GetUserByUserName(userToCreate?.UserName ?? "");
+        var existingUser = userRepo.GetUserByUserName(userToCreate.UserName ?? "");
         if (existingUser is not null)
             return new Error($"Not able to sign up user {userToCreate}");
 
-        var createdUser  = userManager.CreateUser(userToCreate!);
+        var createdUser  = userManager.CreateUser(userToCreate);
         if (createdUser is null)
             return Returns<AuthUser>.Failure($"Not able to create user {userToCreate.UserName}.");
         var rawUser      = userRepo.GetUserByUserName(createdUser.UserName);
         var authResponse = GetAuthResponse(rawUser);
+
         return Returns<AuthUser>.Result(authResponse);
     }
 
