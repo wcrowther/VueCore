@@ -1,5 +1,9 @@
 <script setup>
 
+	// ================================================================================
+	// See 'useSaveNameControl' composable to programmatically create a SaveNameControl
+	// ================================================================================
+
 	const emits = defineEmits(['saveNameResult'])
 	const props = defineProps(
 	{

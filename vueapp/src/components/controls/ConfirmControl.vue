@@ -1,5 +1,9 @@
 <script setup>
 
+	// ==================================================================================
+	// See 'useConfirmControl' composable to programmatically create a ConfirmControl
+	// ==================================================================================
+
 	const emits = defineEmits(['confirmResult'])
 	const props = defineProps(
 	{
@@ -27,10 +31,6 @@
     // ==================================================================================
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
-
-	// ==================================================================================
-	// See 'useConfirmControl' composable for programmatically creating a confirm control
-	// ==================================================================================
 
 	let resolvePromise; // promise resolver
 
