@@ -72,10 +72,10 @@
     }
 
     // Listeners   =============================================================================
-``
+
     const keys = 
     {
-        'Ctrl+KeyS': () => onfirmSave()
+        'Ctrl+KeyS': () => confirmSave()
     }
 
 	KeyboardListeners(keys);

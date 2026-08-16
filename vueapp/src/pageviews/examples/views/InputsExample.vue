@@ -1,6 +1,4 @@
 <script setup>
-import Examples from '@/pages/examples.vue'
-
 
     const { createConfirm } = useConfirmControl()
     const toastStore         = useToastStore()
@@ -39,6 +37,15 @@ import Examples from '@/pages/examples.vue'
 
     const resetInputDemo = () => { Object.assign(inputDemo, new InputDemoModel());  v$.value.$reset() }
 
+    // Listeners   =============================================================================
+
+    const keys = 
+    {
+        'Ctrl+KeyS': () => saveInputDemo()
+    }
+
+	KeyboardListeners(keys);
+
 // ======================================================================
 // CodeBlock Example
 // ======================================================================
@@ -69,12 +76,13 @@ const codeContent =
 <template>
 
     <PageTitleBox pageTitle="Input Examples">
-        <button :disabled="!isDirty" class="btn-cancel flex items-center px-2" 
+        <button :disabled="!isDirty" class="btn-primary flex items-center" 
             @click="resetInputDemo" title="Revert unsaved changes to Input Demo">
-            <IconSymbol width="18px" class="text-warm-600" icon="heroicons:arrow-left-20-solid" />
+            Reset 
+            <!-- <IconSymbol width="18px" class="text-warm-600" icon="heroicons:arrow-left-20-solid" /> -->
         </button>
         <button class="btn-primary" title="Example Save action for demo shows output in JSON preview"
-            :disabled="isDirty" @click="saveInputDemo">
+            :disabled="!isDirty" @click="saveInputDemo">
             Save
         </button>
     </PageTitleBox>
@@ -135,8 +143,14 @@ const codeContent =
     </div>
 
     <ModalControl id="InputDemoJson" v-model="showJson" class="p-5" 
-        title="Example Json to Save" width="700px" height="620px" :showFooter="false">
+        title="Example Json to Save" width="700px" height="620px">
+
         <JsonTreeControl label="InputDemo" :json="inputDemo" class="w-full" :isOpen="true" />
+
+        <template #footer>
+            <button class="btn-primary"  @click="showJson=false">Close</button>
+        </template>
+
     </ModalControl>
 
 </template>

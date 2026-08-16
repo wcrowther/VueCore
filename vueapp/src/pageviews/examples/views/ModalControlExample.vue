@@ -35,6 +35,11 @@
         </div>
     </HelpBox>
 
+	<div class="mb-4">
+		Click the "Open Modal" button above to display the modal dialog or click 
+		<span @click="showModal=true" class="text-blue-500 font-bold cursor-pointer">here</span>.
+	</div>
+
     <ModalControl v-model="showModal" title="ModalControl Example" height="360px" width="560px"
         :overlayClosesModal="overlayClosesModal">
 

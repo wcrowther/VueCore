@@ -1,7 +1,7 @@
 <script setup>
 
 	import { onClickOutside } from '@vueuse/core'
-	import { useDropdownPlacement } from '@/composables/UseDropdownPlacement'
+	import { useDropdownPlacement } from '@/composables/UseDropdownPlacement' // menu positioning helper
 
 	const MENU_GAP = 4
 	const VIEWPORT_PADDING = 8
@@ -279,7 +279,7 @@
 
 	// Keyboard Listeners  ================================================
 
-	const disableKeys = ref(true) // Disable keys if this component is not focused
+	const disableKeys = ref(true) // Disable keys below if this component is not focused
 
 	const keys = 
 	{
