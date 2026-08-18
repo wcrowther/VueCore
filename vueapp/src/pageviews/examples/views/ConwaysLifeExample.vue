@@ -1,6 +1,7 @@
 <script setup>
 
     const fullScreen = ref(false)
+    const generation = ref(0)
 
 </script>
 
@@ -8,7 +9,9 @@
 
     <div ref="parentBox" class="w-full">
 
-    	<PageTitleBox pageTitle="Conway's Life" />
+    	<PageTitleBox pageTitle="Conway's Life">
+            <div class="mt-2 text-sm text-gray-500">Generation: {{ generation }}</div>
+        </PageTitleBox> 
 
 		<InfoBox>
 			<p>
@@ -33,34 +36,46 @@
                 <li>A dead cell becomes alive with exactly 3 live neighbours.</li>
                 <li>All other cells die or remain dead.</li>
             </ol>
-            <p class="mt-2">
-                Experiment with other rule sets using the dropdown and observe how different rules 
-                affect the evolution of the board.
+            <p class="mt-2 italic">
+                Experiment with other rule sets using the dropdown and observe how different rules
+                affect the evolution of the board!
             </p>
-            <p class="mt-2">
-                <strong>Using this board:</strong> Click or drag on the grid to paint live cells, then press
-                <strong>▶ Play</strong> to start. Toggle <strong>Wrap edges</strong> to make the board
-                toroidal — cells leaving one edge re-enter on the opposite side. Use <strong>💾 Save</strong>
-                to persist the board to local storage between sessions, and <strong>✕ Clear</strong> to reset.
-            </p>
+
         </InfoBox>
 
         <HelpBox>
-            <p><strong>Implementation</strong></p>
+            <p><strong>Using this board:</strong></p>
+            <p class="mt-1">
+                Click or drag on the grid to paint live cells, then press
+                <strong>▶ Play</strong> to start. Toggle <strong>Wrap edges</strong> to make the board
+                toroidal — cells leaving one edge re-enter on the opposite side. Right-click a cell to add a
+                <b>Glider</b>, <b>Lightweight Spaceship</b>, <b>R-pentomino</b>,
+                or <b>Gosper Glider Gun</b> with its anchor at that cell. Use <strong>💾 Save</strong>
+                to persist the board to local storage between sessions, and <strong>✕ Clear</strong> to reset.
+            </p>
+            <p class="mt-2"><strong>Implementation</strong></p>
             <p class="mt-1">
                 The board is stored as two flat <code>Uint8Array</code> buffers — current and next generation —
                 and swapped on every tick. Only cells that change state are touched in the DOM via
                 <code>document.getElementById</code>, bypassing Vue reactivity entirely for cell state.
-                Mouse paint events use a single delegated listener on the grid wrapper rather than per-cell
-                handlers, keeping the initial render lightweight at 10,000 cells.
+                Mouse paint and context-menu events use delegated listeners on the grid wrapper rather than
+                per-cell handlers, keeping the initial render lightweight at 10,000 cells.
             </p>
-            <p class="mt-2"><strong>Extending with alternate algorithms</strong></p>
+            <p class="mt-2"><strong>Adding patterns</strong></p>
             <p class="mt-1">
-                The <code>algorithm</code> prop accepts any function with the signature
+                Pattern coordinates and placement logic are defined in <code>src/helpers/lifePatterns.js</code>.
+                Right-click placement writes the selected pattern directly into the board buffer and updates
+                only the affected cell elements. Patterns wrap around the edges when <strong>Wrap edges</strong>
+                is enabled; otherwise cells outside the board are skipped.
+            </p>
+            <p class="mt-2"><strong>Use alternate algorithms</strong></p>
+            <p class="mt-1">
+                Use the algorithm dropdown to switch between Conway's Life, HighLife, Replicator, Seeds,
+                Morley, Day &amp; Night, Maze, Diamoeba, Amoeba, and Stains while the board is paused or running.
+                Each rule set follows the same function signature:
                 <code>(current, next, rows, cols, wrapEdges) =&gt; void</code>.
-                Add additional rule sets to <code>src/helpers/lifeAlgorithms.js</code> and pass them in
-                to swap rule sets at runtime — for example <em>Day &amp; Night</em>, <em>HighLife</em>,
-                or <em>Seeds</em> each follow the same interface.
+                Additional rule sets can be added to <code>src/helpers/lifeAlgorithms.js</code> and included in
+                the dropdown.
             </p>
             <p class="mt-2"><strong>Canvas vs DOM for larger grids</strong></p>
             <p class="mt-1">
@@ -72,7 +87,7 @@
             </p>
         </HelpBox>
 
-		<ConwaysLifeGame :fullScreen cellClass="bg-indigo" />
+        <ConwaysLifeGame v-model:generation="generation" :fullScreen cellClass="bg-indigo" />
 
     </div>
 

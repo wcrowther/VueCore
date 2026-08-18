@@ -92,7 +92,10 @@
 
     <div class="mb-7">
 
-        <PageTitleBox pageTitle="Context Menu" />
+        <PageTitleBox pageTitle="Context Menu">
+   
+        </PageTitleBox>
+
 
 		<InfoBox>
 			This example demonstrates a context menu that adapts based on the current selection.

@@ -1,7 +1,10 @@
 <script setup>
 
-    import {  runAlgorithm, conwaysRule, highLifeRule, replicatorRule, seedsRule, 
-              morleyRule, dayAndNightRule, mazeRule, diamoebaRule, amoebaRule, stainsRule } from '@/helpers/lifeAlgorithms.js'
+    import { runAlgorithm, conwaysRule, highLifeRule, 
+             replicatorRule, seedsRule, morleyRule, 
+             dayAndNightRule, mazeRule, diamoebaRule, 
+             amoebaRule, stainsRule }                   from '@/helpers/lifeAlgorithms.js'
+    import { lifePatterns, addPattern as applyPattern } from '@/helpers/lifePatterns.js'
 
     const props = defineProps(
     {
@@ -27,11 +30,12 @@
         { label: 'Stains',        fn: stainsRule      },
     ]
 
-    const generation    = ref(0)
+    const generation    = defineModel('generation', { type: Number, default: 0 })
     const isPaused      = ref(true)
     const wrapEdges     = ref(true)
     const selectedRule  = ref(ruleOptions[0])
     const cellBack      = computed(() => props.cellClass)
+    const menuRef       = useTemplateRef('patternMenu')
 
     const { createConfirm } = useConfirmControl()
 
@@ -44,6 +48,24 @@
     let intervalId = null
     let isPainting = false
     let eraseMode  = false  // drag follows the state set on initial mousedown
+
+    const addPattern = (name, { row, col }) =>
+    {
+        if (!current) return
+
+        const cells = applyPattern(current, name, row, col, props.rows, props.cols, wrapEdges.value)
+        cells.forEach(([targetRow, targetCol]) =>
+        {
+            const el = document.getElementById(`${targetRow}-${targetCol}`)
+            if (el) el.classList.add(cellBack.value)
+        })
+    }
+
+    const patternMenuItems = Object.keys(lifePatterns).map((name) =>
+    ({
+        label: `Add ${name}`,
+        action: (context) => addPattern(name, context),
+    }))
 
     const renderDiff = (prev, curr) =>
     {
@@ -101,11 +123,18 @@
 
     const onGridMouseDown = (e) =>
     {
+        if (e.button !== 0) return
         const cell = getCellFromEvent(e)
         if (!cell) return
         eraseMode  = current[cell[0] * props.cols + cell[1]] === 1
         isPainting = true
         paintCell(cell[0], cell[1], !eraseMode)
+    }
+
+    const onGridContextMenu = (e) =>
+    {
+        const cell = getCellFromEvent(e)
+        if (cell) menuRef.value.open(e, { row: cell[0], col: cell[1] })
     }
 
     const onGridMouseMove = (e) =>
@@ -216,20 +245,23 @@
             <select v-model="selectedRule" class="text-xs border border-gray-400 rounded px-1 py-0.5 cursor-pointer">
                 <option v-for="r in ruleOptions" :key="r.label" :value="r">{{ r.label }}</option>
             </select>
-            <span class="ml-auto text-xs text-gray-500 tabular-nums">Gen {{ generation }}</span>
         </div>
 
         <div class="cursor-crosshair select-none"
-            @mousedown.prevent="onGridMouseDown"
-            @mousemove="onGridMouseMove" @dragstart.prevent>
+            @mousedown.prevent="onGridMouseDown" @mousemove="onGridMouseMove" 
+            @contextmenu="onGridContextMenu" @dragstart.prevent>
 
             <GridControl :rows="props.rows" :cols="props.cols" 
                 class="border-r border-b border-gray-300">
+
                 <template #default>
-                    <div :class="[props.cellSize, 'border-l border-t border-gray-300']"></div>
+                    <div :class="[props.cellSize, 'border-l border-t border-gray-300']" />
                 </template>
+
             </GridControl>
         </div>
+
+        <ContextMenu ref="patternMenu" :items="patternMenuItems" />
 
     </div>
 

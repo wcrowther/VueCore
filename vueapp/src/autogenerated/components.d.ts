@@ -41,7 +41,6 @@ declare module 'vue' {
     ContextMenuExample: typeof import('./../pageviews/examples/views/ContextMenuExample.vue')['default']
     ConwaysLifeExample: typeof import('./../pageviews/examples/views/ConwaysLifeExample.vue')['default']
     ConwaysLifeGame: typeof import('./../components/misc/ConwaysLifeGame.vue')['default']
-    copy: typeof import('./../pageviews/examples/views/GridExample copy.vue')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     DetailBox: typeof import('./../components/boxes/DetailBox.vue')['default']

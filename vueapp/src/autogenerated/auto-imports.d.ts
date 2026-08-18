@@ -32,6 +32,7 @@ declare global {
   const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
   const addDays: typeof import('../helpers/global.js')['addDays']
+  const addPattern: typeof import('../helpers/lifePatterns.js')['addPattern']
   const amoebaRule: typeof import('../helpers/lifeAlgorithms.js')['amoebaRule']
   const apiAuth: typeof import('../composables/ApiCall.js')['apiAuth']
   const apiCall: typeof import('../composables/ApiCall.js')['apiCall']
@@ -69,6 +70,7 @@ declare global {
   const fruitsList: typeof import('../datalists/fruitsList.js')['fruitsList']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getPatternCells: typeof import('../helpers/lifePatterns.js')['getPatternCells']
   const h: typeof import('vue')['h']
   const handleApiError: typeof import('../composables/ApiErrorHandler.js')['handleApiError']
   const hasFilesInSubtree: typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']
@@ -91,6 +93,7 @@ declare global {
   const isRef: typeof import('vue')['isRef']
   const isRootName: typeof import('../helpers/fileFolderHelpers.js')['isRootName']
   const joinPath: typeof import('../helpers/fileFolderHelpers.js')['joinPath']
+  const lifePatterns: typeof import('../helpers/lifePatterns.js')['lifePatterns']
   const logJson: typeof import('../helpers/global.js')['logJson']
   const longTabList: typeof import('../datalists/longTabList.js')['longTabList']
   const markRaw: typeof import('vue')['markRaw']
@@ -254,6 +257,7 @@ declare module 'vue' {
     readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
     readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
+    readonly addPattern: UnwrapRef<typeof import('../helpers/lifePatterns.js')['addPattern']>
     readonly amoebaRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['amoebaRule']>
     readonly apiAuth: UnwrapRef<typeof import('../composables/ApiCall.js')['apiAuth']>
     readonly apiCall: UnwrapRef<typeof import('../composables/ApiCall.js')['apiCall']>
@@ -291,6 +295,7 @@ declare module 'vue' {
     readonly fruitsList: UnwrapRef<typeof import('../datalists/fruitsList.js')['fruitsList']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getPatternCells: UnwrapRef<typeof import('../helpers/lifePatterns.js')['getPatternCells']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly handleApiError: UnwrapRef<typeof import('../composables/ApiErrorHandler.js')['handleApiError']>
     readonly hasFilesInSubtree: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']>
@@ -313,6 +318,7 @@ declare module 'vue' {
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly isRootName: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['isRootName']>
     readonly joinPath: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['joinPath']>
+    readonly lifePatterns: UnwrapRef<typeof import('../helpers/lifePatterns.js')['lifePatterns']>
     readonly logJson: UnwrapRef<typeof import('../helpers/global.js')['logJson']>
     readonly longTabList: UnwrapRef<typeof import('../datalists/longTabList.js')['longTabList']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
