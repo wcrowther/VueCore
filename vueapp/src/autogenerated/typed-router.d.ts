@@ -58,7 +58,6 @@ declare module 'vue-router/auto/routes' {
     '/home/dotnetnotes': RouteRecordInfo<'/home/dotnetnotes', '/home/dotnetnotes', Record<never, never>, Record<never, never>>,
     '/home/intro': RouteRecordInfo<'/home/intro', '/home/intro', Record<never, never>, Record<never, never>>,
     '/home/vuenotes': RouteRecordInfo<'/home/vuenotes', '/home/vuenotes', Record<never, never>, Record<never, never>>,
-    '/menu': RouteRecordInfo<'/menu', '/menu', Record<never, never>, Record<never, never>>,
     '/panzoom': RouteRecordInfo<'/panzoom', '/panzoom', Record<never, never>, Record<never, never>>,
     '/test': RouteRecordInfo<'/test', '/test', Record<never, never>, Record<never, never>>,
   }

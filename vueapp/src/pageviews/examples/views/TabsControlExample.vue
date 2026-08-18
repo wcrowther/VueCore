@@ -10,11 +10,11 @@
 	}
 
 	const radiationTabs =
-		[
-			{ id: 1, title: 'Alpha', description: 'A heavy, positively charged particle consisting of two protons and two neutrons (identical to a helium nucleus)' },
-			{ id: 2, title: 'Beta', description: 'Small, fast-moving electrons ejected from an unstable atom\'s nucleus.' },
-			{ id: 3, title: 'Gamma', description: 'Unlike alpha and beta particles, gamma rays are pure, high-energy electromagnetic waves. They have no mass and no electrical charge' },
-		]
+	[
+		{ id: 1, title: 'Alpha', description: 'A heavy, positively charged particle consisting of two protons and two neutrons (identical to a helium nucleus)' },
+		{ id: 2, title: 'Beta', description: 'Small, fast-moving electrons ejected from an unstable atom\'s nucleus.' },
+		{ id: 3, title: 'Gamma', description: 'Unlike alpha and beta particles, gamma rays are pure, high-energy electromagnetic waves. They have no mass and no electrical charge' },
+	]
 
 </script>
 

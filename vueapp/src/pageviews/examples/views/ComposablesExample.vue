@@ -1,9 +1,12 @@
 <script setup>
 
-    const { createConfirm } = useConfirmControl()
+    const { createConfirm }         = useConfirmControl()  
+	const { createAlert }           = useAlertControl()
+	const { createPromptControl }   = usePromptControl()
+
     const showConfirmedText = ref(false)
-  
-	const { createAlert } = useAlertControl()
+    const promptedText      = ref('')
+
 	const showAlert = async () =>
 	{
 		const alertDisplayed = await createAlert('Alert for the user.')
@@ -28,18 +31,10 @@
         }
 	}	
 
-    const { createPromptControl } = usePromptControl(
-    {
-        message: 'Enter some text',
-        labelName: 'Text',
-        confirmText: 'Submit'
-    })
-    const promptedText = ref('')
-
 	const tryPrompt = async () =>
 	{
-        const textSuggestion = 'Example text'
-        const enteredText = await createPromptControl(textSuggestion)
+        const enteredText = await createPromptControl({ message: 'Enter some text' })
+
         promptedText.value = enteredText || ''
         console.log(`Entered text: ${promptedText.value}`)
 	}
@@ -59,8 +54,7 @@ const alertDisplayed = await createAlert('Alert for the user.')
 const confirmed = await createConfirm('Confirm this record?')
 
 // Code to display PromptControl with custom props
-const { createPromptControl } = usePromptControl({ message: 'Enter some text', confirmText: 'Submit' })
-const enteredText = await createPromptControl('Example text')
+const enteredText = await createPromptControl({ message: 'Enter some text' })
 
 // In <template> Create Confirm control inline
 <PrimaryButton @click="createConfirm('Confirm this record?', () => console.log('Inline Callback!'))">

@@ -19,7 +19,7 @@
 
     <div class="basis-full overflow-auto scrollbar-thin">
 
-        <PageTitleBox pageTitle="Resizable Grid" />
+        <PageTitleBox pageTitle="Resizable Grid Examples" />
 
 		<InfoBox>
             <b>GridControl</b> renders a reactive grid driven by <b>:rows</b> and <b>:cols</b> props.

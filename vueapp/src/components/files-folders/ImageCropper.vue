@@ -16,12 +16,7 @@
 	const uploadStore 				= useUploadStore()
 	const { imageCropperSource, selectedFileName } 	= storeToRefs(imageStore)
 	const { uploadFile } 			= uploadStore
-	const { createPromptControl } = usePromptControl(
-	{
-		message: 'Enter a file name for the cropped image',
-		labelName: 'File Name',
-		confirmText: 'Save'
-	})
+	const { createPromptControl } 	= usePromptControl()
 
 	const canvasRef 		= ref(null)
 	const fileInputRef 		= ref(null)
@@ -453,7 +448,15 @@
 	{
 		if (!props.modelValue || isSaving.value) return
 
-		const fileName = await createPromptControl(getCroppedFileName())
+		const options = 
+		{
+			textSuggestion: getCroppedFileName(),
+			message: 'Enter a file name for the cropped image',
+			labelName: 'File Name',
+			confirmText: 'Save'
+		}
+		
+		const fileName = await createPromptControl(options)
 
 		if (!fileName) return
 

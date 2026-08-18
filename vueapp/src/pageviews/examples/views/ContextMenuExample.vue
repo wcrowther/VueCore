@@ -2,7 +2,8 @@
 
 	const { createAlert } = useAlertControl()
 
-	const menuRef = ref(null)
+	// const menuRef = ref(null) // OLD WAY
+	const menuRef = useTemplateRef('menuRef')
 
 	const files = ref(
 	[
@@ -58,7 +59,7 @@
 		})
 	}
 
-	// 🔥 Dynamic menu based on selection
+	// Dynamic menu based on selection
 	const menuItems = computed(() => 
 	{
 		const count = selected.value.length
@@ -88,26 +89,35 @@
 </script>
 
 <template>
-	<LayoutNoNav>
-		<div class="p-5">
-			
-			<div class="border border-black overflow-hidden">
-				<div v-for="file in files" :key="file.id"
-					@click="(e) => onLeftClick(e, file)"
-					@contextmenu="(e) => onRightClick(e, file)"
-					class="px-4 py-2 cursor-pointer select-none flex justify-between"
-					:class="[isSelected(file)? 'bg-blue-100': 'hover:bg-gray-100']">
 
-					<span>{{ file.name }}</span>
-					<span v-if="file.locked" class="text-xs text-gray-400">🔒</span>
-					
-				</div>
-			</div>
-			<ContextMenu ref="menuRef" :items="menuItems" />
-			<div class="mt-3">
-				<span>Selected:</span>
-				{{ selected.map(m => m.id).join(', ') }}
-			</div>
-		</div>
-	</LayoutNoNav>
+    <div class="mb-7">
+
+        <PageTitleBox pageTitle="Context Menu" />
+
+		<InfoBox>
+			This example demonstrates a context menu that adapts based on the current selection.
+			Right-click on a file to see available actions, and use left-click to select files.
+		</InfoBox>
+
+        <div class="border border-black overflow-hidden">
+            <div v-for="file in files" :key="file.id" @click="(e) => onLeftClick(e, file)"
+                @contextmenu="(e) => onRightClick(e, file)"
+                class="px-4 py-2 cursor-pointer select-none flex justify-between"
+                :class="[isSelected(file) ? 'bg-blue-100' : 'hover:bg-gray-100']">
+
+                <span>{{ file.name }}</span>
+                <span v-if="file.locked" class="text-xs text-gray-400">🔒</span>
+
+            </div>
+        </div>
+
+        <ContextMenu ref="menuRef" :items="menuItems" />
+
+        <div class="mt-3">
+            <span>Selected:</span>
+            {{selected.map(m => m.id).join(', ')}}
+        </div>
+
+    </div>
+
 </template>

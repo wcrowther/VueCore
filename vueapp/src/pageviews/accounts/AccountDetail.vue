@@ -80,14 +80,14 @@
 
     // Keyboard Listeners  =====================================================================
 
-     const keys = 
-     {
-	 	'Ctrl+KeyS':() => trySave(),
-	 	'Meta+KeyS':() => trySave(),
-     	'End':      () => detailInput.value?.focus()
-     }
+    const keys = 
+    {
+		'Ctrl+KeyS': () => trySave(),
+		'Meta+KeyS': () => trySave(),
+    	'End':       () => detailInput.value?.focus()
+    }
      
-	 KeyboardListeners(keys)    
+	KeyboardListeners(keys)    
 
     // Lifecycle & Watches  ===================================================================
 

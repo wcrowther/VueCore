@@ -27,9 +27,9 @@
 
 	let resolvePromise
 
-	const promptPromise = async (suggestedText) =>
+	const promptPromise = async () =>
 	{
-		textValue.value = suggestedText ?? props.textSuggestion
+		textValue.value = props.textSuggestion
 		showPrompt.value = true
 
 		await nextTick()

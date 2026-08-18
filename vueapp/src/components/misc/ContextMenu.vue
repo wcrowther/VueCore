@@ -10,7 +10,7 @@
 	const x = ref(0)
 	const y = ref(0)
 
-	function open(event, ctx) 
+	const open = (event, ctx) =>
 	{
 		event.preventDefault()
 
@@ -27,35 +27,17 @@
 		0)
 	}
 
-	function close() 
-	{
-		visible.value = false
-		context.value = null
-	}
-
-	function onClickOutside() 
-	{
-		close()
-	}
-
-	function onEscape(e) 
-	{
-		if (e.key === 'Escape') close()
-	}
-
-	function onItemClick(item) 
+	const close = 			() => visible.value = false; 	context.value = null
+	const onClickOutside = 	() => close()
+	const onEscape = 		(e) => { if (e.key === 'Escape') close() }
+	const onItemClick = 	(item) =>
 	{
 		if (item.disabled) return
-
 		item.action?.(context.value)
-
 		close()
 	}
 
-	onMounted(() => 
-	{
-		window.addEventListener('keydown', onEscape)
-	})
+	onMounted(() => { window.addEventListener('keydown', onEscape) })
 
 	onBeforeUnmount(() => 
 	{
@@ -91,3 +73,4 @@
 
 	</Teleport>
 </template>
+

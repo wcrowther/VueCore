@@ -48,7 +48,7 @@
 
         <!-- LEGACY TEST CODE: <SwipeLeftRight /> -->
 
-        <TabsControlExample />
+        <TabsControlExample class="p-5" />
 
     </LayoutMain>
 

@@ -4,7 +4,7 @@ let instance = null
 let container = null
 let promptProps = null
 
-export function usePromptControl(defaultProps = {})
+export function usePromptControl()
 {
 	if (!instance)
 	{
@@ -23,12 +23,12 @@ export function usePromptControl(defaultProps = {})
 		instance.exposedRef = exposedRef
 	}
 
-	const createPromptControl = async (textSuggestion, props = {}) =>
+	const createPromptControl = async (props = {}) =>
 	{
-		promptProps.value = { ...defaultProps, ...props }
+		promptProps.value = { ...props }
 		await nextTick()
 
-		return await instance.exposedRef.value.promptPromise(textSuggestion)
+		return await instance.exposedRef.value.promptPromise()
 	}
 
 	return { createPromptControl }

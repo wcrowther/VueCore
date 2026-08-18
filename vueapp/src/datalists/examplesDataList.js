@@ -7,6 +7,7 @@ export const examplesDataList =
         { name: 'ConwaysLife', example: 'ConwaysLifeExample', show: true, featured: true, type: '', order: 5},
         { name: 'DetailBox', example: 'DetailBoxExample', show: true, featured: false, type: '', order: 5},
         { name: 'Content', example: 'ContentExample', show: true, featured: true, type: '', order: 5},
+        { name: 'ContextMenu', example: 'ContextMenuExample', show: true, featured: false, type: '', order: 5},
         { name: 'Floater', example: 'FloaterExample', show: true, featured: false, type: '', order: 5},
         { name: 'FullScreen', example: 'FullScreenExample', show: true, featured: false, type: '', order: 5},
         { name: 'Grid', example: 'GridExample', show: true, featured: false, type: '', order: 5},
