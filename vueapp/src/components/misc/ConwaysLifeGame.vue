@@ -13,24 +13,25 @@
         cellClass:  { type: String,  default: 'bg-black' },
     })
 
-    const ruleOptions = [
-        { label: "Conway's Life", fn: conwaysRule  },
-        { label: 'HighLife',      fn: highLifeRule  },
-        { label: 'Replicator',    fn: replicatorRule },
-        { label: 'Seeds',         fn: seedsRule     },
-        { label: 'Morley',        fn: morleyRule    },
+    const ruleOptions = 
+    [
+        { label: "Conway's Life", fn: conwaysRule     },
+        { label: 'HighLife',      fn: highLifeRule    },
+        { label: 'Replicator',    fn: replicatorRule  },
+        { label: 'Seeds',         fn: seedsRule       },
+        { label: 'Morley',        fn: morleyRule      },
         { label: 'Day & Night',   fn: dayAndNightRule },
-        { label: 'Maze',          fn: mazeRule      },
-        { label: 'Diamoeba',      fn: diamoebaRule  },
-        { label: 'Amoeba',        fn: amoebaRule    },
-        { label: 'Stains',        fn: stainsRule    },
+        { label: 'Maze',          fn: mazeRule        },
+        { label: 'Diamoeba',      fn: diamoebaRule    },
+        { label: 'Amoeba',        fn: amoebaRule      },
+        { label: 'Stains',        fn: stainsRule      },
     ]
 
-    const generation  = ref(0)
-    const isPaused    = ref(true)
-    const wrapEdges   = ref(true)
-    const selectedRule = ref(ruleOptions[0])
-    const cellBack    = computed(() => props.cellClass)
+    const generation    = ref(0)
+    const isPaused      = ref(true)
+    const wrapEdges     = ref(true)
+    const selectedRule  = ref(ruleOptions[0])
+    const cellBack      = computed(() => props.cellClass)
 
     const { createConfirm } = useConfirmControl()
 
@@ -44,7 +45,7 @@
     let isPainting = false
     let eraseMode  = false  // drag follows the state set on initial mousedown
 
-    function renderDiff(prev, curr) 
+    const renderDiff = (prev, curr) =>
     {
         const cols  = props.cols
         const total = props.rows * cols
@@ -58,7 +59,7 @@
         }
     }
 
-    function tick() 
+    const tick = () =>
     {
         runAlgorithm(current, next, props.rows, props.cols, wrapEdges.value, selectedRule.value.fn)
         renderDiff(current, next)
@@ -66,13 +67,13 @@
         generation.value++
     }
 
-    function startLoop() 
+    const startLoop = () =>
     {
         if (intervalId !== null) return
         intervalId = setInterval(tick, props.speed)
     }
 
-    function stopLoop() 
+    const stopLoop = () =>
     {
         if (intervalId === null) return
         clearInterval(intervalId)
@@ -80,7 +81,7 @@
     }
 
     // Returns [rowIndex, colIndex] from a mouse event using GridControl's id="r-c" wrapper divs
-    function getCellFromEvent(e) 
+    const getCellFromEvent = (e) =>
     {
         const el = e.target.id ? e.target : e.target.parentElement
         if (!el?.id) return null
@@ -89,7 +90,7 @@
         return [parts[0] | 0, parts[1] | 0]
     }
 
-    function paintCell(r, c, alive) 
+    const paintCell = (r, c, alive) =>
     {
         const idx = r * props.cols + c
         if (current[idx] === (alive ? 1 : 0)) return
@@ -98,7 +99,7 @@
         if (el) el.classList.toggle(cellBack.value, alive)
     }
 
-    function onGridMouseDown(e) 
+    const onGridMouseDown = (e) =>
     {
         const cell = getCellFromEvent(e)
         if (!cell) return
@@ -107,19 +108,19 @@
         paintCell(cell[0], cell[1], !eraseMode)
     }
 
-    function onGridMouseMove(e) 
+    const onGridMouseMove = (e) =>
     {
         if (!isPainting) return
         const cell = getCellFromEvent(e)
         if (cell) paintCell(cell[0], cell[1], !eraseMode)
     }
 
-    function onDocMouseUp() 
+    const onDocMouseUp = () =>
     {
         isPainting = false
     }
 
-    async function clearBoard() 
+    const clearBoard = async () =>
     {
         const confirmed = await createConfirm('Are you sure you want to reset the board? You will lose all changes.')
         if (!confirmed) return
@@ -138,7 +139,7 @@
         }
     }
 
-    async function saveBoard()
+    const saveBoard = async () =>
     {
         isPaused.value = true
 

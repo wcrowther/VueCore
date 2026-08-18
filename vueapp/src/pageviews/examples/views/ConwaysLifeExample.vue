@@ -16,15 +16,26 @@
 				live cells are highlighted. The game evolves according to Conway's rules.
 			</p>
 			<p class="mt-2">
-                Conway's Game of Life was devised by British mathematician John Horton Conway in 1970 and
+                <b>Conway's Game of Life</b> was devised by British mathematician John Horton Conway in 1970 and
                 published in Martin Gardner's <em>Mathematical Games</em> column in <em>Scientific American</em>.
                 Despite having only four rules, it is Turing-complete and capable of simulating universal computation.
                 Entire CPUs, memory systems, and self-replicating patterns have been constructed inside its infinite grid.
             </p>
             <p class="mt-2">
-                Each cell is either <strong>alive</strong> (black) or <strong>dead</strong> (white).
-                On every generation the rules are applied simultaneously: a live cell survives with 2 or 3 live
-                neighbours; a dead cell becomes alive with exactly 3 live neighbours; all other cells die or remain dead.
+                <strong>Rules:</strong>
+            </p>
+            <p class="mt-2">
+                Each cell is either <strong>alive</strong> (black) or <strong>dead</strong> (white) 
+                and are applied simultaneously every generation.
+            </p>
+            <ol class="list-decimal list-inside">
+                <li>A live cell survives with 2 or 3 live neighbours.</li>
+                <li>A dead cell becomes alive with exactly 3 live neighbours.</li>
+                <li>All other cells die or remain dead.</li>
+            </ol>
+            <p class="mt-2">
+                Experiment with other rule sets using the dropdown and observe how different rules 
+                affect the evolution of the board.
             </p>
             <p class="mt-2">
                 <strong>Using this board:</strong> Click or drag on the grid to paint live cells, then press

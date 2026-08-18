@@ -5,10 +5,10 @@
 		items: Array
 	})
 
-	const visible = ref(false)
-	const context = ref(null)
-	const x = ref(0)
-	const y = ref(0)
+	const visible 	= ref(false)
+	const context 	= ref(null)
+	const x 		= ref(0)
+	const y 		= ref(0)
 
 	const open = (event, ctx) =>
 	{
