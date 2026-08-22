@@ -131,6 +131,7 @@
 	{
 		crop.value = constrainCrop(nextCrop, mode)
 		emit('change', { ...crop.value })
+		if (!isDragging.value) emit('end', { ...crop.value })
 	}
 
 	const moveCropTo = (x, y) =>
@@ -243,6 +244,7 @@
 	{
 		crop.value = getInitialCrop()
 		emit('change', { ...crop.value })
+		emit('end', { ...crop.value })
 	}
 
 	defineExpose({ crop, reset, startDrag })

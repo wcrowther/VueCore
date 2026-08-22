@@ -21,6 +21,7 @@
 	const canvasRef 		= ref(null)
 	const fileInputRef 		= ref(null)
 	const selectionRef 		= ref(null)
+	const cropPreviewRef 	= ref(null)
 	const image 			= ref(null)
 	const sourceFileName 	= ref('')
 	const isSaving 			= ref(false)
@@ -143,16 +144,29 @@
 		height: image.value ? image.value.height * displayScale.value : canvasHeight
 	}))
 
+	const drawCropPreview = () =>
+	{
+		const canvas = cropPreviewRef.value
+		if (!canvas || !image.value) return
+
+		const { sx, sy, sw, sh } = getCropSourceRegion()
+		const w = Math.max(1, Math.round(sw))
+		const h = Math.max(1, Math.round(sh))
+
+		canvas.width  = w
+		canvas.height = h
+		canvas.getContext('2d').drawImage(image.value, sx, sy, sw, sh, 0, 0, w, h)
+	}
+
 	const onCropChange = (newCrop) =>
 	{
 		crop.value = newCrop
 		drawCanvas()
+		drawCropPreview()
 	}
 
-	const onCropEnd = (newCrop) =>
+	const onCropEnd = () =>
 	{
-		crop.value = newCrop
-		drawCanvas()
 		updateOutput()
 	}
 
@@ -312,10 +326,8 @@
         	</template>
 
 			<template #Crop>
-				<img v-if="modelValue" :src="modelValue"
+				<canvas v-show="image" ref="cropPreviewRef"
 					class="border border-gray-300 max-w-full cursor-move select-none"
-					draggable="false"
-					@dragstart.prevent
 					@mousedown.prevent="selectionRef?.startDrag($event, 'moveInverse')" />
 			</template>
 
