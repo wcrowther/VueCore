@@ -91,13 +91,12 @@
 	const getCropSourceRegion = () =>
 	{
 		const scale = 1 / displayScale.value
+		const sx    = crop.value.x * scale
+		const sy    = crop.value.y * scale
+		const sw    = Math.min(crop.value.width  * scale, image.value.width  - sx)
+		const sh    = Math.min(crop.value.height * scale, image.value.height - sy)
 
-		return {
-			sx: crop.value.x * scale,
-			sy: crop.value.y * scale,
-			sw: crop.value.width * scale,
-			sh: crop.value.height * scale
-		}
+		return { sx, sy, sw: Math.max(1, sw), sh: Math.max(1, sh) }
 	}
 
 	const drawCanvas = () =>
@@ -121,12 +120,12 @@
 		ctx.fillStyle = 'rgba(0,0,0,0.5)'
 		ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
-		// Redraw only the selected source region into the crop box.
-		const { sx, sy, sw, sh } = getCropSourceRegion()
-
+		// Un-cover the crop box by redrawing its pixels at display scale (unclamped — canvas clips out-of-bounds source coords naturally).
+		const scale = 1 / displayScale.value
 		ctx.drawImage
 		(
-			image.value, sx, sy, sw, sh,
+			image.value,
+			crop.value.x * scale, crop.value.y * scale, crop.value.width * scale, crop.value.height * scale,
 			crop.value.x, crop.value.y, crop.value.width, crop.value.height
 		)
 

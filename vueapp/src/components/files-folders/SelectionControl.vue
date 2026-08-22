@@ -2,12 +2,13 @@
 
 	const props = defineProps(
 	{
-		aspectRatio:   { type: Number, default: 0 },
-		canvasWidth:   { type: Number, required: true },
-		canvasHeight:  { type: Number, required: true },
-		displayBounds: { type: Object, default: () => ({ x: 0, y: 0, width: 0, height: 0 }) },
-		active:        { type: Boolean, default: true },
-		snapSize:      { type: Number, default: 0 }
+		aspectRatio:       { type: Number, default: 0 },
+		canvasWidth:       { type: Number, required: true },
+		canvasHeight:      { type: Number, required: true },
+		displayBounds:     { type: Object, default: () => ({ x: 0, y: 0, width: 0, height: 0 }) },
+		active:            { type: Boolean, default: true },
+		snapSize:          { type: Number, default: 0 },
+		constrainToBounds: { type: Boolean, default: false }
 	})
 
 	const emit = defineEmits(['change', 'end'])
@@ -55,7 +56,13 @@
 
 	const constrainCrop = (nextCrop, mode = 'move') =>
 	{
-		const c = { ...nextCrop }
+		const c    = { ...nextCrop }
+		const maxX = props.constrainToBounds
+			? props.displayBounds.x + props.displayBounds.width
+			: props.canvasWidth
+		const maxY = props.constrainToBounds
+			? props.displayBounds.y + props.displayBounds.height
+			: props.canvasHeight
 
 		if (c.width < minCropSize)
 		{
@@ -83,16 +90,16 @@
 			c.y = 0
 		}
 
-		if (c.x + c.width > props.canvasWidth)
+		if (c.x + c.width > maxX)
 		{
-			const overflowX = c.x + c.width - props.canvasWidth
+			const overflowX = c.x + c.width - maxX
 			if (mode.includes('e')) c.width -= overflowX
 			else c.x -= overflowX
 		}
 
-		if (c.y + c.height > props.canvasHeight)
+		if (c.y + c.height > maxY)
 		{
-			const overflowY = c.y + c.height - props.canvasHeight
+			const overflowY = c.y + c.height - maxY
 			if (mode.includes('s')) c.height -= overflowY
 			else c.y -= overflowY
 		}
@@ -113,8 +120,8 @@
 
 		if (c.x < 0) c.x = 0
 		if (c.y < 0) c.y = 0
-		if (c.x + c.width > props.canvasWidth)  c.x = props.canvasWidth  - c.width
-		if (c.y + c.height > props.canvasHeight) c.y = props.canvasHeight - c.height
+		if (c.x + c.width > maxX)  c.x = maxX - c.width
+		if (c.y + c.height > maxY) c.y = maxY - c.height
 
 		if (props.snapSize > 0)
 		{
