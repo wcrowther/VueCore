@@ -20,53 +20,17 @@
 
 	const canvasRef 		= ref(null)
 	const fileInputRef 		= ref(null)
+	const selectionRef 		= ref(null)
 	const image 			= ref(null)
 	const sourceFileName 	= ref('')
 	const isSaving 			= ref(false)
-	const isDragging 		= ref(false)
-	const dragMode 			= ref(null)
-	const startX 			= ref(0)
-	const startY 			= ref(0)
-	const startCrop 		= ref(null)
-	const minCropSize 		= 50
-	const initialCropX 		= 50
-	const initialCropY 		= 50
-	const initialCropWidth 	= 200
-
-	const getInitialCrop = () =>
-	({
-		x: initialCropX,
-		y: initialCropY,
-		width: initialCropWidth,
-		height: initialCropWidth / (props.aspectRatio > 0 ? props.aspectRatio : 1)
-	})
-
-	const crop 			= ref(getInitialCrop())
-	const activeCropperTab = ref('Source')
-	const displayScale 	= ref(1)
+	const crop 				= ref({ x: 50, y: 50, width: 200, height: 200 })
+	const activeCropperTab 	= ref('Source')
+	const displayScale 		= ref(1)
 	const canvasWidth 	= 800
 	const canvasHeight 	= 500
-	const handleList =
-	[
-		{ mode: 'nw', class: 'absolute top-[-7px] left-[-7px] size-3 bg-white border border-[#111111] cursor-nwse-resize' },
-		{ mode: 'n',  class: 'absolute top-[-6px] left-1/2 size-[10px] -translate-x-1/2 bg-white border border-[#111111] cursor-ns-resize' },
-		{ mode: 'ne', class: 'absolute top-[-7px] right-[-7px] size-3 bg-white border border-[#111111] cursor-nesw-resize' },
-		{ mode: 'e',  class: 'absolute top-1/2 right-[-6px] size-[10px] -translate-y-1/2 bg-white border border-[#111111] cursor-ew-resize' },
-		{ mode: 'se', class: 'absolute bottom-[-7px] right-[-7px] size-3 bg-white border border-[#111111] cursor-nwse-resize' },
-		{ mode: 's',  class: 'absolute bottom-[-6px] left-1/2 size-[10px] -translate-x-1/2 bg-white border border-[#111111] cursor-ns-resize' },
-		{ mode: 'sw', class: 'absolute bottom-[-7px] left-[-7px] size-3 bg-white border border-[#111111] cursor-nesw-resize' },
-		{ mode: 'w',  class: 'absolute top-1/2 left-[-6px] size-[10px] -translate-y-1/2 bg-white border border-[#111111] cursor-ew-resize' }
-	]
 
 	const disableKeys = () => !image.value
-
-	const cropStyle  = computed(() => 
-	({
-		left: `${crop.value.x}px`,
-		top: `${crop.value.y}px`,
-		width: `${crop.value.width}px`,
-		height: `${crop.value.height}px`
-	}))
 
 	const canSave = computed(() => !!props.modelValue && !isSaving.value)
 	const saveButtonTitle = computed(() => isSaving.value ? 'Saving...' : 'Save')
@@ -109,8 +73,6 @@
 			if (persistSource) imageCropperSource.value = source
 
 			fitImage()
-			drawCanvas()
-			updateOutput()
 		}
 		img.src = source
 	}
@@ -122,7 +84,7 @@
 		const scaleX = canvasWidth / image.value.width
 		const scaleY = canvasHeight / image.value.height
 		displayScale.value = Math.min(scaleX, scaleY)
-		crop.value = getInitialCrop()
+		selectionRef.value?.reset()
 	}
 
 	const getCropSourceRegion = () =>
@@ -181,194 +143,11 @@
 		height: image.value ? image.value.height * displayScale.value : canvasHeight
 	}))
 
-	const applyCrop = (nextCrop, mode = 'move') =>
+	const onCropChange = (newCrop) =>
 	{
-		crop.value = constrainCrop(nextCrop, mode)
+		crop.value = newCrop
 		drawCanvas()
 		updateOutput()
-	}
-
-	const moveCropTo = (x, y) =>
-	{
-		applyCrop(
-		{
-			x,
-			y,
-			width: crop.value.width,
-			height: crop.value.height
-		}, 'move')
-	}
-
-	const nudgeCrop = (dx, dy) =>
-	{
-		moveCropTo(crop.value.x + dx, crop.value.y + dy)
-	}
-
-	const startDrag = (event, mode = 'move') =>
-	{
-		isDragging.value 	= true
-		dragMode.value 		= mode
-		startX.value 		= event.clientX
-		startY.value 		= event.clientY
-		startCrop.value 	= { ...crop.value }
-
-		window.addEventListener('mousemove', onDrag)
-		window.addEventListener('mouseup', stopDrag)
-	}
-
-	const onDrag = (event) =>
-	{
-		if (!isDragging.value) return
-
-		const dx = event.clientX - startX.value
-		const dy = event.clientY - startY.value
-		const base = startCrop.value
-
-		if (!base) return
-
-		let nextCrop = { ...base }
-
-		if (dragMode.value === 'move') 
-		{
-			nextCrop.x = base.x + dx
-			nextCrop.y = base.y + dy
-		}
-		else if (dragMode.value === 'moveInverse')
-		{
-			nextCrop.x = base.x - dx
-			nextCrop.y = base.y - dy
-		}
-		else if (dragMode.value.length === 2)
-		{
-			const aspect = props.aspectRatio > 0 ? props.aspectRatio : 1
-			const widthFromX = dragMode.value.includes('e') ? base.width + dx : base.width - dx
-			const heightFromY = dragMode.value.includes('s') ? base.height + dy : base.height - dy
-			const widthFromY = heightFromY * aspect
-			const widthDeltaFromX = Math.abs(widthFromX - base.width)
-			const widthDeltaFromY = Math.abs(widthFromY - base.width)
-			const nextWidth = widthDeltaFromX >= widthDeltaFromY ? widthFromX : widthFromY
-			const nextHeight = nextWidth / aspect
-			const right = base.x + base.width
-			const bottom = base.y + base.height
-
-			nextCrop.width = nextWidth
-			nextCrop.height = nextHeight
-			nextCrop.x = dragMode.value.includes('w') ? right - nextWidth : base.x
-			nextCrop.y = dragMode.value.includes('n') ? bottom - nextHeight : base.y
-		}
-		else 
-		{
-			if (dragMode.value.includes('e')) 
-				nextCrop.width = base.width + dx
-
-			if (dragMode.value.includes('s')) 
-				nextCrop.height = base.height + dy
-
-			if (dragMode.value.includes('w')) 
-			{
-				nextCrop.x = base.x + dx
-				nextCrop.width = base.width - dx
-			}
-
-			if (dragMode.value.includes('n')) 
-			{
-				nextCrop.y = base.y + dy
-				nextCrop.height = base.height - dy
-			}
-		}
-
-		applyCrop(nextCrop, dragMode.value)
-	}
-
-	const stopDrag = () =>
-	{
-		isDragging.value = false
-		startCrop.value = null
-
-		window.removeEventListener('mousemove', onDrag)
-		window.removeEventListener('mouseup', stopDrag)
-	}
-
-	const constrainCrop = (nextCrop, mode = 'move') =>
-	{
-		const c = { ...nextCrop }
-
-		if (c.width < minCropSize) 
-		{
-			const diff = minCropSize - c.width
-
-			c.width = minCropSize
-
-			if (mode.includes('w'))
-				c.x -= diff
-		}
-
-		if (c.height < minCropSize) 
-		{
-			const diff = minCropSize - c.height
-
-			c.height = minCropSize
-
-			if (mode.includes('n'))
-				c.y -= diff
-		}
-
-		if (c.x < 0) 
-		{
-			if (mode.includes('w'))
-				c.width += c.x
-
-			c.x = 0
-		}
-
-		if (c.y < 0) 
-		{
-			if (mode.includes('n'))
-				c.height += c.y
-
-			c.y = 0
-		}
-
-		if (c.x + c.width > canvasWidth) 
-		{
-			const overflowX = c.x + c.width - canvasWidth
-
-			if (mode.includes('e'))
-				c.width -= overflowX
-			else
-				c.x -= overflowX
-		}
-
-		if (c.y + c.height > canvasHeight) 
-		{
-			const overflowY = c.y + c.height - canvasHeight
-
-			if (mode.includes('s'))
-				c.height -= overflowY
-			else
-				c.y -= overflowY
-		}
-
-		if (c.width < minCropSize) 
-		{
-			const diff = minCropSize - c.width
-			c.width = minCropSize
-			if (mode.includes('w')) c.x -= diff
-		}
-
-		if (c.height < minCropSize) 
-		{
-			const diff = minCropSize - c.height
-			c.height = minCropSize
-			if (mode.includes('n')) c.y -= diff
-		}
-
-		if (c.x < 0) c.x = 0
-		if (c.y < 0) c.y = 0
-		if (c.x + c.width > canvasWidth) c.x = canvasWidth - c.width
-		if (c.y + c.height > canvasHeight) c.y = canvasHeight - c.height
-
-		return c
 	}
 
 	const updateOutput = () =>
@@ -475,41 +254,10 @@
 
 	// Keyboard Listeners  ================================================
 
-	const getStep = (e) =>
+	const keys =
 	{
-		const ctrl = e.ctrlOrMeta ?? e.ctrlKey
-		return e.shiftKey ? 25 : (ctrl ? 10 : 1)
-	}
-
-	const getBounds = () =>
-	{
-		const imageBounds = displayBounds.value
-		return {
-			x: Math.max(imageBounds.x, imageBounds.x + imageBounds.width - crop.value.width),
-			y: Math.max(imageBounds.y, imageBounds.y + imageBounds.height - crop.value.height)
-		}
-	}
-
-	const selectWholeImage = () =>
-	{
-		if (!image.value) return
-		const imageBounds = displayBounds.value
-		applyCrop({	x: imageBounds.x, y: imageBounds.y, width: imageBounds.width, height: imageBounds.height}, 'move')
-	}
-
-	const keys =		// e is the keyboard event passed into the key handler functions
-	{
-		'Shift+Tab': 	() => switchTab(),
-		'Ctrl+KeyS': 	() => promptForSave(),
-		'Home': 		() => moveCropTo(0, 0),
-		'End': 			() => moveCropTo(0, getBounds().y),
-		'PageUp': 		() => moveCropTo(getBounds().x, 0),
-		'PageDown': 	() => moveCropTo(getBounds().x, getBounds().y),
-		'Ctrl+KeyA': 	() => selectWholeImage(),
-		'ArrowLeft': 	(e) => nudgeCrop(-getStep(e), 0),
-		'ArrowRight': 	(e) => nudgeCrop(getStep(e), 0),
-		'ArrowUp': 		(e) => nudgeCrop(0, -getStep(e)),
-		'ArrowDown': 	(e) => nudgeCrop(0, getStep(e)),
+		'Shift+Tab': () => switchTab(),
+		'Ctrl+KeyS': () => promptForSave(),
 	}
 
 	KeyboardListeners(keys, disableKeys)
@@ -546,12 +294,13 @@
 					<canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight" 
 						class="absolute inset-0" />
 
-					<div v-if="image" id="image-crop"
-						class="absolute border border-white !bg-transparent cursor-move" :style="cropStyle"
-						@mousedown="startDrag($event, 'move')">
-						<div v-for="handle in handleList" :key="handle.mode" :class="handle.class"
-							@mousedown.stop="startDrag($event, handle.mode)" />
-					</div>			
+					<SelectionControl ref="selectionRef"
+						:aspectRatio="props.aspectRatio"
+						:canvasWidth="canvasWidth"
+						:canvasHeight="canvasHeight"
+						:displayBounds="displayBounds"
+						:active="!!image"
+						@change="onCropChange" />
 				</div>
         	</template>
 
@@ -560,7 +309,7 @@
 					class="border border-gray-300 max-w-full cursor-move select-none"
 					draggable="false"
 					@dragstart.prevent
-					@mousedown.prevent="startDrag($event, 'moveInverse')" />
+					@mousedown.prevent="selectionRef?.startDrag($event, 'moveInverse')" />
 			</template>
 
     	</TabsControl>

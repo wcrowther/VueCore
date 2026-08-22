@@ -41,11 +41,24 @@
 
         </GridControl>
 
-	    <GridControl :rows="30" :cols="50" v-slot="{ isEvenCell }">
-	    	<div :class="[ 'size-3 border border-blue aspect-square',
-	    		isEvenCell ? 'bg-slate-100' : 'bg-white' ]" >
+	    <GridControl :rows="30" :cols="50" v-slot="{ isEvenCell }"
+            class="border-r border-b border-blue mb-10">
+
+	    	<div :class="[ 'size-[10px] border-t border-l border-blue aspect-square',
+	    		isEvenCell ? 'bg-white' : 'bg-white' ]" >
 	    	</div>
+
 	    </GridControl>
+
+        <GridControl :rows="10" :cols="20" v-slot="{ isEvenCell }"
+            class="border-r border-b border-red">
+
+	    	<div :class="[ 'size-[25px] border-t border-l border-red aspect-square',
+	    		isEvenCell ? 'bg-white' : 'bg-white' ]" >
+	    	</div>
+            
+	    </GridControl>
+
 
     </div>
 

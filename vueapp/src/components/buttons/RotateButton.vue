@@ -1,7 +1,8 @@
 <script setup>
 
 	const modelValue = defineModel({ type: Boolean, default: false })
-	const props = defineProps({
+	const props = defineProps(
+	{
 		icon: { type: String, default: 'heroicons:bars-3'},
 		noClick: { type: Boolean, default: false },
 		rotation: { type: String, default: 'rotate-90'},

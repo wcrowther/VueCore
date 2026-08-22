@@ -129,6 +129,7 @@ declare module 'vue' {
     SearchInput: typeof import('./../components/inputs/SearchInput.vue')['default']
     SecondaryButton: typeof import('./../components/buttons/SecondaryButton.vue')['default']
     SelectInput: typeof import('./../components/inputs/SelectInput.vue')['default']
+    SelectionControl: typeof import('./../components/controls/SelectionControl.vue')['default']
     SidebarControl: typeof import('./../components/controls/SidebarControl.vue')['default']
     SimpleCounter: typeof import('./../components/misc/SimpleCounter.vue')['default']
     SiteMap: typeof import('./../components/misc/SiteMap.vue')['default']
