@@ -10,7 +10,7 @@
 		snapSize:      { type: Number, default: 0 }
 	})
 
-	const emit = defineEmits(['change'])
+	const emit = defineEmits(['change', 'end'])
 
 	const isDragging 		= ref(false)
 	const dragMode 			= ref(null)
@@ -221,6 +221,7 @@
 
 		window.removeEventListener('mousemove', onDrag)
 		window.removeEventListener('mouseup', stopDrag)
+		emit('end', { ...crop.value })
 	}
 
 	const getBounds = () =>

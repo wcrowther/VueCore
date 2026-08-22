@@ -147,6 +147,12 @@
 	{
 		crop.value = newCrop
 		drawCanvas()
+	}
+
+	const onCropEnd = (newCrop) =>
+	{
+		crop.value = newCrop
+		drawCanvas()
 		updateOutput()
 	}
 
@@ -300,7 +306,8 @@
 						:canvasHeight="canvasHeight"
 						:displayBounds="displayBounds"
 						:active="!!image"
-						@change="onCropChange" />
+					@change="onCropChange"
+					@end="onCropEnd" />
 				</div>
         	</template>
 
