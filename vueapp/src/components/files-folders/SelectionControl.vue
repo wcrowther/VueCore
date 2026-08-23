@@ -2,7 +2,6 @@
 
 	const props = defineProps(
 	{
-		aspectRatio:       { type: Number, default: 0 },
 		canvasWidth:       { type: Number, required: true },
 		canvasHeight:      { type: Number, required: true },
 		displayBounds:     { type: Object, default: () => ({ x: 0, y: 0, width: 0, height: 0 }) },
@@ -10,6 +9,9 @@
 		snapSize:          { type: Number, default: 0 },
 		constrainToBounds: { type: Boolean, default: false }
 	})
+
+	const aspectRatio     = defineModel('aspectRatio',     { type: Number, default: 0 })
+	const lockAspectRatio = defineModel('lockAspectRatio', { type: Boolean, default: false })
 
 	const emit = defineEmits(['change', 'end'])
 
@@ -39,7 +41,7 @@
 		x: initialCropX,
 		y: initialCropY,
 		width: initialCropWidth,
-		height: initialCropWidth / (props.aspectRatio > 0 ? props.aspectRatio : 1)
+		height: initialCropWidth / (aspectRatio.value > 0 ? aspectRatio.value : 1)
 	})
 
 	const crop = ref(getInitialCrop())
@@ -185,11 +187,12 @@
 			nextCrop.x = base.x - dx
 			nextCrop.y = base.y - dy
 		}
-		else if (dragMode.value.length === 2)
+		else if (dragMode.value.length === 2 || lockAspectRatio.value)
 		{
-			const aspect 		= props.aspectRatio > 0 ? props.aspectRatio : 1
-			const widthFromX 	= dragMode.value.includes('e') ? base.width + dx : base.width - dx
-			const heightFromY 	= dragMode.value.includes('s') ? base.height + dy : base.height - dy
+			// Corners always preserve a ratio; edges only when explicitly locked.
+			const aspect 		= aspectRatio.value > 0 ? aspectRatio.value : base.width / base.height
+			const widthFromX 	= dragMode.value.includes('e') ? base.width + dx : dragMode.value.includes('w') ? base.width - dx : base.width
+			const heightFromY 	= dragMode.value.includes('s') ? base.height + dy : dragMode.value.includes('n') ? base.height - dy : base.height
 			const widthFromY 	= heightFromY * aspect
 			const widthDeltaFromX = Math.abs(widthFromX - base.width)
 			const widthDeltaFromY = Math.abs(widthFromY - base.width)

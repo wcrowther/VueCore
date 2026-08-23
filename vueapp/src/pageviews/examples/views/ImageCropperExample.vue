@@ -48,7 +48,8 @@
         </HelpBox>
 
 		<div @mouseenter="onCropperMouseEnter" @mouseleave="onCropperMouseLeave">
-			<ImageCropper ref="imageCropperRef" v-model="imageData" :width="400" :height="400" :aspect-ratio="1"  />
+			<ImageCropper ref="imageCropperRef" v-model="imageData" 
+				:width="400" :height="400" :aspectRatio="1" />
 		</div>
 
 	  	<textarea v-model="imageData" class="hidden w-full h-40 mt-4 border" />

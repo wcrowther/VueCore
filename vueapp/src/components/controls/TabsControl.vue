@@ -70,7 +70,7 @@
                 </div>
             </template>
 
-            <div class="ml-auto h-9">
+            <div class="ml-auto h-9 flex items-center gap-2">
                 <slot name="Right" />
             </div>
         </div>

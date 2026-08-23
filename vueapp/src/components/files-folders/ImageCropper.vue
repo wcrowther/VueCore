@@ -7,9 +7,11 @@
 		modelValue: 	{ type: String, default: null},
 		width: 			{ type: Number, default: 300 },
 		height: 		{ type: Number, default: 300 },
-		aspectRatio: 	{ type: Number, default: 1 },
 		outputType: 	{ type: String, default: 'image/png' }
 	})
+
+	const aspectRatio 		= defineModel('aspectRatio', 	  { type: Number, default: 0 })
+	const lockAspectRatio 	= defineModel('lockAspectRatio', { type: Boolean, default: false })
 
 	const emit 						= defineEmits([ 'update:modelValue', 'change' ])
 	const imageStore 				= useImageStore()
@@ -28,8 +30,8 @@
 	const crop 				= ref({ x: 50, y: 50, width: 200, height: 200 })
 	const activeCropperTab 	= ref('Source')
 	const displayScale 		= ref(1)
-	const canvasWidth 	= 800
-	const canvasHeight 	= 500
+	const canvasWidth 		= 800
+	const canvasHeight 		= 500
 
 	const disableKeys = () => !image.value
 
@@ -301,36 +303,37 @@
 
 <template>
 	
-		<TabsControl v-model:activeTab="activeCropperTab" class="mb-10" 
-			:tabList="['Source', 'Crop']" keepAlive contentBorder>
+	<TabsControl v-model:activeTab="activeCropperTab" class="mb-10" 
+		:tabList="['Source', 'Crop']" keepAlive contentBorder>
 
-			<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
+		<template #Right>
+			Aspect Ratio: {{ aspectRatio }}
+			<CheckboxInput v-model="lockAspectRatio" title="Lock Aspect Ratio" />   
+		</template>
 
-        	<template #Source>    		
-				<div class="relative border border-gray-300 overflow-hidden select-none"
-					:style="{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }">
+		<input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onFileChange">
 
-					<canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight" 
-						class="absolute inset-0" />
+    	<template #Source>    		
+			<div class="relative border border-gray-300 overflow-hidden select-none"
+				:style="{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }">
 
-					<SelectionControl ref="selectionRef"
-						:aspectRatio="props.aspectRatio"
-						:canvasWidth="canvasWidth"
-						:canvasHeight="canvasHeight"
-						:displayBounds="displayBounds"
-						:active="!!image"
-					@change="onCropChange"
-					@end="onCropEnd" />
-				</div>
-        	</template>
+				<canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight" 
+					class="absolute inset-0" />
 
-			<template #Crop>
-				<canvas v-show="image" ref="cropPreviewRef"
-					class="border border-gray-300 max-w-full cursor-move select-none"
-					@mousedown.prevent="selectionRef?.startDrag($event, 'moveInverse')" />
-			</template>
+				<SelectionControl ref="selectionRef" :active="!!image"
+					v-model:aspectRatio="aspectRatio" v-model:lockAspectRatio="lockAspectRatio"
+					:displayBounds :canvasHeight :canvasWidth
+					@change="onCropChange" @end="onCropEnd" />
+			</div>
+    	</template>
 
-    	</TabsControl>
+		<template #Crop>
+			<canvas v-show="image" ref="cropPreviewRef"
+				class="border border-gray-300 max-w-full cursor-move select-none"
+				@mousedown.prevent="selectionRef?.startDrag($event, 'moveInverse')" />
+		</template>
+
+    </TabsControl>
 
 </template>
 

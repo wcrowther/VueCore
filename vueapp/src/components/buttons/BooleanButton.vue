@@ -37,5 +37,7 @@
 
 	<BooleanButton v-model="boolValue" trueText="On" falseText="Off"
 		trueIcon="heroicons-solid:eye" falseIcon="heroicons-solid:eye-slash" />
+
+	<BooleanButton v-model="boolValue" trueIcon="heroicons-solid:eye" falseIcon="heroicons-solid:eye-slash" />
 -->
 
