@@ -29,33 +29,33 @@
         <PageTitleBox pageTitle="List Index Button" />
 
         <InfoBox>
-            The <b>ListIndexButton</b> is a lightweight prev/next navigator for stepping through any array. 
+            The <b>ListButton</b> is a lightweight prev/next navigator for stepping through any array. 
             It binds to a zero-based index via <code>v-model</code> and accepts any array as <code>:rangeList</code>. 
             By default it displays the item's <code>name</code> property, but you can override this with the 
             <code>textName</code> prop. Set <code>:wrapBack="false"</code> to prevent cycling past the first or last item.
         </InfoBox>
         
         <div class="basis-full mb-5">
-            <ListIndexButton v-model="listIndex" :rangeList class="w-fit mb-2" />
+            <ListButton v-model="listIndex" :rangeList class="w-fit mb-2" />
             List Index ({{ listIndex }}) - zero-based : {{ rangeList[listIndex] }}
         </div>
         <div class="basis-full mb-5">
-            <ListIndexButton v-model="animal" :rangeList="animalList" class="w-fit mb-2" />
+            <ListButton v-model="animal" :rangeList="animalList" class="w-fit mb-2" />
             Animal Ordinal - 1-based ({{ animal+1 }}): {{ animalList[animal] }}
         </div>
         <div class="basis-full mb-5">
-            <ListIndexButton v-model="boolIndex" :rangeList="boolList"
+            <ListButton v-model="boolIndex" :rangeList="boolList"
 				class="w-[96px] mb-2" />
 			Bool Ordinal - with description - Bool: ({{ boolIndex }}) {{ boolList[boolIndex].value }}
 		</div>
         <div class="basis-full mb-5">
-            <ListIndexButton v-model="color" :rangeList="colors" :wrapBack="false" class="w-fit mb-2" />
+            <ListButton v-model="color" :rangeList="colors" :wrapBack="false" class="w-fit mb-2" />
             Color ({{ color+1 }}) - does not wrap: {{ colors[color] }}
         </div>
         <div class="basis-full flex flex-wrap gap-2">
-            <ListIndexButton v-model="webPageIndex" :rangeList="webPages" 
+            <ListButton v-model="webPageIndex" :rangeList="webPages" 
                 class="w-fit mb-2 inline-block"/>
-            <ListIndexButton v-model="webPageIndex" :rangeList="webPages" textName="url" 
+            <ListButton v-model="webPageIndex" :rangeList="webPages" textName="url" 
                 class="w-fit mb-2 inline-block" />
             <div class="basis-full flex-none">
                 Web Pages ({{ webPageIndex }}) : {{ webPages[webPageIndex].url }}

@@ -19,7 +19,7 @@
 
     <PageTitleBox pageTitle="TabsBar Example">
 
-        <ListIndexButton v-model="overflowIndex" :rangeList
+        <ListButton v-model="overflowIndex" :rangeList
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
 
     </PageTitleBox>

@@ -110,14 +110,16 @@
 			<slot></slot>
 
 			<template v-if="props.keepAlive">
-				<div v-for="tab in normalizedTabList" :key="tab.id" v-show="activeTab === tab.id">
-					<slot :name="tab.slotName"></slot>
+				<div v-for="tab in normalizedTabList" 
+					:key="tab.id" v-show="activeTab === tab.id">
+					<slot :name="tab.slotName?.replaceAll('_', ' ')"></slot>
 				</div>
 			</template>
 
 			<template v-else>
 				<template v-for="tab in normalizedTabList" :key="tab.id">
-					<slot v-if="activeTab === tab.id" :name="tab.slotName"></slot>
+					<slot v-if="activeTab === tab.id" 
+						:name="tab.slotName?.replaceAll('_', ' ')"></slot>
 				</template>
 			</template>
 		</div>

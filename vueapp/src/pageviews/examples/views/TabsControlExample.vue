@@ -1,5 +1,7 @@
 <script setup>
 
+	const tabIndex = ref(0)
+
 	const primitiveTabs = ['First', 'Second', 'Third']
 
 	const lookupTabs =
@@ -22,7 +24,7 @@
 
 	<PageTitleBox pageTitle="TabsBar Example">
 
-		<ListIndexButton v-model="overflowIndex" :rangeList
+		<ListButton v-model="tabIndex" :rangeList="primitiveTabs"
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
 
 	</PageTitleBox>
@@ -35,7 +37,8 @@
 		Primitive list (strings/numbers)
 	</div>
 
-	<TabsControl :tabList="primitiveTabs" altDesign class="mb-7" contentBorder :minHeight="100">
+	<TabsControl v-model:activeTab="primitiveTabs[tabIndex]" :tabList="primitiveTabs" 
+		altDesign class="mb-7" contentBorder :minHeight="100">
 
 		<template #First>
 			<div class="p-5">

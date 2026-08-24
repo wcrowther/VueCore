@@ -53,7 +53,7 @@ declare module 'vue-router/auto/routes' {
     '/content/main': RouteRecordInfo<'/content/main', '/content/main', Record<never, never>, Record<never, never>>,
     '/examples': RouteRecordInfo<'/examples', '/examples', Record<never, never>, Record<never, never>>,
     '/examples/': RouteRecordInfo<'/examples/', '/examples', Record<never, never>, Record<never, never>>,
-    '/examples/[search]': RouteRecordInfo<'/examples/[search]', '/examples/:search', { search: ParamValue<true> }, { search: ParamValue<false> }>,
+    '/examples/[search]/[[fullscreen]]': RouteRecordInfo<'/examples/[search]/[[fullscreen]]', '/examples/:search/:fullscreen?', { search: ParamValue<true>, fullscreen?: ParamValueZeroOrOne<true> }, { search: ParamValue<false>, fullscreen?: ParamValueZeroOrOne<false> }>,
     '/home': RouteRecordInfo<'/home', '/home', Record<never, never>, Record<never, never>>,
     '/home/dotnetnotes': RouteRecordInfo<'/home/dotnetnotes', '/home/dotnetnotes', Record<never, never>, Record<never, never>>,
     '/home/intro': RouteRecordInfo<'/home/intro', '/home/intro', Record<never, never>, Record<never, never>>,

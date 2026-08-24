@@ -11,7 +11,8 @@
 	const selectedExampleComponent = computed(() => getComponent(selectedExample.value))
 	const breakPoint = 650
 
-	if ('fullscreen' in route.query) showFullscreen.value = true
+	// e.g. /examples/intro/true opens the example in fullscreen mode
+	if (route.params.fullscreen === 'true') showFullscreen.value = true
 
 </script>
 

@@ -87,7 +87,8 @@
             </p>
         </HelpBox>
 
-        <ConwaysLifeGame v-model:generation="generation" :fullScreen cellClass="bg-indigo" />
+        <ConwaysLifeGame v-model:generation="generation" 
+            :fullScreen cellClass="bg-indigo" class="m-auto" />
 
     </div>
 

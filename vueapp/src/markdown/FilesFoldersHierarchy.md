@@ -31,7 +31,7 @@ vueapp*
 			- buttons*
 				- BooleanButton.vue
 				- InfoButton.vue
-				- ListIndexButton.vue
+				- ListButton.vue
 				- PrimaryButton.vue
 				- RotateButton.vue
 				- SecondaryButton.vue
@@ -246,7 +246,7 @@ vueapp*
 					- InputsExample.vue
 					- IntroExample.vue
 					- JsonTreeExample.vue
-					- ListIndexButtonExample.vue
+					- ListButtonExample.vue
 					- MiscExample.vue
 					- MultiSelectExample.vue
 					- TabsBarExample.vue

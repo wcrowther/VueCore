@@ -66,7 +66,7 @@
             <template v-for="(tab,idx) in normalizedTabList" :key="idx">
                 <div :class="[{ altDesign : props.altDesign }, isActive(tab.id) ? 'tab-active' :'tab-other' ]" 
                     @click="activeTab = tab.id">
-                    <span>{{ tab.label }}</span>
+                    <span>{{ tab?.label.replaceAll('_', ' ') }}</span>
                 </div>
             </template>
 

@@ -92,8 +92,7 @@
 
     const createAnimation    = () =>
     {
-        if (!livePic.value)
-            return
+        if (!livePic.value) return
 
         const totalCycle = cycleDuration.value
 
@@ -137,9 +136,8 @@
 		updatePhaseLabel()
 	})
 
-	watch (
-		() => 
-        [
+	watch ( () => 
+    [
             props.url, 
             props.height, 
             props.width, 
@@ -150,7 +148,7 @@
             props.zoom2, 
             props.position1, 
             props.position2
-        ],
+    ],
 		restartAnimation
 	)
 

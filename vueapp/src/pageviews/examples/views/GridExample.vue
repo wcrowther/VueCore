@@ -26,7 +26,7 @@
             Use the button to cycle through preset sizes, then use the scoped slot to customize each cell (including checkerboard patterns).
 		</InfoBox>
 
-        <ListIndexButton v-model="gridIndex" :rangeList="gridSizes" 
+        <ListButton v-model="gridIndex" :rangeList="gridSizes" 
             class="mb-8 text-center w-[180px] !text-gray-500 !text-base h-7 !bg-gray-200 hover:!bg-gray-300" />
 
         <!-- GRID CONTROL -->

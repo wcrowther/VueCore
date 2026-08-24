@@ -1,6 +1,8 @@
 
 <script setup>
 
+	const modelValue = defineModel ({ type: Number, default: 0	})
+
 	const props = defineProps(
 	{
 		rangeList: 	{ type: Array, default: () => ['One', 'Two', 'Three'] },
@@ -10,12 +12,6 @@
 
 	const min  = 0 
 	const max  = computed(() => props.rangeList.length-1)
-
-	// Index of item
-	const modelValue = defineModel (
-	{
-		type: Number, default: 0
-	})
 
 	const setRangeValue = (delta) => 
 	{
@@ -64,6 +60,6 @@
 <!-- USAGE
 
 	const rangeValue = ref(0)
-	<ListIndexButton v-model="rangeValue" />
+	<ListButton v-model="rangeValue" :rangeList="['One', 'Two', 'Three']" />
 -->
 
