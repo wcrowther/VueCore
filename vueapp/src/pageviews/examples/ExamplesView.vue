@@ -2,6 +2,7 @@
 
 	ShowSideButtonInSubNav()
 
+	const route 			= useRoute()
 	const selectedExample 	= ref('')
 	const examplesStore 	= useExamplesStore()
 	const { getComponent } 	= examplesStore
@@ -9,6 +10,8 @@
 
 	const selectedExampleComponent = computed(() => getComponent(selectedExample.value))
 	const breakPoint = 650
+
+	if ('fullscreen' in route.query) showFullscreen.value = true
 
 </script>
 
