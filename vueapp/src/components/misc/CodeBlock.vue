@@ -62,7 +62,7 @@
 			class="relative flex overflow-x-auto custom-scrollbar p-2 font-mono text-sm leading-6">
 
 			<button v-if="showCodeBlock" @click="copy(codeContent)" 
-				:class="['absolute right-2 top-2 flex items-center rounded-md py-1 px-3 text-xs font-medium transition-all duration-200', copiedClass]">
+				:class="['absolute right-2 top-2 flex items-center rounded-md bg-gray-100 py-1 px-3 text-xs font-medium transition-all duration-200', copiedClass]">
 			
 				<span v-if="copiedToClipboard" class="text-right font-bold text-blue">
 					{{ 'Copied!'}}

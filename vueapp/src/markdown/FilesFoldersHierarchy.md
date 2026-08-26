@@ -94,7 +94,7 @@ vueapp*
 				- IconSymbol.vue
 				- JsonFormatted.vue
 				- JsonRaw.vue
-				- LivePic.vue
+				- PanZoom.vue
 				- PlatformInfo.vue
 				- ReverseCorner.vue
 				- SimpleCounter.vue
@@ -200,7 +200,6 @@ vueapp*
 			- examples.vue
 			- home.vue
 			- menu.vue
-			- panzoom.vue
 			- test.vue
 		- pageviews*
 			- accounts*
@@ -273,8 +272,6 @@ vueapp*
 				- MainRight.vue
 				- MainSidebar.vue
 				- UserPopout.vue
-			- panzoom*
-				- PanZoomView.vue
 		- router*
 			- router.js
 		- stores*

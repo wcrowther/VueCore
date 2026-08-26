@@ -27,7 +27,6 @@ declare module 'vue' {
     CalendarEvent: typeof import('./../components/calendar/CalendarEvent.vue')['default']
     CalendarExample: typeof import('./../pageviews/examples/views/CalendarExample.vue')['default']
     CalendarGrid: typeof import('./../components/calendar/CalendarGrid.vue')['default']
-    ChatHub: typeof import('./../components/realtime/ChatHub.vue')['default']
     ChatRoom: typeof import('./../components/realtime/ChatRoom.vue')['default']
     CheckboxInput: typeof import('./../components/inputs/CheckboxInput.vue')['default']
     CheckersExample: typeof import('./../pageviews/examples/views/CheckersExample.vue')['default']
@@ -97,7 +96,6 @@ declare module 'vue' {
     ListButtonExample: typeof import('./../pageviews/examples/views/ListButtonExample.vue')['default']
     ListPager: typeof import('./../components/pager/ListPager.vue')['default']
     ListPagerDebugger: typeof import('./../components/pager/ListPagerDebugger.vue')['default']
-    LivePic: typeof import('./../components/misc/LivePic.vue')['default']
     LoginView: typeof import('./../pageviews/auth/LoginView.vue')['default']
     MainContent: typeof import('./../pageviews/layout/MainContent.vue')['default']
     MainNavBar: typeof import('./../pageviews/layout/MainNavBar.vue')['default']
@@ -116,8 +114,8 @@ declare module 'vue' {
     NewUser: typeof import('./../pageviews/auth/NewUser.vue')['default']
     NotificationControl: typeof import('./../components/controls/NotificationControl.vue')['default']
     PageTitleBox: typeof import('./../components/boxes/PageTitleBox.vue')['default']
+    PanZoom: typeof import('./../components/misc/PanZoom.vue')['default']
     PanZoomExample: typeof import('./../pageviews/examples/views/PanZoomExample.vue')['default']
-    PanZoomView: typeof import('./../pageviews/panzoom/PanZoomView.vue')['default']
     PasswordInput: typeof import('./../components/inputs/PasswordInput.vue')['default']
     PhoneInput: typeof import('./../components/inputs/PhoneInput.vue')['default']
     PlatformInfo: typeof import('./../components/misc/PlatformInfo.vue')['default']
@@ -158,5 +156,6 @@ declare module 'vue' {
     UsersSearch: typeof import('./../pageviews/admin/UsersSearch.vue')['default']
     WizardControl: typeof import('./../components/controls/WizardControl.vue')['default']
     WizardExample: typeof import('./../pageviews/examples/views/WizardExample.vue')['default']
+    XxxChatHub: typeof import('./../components/realtime/xxxChatHub.vue')['default']
   }
 }
