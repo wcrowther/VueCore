@@ -66,7 +66,8 @@
                 Pattern coordinates and placement logic are defined in <code>src/helpers/lifePatterns.js</code>.
                 Right-click placement writes the selected pattern directly into the board buffer and updates
                 only the affected cell elements. Patterns wrap around the edges when <strong>Wrap edges</strong>
-                is enabled; otherwise cells outside the board are skipped.
+                is enabled; otherwise cells outside the board are skipped. The last used pattern is remembered 
+                using local storage for quick placement with <b>Ctrl+click</b>.
             </p>
             <p class="mt-2"><strong>Use alternate algorithms</strong></p>
             <p class="mt-1">

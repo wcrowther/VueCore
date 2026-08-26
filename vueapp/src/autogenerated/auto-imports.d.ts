@@ -127,6 +127,7 @@ declare global {
   const replicatorRule: typeof import('../helpers/lifeAlgorithms.js')['replicatorRule']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const rolesList: typeof import('../datalists/roleList.js')['rolesList']
+  const ruleOptions: typeof import('../helpers/lifeAlgorithms.js')['ruleOptions']
   const runAlgorithm: typeof import('../helpers/lifeAlgorithms.js')['runAlgorithm']
   const sampleCalendarEvents: typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']
   const seedsRule: typeof import('../helpers/lifeAlgorithms.js')['seedsRule']
@@ -352,6 +353,7 @@ declare module 'vue' {
     readonly replicatorRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['replicatorRule']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly rolesList: UnwrapRef<typeof import('../datalists/roleList.js')['rolesList']>
+    readonly ruleOptions: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['ruleOptions']>
     readonly runAlgorithm: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['runAlgorithm']>
     readonly sampleCalendarEvents: UnwrapRef<typeof import('../datalists/sampleCalendarEvents.js')['sampleCalendarEvents']>
     readonly seedsRule: UnwrapRef<typeof import('../helpers/lifeAlgorithms.js')['seedsRule']>

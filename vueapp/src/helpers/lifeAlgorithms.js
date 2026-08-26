@@ -1,6 +1,5 @@
 // Pluggable algorithm signature: (current, next, rows, cols, wrapEdges, rule) => void
 
-
 export function conwaysRule(alive, neighbors) 
 {
     return neighbors === 3 || (alive && neighbors === 2)
@@ -62,6 +61,20 @@ export function stainsRule(alive, neighbors)
     return neighbors === 3 || neighbors === 6 || neighbors === 7 || neighbors === 8
         || (alive && (neighbors === 2 || neighbors === 3 || neighbors === 5 || neighbors === 6 || neighbors === 7 || neighbors === 8))
 }
+
+export const ruleOptions = 
+[
+    { label: "Conway's Life", fn: conwaysRule     },
+    { label: 'HighLife',      fn: highLifeRule    },
+    { label: 'Replicator',    fn: replicatorRule  },
+    { label: 'Seeds',         fn: seedsRule       },
+    { label: 'Morley',        fn: morleyRule      },
+    { label: 'Day & Night',   fn: dayAndNightRule },
+    { label: 'Maze',          fn: mazeRule        },
+    { label: 'Diamoeba',      fn: diamoebaRule    },
+    { label: 'Amoeba',        fn: amoebaRule      },
+    { label: 'Stains',        fn: stainsRule      },
+]
 
 export function runAlgorithm(current, next, rows, cols, wrapEdges, rule) 
 {

@@ -1,9 +1,6 @@
 <script setup>
 
-    import { runAlgorithm, conwaysRule, highLifeRule, 
-             replicatorRule, seedsRule, morleyRule, 
-             dayAndNightRule, mazeRule, diamoebaRule, 
-             amoebaRule, stainsRule }                   from '@/helpers/lifeAlgorithms.js'
+    import { runAlgorithm, ruleOptions }                from '@/helpers/lifeAlgorithms.js'
     import { lifePatterns, addPattern as applyPattern } from '@/helpers/lifePatterns.js'
 
     const props = defineProps(
@@ -16,20 +13,6 @@
         cellClass:  { type: String,  default: 'bg-black' },
     })
 
-    const ruleOptions = 
-    [
-        { label: "Conway's Life", fn: conwaysRule     },
-        { label: 'HighLife',      fn: highLifeRule    },
-        { label: 'Replicator',    fn: replicatorRule  },
-        { label: 'Seeds',         fn: seedsRule       },
-        { label: 'Morley',        fn: morleyRule      },
-        { label: 'Day & Night',   fn: dayAndNightRule },
-        { label: 'Maze',          fn: mazeRule        },
-        { label: 'Diamoeba',      fn: diamoebaRule    },
-        { label: 'Amoeba',        fn: amoebaRule      },
-        { label: 'Stains',        fn: stainsRule      },
-    ]
-
     const generation    = defineModel('generation', { type: Number, default: 0 })
     const isPaused      = ref(true)
     const wrapEdges     = ref(true)
@@ -40,7 +23,8 @@
     const { createConfirm } = useConfirmControl()
 
     // Key includes dimensions so differently-sized boards don't share a slot; {} default forces VueUse to use JSON serializer instead of String()
-    const savedBoard = useLocalStorage(`conways-life-board-${props.rows}x${props.cols}`, {})
+    const savedBoard      = useLocalStorage(`conways-life-board-${props.rows}x${props.cols}`, {})
+    const lastPatternName = useLocalStorage('conways-life-last-pattern', '')
 
     // Non-reactive: double-buffered flat board and loop handle
     let current    = null
@@ -59,13 +43,15 @@
             const el = document.getElementById(`${targetRow}-${targetCol}`)
             if (el) el.classList.add(cellBack.value)
         })
+
+        lastPatternName.value = name
     }
 
-    const patternMenuItems = Object.keys(lifePatterns).map((name) =>
+    const patternMenuItems = computed(() => Object.keys(lifePatterns).map((name) =>
     ({
-        label: `Add ${name}`,
+        label: `Add ${name}${name === lastPatternName.value ? ' *' : ''}`,
         action: (context) => addPattern(name, context),
-    }))
+    })))
 
     const renderDiff = (prev, curr) =>
     {
@@ -126,6 +112,13 @@
         if (e.button !== 0) return
         const cell = getCellFromEvent(e)
         if (!cell) return
+
+        if (e.ctrlKey && lastPatternName.value)
+        {
+            addPattern(lastPatternName.value, { row: cell[0], col: cell[1] })
+            return
+        }
+
         eraseMode  = current[cell[0] * props.cols + cell[1]] === 1
         isPainting = true
         paintCell(cell[0], cell[1], !eraseMode)
