@@ -2,7 +2,7 @@
 
     const props = defineProps (
     {
-        hideLabel:   Boolean,
+        hideLabel:   { type: Boolean },
         labelName:   { type: String }, 
         placeholder: { type: String }, 
         ruleName:    { type: String }, 

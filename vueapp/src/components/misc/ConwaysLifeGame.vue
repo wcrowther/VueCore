@@ -13,11 +13,15 @@
         cellClass:  { type: String,  default: 'bg-black' },
     })
 
-    const generation    = defineModel('generation', { type: Number, default: 0 })
-    const isPaused      = ref(true)
-    const wrapEdges     = ref(true)
-    const selectedRule  = ref(ruleOptions[0])
-    const cellBack      = computed(() => props.cellClass)
+    const generation        = defineModel('generation', { type: Number, default: 0 })
+    const isPaused          = ref(true)
+    const wrapEdges         = ref(true)
+    const selectedRuleLabel = ref(ruleOptions[0].label)
+    const cellBack          = computed(() => props.cellClass)
+
+    // SelectInput needs a key->label map; the rule object (with .fn) is looked up from the chosen label
+    const ruleOptionsMap = computed(() => Object.fromEntries(ruleOptions.map((r) => [r.label, r.label])))
+    const selectedRule   = computed(() => ruleOptions.find((r) => r.label === selectedRuleLabel.value) ?? ruleOptions[0])
     const menuRef       = useTemplateRef('patternMenu')
 
     const { createConfirm } = useConfirmControl()
@@ -33,11 +37,11 @@
     let isPainting = false
     let eraseMode  = false  // drag follows the state set on initial mousedown
 
-    const addPattern = (name, { row, col }) =>
+    const addPattern = (name, { row, col }, quarterTurns = 0) =>
     {
         if (!current) return
 
-        const cells = applyPattern(current, name, row, col, props.rows, props.cols, wrapEdges.value)
+        const cells = applyPattern(current, name, row, col, props.rows, props.cols, wrapEdges.value, quarterTurns)
         cells.forEach(([targetRow, targetCol]) =>
         {
             const el = document.getElementById(`${targetRow}-${targetCol}`)
@@ -113,9 +117,10 @@
         const cell = getCellFromEvent(e)
         if (!cell) return
 
-        if (e.ctrlKey && lastPatternName.value)
+        if (e.ctrlKey || e.shiftKey)
         {
-            addPattern(lastPatternName.value, { row: cell[0], col: cell[1] })
+            const patternName = lastPatternName.value || Object.keys(lifePatterns)[0]
+            addPattern(patternName, { row: cell[0], col: cell[1] }, e.shiftKey ? 1 : 0)
             return
         }
 
@@ -235,9 +240,8 @@
                 <input type="checkbox" v-model="wrapEdges" class="cursor-pointer" />
                 Wrap edges
             </label>
-            <select v-model="selectedRule" class="text-xs border border-gray-400 rounded px-1 py-0.5 cursor-pointer">
-                <option v-for="r in ruleOptions" :key="r.label" :value="r">{{ r.label }}</option>
-            </select>
+            <SelectInput labelName="" hideLabel v-model="selectedRuleLabel" :optionsList="ruleOptionsMap" 
+                class="!mb-0 w-32 ml-auto" />
         </div>
 
         <div class="cursor-crosshair select-none"

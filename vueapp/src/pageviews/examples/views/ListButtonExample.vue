@@ -7,6 +7,11 @@
     const boolIndex     = ref(0)
     const webPageIndex  = ref(0)
 
+    // SELECTED VALUES
+    const selectedAnimal = ref(null)
+    const selectedBool   = ref(null)
+    const selectedPage   = ref(null)
+
     // LISTS
     const rangeList     = ['0','1','2','3','4','5','6','7','8','9']
     const animalList    = ['Cats','Dogs','Tigers','Bears','Lions']
@@ -60,6 +65,24 @@
             <div class="basis-full flex-none">
                 Web Pages ({{ webPageIndex }}) : {{ webPages[webPageIndex].url }}
             </div>
+        </div>
+
+        <InfoBox class="mt-5">
+            <code>selectedValue</code> is a second, two-way model that mirrors the selected item itself, 
+            so the parent doesn't need to look up the item from the index.
+        </InfoBox>
+
+        <div class="basis-full mb-5">
+            <ListButton v-model:selectedValue="selectedAnimal" :rangeList="animalList" class="w-fit mb-2" />
+            Selected animal (no index needed): {{ selectedAnimal }}
+        </div>
+        <div class="basis-full mb-5">
+            <ListButton v-model:selectedValue="selectedBool" :rangeList="boolList" class="w-[96px] mb-2" />
+            Selected bool item: {{ selectedBool?.value }}
+        </div>
+        <div class="basis-full mb-5">
+            <ListButton v-model="webPageIndex" v-model:selectedValue="selectedPage" :rangeList="webPages" class="w-fit mb-2" />
+            Index and item both bound - index ({{ webPageIndex }}): {{ selectedPage?.url }}
         </div>
 
     </div>

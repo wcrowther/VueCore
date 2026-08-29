@@ -67,7 +67,7 @@
                 Right-click placement writes the selected pattern directly into the board buffer and updates
                 only the affected cell elements. Patterns wrap around the edges when <strong>Wrap edges</strong>
                 is enabled; otherwise cells outside the board are skipped. The last used pattern is remembered 
-                using local storage for quick placement with <b>Ctrl+click</b>.
+                using local storage for quick placement with <strong>Ctrl+click</strong> or use <strong>Shift+click</strong> to rotate the pattern 90° clockwise.
             </p>
             <p class="mt-2"><strong>Use alternate algorithms</strong></p>
             <p class="mt-1">

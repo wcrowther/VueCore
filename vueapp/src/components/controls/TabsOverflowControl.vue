@@ -8,8 +8,10 @@
 		contentBorder: 			{ type: Boolean, default: false },
 		altDesign: 				{ type: Boolean, default: false },
 		enableShortcuts: 		{ type: Boolean, default: false },
+		flattern: 				{ type: Boolean, default: false },
 		overflowMenuMaxHeight: 	{ type: [Number, String], default: null },
-		overflow: {
+		overflow: 
+		{
 			type: String,
 			default: 'scroll',
 			validator: value =>
@@ -73,12 +75,14 @@
 	})
 
 	watch(normalizedTabList, tabs =>
-	{
-		if (!tabs.length) return
-
-		if (!tabs.some(tab => tab.id === activeTab.value))
-			activeTab.value = tabs[0].id
-	}, { immediate: true, deep: true })
+		{
+			if (!tabs.length) return
+		
+			if (!tabs.some(tab => tab.id === activeTab.value))
+				activeTab.value = tabs[0].id
+		}, 
+		{ immediate: true, deep: true }
+	)
 
 </script>
 
@@ -90,7 +94,8 @@
 
 			<div class="flex-1 min-w-0">
 
-				<TabsBar v-model="activeTab" :tabs="normalizedTabList" :overflow="props.overflow"
+				<TabsBar v-if="!props.flattern"
+					v-model="activeTab" :tabs="normalizedTabList" :overflow="props.overflow"
 					:enableShortcuts="props.enableShortcuts" :overflowMenuMaxHeight="props.overflowMenuMaxHeight">
 					<template #tab-button="{ tab, isActive, activate }">
 						<div :class="[{ 'altDesign': props.altDesign }, isActive ? 'tab-active' : 'tab-other']"

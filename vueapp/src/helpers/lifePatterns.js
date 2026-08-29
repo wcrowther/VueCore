@@ -83,12 +83,28 @@ export const lifePatterns =
     ],
 }
 
-export function getPatternCells(name, row, col, rows, cols, wrapEdges)
+// Rotates (row, col) offsets clockwise by 90 degrees per quarter turn
+function rotateOffsets(pattern, quarterTurns)
+{
+    const turns = ((quarterTurns % 4) + 4) % 4
+    if (turns === 0) return pattern
+
+    return pattern.map(([rowOffset, colOffset]) =>
+    {
+        let r = rowOffset, c = colOffset
+        for (let i = 0; i < turns; i++)
+            [r, c] = [c, -r]
+
+        return [r, c]
+    })
+}
+
+export function getPatternCells(name, row, col, rows, cols, wrapEdges, quarterTurns = 0)
 {
     const pattern = lifePatterns[name]
     if (!pattern) return []
 
-    return pattern.flatMap(([rowOffset, colOffset]) =>
+    return rotateOffsets(pattern, quarterTurns).flatMap(([rowOffset, colOffset]) =>
     {
         let targetRow = row + rowOffset
         let targetCol = col + colOffset
@@ -107,9 +123,9 @@ export function getPatternCells(name, row, col, rows, cols, wrapEdges)
     })
 }
 
-export function addPattern(current, name, row, col, rows, cols, wrapEdges)
+export function addPattern(current, name, row, col, rows, cols, wrapEdges, quarterTurns = 0)
 {
-    const cells = getPatternCells(name, row, col, rows, cols, wrapEdges)
+    const cells = getPatternCells(name, row, col, rows, cols, wrapEdges, quarterTurns)
 
     cells.forEach(([targetRow, targetCol]) =>
     {

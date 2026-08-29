@@ -17,9 +17,9 @@
 
 	<div class="p-5 pb-7 flex flex-wrap bg-[#b8d7ed]/50" @click="setTestUser">
 
-		<div class="w-full mb-5 select-none">New users click
-			<span class="italic font-bold">New User Signup</span> above or use the 
-			<b>test login</b> below. 
+		<div class="w-full mb-5 select-none italic text-md text-center tracking-wide hover:underline">
+			Click here to set the test UserName and Password below 
+			then click the Login button to access the application.
 		</div>
 
 		<IconSymbol width="16px" class="text-color-dark-gray hover:text-black mr-3" icon="heroicons:arrow-top-right-on-square"/>

@@ -2,6 +2,7 @@
 <script setup>
 
 	const modelValue = defineModel ({ type: Number, default: 0	})
+	const selectedValue = defineModel('selectedValue', { default: null })
 
 	const props = defineProps(
 	{
@@ -12,6 +13,23 @@
 
 	const min  = 0 
 	const max  = computed(() => props.rangeList.length-1)
+
+	let syncing = false // bidirectional sync between index and item; syncing guards against feedback loops
+
+	watch(modelValue, (idx) =>
+	{
+		syncing = true
+		selectedValue.value = props.rangeList[idx]
+		syncing = false
+	}, { immediate: true })
+
+	watch(selectedValue, (val) =>
+	{
+		if (syncing) return
+
+		const idx = props.rangeList.indexOf(val)
+		if (idx !== -1) modelValue.value = idx
+	})
 
 	const setRangeValue = (delta) => 
 	{
@@ -54,12 +72,18 @@
 
 </template>
 
-
-		@apply rounded-full h-5 px-2 text-xs leading-[1.3rem] tracking-wider cursor-pointer
-			inline-block font-bold select-none text-center align-middler
 <!-- USAGE
 
-	const rangeValue = ref(0)
+	// index only
 	<ListButton v-model="rangeValue" :rangeList="['One', 'Two', 'Three']" />
+
+	// item only (no index needed by the parent)
+	<ListButton v-model:selectedValue="rangeItem" :rangeList="['One', 'Two', 'Three']" />
+
+	// both index and item kept in sync
+	<ListButton v-model="rangeValue" v-model:selectedValue="rangeItem" :rangeList="['One', 'Two', 'Three']" />
+
+	// object list; selectedValue is the whole matching object
+	<ListButton v-model:selectedValue="selectedPage" :rangeList="webPages" textName="url" />
 -->
 
