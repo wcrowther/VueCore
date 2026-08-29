@@ -1,16 +1,16 @@
 <script setup>
 	
 	const activeTab 	= ref('First')
-	const overflowIndex = useLocalStorage('tabsOverflowControlExampleOverflowIndex', 0)
-	const keepAlive 	= useLocalStorage('tabsOverflowControlExampleKeepAlive', false)
-	const contentBorder = useLocalStorage('tabsOverflowControlExampleBorder', true)
+	const overflowIndex = useLocalStorage('TabsFlowControlExampleOverflowIndex', 0)
+	const keepAlive 	= useLocalStorage('TabsFlowControlExampleKeepAlive', false)
+	const contentBorder = useLocalStorage('TabsFlowControlExampleBorder', true)
 	const rangeList 	= ['scroll', 'menu']
 
 </script>
 
 <template>
 
-	<PageTitleBox pageTitle="TabsOverflowControl Example">
+	<PageTitleBox pageTitle="TabsFlowControl Example">
 
 		<ListButton v-model:index="overflowIndex" :rangeList
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
@@ -28,7 +28,7 @@
 		</button>
 	</div>
 
-	<TabsOverflowControl v-model:activeTab="activeTab" 
+	<TabsFlowControl v-model:activeTab="activeTab" 
 		:tabList="['First','Second','Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Nineth']" 
 		:keepAlive :contentBorder :overflow="rangeList[overflowIndex]"
 		class="mb-7">
@@ -63,6 +63,6 @@
         </template> 
 		<!-- -->
 
-	</TabsOverflowControl>
+	</TabsFlowControl>
 
 </template>

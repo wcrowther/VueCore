@@ -22,6 +22,6 @@ export const examplesDataList =
         { name: 'PanZoom', example: 'PanZoomExample', show: true, featured: false, type: '', order: 5},
         { name: 'TabsBar', example: 'TabsBarExample', show: false, featured: false, type: '', order: 5},
         { name: 'TabsControl', example: 'TabsControlExample', show: true, featured: false, type: '', order: 5},
-        { name: 'TabsOverflowControl', example: 'TabsOverflowExample', show: true, featured: false, type: '', order: 5},
+        { name: 'TabsFlowControl', example: 'TabsFlowExample', show: true, featured: false, type: '', order: 5},
         { name: 'Wizard', example: 'WizardExample', show: true, featured: false, type: '', order: 5},
     ]

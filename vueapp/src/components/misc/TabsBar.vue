@@ -219,14 +219,6 @@
 		isOverflowMenuOpen.value = false
 	}
 
-	const toggleOverflowMenu = () =>
-	{
-		if (isOverflowMenuOpen.value)
-			closeOverflowMenuNow()
-		else
-			openOverflowMenuNow()
-	}
-
 	const ensureActiveTabInView = () =>
 	{
 		const el = tabRefs.get(selectedTabId.value)
@@ -381,6 +373,7 @@
 		</div>
 
 		<div class="shrink-0 w-7 flex items-center justify-center">
+		
 			<button v-if="useScrollOverflow" type="button"
 				class="h-7 w-7 transition-opacity"
 				:class="hasHiddenTabs
@@ -397,8 +390,7 @@
 				@mouseenter="openOverflowMenuWithDelay"
 				@mouseleave="closeOverflowMenuWithDelay"
 				@focusin="openOverflowMenuNow"
-				@focusout="onOverflowFocusOut"
-				@click="toggleOverflowMenu">
+				@focusout="onOverflowFocusOut">
 
 				<slot name="overflow-trigger"
 					:is-open="isOverflowMenuOpen" :hidden-count="hiddenTabs.length">

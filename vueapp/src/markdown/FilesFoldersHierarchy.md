@@ -54,7 +54,7 @@ vueapp*
 				- PromptControl.vue
 				- SidebarControl.vue
 				- TabsControl.vue
-				- TabsOverflowControl.vue
+				- TabsFlowControl.vue
 				- WizardControl.vue
 			- files-folders*
 				- ContentEditor.vue
@@ -250,7 +250,7 @@ vueapp*
 					- MultiSelectExample.vue
 					- TabsBarExample.vue
 					- TabsControlExample.vue
-					- TabsOverflowExample.vue
+					- TabsFlowExample.vue
 					- WizardExample.vue
 				- ExamplesAdvSearch.vue
 				- ExamplesFilters.vue

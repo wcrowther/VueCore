@@ -2,13 +2,13 @@
 
 	const props = defineProps(
 	{
-		id: 					{ type: String, default: 'TabsOverflowControl' },
+		id: 					{ type: String, default: 'TabsFlowControl' },
 		tabList: 				{ type: Array, default: () => ['One', 'Two', 'Three'] },
 		keepAlive: 				{ type: Boolean, default: false },
 		contentBorder: 			{ type: Boolean, default: false },
 		altDesign: 				{ type: Boolean, default: false },
 		enableShortcuts: 		{ type: Boolean, default: false },
-		flattern: 				{ type: Boolean, default: false },
+		flattern: 				{ type: Boolean, default: false }, // not currently used
 		overflowMenuMaxHeight: 	{ type: [Number, String], default: null },
 		overflow: 
 		{
@@ -19,7 +19,7 @@
 				if (isEmptyOrSpace(value) || ['scroll', 'menu'].includes(value))
 					return true
 
-				throw new Error(`[TabsOverflowControl] Invalid overflow value "${value}". Use "scroll", "menu", or an empty value.`)
+				throw new Error(`[TabsFlowControl] Invalid overflow value "${value}". Use "scroll", "menu", or an empty value.`)
 			}
 		},
 	})

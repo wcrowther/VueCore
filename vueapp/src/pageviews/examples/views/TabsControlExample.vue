@@ -1,6 +1,6 @@
 <script setup>
 
-	const tabIndex = ref('First')
+	const tabValue = ref('First')
 
 	const primitiveTabs = ['First', 'Second', 'Third']
 
@@ -24,7 +24,7 @@
 
 	<PageTitleBox pageTitle="TabsBar Example">
 
-		<ListButton v-model:index="tabIndex" :rangeList="primitiveTabs" 
+		<ListButton v-model:value="tabValue" :rangeList="primitiveTabs" 
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
 
 	</PageTitleBox>
@@ -37,7 +37,7 @@
 		Primitive list (strings/numbers)
 	</div>
 
-	<TabsControl v-model:activeTab="tabIndex" :tabList="primitiveTabs" 
+	<TabsControl v-model:activeTab="tabValue" :tabList="primitiveTabs" 
 		altDesign class="mb-7" contentBorder :minHeight="100">
 
 		<template #First>
