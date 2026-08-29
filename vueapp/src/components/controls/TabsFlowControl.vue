@@ -94,7 +94,7 @@
 
 			<div class="flex-1 min-w-0">
 
-				<TabsBar v-if="!props.flattern"
+				<TabsFlowBar v-if="!props.flattern"
 					v-model="activeTab" :tabs="normalizedTabList" :overflow="props.overflow"
 					:enableShortcuts="props.enableShortcuts" :overflowMenuMaxHeight="props.overflowMenuMaxHeight">
 					<template #tab-button="{ tab, isActive, activate }">
@@ -103,7 +103,7 @@
 							<span>{{ tab.label }}</span>
 						</div>
 					</template>
-				</TabsBar>
+				</TabsFlowBar>
 
 			</div>
 		</div>

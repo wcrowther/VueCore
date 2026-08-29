@@ -100,7 +100,7 @@ vueapp*
 				- SimpleCounter.vue
 				- SiteMap.vue
 				- SwipeLeftRight.vue
-				- TabsBar.vue
+				- TabsFlowBar.vue
 			- pager*
 				- ListPager.vue
 				- ListPagerDebugger.vue
@@ -248,7 +248,7 @@ vueapp*
 					- ListButtonExample.vue
 					- MiscExample.vue
 					- MultiSelectExample.vue
-					- TabsBarExample.vue
+					- TabsFlowBarExample.vue
 					- TabsControlExample.vue
 					- TabsFlowExample.vue
 					- WizardExample.vue

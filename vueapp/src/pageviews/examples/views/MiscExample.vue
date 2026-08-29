@@ -10,7 +10,7 @@
 
     <TabsFlowControlExample />
 
-    <TabsBarExample />
+    <TabsFlowBarExample />
 
     <MultiSelectExample />
 

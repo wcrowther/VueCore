@@ -22,7 +22,7 @@
 
 <template>
 
-	<PageTitleBox pageTitle="TabsBar Example">
+	<PageTitleBox pageTitle="TabsFlowBar Example">
 
 		<ListButton v-model:value="tabValue" :rangeList="primitiveTabs" 
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
@@ -30,7 +30,7 @@
 	</PageTitleBox>
 
 	<InfoBox>
-		This example demonstrates the usage of the TabsBar component with different overflow behaviors.
+		This example demonstrates the usage of the TabsFlowBar component with different overflow behaviors.
 	</InfoBox>
 
 	<div class="font-bold mb-7">

@@ -17,7 +17,7 @@
 
 <template>
 
-    <PageTitleBox pageTitle="TabsBar Example">
+    <PageTitleBox pageTitle="TabsFlowBar Example">
 
         <ListButton v-model:index="overflowIndex" :rangeList
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
@@ -25,10 +25,10 @@
     </PageTitleBox>
 
     <InfoBox>
-        This example demonstrates the usage of the TabsBar component with different overflow behaviors.
+        This example demonstrates the usage of the TabsFlowBar component with different overflow behaviors.
     </InfoBox>
 
-    <TabsBar v-model="modelValue" :tabs="longTabList" 
+    <TabsFlowBar v-model="modelValue" :tabs="longTabList" 
         :overflow="rangeList[overflowIndex]" enableShortcuts />
 
     <div class="border border-gray-400 border-t-0 p-5 bg-white">
