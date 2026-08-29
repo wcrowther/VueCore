@@ -31,7 +31,7 @@
     </HelpBox>
 
     <div class="flex justify-start mb-4">
-        <ListButton v-model="sourceIndex" :rangeList="jsonSourceList" 
+        <ListButton v-model:index="sourceIndex" :rangeList="jsonSourceList" 
             class="py-1 px-5 font-bold tracking-wide select-none" />
     </div>
     <div class="mt-5 pb-5">

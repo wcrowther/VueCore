@@ -24,7 +24,7 @@
 
 	<PageTitleBox pageTitle="TabsBar Example">
 
-		<ListButton v-model:selectedValue="tabIndex" :rangeList="primitiveTabs" 
+		<ListButton v-model:index="tabIndex" :rangeList="primitiveTabs" 
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
 
 	</PageTitleBox>

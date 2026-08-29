@@ -15,7 +15,7 @@
 
     <PageTitleBox pageTitle="FullScreen Control">
 
-        <ListButton v-model="inset" :rangeList="insetList" 
+        <ListButton v-model:index="inset" :rangeList="insetList" 
             class="!rounded-md !text-sm !text-[#121639] !py-0 !pt-[4px] !pb-[3px] 
             !h-auto !leading-normal !tracking-wide hover:!bg-white hover:!border-color-primary 
             !border !border-transparent" />

@@ -23,10 +23,10 @@
 			<!-- <SwitchButton class="bg-color-primary text-white" buttonName="Mode" v-model="isCommaMode" /> -->
 			
 			<div class="flex w-[350px]">
-				<ListButton v-model="hideSelectedIndex" :rangeList="hideSelectedList"
+				<ListButton v-model:index="hideSelectedIndex" :rangeList="hideSelectedList"
 					class="w-[155px] !bg-white border border-color-dark-blue !text-color-dark-blue mr-2" />
 				
-				<ListButton v-model="modeIndex" :rangeList="modeList"
+				<ListButton v-model:index="modeIndex" :rangeList="modeList"
 					class="w-[185px] !bg-white border border-color-dark-blue !text-color-dark-blue" />
 			</div>
 			

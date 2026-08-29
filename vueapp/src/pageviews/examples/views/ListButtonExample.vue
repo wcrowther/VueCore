@@ -41,26 +41,26 @@
         </InfoBox>
         
         <div class="basis-full mb-5">
-            <ListButton v-model="listIndex" :rangeList class="w-fit mb-2" />
+            <ListButton v-model:index="listIndex" :rangeList class="w-fit mb-2" />
             List Index ({{ listIndex }}) - zero-based : {{ rangeList[listIndex] }}
         </div>
         <div class="basis-full mb-5">
-            <ListButton v-model="animal" :rangeList="animalList" class="w-fit mb-2" />
+            <ListButton v-model:index="animal" :rangeList="animalList" class="w-fit mb-2" />
             Animal Ordinal - 1-based ({{ animal+1 }}): {{ animalList[animal] }}
         </div>
         <div class="basis-full mb-5">
-            <ListButton v-model="boolIndex" :rangeList="boolList"
+            <ListButton v-model:index="boolIndex" :rangeList="boolList"
 				class="w-[96px] mb-2" />
 			Bool Ordinal - with description - Bool: ({{ boolIndex }}) {{ boolList[boolIndex].value }}
 		</div>
         <div class="basis-full mb-5">
-            <ListButton v-model="color" :rangeList="colors" :wrapBack="false" class="w-fit mb-2" />
+            <ListButton v-model:index="color" :rangeList="colors" :wrapBack="false" class="w-fit mb-2" />
             Color ({{ color+1 }}) - does not wrap: {{ colors[color] }}
         </div>
         <div class="basis-full flex flex-wrap gap-2">
-            <ListButton v-model="webPageIndex" :rangeList="webPages" 
+            <ListButton v-model:index="webPageIndex" :rangeList="webPages" 
                 class="w-fit mb-2 inline-block"/>
-            <ListButton v-model="webPageIndex" :rangeList="webPages" textName="url" 
+            <ListButton v-model:index="webPageIndex" :rangeList="webPages" textName="url" 
                 class="w-fit mb-2 inline-block" />
             <div class="basis-full flex-none">
                 Web Pages ({{ webPageIndex }}) : {{ webPages[webPageIndex].url }}
@@ -68,20 +68,20 @@
         </div>
 
         <InfoBox class="mt-5">
-            <code>selectedValue</code> is a second, two-way model that mirrors the selected item itself, 
+            <code>value</code> is a second, two-way model that mirrors the selected item itself, 
             so the parent doesn't need to look up the item from the index.
         </InfoBox>
 
         <div class="basis-full mb-5">
-            <ListButton v-model:selectedValue="selectedAnimal" :rangeList="animalList" class="w-fit mb-2" />
+            <ListButton v-model:value="selectedAnimal" :rangeList="animalList" class="w-fit mb-2" />
             Selected animal (no index needed): {{ selectedAnimal }}
         </div>
         <div class="basis-full mb-5">
-            <ListButton v-model:selectedValue="selectedBool" :rangeList="boolList" class="w-[96px] mb-2" />
+            <ListButton v-model:value="selectedBool" :rangeList="boolList" class="w-[96px] mb-2" />
             Selected bool item: {{ selectedBool?.value }}
         </div>
         <div class="basis-full mb-5">
-            <ListButton v-model="webPageIndex" v-model:selectedValue="selectedPage" :rangeList="webPages" class="w-fit mb-2" />
+            <ListButton v-model:index="webPageIndex" v-model:value="selectedPage" :rangeList="webPages" class="w-fit mb-2" />
             Index and item both bound - index ({{ webPageIndex }}): {{ selectedPage?.url }}
         </div>
 
