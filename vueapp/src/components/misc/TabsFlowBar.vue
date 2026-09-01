@@ -13,13 +13,15 @@
 
 	const props = defineProps(
 	{
-		tabs: 	  		{ type: Array, required: true },
-		overflow: 		{ type: String, 
-							default: 'scroll',
-							validator: value => ['scroll', 'menu'].includes(value) 
-						},
-		enableShortcuts:{ type: Boolean, default: false },
-		overflowMenuMaxHeight: { type: [Number, String], default: null }
+		tabs: 	  			{ type: Array, required: true },
+		tabsColor: 			{ type: String, default: 'bg-white' },
+		backColor: 			{ type: String, default: 'bg-transparent' },
+		flow: 				{ type: String, 
+								default: 'scroll',
+								validator: value => ['scroll', 'menu'].includes(value) 
+							},
+		enableShortcuts:	{ type: Boolean, default: false },
+		menuMaxHeight:  	{ type: [Number, String], default: null }
 	})
 
 	const selectedTabId = defineModel({ type: [String, Number], required: true })
@@ -32,7 +34,7 @@
 	const isOverflowMenuOpen 	= ref(false)
 	const { x } 				= useScroll(containerRef)
 	
-	const overflowMode 			= computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
+	const overflowMode 			= computed(() => props.flow === 'menu' ? 'menu' : 'scroll')
 	const useScrollOverflow 	= computed(() => overflowMode.value === 'scroll')
 	const useMenuOverflow 		= computed(() => overflowMode.value === 'menu')
 
@@ -333,7 +335,7 @@
 </script>
 
 <template>
-	<div class="relative flex h-9 gap-2 overflow-visible">
+	<div :class="['relative flex h-9 gap-2 overflow-visible', props.backColor]">
 
 		<div class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gray-400 z-0"></div>
 
@@ -350,10 +352,10 @@
 		</div>
 
 		<div ref="containerRef"
-			class="relative flex flex-1 gap-1 items-end min-w-0 z-[90] scroll-smooth"
-			:class="useMenuOverflow
+			:class="['relative flex flex-1 gap-1 items-end min-w-0 z-[90] scroll-smooth',
+				useMenuOverflow
 				? 'overflow-hidden'
-				: 'overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'">
+				: 'overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden']">
 			
 			<!-- List of Tabs -->
 			<div v-for="tab in normalizedTabs" :key="tab.id"
@@ -362,7 +364,7 @@
 
 				<slot name="tab-button" :tab :is-active="selectedTabId === tab.id"
 					:activate="() => activateTab(tab)">
-					<div :class="selectedTabId === tab.id ? 'tab-active' : 'tab-other'"
+					<div :class="[selectedTabId === tab.id ? 'tab-active' : 'tab-other', props.tabsColor]"
 						@click="activateTab(tab)">
 						{{ tab.label }}
 					</div>
@@ -405,7 +407,7 @@
 
 		<DropList v-if="useMenuOverflow"
 			v-model="isOverflowMenuOpen" :list="hiddenTabs" :anchorEl="overflowTriggerRef"
-			:maxHeight="props.overflowMenuMaxHeight"
+			:maxHeight="props.menuMaxHeight"
 			@select="selectOverflowTab" @hover-enter="openOverflowMenuNow" 
 			@hover-leave="closeOverflowMenuWithDelay" />
 
@@ -413,7 +415,7 @@
 </template>
 
 <style lang="postcss" scoped>
-	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0
+	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border border-gray-400 border-b-0
 		text-sm z-[100] font-bold select-none relative bottom-[-1px] whitespace-nowrap cursor-pointer }
 	.tab-other  { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border
 		border-transparent text-sm font-bold hover:bg-gray-200 whitespace-nowrap cursor-pointer }

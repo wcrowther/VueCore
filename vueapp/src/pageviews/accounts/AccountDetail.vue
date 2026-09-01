@@ -16,6 +16,7 @@
     const isAddingAccount           = ref(false)
     const showConfirmControl        = ref(false)
     const detailInput               = ref(null)
+    const showMultiAddress          = ref(false) // Enable experimental multi-address feature
 
     //const swipe                     = ref('')
     //const accountDetailRef          = useTemplateRef('accountDetail');
@@ -199,28 +200,8 @@
                 </div>
             </div>
 
-            <!-- ALT VERSION FOR MULTIPLE ADDRESSES - NOT YET IMPLEMENTED            -->
-            
-            <div v-if="account && account.AccountId > 0 || isAddingAccount" id="MultiAddress"
-                class="basis-[300px] min-w-[200px] flex-1 border pt-2 border-color-blue-gray bg-white ">
-                <TabsFlowControl :tabList="['Account', 'Second', 'Third']" altDesign
-                    class="w-full">
-            
-                    <template #Account>
-                        <div class="m-5">
-                            <TextInput labelName="Street Address" v-model="account.StreetAddress" :v$ />
-                            <TextInput labelName="City" ruleName="City" v-model="account.City" :v$ />
-            
-                            <div class="flex justify-between gap-3">
-                                <SelectInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince"
-                                    :optionsList="usStatesList" defaultText="-- Pick a State --" :v$ />
-                                <TextInput labelName="Postal Code" ruleName="PostalCode" v-model="account.PostalCode" :v$ />
-                            </div>
-                        </div>
-                    </template>
-                </TabsFlowControl>
-            </div>
-
+            <AccountDetailMultiAddress v-if="showMultiAddress" 
+                :account="account" :isAddingAccount="isAddingAccount" :usStatesList="usStatesList" />
 
             <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="Address"
                 class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">

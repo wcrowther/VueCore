@@ -2,15 +2,17 @@
 
 	const props = defineProps(
 	{
-		id: 					{ type: String, default: 'TabsFlowControl' },
-		tabList: 				{ type: Array, default: () => ['One', 'Two', 'Three'] },
-		keepAlive: 				{ type: Boolean, default: false },
-		contentBorder: 			{ type: Boolean, default: false },
-		altDesign: 				{ type: Boolean, default: false },
-		enableShortcuts: 		{ type: Boolean, default: false },
-		flattern: 				{ type: Boolean, default: false }, // not currently used
-		overflowMenuMaxHeight: 	{ type: [Number, String], default: null },
-		overflow: 
+		id: 				{ type: String, default: 'TabsFlowControl' },
+		tabList: 			{ type: Array, default: () => ['One', 'Two', 'Three'] },
+		keepAlive: 			{ type: Boolean, default: false },
+		bgColor: 			{ type: String, default: 'bg-white' },
+		contentBorder: 		{ type: Boolean, default: false },
+		altDesign: 			{ type: Boolean, default: false },
+		enableShortcuts: 	{ type: Boolean, default: false },
+		flatten: 			{ type: Boolean, default: false }, 
+		flattenHideNames: 	{ type: Boolean, default: false },
+		menuMaxHeight: 		{ type: [Number, String], default: null },
+		flow: 
 		{
 			type: String,
 			default: 'scroll',
@@ -19,7 +21,7 @@
 				if (isEmptyOrSpace(value) || ['scroll', 'menu'].includes(value))
 					return true
 
-				throw new Error(`[TabsFlowControl] Invalid overflow value "${value}". Use "scroll", "menu", or an empty value.`)
+				throw new Error(`[TabsFlowControl] Invalid flow value "${value}". Use "scroll", "menu", or an empty value.`)
 			}
 		},
 	})
@@ -94,11 +96,11 @@
 
 			<div class="flex-1 min-w-0">
 
-				<TabsFlowBar v-if="!props.flattern"
-					v-model="activeTab" :tabs="normalizedTabList" :overflow="props.overflow"
-					:enableShortcuts="props.enableShortcuts" :overflowMenuMaxHeight="props.overflowMenuMaxHeight">
+				<TabsFlowBar v-if="!props.flatten" :tabsColor="props.bgColor"
+					v-model="activeTab" :tabs="normalizedTabList" :flow="props.flow"
+					:enableShortcuts="props.enableShortcuts" :menuMaxHeight="props.menuMaxHeight">
 					<template #tab-button="{ tab, isActive, activate }">
-						<div :class="[{ 'altDesign': props.altDesign }, isActive ? 'tab-active' : 'tab-other']"
+						<div :class="[{ 'altDesign': props.altDesign }, isActive ? 'tab-active' : 'tab-other', props.bgColor]"
 							@click="activate()">
 							<span>{{ tab.label }}</span>
 						</div>
@@ -108,13 +110,19 @@
 			</div>
 		</div>
 
-		<div class="z-10 h-full min-h-60 pb-7 opacity-100 bg-white border-t-0 
-			overflow-y-auto scrollbar-thin border-gray-400"
-			:class="{ 'border border-gray-400': props.contentBorder }">
+		<div :class="['z-10 h-full min-h-60 pb-7 opacity-100 overflow-y-auto scrollbar-thin border-gray-400', props.bgColor,
+			{'border border-t-0 border-gray-400' : props.contentBorder }]">
 
 			<slot></slot>
 
-			<template v-if="props.keepAlive">
+			<template v-if="props.flatten">
+				<div v-for="tab in normalizedTabList" :key="tab.id">
+					<div v-if="!props.flattenHideNames" class="flatten-tab-name">{{ tab.label }}</div>
+					<slot :name="tab.slotName?.replaceAll('_', ' ')"></slot>
+				</div>
+			</template>
+
+			<template v-else-if="props.keepAlive">
 				<div v-for="tab in normalizedTabList" 
 					:key="tab.id" v-show="activeTab === tab.id">
 					<slot :name="tab.slotName?.replaceAll('_', ' ')"></slot>
@@ -135,11 +143,13 @@
 
 <style lang="postcss" scoped>
 
-	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0
+	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border border-gray-400 border-b-0
 		text-sm z-[100] font-bold select-none relative bottom-[-1px] whitespace-nowrap cursor-pointer }
 	.tab-other  { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border
 		border-transparent text-sm font-bold hover:bg-gray-200 whitespace-nowrap cursor-pointer }
 	.altDesign.tab-active { @apply !rounded-none }
 	.altDesign.tab-other  { @apply !rounded-none }
+
+	.flatten-tab-name { @apply px-4 pt-3 pb-1 text-sm font-bold select-none }
 
 </style>
