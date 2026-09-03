@@ -9,13 +9,13 @@
 </script>
 
 <template>
-	
+
 	<!-- EXAMPLE VERSION FOR MULTIPLE ADDRESSES - NOT YET FULLY IMPLEMENTED            -->
 
 	<div v-if="account && account.AccountId > 0 || isAddingAccount" id="MultiAddress"
 		class="basis-[300px] min-w-[200px] flex-1 border pt-2 border-color-blue-gray bg-white ">
 
-		<TabsFlowControl :tabList="['Account', 'Second', 'Third']" altDesign flatten class="w-full">
+		<TabsFlowControl :tabList="['Account', 'Second', 'Third']" altDesign flow="flatten" class="w-full">
 
 			<template #Account>
 				<div class="m-5">

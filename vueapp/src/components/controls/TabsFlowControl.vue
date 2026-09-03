@@ -9,7 +9,6 @@
 		contentBorder: 		{ type: Boolean, default: false },
 		altDesign: 			{ type: Boolean, default: false },
 		enableShortcuts: 	{ type: Boolean, default: false },
-		flatten: 			{ type: Boolean, default: false }, 
 		flattenHideNames: 	{ type: Boolean, default: false },
 		menuMaxHeight: 		{ type: [Number, String], default: null },
 		flow: 
@@ -18,16 +17,19 @@
 			default: 'scroll',
 			validator: value =>
 			{
-				if (isEmptyOrSpace(value) || ['scroll', 'menu'].includes(value))
+				if (isEmptyOrSpace(value) || ['scroll', 'menu', 'flatten'].includes(value))
 					return true
 
-				throw new Error(`[TabsFlowControl] Invalid flow value "${value}". Use "scroll", "menu", or an empty value.`)
+				throw new Error(`[TabsFlowControl] Invalid flow value "${value}". Use "scroll", "menu", "flatten", or an empty value.`)
 			}
 		},
 	})
 
 	const activeTabModel = defineModel('activeTab', { type: [String, Number], default: '' })
 	const internalActiveTab = ref('')
+
+	// TabsFlowBar only knows 'scroll'/'menu'; 'flatten' and empty values fall back to 'scroll'
+	const barOverflow = computed(() => props.flow === 'menu' ? 'menu' : 'scroll')
 
 	const normalizedTabList = computed(() =>
 	{
@@ -96,8 +98,8 @@
 
 			<div class="flex-1 min-w-0">
 
-				<TabsFlowBar v-if="!props.flatten" :tabsColor="props.bgColor"
-					v-model="activeTab" :tabs="normalizedTabList" :flow="props.flow"
+				<TabsFlowBar v-if="props.flow !== 'flatten'" :tabsColor="props.bgColor"
+					v-model="activeTab" :tabs="normalizedTabList" :overflow="barOverflow"
 					:enableShortcuts="props.enableShortcuts" :menuMaxHeight="props.menuMaxHeight">
 					<template #tab-button="{ tab, isActive, activate }">
 						<div :class="[{ 'altDesign': props.altDesign }, isActive ? 'tab-active' : 'tab-other', props.bgColor]"
@@ -111,11 +113,12 @@
 		</div>
 
 		<div :class="['z-10 h-full min-h-60 pb-7 opacity-100 overflow-y-auto scrollbar-thin border-gray-400', props.bgColor,
-			{'border border-t-0 border-gray-400' : props.contentBorder }]">
+			{'border border-gray-400' : props.contentBorder, 
+			 'border-t-0' : props.contentBorder && props.flow !== 'flatten'	}]">
 
 			<slot></slot>
 
-			<template v-if="props.flatten">
+			<template v-if="props.flow === 'flatten'">
 				<div v-for="tab in normalizedTabList" :key="tab.id">
 					<div v-if="!props.flattenHideNames" class="flatten-tab-name">{{ tab.label }}</div>
 					<slot :name="tab.slotName?.replaceAll('_', ' ')"></slot>

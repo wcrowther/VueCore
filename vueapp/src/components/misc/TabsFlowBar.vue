@@ -16,7 +16,7 @@
 		tabs: 	  			{ type: Array, required: true },
 		tabsColor: 			{ type: String, default: 'bg-white' },
 		backColor: 			{ type: String, default: 'bg-transparent' },
-		flow: 				{ type: String, 
+		overflow: 				{ type: String, 
 								default: 'scroll',
 								validator: value => ['scroll', 'menu'].includes(value) 
 							},
@@ -34,7 +34,7 @@
 	const isOverflowMenuOpen 	= ref(false)
 	const { x } 				= useScroll(containerRef)
 	
-	const overflowMode 			= computed(() => props.flow === 'menu' ? 'menu' : 'scroll')
+	const overflowMode 			= computed(() => props.overflow === 'menu' ? 'menu' : 'scroll')
 	const useScrollOverflow 	= computed(() => overflowMode.value === 'scroll')
 	const useMenuOverflow 		= computed(() => overflowMode.value === 'menu')
 

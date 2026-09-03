@@ -29,7 +29,7 @@
     </InfoBox>
 
     <TabsFlowBar v-model="modelValue" :tabs="longTabList" 
-        :flow="rangeList[flowIndex]" enableShortcuts />
+        :overflow="rangeList[flowIndex]" enableShortcuts />
 
     <div class="border border-gray-400 border-t-0 p-5 bg-white">
         <div class="font-semibold mb-2">{{ activePanel.id }}</div>

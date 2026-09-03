@@ -200,8 +200,9 @@
                 </div>
             </div>
 
+            <!-- Multi Address Section NOT FULLY IMPLEMENTED 
             <AccountDetailMultiAddress v-if="showMultiAddress" 
-                :account="account" :isAddingAccount="isAddingAccount" :usStatesList="usStatesList" />
+                :account="account" :isAddingAccount="isAddingAccount" :usStatesList="usStatesList" />-->
 
             <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="Address"
                 class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">
