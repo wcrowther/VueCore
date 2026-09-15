@@ -1,14 +1,15 @@
 <script setup>
 
-    const showSideBar = ref(false) 
+    const sideBarHidden = ref(false) 
     
 </script>
 
 <template>
 
-    <PageTitleBox pageTitle="FullScreen Control">
+    <PageTitleBox pageTitle="Sidebar Control">
 
-        <BooleanButton v-model="showSideBar" trueText="SideBar Open" falseText="SideBar Closed" />
+        <BooleanButton v-model="sideBarHidden" 
+            trueText="SideBar Hidden" falseText="SideBar Visible" />
 
     </PageTitleBox>
 
@@ -16,13 +17,13 @@
 		Info about the SidebarControl...
 	</InfoBox>
 
-	<SidebarControl :showSideBar>
+	<SidebarControl v-model:sideBarHidden="sideBarHidden">
 
 		<template #sidebar>
 			Sidebar content here
 		</template>
 
-		Main content here. {{ showSideBar }}
+		Main content here. {{ sideBarHidden }}
 
 	</SidebarControl>	
 

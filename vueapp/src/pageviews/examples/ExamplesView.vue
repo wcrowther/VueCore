@@ -18,7 +18,7 @@
 
 <template>
 
-	<SidebarControl sideBarId="ControlsMain" :breakPoint="breakPoint">
+	<SidebarControl id="ControlsMain" :breakPoint="breakPoint">
 
 		<template #sidebar>
 			<ExamplesList v-model:selectedExample="selectedExample" />

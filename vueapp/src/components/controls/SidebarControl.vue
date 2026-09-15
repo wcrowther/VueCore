@@ -1,24 +1,36 @@
 <script setup>
 
-	const appStore                  = useAppStore()
-    const { sideBarHidden }         = storeToRefs(appStore)
-    const { width: windowWidth }    = useWindowSize()
+	const appStore                  		= useAppStore()
+    const { sideBarHidden: appSidebarHidden } 	= storeToRefs(appStore)
+    const { width: windowWidth }    		= useWindowSize()
 	
 	const props = defineProps(
 	{
 		id: 		   { type: String, default: '' },
 		showGradation: { type: Boolean, default: true },
-		breakPoint:    { type: Number, default: 501 }
+		breakPoint:    { type: Number, default: 501 },
+		sideBarHidden: { type: Boolean, default: undefined }
 	});
+
+	const emit = defineEmits(['update:sideBarHidden'])
+
+	// no v-model bound -> falls back to the shared appStore state
+	const isLocal = computed(() => props.sideBarHidden !== undefined)
+
+	const hidden = computed(
+	{
+		get: () => isLocal.value ? props.sideBarHidden : appSidebarHidden.value,
+		set: (val) => isLocal.value ? emit('update:sideBarHidden', val) : (appSidebarHidden.value = val)
+	})
 
 	const breakPoint = computed(() => props.breakPoint)
 
     watch(() => windowWidth.value, (newVal, oldVal) => 
     { 
         if(newVal < breakPoint.value &&  oldVal >= breakPoint.value) 
-            sideBarHidden.value = true
+            hidden.value = true
         else if (newVal >= breakPoint.value &&  oldVal < breakPoint.value)
-            sideBarHidden.value = false
+            hidden.value = false
     });
 
 </script>
@@ -27,15 +39,15 @@
 
 	<div class="flex" :id="props.id">
 
-		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative border border-red',
-			sideBarHidden ? 'w-0' : 'w-full xs:w-[300px]']">
+		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative',
+			hidden ? 'w-0' : 'w-full xs:w-[300px]']">
 
 			<div class="absolute right-0 w-full min-w-[300px] xs:relative xs:w-[300px] xs:min-w-1">
 				<slot name="sidebar" />
 			</div>
 		</div>
         
-		<div class="relative w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px] overflow-hidden border border-red">
+		<div class="relative w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px] overflow-hidden">
 
         	<BackGradation v-if="props.showGradation" />      
 			  	
@@ -51,10 +63,17 @@
 
 <!-- Usage: 
 
-	<SidebarControl :showSideBar="true">
+	<SidebarControl>
 		<template #sidebar>
 			// Sidebar content here
 		</template>
 		// Main content here
 	</SidebarControl>	
+
+	Without v-model:sideBarHidden, the open/closed state comes from appStore.sideBarHidden (shared).
+	Pass v-model:sideBarHidden to control the open/closed state locally instead:
+
+	<SidebarControl v-model:sideBarHidden="hidden">
+		...
+	</SidebarControl>
 -->
