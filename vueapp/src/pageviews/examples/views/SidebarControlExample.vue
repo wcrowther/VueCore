@@ -17,13 +17,14 @@
 		Info about the SidebarControl...
 	</InfoBox>
 
-	<SidebarControl v-model:sideBarHidden="sideBarHidden">
+	<SidebarControl v-model:sideBarHidden="sideBarHidden" 
+		v-container-width>
 
 		<template #sidebar>
-			Sidebar content here
+			<div class="bg-amber-200">Sidebar content here</div>
 		</template>
 
-		Main content here. {{ sideBarHidden }}
+		<div class="bg-yellow-200">Main content here. {{ sideBarHidden }}</div>
 
 	</SidebarControl>	
 

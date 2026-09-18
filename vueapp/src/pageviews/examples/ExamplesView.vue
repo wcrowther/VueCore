@@ -18,7 +18,7 @@
 
 <template>
 
-	<SidebarControl id="ControlsMain" :breakPoint="breakPoint">
+	<AppSidebar id="ControlsMain" :breakPoint="breakPoint">
 
 		<template #sidebar>
 			<ExamplesList v-model:selectedExample="selectedExample" />
@@ -40,6 +40,6 @@
 
 		</FullScreenControl>
 
-	</SidebarControl>
+	</AppSidebar>
 
 </template>

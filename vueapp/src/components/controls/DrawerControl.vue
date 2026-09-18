@@ -1,9 +1,10 @@
 <script setup>
 
+	import { useElementSize } from '@vueuse/core'
+
 	const appStore                  		= useAppStore()
     const { sideBarHidden: appSidebarHidden } 	= storeToRefs(appStore)
-    const { width: windowWidth }    		= useWindowSize()
-	
+
 	const props = defineProps(
 	{
 		id: 		   { type: String, default: '' },
@@ -13,6 +14,11 @@
 	});
 
 	const emit = defineEmits(['update:sideBarHidden'])
+
+	// track the control's own container width instead of the window width, so collapsing
+	// still works correctly when this control is nested in a narrower layout (e.g. a panel or modal)
+	const containerRef = ref(null)
+	const { width: containerWidth } = useElementSize(containerRef)
 
 	// no v-model bound -> falls back to the shared appStore state
 	const isLocal = computed(() => props.sideBarHidden !== undefined)
@@ -25,7 +31,7 @@
 
 	const breakPoint = computed(() => props.breakPoint)
 
-    watch(() => windowWidth.value, (newVal, oldVal) => 
+    watch(() => containerWidth.value, (newVal, oldVal) => 
     { 
         if(newVal < breakPoint.value &&  oldVal >= breakPoint.value) 
             hidden.value = true
@@ -37,7 +43,7 @@
 
 <template>
 
-	<div class="flex" :id="props.id">
+	<div class="flex" :id="props.id" ref="containerRef">
 
 		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative',
 			hidden ? 'w-0' : 'w-full xs:w-[300px]']">
@@ -47,11 +53,11 @@
 			</div>
 		</div>
         
-		<div class="relative w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px] overflow-hidden">
+		<div class="relative w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px] overflow-hidden bg-blue-200">
 
-        	<BackGradation v-if="props.showGradation" />      
+        	<!-- <BackGradation v-if="props.showGradation" />       -->
 			  	
-			<div class="relative z-10">
+			<div class="relative z-10 bg-violet-300">
 				<slot name="default" />
 			</div>
 			
@@ -63,17 +69,17 @@
 
 <!-- Usage: 
 
-	<SidebarControl>
+	<DrawerControl>
 		<template #sidebar>
 			// Sidebar content here
 		</template>
 		// Main content here
-	</SidebarControl>	
+	</DrawerControl>	
 
 	Without v-model:sideBarHidden, the open/closed state comes from appStore.sideBarHidden (shared).
 	Pass v-model:sideBarHidden to control the open/closed state locally instead:
 
-	<SidebarControl v-model:sideBarHidden="hidden">
+	<DrawerControl v-model:sideBarHidden="hidden">
 		...
-	</SidebarControl>
+	</DrawerControl>
 -->
