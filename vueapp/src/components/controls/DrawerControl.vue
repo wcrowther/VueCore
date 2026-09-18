@@ -39,7 +39,7 @@
 			</div>
 		</div>
         
-		<div class="relative w-2/3 sm:p-10 p-5 sm:pt-5 pt-5 pb-14 grow h-full min-h-[600px] overflow-hidden">
+		<div class="relative w-2/3 grow h-full min-h-[600px] overflow-hidden">
 	
 			<div class="relative z-10">
 				<slot name="default" />
