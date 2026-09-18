@@ -2,41 +2,29 @@
 
 	import { useElementSize } from '@vueuse/core'
 
-	const appStore                  		= useAppStore()
-    const { sideBarHidden: appSidebarHidden } 	= storeToRefs(appStore)
+	const appStore                  = useAppStore()
+    const { sideBarHidden } = storeToRefs(appStore)
 
 	const props = defineProps(
 	{
 		id: 		   { type: String, default: '' },
 		showGradation: { type: Boolean, default: true },
-		breakPoint:    { type: Number, default: 501 },
-		sideBarHidden: { type: Boolean, default: undefined }
+		breakPoint:    { type: Number, default: 501 }
 	});
-
-	const emit = defineEmits(['update:sideBarHidden'])
 
 	// track the control's own container width instead of the window width, so collapsing
 	// still works correctly when this control is nested in a narrower layout (e.g. a panel or modal)
 	const containerRef = ref(null)
 	const { width: containerWidth } = useElementSize(containerRef)
 
-	// no v-model bound -> falls back to the shared appStore state
-	const isLocal = computed(() => props.sideBarHidden !== undefined)
-
-	const hidden = computed(
-	{
-		get: () => isLocal.value ? props.sideBarHidden : appSidebarHidden.value,
-		set: (val) => isLocal.value ? emit('update:sideBarHidden', val) : (appSidebarHidden.value = val)
-	})
-
 	const breakPoint = computed(() => props.breakPoint)
 
     watch(() => containerWidth.value, (newVal, oldVal) => 
     { 
         if(newVal < breakPoint.value &&  oldVal >= breakPoint.value) 
-            hidden.value = true
+            sideBarHidden.value = true
         else if (newVal >= breakPoint.value &&  oldVal < breakPoint.value)
-            hidden.value = false
+            sideBarHidden.value = false
     });
 
 </script>
@@ -46,7 +34,7 @@
 	<div class="flex" :id="props.id" ref="containerRef">
 
 		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative',
-			hidden ? 'w-0' : 'w-full xs:w-[300px]']">
+			sideBarHidden ? 'w-0' : 'w-full xs:w-[300px]']">
 
 			<div class="absolute right-0 w-full min-w-[300px] xs:relative xs:w-[300px] xs:min-w-1">
 				<slot name="sidebar" />
@@ -69,17 +57,12 @@
 
 <!-- Usage: 
 
-	<SidebarControl>
+	<AppSidebar>
 		<template #sidebar>
 			// Sidebar content here
 		</template>
 		// Main content here
-	</SidebarControl>	
+	</AppSidebar>
 
-	Without v-model:sideBarHidden, the open/closed state comes from appStore.sideBarHidden (shared).
-	Pass v-model:sideBarHidden to control the open/closed state locally instead:
-
-	<SidebarControl v-model:sideBarHidden="hidden">
-		...
-	</SidebarControl>
+	Open/closed state is shared via appStore.sideBarHidden.
 -->

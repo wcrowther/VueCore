@@ -12,7 +12,7 @@
 		trueText:         	{ type: String, default: 'On'}
 	})
 
-    const modelValue = defineModel()
+    const modelValue = defineModel({ type: Boolean, default: false })
 	
 </script>
 

@@ -2,14 +2,16 @@
 
     const props = defineProps (
     {
-        labelName:  { type: String, required: true }, 
-        ruleName:   { type: String },  
-        v$:         { type: Object }
+        labelName:      { type: String, required: true }, 
+        ruleName:       { type: String },  
+        v$:             { type: Object },
+        autocomplete:   { type: String },
     })
 
-    const showPassword = ref(false)
-    const modelValue = defineModel()
-    const rule  = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ','') )
+    const showPassword  = ref(false)
+    const modelValue    = defineModel()
+    const rule          = computed(() => props.ruleName ? props.ruleName : props.labelName.replace(' ','') )
+    const autocomplete  = computed(() => props.autocomplete && props.autocomplete.length > 2 ? props.autocomplete : 'on' )
 
 </script>
 
@@ -30,7 +32,8 @@
         
             <input :id="props.labelName" :name="props.labelName" 
                 class="w-full text-sm pr-12" spellcheck="false"
-                :type="showPassword ? 'text' : 'password'" v-model="modelValue" />
+                :type="showPassword ? 'text' : 'password'" 
+                v-model="modelValue" :autocomplete />
 
             <IconSymbol v-if="showPassword" 
                 width="18px" class="absolute right-3 text-color-dark-gray" 
