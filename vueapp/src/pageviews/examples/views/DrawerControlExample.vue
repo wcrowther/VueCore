@@ -1,6 +1,7 @@
 <script setup>
 
-    const drawerHidden = ref(false) 
+    const drawerHidden 	= useLocalStorage('drawerExampleDrawerHidden', false)
+	const showWidths 	= useLocalStorage('drawerExampleShowWidths', true)
     
 </script>
 
@@ -9,7 +10,10 @@
     <PageTitleBox pageTitle="Drawer Control">
 
         <BooleanButton v-model="drawerHidden" 
-            trueText="Drawer Hidden" falseText="Drawer Visible" />
+            trueText="Show Drawer" falseText="Hide Drawer" /> 
+
+		<BooleanButton v-model="showWidths" 
+            text="Widths" trueIcon="heroicons-solid:check" falseIcon="heroicons-solid:x" /> 
 
     </PageTitleBox>
 
@@ -18,10 +22,12 @@
 	</InfoBox>
 
 	<DrawerControl v-model:drawerHidden="drawerHidden" 
-		v-container-width>
+		v-container-width="!showWidths">
 
 		<template #sidebar>
-			<div class="bg-amber-200 p-7 pb-10 w-full h-full">Sidebar content here</div>
+			<div class="bg-amber-200 p-7 pb-10 w-full h-full" v-container-width="!showWidths">
+				Sidebar content here
+			</div>
 		</template>
 
 		<template #default>

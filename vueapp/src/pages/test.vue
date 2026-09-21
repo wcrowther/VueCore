@@ -3,7 +3,7 @@
     import { useConfirmControl } from '@/composables/UseConfirmControl'
 
     const isDirty               = ref(false)
-    const enableGlobal           = useLocalStorage('enableGlobal', true)
+    const enableGlobal          = useLocalStorage('enableGlobal', true)
 
     const { createConfirm }     = useConfirmControl();
     

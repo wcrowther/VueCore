@@ -1,8 +1,10 @@
 // Global directive, registered in createVueApp.js (app.directive('container-width', vContainerWidth))
 // Usage:  <div v-container-width class="@container"> ... </div>
+// Or conditionally:  <div v-container-width="isHidden" class="@container"> ... </div>
 // Shows a capsule (like BreakPoints.vue) in the upper right corner of the element,
 // but reports the element's own Tailwind @container tier instead of the window breakpoint.
-// Click the capsule to toggle the element's current width in px.
+// Click the capsule to toggle between the element's current width in px and its @container tier.
+// The bound value (if any) is treated as a "hidden" flag, letting the capsule be toggled reactively.
 
 // Matches tailwind.config.js `theme.containers` plus @tailwindcss/container-queries defaults
 const CONTAINER_TIERS =
@@ -29,53 +31,71 @@ function getTier(width)
 	return [...CONTAINER_TIERS].reverse().find(tier => width >= tier.minWidth) ?? null
 }
 
+function setup(el)
+{
+	const capsule = document.createElement('div')
+	capsule.className = CAPSULE_CLASS
+
+	let showTier = false
+
+	const render = () =>
+	{
+		const width = el.clientWidth
+		const tier = getTier(width)
+
+		capsule.textContent = `${width}px`
+		capsule.title = tier ? `${tier.minWidth}px+` : `<${CONTAINER_TIERS[0].minWidth}px`
+
+		if (showTier)
+			capsule.textContent = tier ? `@${tier.name} ${capsule.textContent}` : `-- ${capsule.textContent}`
+	}
+
+	capsule.addEventListener('click', () =>
+	{
+		showTier = !showTier
+		render()
+	})
+
+	if (getComputedStyle(el).position === 'static')
+		el.style.position = 'relative'
+
+	el.appendChild(capsule)
+
+	const observer = new ResizeObserver(render)
+	observer.observe(el)
+	render()
+
+	el.__containerWidth = { observer, capsule }
+}
+
+function teardown(el)
+{
+	const state = el.__containerWidth
+	if (!state) return
+
+	state.observer.disconnect()
+	state.capsule.remove()
+
+	delete el.__containerWidth
+}
+
 export const vContainerWidth =
 {
-	mounted(el)
+	mounted(el, binding)
 	{
-		const capsule = document.createElement('div')
-		capsule.className = CAPSULE_CLASS
-
-		let showWidth = false
-
-		const render = () =>
-		{
-			const width = el.clientWidth
-			const tier = getTier(width)
-
-			capsule.textContent = tier ? `@${tier.name}` : '--'
-			capsule.title = tier ? `${tier.minWidth}px+` : `<${CONTAINER_TIERS[0].minWidth}px`
-
-			if (showWidth)
-				capsule.textContent += ` ${width}px`
-		}
-
-		capsule.addEventListener('click', () =>
-		{
-			showWidth = !showWidth
-			render()
-		})
-
-		if (getComputedStyle(el).position === 'static')
-			el.style.position = 'relative'
-
-		el.appendChild(capsule)
-
-		const observer = new ResizeObserver(render)
-		observer.observe(el)
-		render()
-
-		el.__containerWidth = { observer, capsule }
+		if (!binding.value)
+			setup(el)
 	},
 
-	unmounted(el)
+	updated(el, binding)
 	{
-		const state = el.__containerWidth
-		if (!state) return
+		if (binding.value === binding.oldValue) return
 
-		state.observer.disconnect()
-		state.capsule.remove()
-
-		delete el.__containerWidth
+		if (binding.value)
+			teardown(el)
+		else
+			setup(el)
 	},
+
+	unmounted: teardown,
 }

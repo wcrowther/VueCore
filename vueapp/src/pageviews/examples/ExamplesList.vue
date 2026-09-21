@@ -6,7 +6,7 @@
     const examplesStore         = useExamplesStore()
     const { sortedExamplesDataList, sortType, disableExamplesShortcuts, showFullscreen      
                                 } = storeToRefs(examplesStore)
-    const examplesSizeDefault 	= 20
+    const examplesSizeDefault 	= 25
     const itemsList 			= ref([])
     const listPager 			= ref(new PagerModel(new SearchModel(), examplesSizeDefault))
     const showAdvSearch 		= ref(false)
@@ -167,6 +167,7 @@
             bg-gradient-side shadow-[0_10px_30px_-5px_rgb(0,0,0,0.4)] xxs:shadow-none">
 
             <div class="flex gap-x-1 pt-5 w-full">
+
                 <SearchInput ref="searchInput"
                     v-model="listPager.Search.Filter"
                     v-model:showAdvSearch="showAdvSearch"

@@ -6,8 +6,8 @@
 
 	const props = defineProps(
 	{
-		id: 		   { type: String, default: '' },
-		breakPoint:    { type: Number, default: 501 }
+		id: 		{ type: String, default: '' },
+		breakPoint:	{ type: Number, default: 501 }
 	});
 
 	// track the control's own container width instead of the window width, so collapsing
@@ -19,6 +19,8 @@
 
     watch(() => containerWidth.value, (newVal, oldVal) => 
     { 
+        if (oldVal === 0) return // ignore the initial 0 -> measured-width jump from useElementSize
+
         if(newVal < breakPoint.value &&  oldVal >= breakPoint.value) 
             drawerHidden.value = true
         else if (newVal >= breakPoint.value &&  oldVal < breakPoint.value)
@@ -29,17 +31,17 @@
 
 <template>
 
-	<div class="flex" :id="props.id" ref="containerRef">
+	<div class="flex @container" :id="props.id" ref="containerRef">
 
-		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative',
-			drawerHidden ? 'w-0' : 'w-full xs:w-[300px]']">
+		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden @lg:relative',
+			drawerHidden ? 'w-0' : 'w-full @lg:w-[300px]']">
 
-			<div class="absolute right-0 w-full min-w-[300px] xs:relative xs:w-[300px] xs:min-w-1">
+			<div class="absolute right-0 w-full min-w-[300px] @lg:relative @lg:w-[300px] @lg:min-w-1">
 				<slot name="sidebar" />
 			</div>
 		</div>
         
-		<div class="relative w-2/3 grow h-full min-h-[600px] overflow-hidden">
+		<div class="relative w-2/3 grow h-full overflow-hidden">
 	
 			<div class="relative z-10">
 				<slot name="default" />

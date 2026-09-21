@@ -1,26 +1,39 @@
 <script setup>
+
 	const props = defineProps(
 	{
-		text:       { type: String, default: null },
-		trueText:   { type: String, default: null },
-		falseText:  { type: String, default: null },
-		trueIcon:   { type: String, default: null },
-		falseIcon:  { type: String, default: null },
+		text:       		{ type: String, default: null },
+		trueText:   		{ type: String, default: null },
+		falseText:  		{ type: String, default: null },
+		trueIcon:   		{ type: String, default: null },
+		falseIcon:  		{ type: String, default: null },
+		stackTrueFalseText: { type: Boolean, default: true },
 	})
 
 	const modelValue = defineModel ({ type: Boolean, default: false })
+	const attrs = useAttrs()
 
 </script>
 
 <template>
 	
-	<!-- Use this? :class="{'pr-2': (props.trueIcon || props.falseIcon)}" -->
-	<PrimaryButton @click="modelValue = !modelValue">
+	<PrimaryButton @click="modelValue = !modelValue"
+		:class="{'pr-3': (props.trueIcon || props.falseIcon)}" >
 
 		<slot>
-			<span class="flex gap-1">
+			<span class="flex gap-1" v-bind="attrs">
 				<span v-if="text">{{ text }}</span>
-				{{ modelValue ? trueText : falseText }}
+
+				<!-- stackTrueFalseText: stack both labels in one grid cell so the wider one sets a fixed width -->
+				<span v-if="stackTrueFalseText && (trueText || falseText)" class="grid">
+					<span class="[grid-area:1/1]" :class="{ invisible: !modelValue }">{{ trueText }}</span>
+					<span class="[grid-area:1/1]" :class="{ invisible: modelValue }">{{ falseText }}</span>
+				</span>
+				<span v-else>
+					<span v-show="modelValue">{{ trueText }}</span>
+					<span v-show="!modelValue">{{ falseText }}</span>
+				</span>
+
 				<IconSymbol v-if="modelValue ? trueIcon : falseIcon" 
 					width="20" :icon="modelValue ? trueIcon : falseIcon" />
 			</span>
