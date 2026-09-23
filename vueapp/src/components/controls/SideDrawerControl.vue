@@ -7,11 +7,13 @@
 	const props = defineProps(
 	{
 		id: 		{ type: String, default: '' },
-		breakPoint:	{ type: Number, default: 501 }
+		breakPoint:	{ type: Number, default: 501 },
+		flipSide:	{ type: Boolean, default: false }
 	});
 
 	// track the control's own container width instead of the window width, so collapsing
 	// works correctly when this control is nested in a narrower layout (e.g. a panel or modal)
+
 	const containerRef = ref(null)
 	const { width: containerWidth } = useElementSize(containerRef)
 
@@ -31,12 +33,12 @@
 
 <template>
 
-	<div class="flex @container" :id="props.id" ref="containerRef">
+	<div :class="['flex @container', props.flipSide ? 'flex-row-reverse' : '']" :id="props.id" ref="containerRef">
 
 		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden @lg:relative',
 			drawerHidden ? 'w-0' : 'w-full @lg:w-[300px]']">
 
-			<div class="absolute right-0 w-full min-w-[300px] @lg:relative @lg:w-[300px] @lg:min-w-1">
+			<div :class="['absolute w-full min-w-[300px] @lg:relative @lg:w-[300px] @lg:min-w-1', props.flipSide ? 'left-0' : 'right-0']">
 				<slot name="sidedrawer" />
 			</div>
 		</div>
@@ -56,6 +58,15 @@
 <!-- Usage: 
 
 	<SideDrawerControl v-model:drawerHidden="hidden">
+		<template #sidedrawer>
+			// Sidebar content here
+		</template>
+		// Main content here
+	</SideDrawerControl>
+
+	Pass side="right" to put the drawer on the right instead of the left:
+
+	<SideDrawerControl v-model:drawerHidden="hidden" :flipSide="true">
 		<template #sidedrawer>
 			// Sidebar content here
 		</template>
