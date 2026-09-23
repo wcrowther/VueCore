@@ -105,9 +105,9 @@
 <style lang="postcss" scoped>
 
     .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0 
-        text-sm font-bold select-none -mb-px}
+        text-sm font-bold select-none -mb-px whitespace-nowrap cursor-pointer}
     .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border 
-        border-transparent text-sm font-bold hover:bg-gray-200 }
+        border-transparent text-sm font-bold hover:bg-gray-200 whitespace-nowrap cursor-pointer}
     .altDesign.tab-active { @apply !rounded-none }
     .altDesign.tab-other  { @apply !rounded-none }
 </style> 

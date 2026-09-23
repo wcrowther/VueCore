@@ -8,6 +8,7 @@
 		trueIcon:   		{ type: String, default: null },
 		falseIcon:  		{ type: String, default: null },
 		stackTrueFalseText: { type: Boolean, default: true },
+		compact: 			{ type: Boolean, default: false }
 	})
 
 	const modelValue = defineModel ({ type: Boolean, default: false })
@@ -17,8 +18,8 @@
 
 <template>
 	
-	<PrimaryButton @click="modelValue = !modelValue"
-		:class="{'pr-3': (props.trueIcon || props.falseIcon)}" >
+	<PrimaryButton @click="modelValue = !modelValue" 
+		:class="{'pr-3': (props.trueIcon || props.falseIcon)}">
 
 		<slot>
 			<span class="flex gap-1" v-bind="attrs">
@@ -29,12 +30,12 @@
 					<span class="[grid-area:1/1]" :class="{ invisible: !modelValue }">{{ trueText }}</span>
 					<span class="[grid-area:1/1]" :class="{ invisible: modelValue }">{{ falseText }}</span>
 				</span>
-				<span v-else>
+				<template v-if="!stackTrueFalseText && (trueText || falseText)">
 					<span v-show="modelValue">{{ trueText }}</span>
 					<span v-show="!modelValue">{{ falseText }}</span>
-				</span>
+				</template>
 
-				<IconSymbol v-if="modelValue ? trueIcon : falseIcon" 
+				<IconSymbol v-if="modelValue ? trueIcon : falseIcon"
 					width="20" :icon="modelValue ? trueIcon : falseIcon" />
 			</span>
 		</slot>

@@ -40,84 +40,79 @@
 		:keepAlive :contentBorder :flattenHideNames :flow="rangeList[flowIndex]" 
 		class="mb-7">
 
+		<!-- <template #wrapper="{ tab, content }">
+			<div class="p-10">
+				<component :is="content" />
+			</div>
+		</template> -->
+
         <template #First>       
-            <div class="p-4">
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus.
-			</div>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus.
         </template>
+
         <template #Second>       
-            <div class="p-4">
-				Sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus.
-			</div>
+			Sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus.
         </template>
-        <template #Third>       
-            <div class="p-4">
-				Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-			</div>        
+
+        <template #Third>
+			Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
 		</template>
+
 		<template #Fourth>       
-            <div class="p-4">
-				 obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus.
-			</div>
+			obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus.
         </template>
+
 		<template #Fifth>       
-        	<div class="p-4">
-				consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet 
-			</div>        
+			consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet 
 		</template>
+		
 		<template #Sixth>       
-            <div class="p-4">
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-			</div>       
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
 		</template>
+
         <template #Seventh>       
-            <div class="p-4">
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus.				
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus.
-			</div>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus.				
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus.
         </template>
+
 		<template #Eighth>       
-            <div class="p-4">
-				Obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus.
-			</div>
+			Obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus.
         </template>
+
 		<template #Nineth>       
-            <div class="p-4">
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus. 
-			</div>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus. 
         </template> 
+
 		<template #Tenth>       
-            <div class="p-4">
-				nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 				
-				nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 				
-				nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 			
-			</div>        
+			nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 				
+			nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 				
+			nisi ex quidem aspernatur quod consequatur minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 			
 		</template>
+
 		<template #Eleventh>       
-            <div class="p-4">
-				 Alias unde quo a enim 
-				voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
-				nisi ex quidem aspernatur quod consequatur minus.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-			</div>
+			Alias unde quo a enim 
+			voluptate quos odit magnam tenetur, obcaecati possimus est reprehenderit sequi 
+			nisi ex quidem aspernatur quod consequatur minus.Lorem ipsum dolor, sit amet 
+			consectetur adipisicing elit.
         </template> 
 
 	</TabsFlowControl>
