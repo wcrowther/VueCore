@@ -37,7 +37,7 @@
 			drawerHidden ? 'w-0' : 'w-full @lg:w-[300px]']">
 
 			<div class="absolute right-0 w-full min-w-[300px] @lg:relative @lg:w-[300px] @lg:min-w-1">
-				<slot name="sidebar" />
+				<slot name="sidedrawer" />
 			</div>
 		</div>
         
@@ -55,10 +55,10 @@
 
 <!-- Usage: 
 
-	<DrawerControl v-model:drawerHidden="hidden">
-		<template #sidebar>
+	<SideDrawerControl v-model:drawerHidden="hidden">
+		<template #sidedrawer>
 			// Sidebar content here
 		</template>
 		// Main content here
-	</DrawerControl>
+	</SideDrawerControl>
 -->
