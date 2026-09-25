@@ -1,6 +1,5 @@
 <script setup>
 
-    // OTHER BUTTON DEMOS
     const boolOneValue      = ref(false)
     const boolTwoValue      = ref(false)
     const boolThreeValue    = ref(false)
@@ -9,6 +8,9 @@
     const switchThreeValue  = ref(false)
     const rotateOne         = ref(false)
     const rotateTwo         = ref(false)
+    const rotateThree       = ref(false)
+    const circleOne         = ref(false)
+    const circleTwo         = ref(false)
 
 </script>
 
@@ -101,18 +103,38 @@
 
                         <RotateButton v-model="rotateOne" rotation="rotate-180" icon="heroicons:chevron-down-solid"/>
 
-                        <RotateButton v-model="rotateTwo" rotation="rotate-90" icon="heroicons:bars-3"/>
+                        <RotateButton v-model="rotateTwo" rotation="rotate-180" icon="heroicons:chevron-left"/>
+
+                        <RotateButton v-model="rotateThree" rotation="rotate-90" icon="heroicons:bars-3"/>
 
                     </div>  
                 </div>
 
-                <div>
+                <div class="flex flex-wrap gap-3">
+                    <b>CircleButton</b>
+                    <div>
+                        Circle or half-circle buttons that rotate an icon to reflect a boolean state.
+                    </div>
+                    <div class="flex gap-10 py-3">
+
+                        <CircleButton v-model="circleOne" borderColor="border-black" 
+                            bgColor="bg-white" padding="px-[1px] py-2" halfCircle="left" icon="heroicons:chevron-right"/>
+
+                        <CircleButton v-model="circleTwo" borderColor="border-black" size="12px"
+                            bgColor="bg-white" padding="px-[1px] py-[2px]" halfCircle="left" icon="heroicons:chevron-right"/>
+
+                    </div>  
+                </div>
+
+                <div class="flex flex-wrap gap-3 px-1">
                     <b>InfoButton</b>
                     <div>
                         Cycles the app's global help level (None / Info / Help) - this is the real toggle, 
                         so watch the <b>InfoBox</b> and <b>HelpBox</b> above react.
                     </div>
-                    <InfoButton />
+                    <div class="flex gap-10 py-5">
+                        <InfoButton />
+                    </div>
                 </div>
 
             </div>

@@ -3,10 +3,12 @@
 	const modelValue = defineModel({ type: Boolean, default: false })
 	const props = defineProps(
 	{
-		icon: { type: String, default: 'heroicons:bars-3'},
-		noClick: { type: Boolean, default: false },
-		rotation: { type: String, default: 'rotate-90'},
-		size: { type: String, default: '26px'},
+		icon: 			{ type: String, default: 'heroicons:bars-3'},
+		noClick: 		{ type: Boolean, default: false },
+		rotation: 		{ type: String, default: 'rotate-90'},
+		iconColor: 		{ type: String, default: 'text-color-dark-gray' },
+		iconHoverColor: { type: String, default: 'text-color-mid-gray' },
+		size: 			{ type: String, default: '26px'},
 	})
 
 	const handleClick = () => { if(!props.noClick ) modelValue.value = !modelValue.value }
@@ -19,7 +21,8 @@
   	'transform transition-transform duration-100', { [props.rotation] : modelValue }]" 
     @click="handleClick">
 
-    <IconSymbol class="block text-color-dark-gray hover:text-color-mid-gray"
+    <IconSymbol class="block" 
+    	:class="[props.iconColor, 'hover:' + props.iconHoverColor]"
     	:width="props.size" :icon="props.icon" />
   </span>
 

@@ -81,10 +81,9 @@
 
 /* Code blocks */
 .markdown pre {
-  background: #688bdf;  /* slate-900 */
+  background: black;  /* slate-900 #688bdf;*/
   color: #e5e7eb;
   padding: 1rem;
-  border-radius: 8px;
   overflow-x: auto;
   margin: 1rem 0;
 }

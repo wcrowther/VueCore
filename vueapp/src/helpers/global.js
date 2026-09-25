@@ -115,3 +115,13 @@ export const MinutesToMs = (mins, minMinutes = 1)  =>
 }
 
 export const stringToSafeArray = (value) => (value || '').toLowerCase().split(',').map((term) => term.trim()).filter(Boolean)
+
+// Ex: validator: oneOfValidator(['scroll', 'menu', 'flatten'], 'TabsFlowControl.flow', true ) 
+// third param 'required' is optional but defaults to false
+export const oneOfValidator = (values, label, required = false) => value => 
+(!required && isEmptyOrSpace(value)) || values.includes(value) || (() => 
+    { 
+	    throw new Error(`[${label}] Invalid value "${value}". Use ${values.map(v => `"${v}"`).join(', ')}${required ? '' : ', or an empty value'}.`) 
+    }
+)()
+

@@ -72,6 +72,7 @@ declare global {
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getPatternCells: typeof import('../helpers/lifePatterns.js')['getPatternCells']
   const h: typeof import('vue')['h']
+  const halfCircleSidesList: typeof import('../datalists/halfCircleSidesList.js')['halfCircleSidesList']
   const handleApiError: typeof import('../composables/ApiErrorHandler.js')['handleApiError']
   const hasFilesInSubtree: typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']
   const hasKeys: typeof import('../helpers/global.js')['hasKeys']
@@ -118,6 +119,7 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
+  const oneOfValidator: typeof import('../helpers/global.js')['oneOfValidator']
   const openAllDetailBoxes: typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']
   const pageSizeList: typeof import('../datalists/pageSizeList.js')['pageSizeList']
   const provide: typeof import('vue')['provide']
@@ -300,6 +302,7 @@ declare module 'vue' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getPatternCells: UnwrapRef<typeof import('../helpers/lifePatterns.js')['getPatternCells']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly halfCircleSidesList: UnwrapRef<typeof import('../datalists/halfCircleSidesList.js')['halfCircleSidesList']>
     readonly handleApiError: UnwrapRef<typeof import('../composables/ApiErrorHandler.js')['handleApiError']>
     readonly hasFilesInSubtree: UnwrapRef<typeof import('../helpers/fileFolderHelpers.js')['hasFilesInSubtree']>
     readonly hasKeys: UnwrapRef<typeof import('../helpers/global.js')['hasKeys']>
@@ -346,6 +349,7 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
+    readonly oneOfValidator: UnwrapRef<typeof import('../helpers/global.js')['oneOfValidator']>
     readonly openAllDetailBoxes: UnwrapRef<typeof import('../composables/UseDetailBoxEvents.js')['openAllDetailBoxes']>
     readonly pageSizeList: UnwrapRef<typeof import('../datalists/pageSizeList.js')['pageSizeList']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>

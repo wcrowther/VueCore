@@ -35,10 +35,11 @@
 
 	<div :class="['flex @container', props.flipSide ? 'flex-row-reverse' : '']" :id="props.id" ref="containerRef">
 
-		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden @lg:relative',
-			drawerHidden ? 'w-0' : 'w-full @lg:w-[300px]']">
+		<div :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden @lg:relative @lg:h-auto @lg:border-0',
+			drawerHidden ? 'w-0' : 'w-full @lg:w-[300px]',
+			!drawerHidden ? (props.flipSide ? 'border-r border-gray-400' : 'border-l border-gray-400') : '']">
 
-			<div :class="['absolute w-full min-w-[300px] @lg:relative @lg:w-[300px] @lg:min-w-1', props.flipSide ? 'left-0' : 'right-0']">
+			<div :class="['absolute w-full h-full min-w-[300px] @lg:relative @lg:w-[300px] @lg:min-w-1', props.flipSide ? 'left-0' : 'right-0']">
 				<slot name="sidedrawer" />
 			</div>
 		</div>

@@ -6,7 +6,6 @@
 	const topDrawerHidden 		= useLocalStorage('drawerExamplesTopDrawerHidden', false)
 	const topDrawerFlipVertical = useLocalStorage('drawerExamplesTopDrawerFlipVertical', false)
 
-
 </script>
 
 <template>
@@ -28,22 +27,33 @@
 		Info about the SideDrawerControl...
 	</InfoBox>
 
-	<SideDrawerControl v-model:drawerHidden="sideDrawerHidden" 
+	<SideDrawerControl v-model:drawerHidden="sideDrawerHidden" class="mb-5"
 		v-container-width="!showWidths"	:flipSide="sideDrawerFlipSide">
 
 		<template #sidedrawer>
-			<div class="bg-amber-200 p-7 pb-10 w-full h-full" v-container-width="!showWidths">
-				Sidebar content here
+			<div :class="['bg-white border border-gray-400 p-7 pb-10 w-full h-full', 
+				sideDrawerFlipSide ? 'border-l-0' : 'border-r-0']" 
+				v-container-width="!showWidths">
+				SideDrawer content here
 			</div>
 		</template>
 
 		<template #default>
-			<div class="bg-yellow-200 p-7 pb-10 w-full h-full" v-container-width="!showWidths">
-				Main content here.
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit voluptate 
-				ad dolores doloribus, ut impedit nemo, neque autem non sapiente 
-				blanditiis. Corrupti ullam, voluptate culpa hic dignissimos 
-				optio debitis facilis.
+			<div class="bg-white border border-gray-400  p-7 pb-10 w-full h-full" 
+				v-container-width="!showWidths">
+	
+				<div class="mb-5">Main content here.</div>
+				<div>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit voluptate
+					ad dolores doloribus, ut impedit nemo, neque autem non sapiente
+					blanditiis. Corrupti ullam, voluptate culpa hic dignissimos
+					optio debitis facilis.
+				</div>
+
+				<CircleButton v-model="sideDrawerHidden" 
+					class="absolute left-1 top-1" size="12px" padding="p-[2px]"
+                    bgColor="bg-white" icon="heroicons:chevron-left"/>
+					
 			</div>
 		</template>
 
@@ -56,7 +66,6 @@
 
 		<BooleanButton v-model="topDrawerFlipVertical" 
             trueText="Drawer On Bottom" falseText="Drawer On Top" /> 
-
 	</div>
 
 	<InfoBox>
@@ -64,11 +73,11 @@
 	</InfoBox>
 
 	<TopDrawerControl v-model:drawerHidden="topDrawerHidden" 
-		:flipVertical="topDrawerFlipVertical">
+		:flipVertical="topDrawerFlipVertical" divider>
 
 		<template #drawer>
-			<div class="bg-amber-200 p-7 pb-10 w-full">
-				Top content here				
+			<div class="bg-white border-x border-gray-400 p-7 pb-10 w-full">
+				Top content here<br />
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit voluptate 
 				ad dolores doloribus, ut impedit nemo, neque autem non sapiente 
 				blanditiis. Corrupti ullam, voluptate culpa hic dignissimos 
@@ -77,8 +86,9 @@
 		</template>
 
 		<template #default>
-			<div class="bg-yellow-200 p-7 pb-10 w-full h-full">
-				Main content here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit voluptate 
+			<div class="bg-white border-x border-gray-400 p-7 pb-10 w-full h-full">
+				Main content here.<br />	
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit voluptate 
 				ad dolores doloribus, ut impedit nemo, neque autem non sapiente 
 				blanditiis. Corrupti ullam, voluptate culpa hic dignissimos 
 				optio debitis facilis.

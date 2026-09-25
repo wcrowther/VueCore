@@ -6,14 +6,17 @@
 	{
 		id: 		{ type: String, default: '' },
 		maxHeight:	{ type: Number, default: 500 }, // caps the open height; the drawer still only grows as tall as its content
-		flipVertical:	{ type: Boolean, default: false }
+		flipVertical:	{ type: Boolean, default: false },
+		divider:	{ type: Boolean, default: false } // draws a single border-y + divide-y line instead of relying on slot content borders, which double up at the seam
 	});
 
 </script>
 
 <template>
 
-	<div :class="['flex', props.flipVertical ? 'flex-col-reverse' : 'flex-col']" :id="props.id">
+	<div :class="['flex', props.flipVertical ? 'flex-col-reverse' : 'flex-col',
+		props.divider ? 'border-y divide-y border-gray-300 divide-gray-300' : '',
+		props.divider && props.flipVertical ? 'divide-y-reverse' : '']" :id="props.id">
 
 		<div class="flex-none transition-all duration-[300ms] overflow-hidden"
 			:style="{ maxHeight: drawerHidden ? '0px' : props.maxHeight + 'px' }">

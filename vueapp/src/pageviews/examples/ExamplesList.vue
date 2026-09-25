@@ -214,14 +214,17 @@
                                 <div class="flex items-center pr-5">
                                     <span>Example</span>
                                     <span class="ml-auto flex items-center gap-3">
+
+                                        <IconSymbol :class="[disableExamplesShortcuts ? 'text-orange' : 'text-color-dark-gray']"
+                                            @click="disableExamplesShortcuts = !disableExamplesShortcuts"
+                                            title="Disable Example List Keyboard Shortcuts" width="26px"
+                                            icon="codicon:record-keys" />
+                                            
                                         <IconSymbol :class="[hideSearch ? 'text-orange' : 'text-color-dark-gray']"
                                             @click="hideSearch = !hideSearch"
                                             title="Hide Example Search Box" width="26px"
                                             icon="heroicons:magnifying-glass" />
-                                    <IconSymbol :class="[disableExamplesShortcuts ? 'text-orange' : 'text-color-dark-gray']"
-                                            @click="disableExamplesShortcuts = !disableExamplesShortcuts"
-                                            title="Disable Example List Keyboard Shortcuts" width="26px"
-                                            icon="codicon:record-keys" />
+
                                         <IconSymbol class="text-color-dark-gray"
                                             @click="showFullscreen = !showFullscreen"
                                             title="Show Example in Fullscreen" width="20px"

@@ -11,18 +11,8 @@
 		enableShortcuts: 	{ type: Boolean, default: false },
 		flattenHideNames: 	{ type: Boolean, default: false },
 		menuMaxHeight: 		{ type: [Number, String], default: null },
-		flow: 
-		{
-			type: String,
-			default: 'scroll',
-			validator: value =>
-			{
-				if (isEmptyOrSpace(value) || ['scroll', 'menu', 'flatten'].includes(value))
-					return true
-
-				throw new Error(`[TabsFlowControl] Invalid flow value "${value}". Use "scroll", "menu", "flatten", or an empty value.`)
-			}
-		},
+		flow:				{ type: String,	default: 'scroll', validator: 
+								oneOfValidator(['scroll', 'menu', 'flatten'], 'TabsFlowControl.flow', false ) },
 	})
 
 	const activeTabModel = defineModel('activeTab', { type: [String, Number], default: '' })

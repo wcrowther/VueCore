@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    2: typeof import('./../components/buttons/RotateButton copy 2.vue')['default']
     AccordionControl: typeof import('./../components/controls/AccordionControl.vue')['default']
     AccordionExample: typeof import('./../pageviews/examples/views/AccordionExample.vue')['default']
     AccordionItem: typeof import('./../components/misc/AccordionItem.vue')['default']
@@ -34,6 +35,8 @@ declare module 'vue' {
     CheckboxInput: typeof import('./../components/inputs/CheckboxInput.vue')['default']
     CheckersExample: typeof import('./../pageviews/examples/views/CheckersExample.vue')['default']
     CheckersGame: typeof import('./../components/misc/CheckersGame.vue')['default']
+    CircleButton: typeof import('./../components/buttons/CircleButton.vue')['default']
+    CIrcleButton: typeof import('./../components/buttons/CIrcleButton.vue')['default']
     CodeBlock: typeof import('./../components/misc/CodeBlock.vue')['default']
     ComposablesExample: typeof import('./../pageviews/examples/views/ComposablesExample.vue')['default']
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']
@@ -43,7 +46,7 @@ declare module 'vue' {
     ContextMenuExample: typeof import('./../pageviews/examples/views/ContextMenuExample.vue')['default']
     ConwaysLifeExample: typeof import('./../pageviews/examples/views/ConwaysLifeExample.vue')['default']
     ConwaysLifeGame: typeof import('./../components/misc/ConwaysLifeGame.vue')['default']
-    copy: typeof import('./../components/controls/SidebarControl copy.vue')['default']
+    copy: typeof import('../components/buttons/CIrcleButton.vue/index.js')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     DetailBox: typeof import('./../components/boxes/DetailBox.vue')['default']
