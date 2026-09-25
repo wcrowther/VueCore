@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    2: typeof import('./../components/buttons/RotateButton copy 2.vue')['default']
     AccordionControl: typeof import('./../components/controls/AccordionControl.vue')['default']
     AccordionExample: typeof import('./../pageviews/examples/views/AccordionExample.vue')['default']
     AccordionItem: typeof import('./../components/misc/AccordionItem.vue')['default']
@@ -36,7 +35,6 @@ declare module 'vue' {
     CheckersExample: typeof import('./../pageviews/examples/views/CheckersExample.vue')['default']
     CheckersGame: typeof import('./../components/misc/CheckersGame.vue')['default']
     CircleButton: typeof import('./../components/buttons/CircleButton.vue')['default']
-    CIrcleButton: typeof import('./../components/buttons/CIrcleButton.vue')['default']
     CodeBlock: typeof import('./../components/misc/CodeBlock.vue')['default']
     ComposablesExample: typeof import('./../pageviews/examples/views/ComposablesExample.vue')['default']
     ConfirmControl: typeof import('./../components/controls/ConfirmControl.vue')['default']
@@ -46,13 +44,10 @@ declare module 'vue' {
     ContextMenuExample: typeof import('./../pageviews/examples/views/ContextMenuExample.vue')['default']
     ConwaysLifeExample: typeof import('./../pageviews/examples/views/ConwaysLifeExample.vue')['default']
     ConwaysLifeGame: typeof import('./../components/misc/ConwaysLifeGame.vue')['default']
-    copy: typeof import('../components/buttons/CIrcleButton.vue/index.js')['default']
     CreatorBox: typeof import('./../components/boxes/CreatorBox.vue')['default']
     DateInput: typeof import('./../components/inputs/DateInput.vue')['default']
     DetailBox: typeof import('./../components/boxes/DetailBox.vue')['default']
     DetailBoxExample: typeof import('./../pageviews/examples/views/DetailBoxExample.vue')['default']
-    DrawerControl: typeof import('./../components/controls/DrawerControl.vue')['default']
-    DrawerControlExample: typeof import('../pageviews/examples/views/DrawersExample.vue/index.js')['default']
     DrawersExample: typeof import('./../pageviews/examples/views/DrawersExample.vue')['default']
     DropList: typeof import('./../components/misc/DropList.vue')['default']
     ExamplesAdvSearch: typeof import('./../pageviews/examples/ExamplesAdvSearch.vue')['default']
@@ -139,9 +134,6 @@ declare module 'vue' {
     SecondaryButton: typeof import('./../components/buttons/SecondaryButton.vue')['default']
     SelectInput: typeof import('./../components/inputs/SelectInput.vue')['default']
     SelectionControl: typeof import('./../components/files-folders/SelectionControl.vue')['default']
-    SidebarControl: typeof import('./../co../pageviews/examples/views/DrawersExample.vue/index.js
-    SidebarControlExample: typeof import('../pageviews/examples/views/DrawersExample.vue/index.js')['default']
-    SideBarControlExample: typeof import('../pageviews/examples/views/DrawerControlExample.vue/index.js')['default']
     SideDrawerControl: typeof import('./../components/controls/SideDrawerControl.vue')['default']
     SimpleCounter: typeof import('./../components/misc/SimpleCounter.vue')['default']
     SiteMap: typeof import('./../components/misc/SiteMap.vue')['default']
