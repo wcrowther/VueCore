@@ -52,8 +52,10 @@ public static class SwaggerHelper
 					Scheme          = JwtBearerDefaults.AuthenticationScheme,
 					Name            = "Authorization",
 					BearerFormat    = "JWT",
-					Description     = "Use Authenticate.Token to retrieve a JWT and paste it as: Bearer {token}. " +
-									  "Cookie-based authentication via Authenticate.Login is also supported in this Swagger session."
+					Description     = "In normal application usage, sign in through the Vue frontend or use the API Authenticate.Login using cookie-based authentication. \n\n" +
+									  "For API clients such as Postman or manual bearer testing, use the API Authenticate.Token below to retrieve a JWT in the Response Body JSON 'Token' (without quotes)." + 
+									  "Paste the token here and click 'Authorize' and you will be able to access the endpoints requiring Authorization. "
+									  
 				}
 			);
 

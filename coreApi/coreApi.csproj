@@ -18,9 +18,13 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Misc\**" />
+	  <Compile Remove="Uploads\**" />
 	  <Content Remove="Misc\**" />
+	  <Content Remove="Uploads\**" />
 	  <EmbeddedResource Remove="Misc\**" />
+	  <EmbeddedResource Remove="Uploads\**" />
 	  <None Remove="Misc\**" />
+	  <None Remove="Uploads\**" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -86,10 +90,6 @@
 		<Content Update="wwwroot\swagger-ui\custom.js">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Uploads\" />
 	</ItemGroup>
 
 	<!-- Custom publish file copy -->
