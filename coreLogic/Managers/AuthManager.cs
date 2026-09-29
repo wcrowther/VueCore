@@ -100,9 +100,11 @@ public class AuthManager(
         if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiration <= DateTime.Now || isRevoked)            return Returns<AuthUser>.Failure($"Not able to refresh token for userId: {request.UserId}");
 
         tokenManager.CreateNewRefreshTokenForUser(user);
+
         var savedUser = userRepo.SaveUser(user);
         if (savedUser is null)
             return Returns<AuthUser>.Failure($"Not able to save user for userId: {request.UserId}.");
+
         cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
 
         var (token, expiration) = tokenManager.GenerateJwtToken(savedUser);

@@ -75,6 +75,24 @@ public static partial class Endpoints
 		.WithName("Login");
 
 		// =========================================================
+		// token
+		// =========================================================
+
+		endpoints.MapPost("/token", ( AuthRequestVm model,
+									  IAuthManager _authManager ) =>
+		{
+			Returns<AuthUser> returns = _authManager.Authenticate(model);
+
+			return	returns.Ok
+					? Results.Ok(ToTokenResponse(returns.Data))
+					: Results.Unauthorized();
+		})
+		.Validate<AuthRequestVm>(false)
+		.Produces(StatusCodes.Status200OK)
+		.Produces(StatusCodes.Status401Unauthorized)
+		.WithName("Token");
+
+		// =========================================================
 		// signup 
 		// =========================================================
 
@@ -128,6 +146,12 @@ public static partial class Endpoints
 		user.UserName,
 		user.UserEmail,
 		user.Role
+	};
+
+	private static object ToTokenResponse(AuthUser user) => new
+	{
+		user.Token,
+		user.TokenExpiration
 	};
 }
 
