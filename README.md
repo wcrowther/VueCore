@@ -101,9 +101,12 @@ dotnet dev-certs https --trust
 1. Clone the repository.
 2. Open `VueCore.slnx` in Visual Studio 2026 — this loads the `.NET` projects and the `vueapp` project (`.esproj`) together.
    - NuGet packages restore automatically. Visual Studio also restores npm packages for `vueapp`; if you're prompted or want to be sure, run `npm install` from the **Terminal** in the `vueapp` project.
-3. Confirm `coreApi` is set as the (single) startup project.
-4. Press **F5** (or **Start**) — Visual Studio builds `coreApi` and, because it has a project reference to `vueapp.esproj`, also starts the Vue dev server (`npm run dev`, per the esproj's `SpaProxyLaunchCommand`/`SpaProxyServerUrl` settings), so both projects launch together from a single **Start** command.
-5. Visual Studio opens the running app in your browser. The Vue app runs at `https://localhost:7200` and calls the API at `https://localhost:9999` (Swagger docs at `https://localhost:9999/docs`).
+3. Right-click the **Solution** and select **Configure Startup Projects**.
+   - Choose **Multiple startup projects**.
+   - Set the **Action** to **Start** for both `coreApi` and `vueapp`.
+   - (Optional) For `vueapp`, set **Debug Target** to **localhost (Chrome)**.
+4. Press **F5** (or **Start**) to launch both projects.
+5. Visual Studio opens the Vue.js app and the C# Minimal API in separate windows. By default, the Vue app runs at `https://localhost:7200` and calls the API at `https://localhost:9999` (Swagger docs at `https://localhost:9999/docs`).
 6. **Deploying** — Right-click `coreApi` and choose **Publish**, the same as in Option 1, step 5.
 
 ### Option 3: VS Code for all projects
