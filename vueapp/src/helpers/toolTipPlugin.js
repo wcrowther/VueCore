@@ -5,6 +5,9 @@ export default
 {
 	install() 
 	{
+		const appStore 			= useAppStore()
+		const { hideToolTips }	= storeToRefs(appStore)
+
 		let tooltip = null
 		let activeElement = null
 		let showTimeout = null
@@ -27,8 +30,6 @@ export default
 		const createTooltip = (text) => 
 		{
 			removeTooltip()
-
-
 
 			tooltip = document.createElement('div')
 			tooltip.className = 'fixed z-[99999] px-2 py-1 text-sm text-black bg-[#81caff] rounded shadow tracking-wider ' +
@@ -109,7 +110,10 @@ export default
 
 		const scheduleShowTooltip = (el) => 
 		{
-			disableNativeTooltip(el)
+			disableNativeTooltip(el) // move after next line and native tooltips will continue to work
+
+			if (hideToolTips.value) return
+
 			clearShowTimeout()
 			showTimeout = setTimeout(() => showTooltip(el), TOOLTIP_SHOW_DELAY)
 		}

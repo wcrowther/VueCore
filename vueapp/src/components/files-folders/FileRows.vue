@@ -42,7 +42,7 @@
 					Name
 				</div>
 				<div class="px-3 py-2 border-b border-gray-300 font-semibold">
-					Extension
+					Ext
 				</div>
 				<div class="px-3 py-2 border-b border-gray-300 font-semibold">
 					Size
@@ -80,7 +80,7 @@
 					<div v-else
 						class="size-8 bg-gray-300 rounded-sm" />
 				</div>
-				<div class="pl-6 px-3 py-2 border-b border-gray-200">
+				<div class="pl-6 px-3 py-2 border-b border-gray-200 break-all min-w-16">
 					{{ trimExtension(file.name) }}
 				</div>
 				<div class="px-3 py-2 border-b border-gray-200">

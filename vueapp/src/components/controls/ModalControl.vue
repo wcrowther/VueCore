@@ -8,11 +8,15 @@
 		teleportToModals:   { type: Boolean, default: true },
 		height:           	{ type: String, default: '300px' },
 		width:            	{ type: String, default: '500px' },
-		overlayClickCloses: { type: Boolean, default: false },
+		overlayClosesModal: { type: Boolean, default: false },
 		showFooter: 		{ type: Boolean, default: true },
 	})
+	
+	const closeModal = () => showModal.value = false
 
 	defineOptions({ inheritAttrs: false })
+
+	DisableGlobalKeys(showModal) // disable Esc key if modal is showing
 
 	useScrollLock(showModal)
 
@@ -22,15 +26,18 @@
 	<Teleport to="#modals" :disabled="!teleportToModals">    
 		<Transition name="modal">
 
+			<!-- Modal Overlay (the semi-transparent background behind the modal) -->
 			<div v-if="showModal" id="ModalOverlay"
-				@click.self="props.overlayClickCloses && closeModal"
+				@click.self="props.overlayClosesModal && closeModal()"
                 class="flex fixed z-[999] top-0 left-0 w-full h-full bg-black 
 					bg-opacity-30 transition-opacity ease-in-out duration-75">
 
+				<!-- Modal Container -->
 				<div class="flex flex-col m-auto  max-w-screen transition-all relative 
 					bg-white rounded-sm shadow-lg shadow-color-dark-gray"
 					:style="{ height: props.height, width: props.width }">
 
+					<!-- Modal Header -->
 					<div class="shrink-0 flex justify-between items-center pl-8 pr-5 w-full h-14 
 						text-lg font-bold bg-gradient-modal select-none">
 
@@ -44,11 +51,13 @@
 
 					</div>
 					
-					<!-- Content - Gets ModalControls attributes ($attrs) on this div -->
+					<!-- Modal Content - Gets ModalControls attributes ($attrs) on this div -->
 					<div class="pb-8 h-full items-stretch scrollbar-thin overflow-auto"
 						v-bind="$attrs"
-						><slot><div class="p-5 pb-0">Default content</div></slot></div>
+						><slot><div class="p-5 pb-0">Default content</div></slot>
+					</div>
 
+					<!-- Modal Footer -->
 					<div v-if="showFooter"
 						class="shrink-0 p-4 pb-6 w-full h-18 flex justify-end gap-2 select-none">
 						<slot name="footer">
@@ -77,7 +86,30 @@
 </style>
 
 
-<!-- Usage: 
+<!-- Usage Examples: 
 
-    <ModalControl v-if="showAdvSearch" v-model="showAdvSearch"  />
+    // In this example, using a v-if condition, the ModalControl will only be created when the condition is true
+	<ModalControl v-if="showAdvSearch" v-model="showAdvSearch"  />
+
+    <ModalControl v-model="showModal" title="Advanced Search" height="400px" width="500px">
+        <div class="p-5 pb-0">Content Here</div>
+    </ModalControl>
+
+    <ModalControl v-model="showModal" height="600px" width="600px" :overlayClosesModal="true">...
+
+    <ModalControl v-model="showModal" :teleportToModals="false" :showFooter="false">...
+
+    <ModalControl v-model="showModal" title="Confirm">
+        <template #footer>
+            <button class="btn-primary" @click="onConfirm">Yes</button>
+            <button class="btn-delete" @click="showModal=false">No</button>
+        </template>
+    </ModalControl>
+
+    <ModalControl v-model="showModal">
+        <template #header>
+            <span>Custom Header</span>
+        </template>
+        <div class="p-5">Content Here</div>
+    </ModalControl>
 -->

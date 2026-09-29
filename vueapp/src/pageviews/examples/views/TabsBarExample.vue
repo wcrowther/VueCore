@@ -2,7 +2,7 @@
 	import { longTabList } from '@/datalists/longTabList'
 
     const modelValue    = ref('First')
-    const overflowIndex = useLocalStorage('overflowIndex', 0)
+    const flowIndex     = useLocalStorage('flowIndex', 0)
 	const rangeList     = [ 'scroll','menu' ]
 
 	const tabPanels = computed(() =>
@@ -17,19 +17,19 @@
 
 <template>
 
-    <PageTitleBox pageTitle="TabsBar Example">
+    <PageTitleBox pageTitle="TabsFlowBar Example">
 
-        <ListIndexButton v-model="overflowIndex" :rangeList
+        <ListButton v-model:index="flowIndex" :rangeList
 			class="w-fit !bg-white border border-color-dark-blue !text-color-dark-blue" />
 
     </PageTitleBox>
 
     <InfoBox>
-        This example demonstrates the usage of the TabsBar component with different overflow behaviors.
+        This example demonstrates the usage of the TabsFlowBar component with different overflow behaviors.
     </InfoBox>
 
-    <TabsBar v-model="modelValue" :tabs="longTabList" 
-        :overflow="rangeList[overflowIndex]" enableShortcuts />
+    <TabsFlowBar v-model="modelValue" :tabs="longTabList" 
+        :overflow="rangeList[flowIndex]" enableShortcuts />
 
     <div class="border border-gray-400 border-t-0 p-5 bg-white">
         <div class="font-semibold mb-2">{{ activePanel.id }}</div>

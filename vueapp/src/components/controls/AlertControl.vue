@@ -1,5 +1,9 @@
 <script setup>
 
+	// ================================================================================
+	// See 'useAlertControl' composable to programmatically create an AlertControl
+	// ================================================================================
+
 	const emits = defineEmits(['alertResult'])
 	const props = defineProps(
 	{
@@ -23,10 +27,6 @@
 	KeyboardListeners(keys, () => !showAlert.value) // can use an arrow function to invert bool
 
     const vFocus = {  mounted: (el) => el.focus() } // Custom Directive (note casing)
-
-	// ================================================================================
-	// See 'useAlertControl' composable for programmatically creating an alert control
-	// ================================================================================
 
 	let resolvePromise; // promise resolver
 

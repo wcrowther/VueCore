@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "coreLogic"
+		},
+		{
+			"path": "coreLibrary"
 		}
 	],
 	"settings": {}

@@ -17,12 +17,14 @@
     <NavBar id="navBar" class="bg-gradient-navbar md:ml-3">
 
 		<template v-if="showNewChatMessages" #leftalign>
-			<NewChatMessages class="self-center" />
+			<div class="h-full flex pt-1">
+				<NewChatMessages class="self-center ml-1" />
+			</div>
 		</template> 
 
-		<NavTab to="/home" class="group">
+		<NavTab to="/home" class="homeGroup">
 			<IconSymbol width="18px" class="text-[#bddaef] block xs:hidden
-				group-hover:text-navy group-hover:opacity-100" icon="heroicons-solid:home" />
+				homeGroup-hover:text-navy homeGroup-hover:opacity-100" icon="heroicons-solid:home" />
 			<span class="hidden xs:block">Home</span>
 		</NavTab>
 

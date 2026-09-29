@@ -16,7 +16,7 @@
         position2:      { type: String, default: '80% 50%'  }          
     })
 
-    const livePic            = ref(null)
+    const panZoomRef            = ref(null)
     const liveAnimation      = ref(null)
     const phaseLabel         = ref('ZoomOut')
     const playbackState      = computed(() => play.value ? 'running' : 'paused')
@@ -92,12 +92,11 @@
 
     const createAnimation    = () =>
     {
-        if (!livePic.value)
-            return
+        if (!panZoomRef.value) return
 
         const totalCycle = cycleDuration.value
 
-        liveAnimation.value = livePic.value.animate(
+        liveAnimation.value = panZoomRef.value.animate(
         [
             { backgroundSize: props.zoom1, backgroundPosition: props.position1, offset: 0 },
             { backgroundSize: props.zoom2, backgroundPosition: props.position2, offset: props.duration / totalCycle },
@@ -137,9 +136,8 @@
 		updatePhaseLabel()
 	})
 
-	watch (
-		() => 
-        [
+	watch ( () => 
+    [
             props.url, 
             props.height, 
             props.width, 
@@ -150,7 +148,7 @@
             props.zoom2, 
             props.position1, 
             props.position2
-        ],
+    ],
 		restartAnimation
 	)
 
@@ -161,7 +159,7 @@
 
 <template>
 
-	<div ref="livePic" class="bg-no-repeat text-white relative" 
+	<div ref="panZoomRef" class="bg-no-repeat text-white relative" 
         :style="animation">
         <slot :phaseLabel :playbackState />      
 	</div>

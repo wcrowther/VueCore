@@ -2,6 +2,7 @@
 
     const props = defineProps (
     {
+        hideLabel:          { type: Boolean, default: false },      // hide the label for the select input
         showDefault:        { type: Boolean, default: true },       // show a default empty value
         defaultText:        { type: String,  default: '-----' },    // text for default item
         disableDefault:     { type: Boolean, default: true },       // initial value but default cannot be selected
@@ -21,8 +22,9 @@
 
     <div class="mb-3 w-full">
 
-        <div class="pb-1 flex justify-between items-baseline">
-            <span class="text-color-dark-blue font-bold whitespace-nowrap text-xs">
+        <div :class="['flex justify-between items-baseline', {'pb-1': !props.hideLabel } ]">
+            <span v-if="!props.hideLabel" 
+                class="text-color-dark-blue font-bold whitespace-nowrap text-xs">
                 {{props.labelName}}
             </span>
             <template v-if="hasErrors">

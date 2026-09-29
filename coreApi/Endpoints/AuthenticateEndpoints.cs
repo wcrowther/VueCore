@@ -75,6 +75,24 @@ public static partial class Endpoints
 		.WithName("Login");
 
 		// =========================================================
+		// token
+		// =========================================================
+
+		endpoints.MapPost("/token", ( AuthRequestVm model,
+									  IAuthManager _authManager ) =>
+		{
+			Returns<AuthUser> returns = _authManager.Authenticate(model);
+
+			return	returns.Ok
+					? Results.Ok(ToTokenResponse(returns.Data))
+					: Results.Unauthorized();
+		})
+		.Validate<AuthRequestVm>(false)
+		.Produces(StatusCodes.Status200OK)
+		.Produces(StatusCodes.Status401Unauthorized)
+		.WithName("Token");
+
+		// =========================================================
 		// signup 
 		// =========================================================
 
@@ -94,16 +112,19 @@ public static partial class Endpoints
 		// refreshAuth
 		// =========================================================
 
-		endpoints.MapPost("/refreshAuth", ( AuthRefreshRequest request, 
+		endpoints.MapPost("/refreshAuth", ( HttpContext ctx,
 											IAuthManager _authManager ) =>
 		{
+			if (!int.TryParse(ctx.Request.Cookies["userId"], out var userId))
+				return Results.Unauthorized();
+
+			var request = new AuthRefreshRequest { UserId = userId };
 			Returns<AuthUser> returns = _authManager.RefreshAuth(request);
 
 			return	returns.Ok 
 					? Results.Ok(ToProfileResponse(returns.Data)) 
 					: Results.BadRequest(returns.Error.Message);
 		})
-		.Validate<AuthRefreshRequest>(false)
 		.WithName("RefreshAuth");
 	}
 
@@ -125,6 +146,12 @@ public static partial class Endpoints
 		user.UserName,
 		user.UserEmail,
 		user.Role
+	};
+
+	private static object ToTokenResponse(AuthUser user) => new
+	{
+		user.Token,
+		user.TokenExpiration
 	};
 }
 

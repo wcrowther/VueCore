@@ -1,3 +1,8 @@
+// Module-level (not per-component) so multiple simultaneous callers don't clobber each other's request
+
+const activeDisablers = new Set()
+let nextDisablerId = 0
+
 export function DisableGlobalKeys(disable)
 {	
 	const appStore   			= useAppStore()
@@ -7,12 +12,22 @@ export function DisableGlobalKeys(disable)
 		? computed(disable)
 		: computed(() => Boolean(unref(disable)))
 
+	const id = nextDisablerId++
+
+	const applyState = () => { disableGlobalKeys.value = activeDisablers.size > 0 }
+
 	watch(disabled, (isDisabled) =>
 	{
-		disableGlobalKeys.value = isDisabled
-	}, { immediate: true })
+		isDisabled ? activeDisablers.add(id) : activeDisablers.delete(id)
+		applyState()
+	}, 
+	{ immediate: true })
 
-	onUnmounted(() => { disableGlobalKeys.value = false })
+	onUnmounted(() => 
+	{ 
+		activeDisablers.delete(id)
+		applyState()
+	})
 }
 
 /* 	USAGE: 

@@ -4,6 +4,7 @@ import router                   from './router/router'
 import Toast                    from "vue-toastification"
 import { createHead }           from '@unhead/vue/client'
 import tooltipPlugin            from '@/helpers/toolTipPlugin'
+import { vContainerWidth }      from '@/helpers/containerWidth'
 import './styles/toaster.css'  
 import './styles/tailwind.css'
 
@@ -30,6 +31,7 @@ async function bootstrap()
             newestOnTop: true
         })
         .use(tooltipPlugin)
+        .directive('container-width', vContainerWidth)
 
 
     const authStore = useAuthStore(pinia)

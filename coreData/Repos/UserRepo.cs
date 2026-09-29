@@ -43,6 +43,7 @@ public class UserRepo(DataContext dataContext)
 			LastName               = model.LastName,
 			UserEmail              = model.UserEmail,
 			RefreshToken           = model.RefreshToken,
+			RefreshTokenIssuedAt   = model.RefreshTokenIssuedAt,
 			RefreshTokenExpiration = model.RefreshTokenExpiration,
 			Role                   = model.Role,
 			PasswordHash           = passwordHash,

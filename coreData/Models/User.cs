@@ -23,12 +23,12 @@ public class User : IAuditable
 	public string UserEmail { get; set; }
 
 	[JsonIgnore]
-	public string? PasswordHash { get; set; }
+	public string PasswordHash { get; set; }
 
 	[AllowedValues("User", "Admin", "SuperAdmin")]
-	public string? Role { get; set; }
+	public string Role { get; set; }
 
-	public string? RefreshToken { get; set; }
+	public string RefreshToken { get; set; }
 
 	public DateTime? RefreshTokenIssuedAt { get; set; }
 
@@ -47,10 +47,10 @@ public class User : IAuditable
 	public int ModifierId { get; set; }
 
 	[NotMapped]
-	public string? CreatorName { get; set; }
+	public string CreatorName { get; set; }
 
 	[NotMapped]
-	public string? ModifierName { get; set; }
+	public string ModifierName { get; set; }
 
 	public override string ToString() => $"{FirstName} {LastName} Id: {UserId}";
 }

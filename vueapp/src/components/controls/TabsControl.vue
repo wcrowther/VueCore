@@ -66,11 +66,11 @@
             <template v-for="(tab,idx) in normalizedTabList" :key="idx">
                 <div :class="[{ altDesign : props.altDesign }, isActive(tab.id) ? 'tab-active' :'tab-other' ]" 
                     @click="activeTab = tab.id">
-                    <span>{{ tab.label }}</span>
+                    <span>{{ tab?.label.replaceAll('_', ' ') }}</span>
                 </div>
             </template>
 
-            <div class="ml-auto h-9">
+            <div class="ml-auto h-9 flex items-center gap-2">
                 <slot name="Right" />
             </div>
         </div>
@@ -105,9 +105,9 @@
 <style lang="postcss" scoped>
 
     .tab-active { @apply mt-0 px-4 pt-[.4rem] rounded-t-md border bg-white border-gray-400 border-b-0 
-        text-sm font-bold select-none -mb-px}
+        text-sm font-bold select-none -mb-px whitespace-nowrap cursor-pointer}
     .tab-other { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border 
-        border-transparent text-sm font-bold hover:bg-gray-200 }
+        border-transparent text-sm font-bold hover:bg-gray-200 whitespace-nowrap cursor-pointer}
     .altDesign.tab-active { @apply !rounded-none }
     .altDesign.tab-other  { @apply !rounded-none }
 </style> 

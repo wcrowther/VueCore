@@ -26,6 +26,7 @@ public class AuthManager(
     {
         string userName = userClaimsManager.GetCurrentUsername();
         var user = userName.IsNullOrEmpty() ? null : userManager.GetUserByUsername(userName);
+
         return Returns<UserVm>.Result(user, "Not able to get the current user.");
     }
 
@@ -57,7 +58,7 @@ public class AuthManager(
         if (savedUser is null)
             return Returns<AuthUser>.Failure($"Not able to save user {authRequest.UserName}.");
 
-        cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
+        cookieManager.SetRefreshTokenCookie(savedUser?.RefreshToken ?? "");
 
         return Returns<AuthUser>.Result(GetAuthResponse(savedUser));
     }
@@ -67,15 +68,16 @@ public class AuthManager(
         if (userToCreate is null)
             return Returns<AuthUser>.Failure("UserToCreate cannot be null.");
 
-        var existingUser = userRepo.GetUserByUserName(userToCreate.UserName);
+        var existingUser = userRepo.GetUserByUserName(userToCreate.UserName ?? "");
         if (existingUser is not null)
-            return new Error($"Not able to sign up user {userToCreate.UserName}");
+            return new Error($"Not able to sign up user {userToCreate}");
 
         var createdUser  = userManager.CreateUser(userToCreate);
         if (createdUser is null)
             return Returns<AuthUser>.Failure($"Not able to create user {userToCreate.UserName}.");
         var rawUser      = userRepo.GetUserByUserName(createdUser.UserName);
         var authResponse = GetAuthResponse(rawUser);
+
         return Returns<AuthUser>.Result(authResponse);
     }
 
@@ -98,9 +100,11 @@ public class AuthManager(
         if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiration <= DateTime.Now || isRevoked)            return Returns<AuthUser>.Failure($"Not able to refresh token for userId: {request.UserId}");
 
         tokenManager.CreateNewRefreshTokenForUser(user);
+
         var savedUser = userRepo.SaveUser(user);
         if (savedUser is null)
             return Returns<AuthUser>.Failure($"Not able to save user for userId: {request.UserId}.");
+
         cookieManager.SetRefreshTokenCookie(savedUser.RefreshToken);
 
         var (token, expiration) = tokenManager.GenerateJwtToken(savedUser);
@@ -143,6 +147,7 @@ public class AuthManager(
 
         var (token, tokenExpiration) = tokenManager.GenerateJwtToken(user);
         cookieManager.SetAccessTokenCookie(token, tokenExpiration);
+        cookieManager.SetUserIdCookie(user.UserId);
         return new AuthUser(user, token, tokenExpiration);
     }
 
@@ -151,7 +156,7 @@ public class AuthManager(
         if (allowedDomains?[0] == "*")
             return true;
 
-        return allowedDomains.Any(a => a.Equals(domain, StringComparison.OrdinalIgnoreCase));
+        return (allowedDomains ?? []).Any(a => a.Equals(domain, StringComparison.OrdinalIgnoreCase));
     }
 }
 

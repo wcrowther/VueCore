@@ -46,8 +46,6 @@
 
     // Keyboard Listeners  ================================================
 
-	DisableGlobalKeys(calendarDate) // disable Esc key if modal is showing
-
     const keys =
     {
         'Escape':       () => calendarDate.value = null,

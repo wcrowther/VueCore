@@ -17,7 +17,9 @@
             fullWidth, 
             pagerDebugger,
             showJsonEntities,
-            showPlatformInfo }      = storeToRefs(appStore) 
+            showPlatformInfo,
+            hideToolTips
+          }                         = storeToRefs(appStore) 
             
     const { resetLocalStorage   }   = appStore
 
@@ -165,6 +167,14 @@
                         <CheckboxInput v-model="showPlatformInfo" />
                     </div>
                 </div>   
+            
+                <div class="label-row">
+                    <div class="label-title" 
+                        title="Persist search on page load">Hide Tooltips</div>
+                    <div class="label-value">
+                        <CheckboxInput v-model="hideToolTips" />
+                    </div>
+                </div>   
 
                <!--  
                 <div class="label-row">
@@ -188,10 +198,13 @@
                     <div class="label-value">
                         <CheckboxInput v-model="persistSearch" />
                     </div>
-                </div>    
-                <SwitchButton class="mt-3 bg-color-blue-gray text-white font-bold w-[100px]" title="Toggle Pin"  
-                    buttonName="PinPopout" v-model="pinPopout" /> 
+                </div>                
+                <div class="label-row">
+                    <SwitchButton class="bg-color-blue-gray text-white font-bold" title="Toggle Pin"  
+                        buttonName="PinPopout" v-model="pinPopout" />
+                </div>
                 -->  
+
             </div>
         </div>
     </div>

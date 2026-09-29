@@ -1,5 +1,5 @@
 // Can be installed in createVueApp.js so is it globally available as v-tooltip
-// Not used in favor of sdfsdf but is a good directive example
+// Not used in favor of toolTipPlugin but is a good directive (but verbose) example
 
 const TOOLTIP_OFFSET = 8
 

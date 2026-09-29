@@ -11,7 +11,10 @@
 	const hasDefaultSlot = computed(() => Boolean(slots.default))
 	const warningMessage = '[Vue warn]: Missing required prop: "title" when no slot content is provided.'
 
-	watchEffect(() => { if (!hasDefaultSlot.value && !props.title) console.warn(warningMessage) })
+	watchEffect (
+		() => { if (!hasDefaultSlot.value && !props.title) 
+					console.warn(warningMessage) }
+	)
 
 </script>
 

@@ -1,6 +1,9 @@
 
 <script setup>
 
+	const vmIndex	= defineModel('index', { type: Number, default: 0 })
+	const vmValue	= defineModel('value', { default: null })
+
 	const props = defineProps(
 	{
 		rangeList: 	{ type: Array, default: () => ['One', 'Two', 'Three'] },
@@ -11,27 +14,38 @@
 	const min  = 0 
 	const max  = computed(() => props.rangeList.length-1)
 
-	// Index of item
-	const modelValue = defineModel (
+	let syncing = false // bidirectional sync between index and item; syncing guards against feedback loops
+
+	watch(vmIndex, (idx) =>
 	{
-		type: Number, default: 0
+		syncing = true
+		vmValue.value = props.rangeList[idx]
+		syncing = false
+	}, { immediate: true })
+
+	watch(vmValue, (val) =>
+	{
+		if (syncing) return
+
+		const idx = props.rangeList.indexOf(val)
+		if (idx !== -1) vmIndex.value = idx
 	})
 
 	const setRangeValue = (delta) => 
 	{
-		let val = modelValue.value + delta
+		let val = vmIndex.value + delta
 
 		if (val < min) 
 			val = props.wrapBack ? max.value : min
 		else if (val > max.value) 
 			val = props.wrapBack ? min : max.value
 
-		modelValue.value = val
+		vmIndex.value = val
 	}
 
 	const rangeText = computed(() => 
 	{
-		const item = props.rangeList[modelValue.value]
+		const item = props.rangeList[vmIndex.value]
 		if(typeof item === 'object' && item !== null)
 		{
 			if(props.textName !== null && item[props.textName] !== null)
@@ -58,12 +72,18 @@
 
 </template>
 
-
-		@apply rounded-full h-5 px-2 text-xs leading-[1.3rem] tracking-wider cursor-pointer
-			inline-block font-bold select-none text-center align-middler
 <!-- USAGE
 
-	const rangeValue = ref(0)
-	<ListIndexButton v-model="rangeValue" />
+	// index only
+	<ListButton v-model:index="rangeValue" :rangeList="['One', 'Two', 'Three']" />
+
+	// item only (no index needed by the parent)
+	<ListButton v-model:value="rangeItem" :rangeList="['One', 'Two', 'Three']" />
+
+	// both index and item kept in sync
+	<ListButton v-model:index="rangeValue" v-model:value="rangeItem" :rangeList="['One', 'Two', 'Three']" />
+
+	// object list; value is the whole matching object
+	<ListButton v-model:value="selectedPage" :rangeList="webPages" textName="url" />
 -->
 

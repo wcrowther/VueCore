@@ -187,7 +187,7 @@
     padding-right: 10px;
     cursor: pointer;
     transition: 0.3s ease;
-    align-items: center;
+    align-self: flex-start; /* ME2 Changed - top-align instead of vertical center */
     color: #fff;
     opacity: 0.3;
     transition: visibility 0s, opacity 0.2s linear;
@@ -232,18 +232,18 @@
     transform-origin: right;
   }
   .Vue-Toastification__icon {
-    margin: auto 18px auto 0px;
+    margin: 0 18px 0 0px; /* ME2 Changed - top-align instead of vertical center */
     background: transparent;
     outline: none;
     border: none;
     padding: 0;
     transition: 0.3s ease;
-    align-items: center;
+    align-self: flex-start;
     width: 20px;
-    height: 100%;
+    height: auto;
   }
   .Vue-Toastification__toast--rtl .Vue-Toastification__icon {
-    margin: auto 0px auto 18px;
+    margin: 0 0px 0 18px;
   }
   @keyframes bounceInRight {
     from, 60%, 75%, 90%, to {

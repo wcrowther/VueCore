@@ -8,7 +8,7 @@
 
 <template>
 
-    <SidebarControl id="AccountsMain">
+    <AppSidebar id="AccountsMain">
     
         <template #sidebar>
             <AccountsList />
@@ -16,7 +16,7 @@
 
         <AccountDetail />
 
-    </SidebarControl>	
+    </AppSidebar>	
 
 </template> 
 

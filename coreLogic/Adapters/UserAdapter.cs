@@ -1,5 +1,6 @@
 ﻿using coreData.Models;
 using coreLogic.Models;
+using coreLibrary.Helpers;
 
 namespace coreLogic.Adapters;
 
@@ -31,7 +32,7 @@ public static partial class Adapter
 			};
 	}
 
-	public static List<UserVm> ToUserVmList(this IEnumerable<User> users) => users.Select(u => u.ToUserVm()).ToList();
+	public static List<UserVm> ToUserVmList(this IEnumerable<User> users) => users.ToList(u => u.ToUserVm());
 
 	public static User ToUser(this UserVm vm)
 	{

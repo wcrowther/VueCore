@@ -3,13 +3,11 @@
 
     <PageTitleBox pageTitle="Account Details" />
 
-    <div class="mb-7">
-        <InfoBox>
-            This is an example of a fully functioning AccordionControl (utilizing nested AccordionControls),
-            configurable to have either single or multiple open items. By default, the AccordionItem
-            takes a string title but this can be modified by overriding the default title template.
-        </InfoBox>
-    </div>
+    <InfoBox>
+        This is an example of a fully functioning AccordionControl (utilizing nested AccordionControls),
+        configurable to have either single or multiple open items. By default, the AccordionItem
+        takes a string title but this can be modified by overriding the default title template.
+    </InfoBox>
 
     <AccordionControl id="examples-accordion" :multiple="false" :defaultOpen="[0]" class="mt-5 mb-10">
 

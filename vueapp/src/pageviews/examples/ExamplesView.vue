@@ -2,6 +2,7 @@
 
 	ShowSideButtonInSubNav()
 
+	const route 			= useRoute()
 	const selectedExample 	= ref('')
 	const examplesStore 	= useExamplesStore()
 	const { getComponent } 	= examplesStore
@@ -10,11 +11,14 @@
 	const selectedExampleComponent = computed(() => getComponent(selectedExample.value))
 	const breakPoint = 650
 
+	// e.g. /examples/intro/true opens the example in fullscreen mode
+	if (route.params.fullscreen === 'true') showFullscreen.value = true
+
 </script>
 
 <template>
 
-	<SidebarControl sideBarId="ControlsMain" :breakPoint="breakPoint">
+	<AppSidebar id="ControlsMain" :breakPoint="breakPoint">
 
 		<template #sidebar>
 			<ExamplesList v-model:selectedExample="selectedExample" />
@@ -36,6 +40,6 @@
 
 		</FullScreenControl>
 
-	</SidebarControl>
+	</AppSidebar>
 
 </template>

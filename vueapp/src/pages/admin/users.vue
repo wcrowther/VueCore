@@ -1,20 +1,8 @@
 
-<script setup>
-
-	ShowSideButtonInSubNav()
-    
-</script>
+<script setup></script>
 
 <template>
 
-    <SidebarControl id="adminUsers">
-    
-        <template #sidebar>
-            <UsersList />
-        </template>
-
-        <UsersDetail />
-
-    </SidebarControl>	
+    <UsersPage />
 
 </template>

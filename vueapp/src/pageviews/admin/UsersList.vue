@@ -206,7 +206,7 @@
         <UsersAdvSearch v-if="showAdvSearch" 
             v-model:showModal="showAdvSearch" 
             v-model:listPager="listPager"
-             @getListData="getListData" />
+            @getListData="getListData" />
 
     </div>
 

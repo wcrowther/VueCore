@@ -24,6 +24,7 @@ export const useAppStore = defineStore('AppStore', () =>
     const pagerDebuggerX        = useLocalStorage('pagerDebuggerX', 400)
     const pagerDebuggerY        = useLocalStorage('pagerDebuggerY', 30)
     const showPlatformInfo      = useLocalStorage('showPlatformInfo', false)
+    const hideToolTips          = useLocalStorage('hideToolTips', true)
 	
     // Getters ------------------------------------------------------------------
 
@@ -47,7 +48,8 @@ export const useAppStore = defineStore('AppStore', () =>
             'showPrevNext', 'showBreakpoints', 'showNotification',
             'showNewChatMessages','showJsonEntities', 'persistSearch', 
             'altTheme', 'fullWidth', 'infoLevel', 'activeFloater', 
-            'pagerDebugger', 'pagerDebuggerX', 'pagerDebuggerY', 'showPlatformInfo', 
+            'pagerDebugger', 'pagerDebuggerX', 'pagerDebuggerY', 'showPlatformInfo',
+            'activeFloater', 'disableGlobalKeys','hideToolTips'
         ]
 
         local.forEach(item => localStorage.removeItem(item))
@@ -94,6 +96,7 @@ export const useAppStore = defineStore('AppStore', () =>
         showPlatformInfo,
         activeFloater,
         disableGlobalKeys,
+        hideToolTips,
 
         infoLevelText,
 
