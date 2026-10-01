@@ -118,7 +118,7 @@ Plain JavaScript utility modules and directives with no Vue reactivity of their 
 Top-level `<router-view>` wrapper components (`LayoutMain.vue`, `LayoutAuth.vue`, `LayoutNoNav.vue`) that define the outer page chrome — nav bars, sidebars, footers — for groups of routes. A page picks its layout via route metadata, and the matched **pageviews** component is rendered inside it.
 
 #### /markdown
-Documentation written in Markdown and rendered inside the app itself (via `MarkdownEditor.vue`/`markdown.css`), including this file, [FilesFoldersHierarchy.md](FilesFoldersHierarchy.md), and `src.md`.
+Documentation written in Markdown and rendered inside the app itself (via `MarkdownEditor.vue`/`markdown.css`), including this file, [VueHierarchy.md](VueHierarchy.md), and `src.md`.
 
 #### /models
 Plain JS classes/factories describing the shape of domain data passed between the API and the UI, e.g. `AccountModel.js`, `UserModel.js`, `EventModel.js`, `MessageModel.js`, `PagerModel.js`.

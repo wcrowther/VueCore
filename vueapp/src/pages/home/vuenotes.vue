@@ -1,8 +1,8 @@
 <script setup>
 
     import '@/styles/markdown.css'
-	import FilesFolders_md 	            from '@/markdown/FilesFolders.md'
-	import FilesFoldersHierarchy_md 	from '@/markdown/FilesFoldersHierarchy.md'
+	import VueOverview_md 	from '@/markdown/VueOverview.md'
+	import VueHierarchy_md 	from '@/markdown/VueHierarchy.md'
 
 </script>
 
@@ -51,7 +51,7 @@
           
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
 
-                <FilesFolders_md class="markdown xl:col-span-2" />
+                <VueOverview_md class="markdown xl:col-span-2" />
 
                 <div class="bg-black text-white">
                     <div class="p-5 pb-0">
@@ -60,7 +60,7 @@
                         </div>
                         <hr class="border-t !border-white" />
                     </div>
-                    <FilesFoldersHierarchy_md class="markdown " />
+                    <VueHierarchy_md class="markdown " />
                 </div>
             </div>
         </div>

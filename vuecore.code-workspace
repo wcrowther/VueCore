@@ -4,17 +4,19 @@
 			"path": "vueapp"
 		},
 		{
-			"path": "coreApi"
-		},
-		{
-			"path": "coreData"
-		},
-		{
-			"path": "coreLogic"
-		},
-		{
-			"path": "coreLibrary"
+			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"chat.tools.terminal.autoApprove": {
+			"/^cmd\\.exe /c \"npm run build\"$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^cmd\\.exe /c \"npm run build && echo BUILD_SUCCESS_MARKER \\|\\| echo BUILD_FAILED_MARKER\"$/": {
+				"approve": true,
+				"matchCommandLine": true
+			}
+		}
+	}
 }

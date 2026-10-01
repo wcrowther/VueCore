@@ -156,7 +156,9 @@
         </PageTitleBox>
 
         <InfoBox>
-            This panel displays the details for a single Account, including contact information and billing address.
+            This section serves as an example of a typical editable business entity — a searchable, pageable list of
+            Accounts paired with a detail view for viewing and editing a single record, including contact information
+            and billing addresses.
             Use the <b>Add</b> button to create a new Account, or select an existing Account from the list to view and edit it.
             Changes are tracked automatically — the <b>Save</b> button activates when unsaved edits are detected.
         </InfoBox>

@@ -165,8 +165,8 @@ vueapp
 			- LayoutMain.vue
 			- LayoutNoNav.vue
 		- markdown
-			- FilesFolders.md
-			- FilesFoldersHierarchy.md
+			- VueOverview.md
+			- VueHierarchy.md
 			- src.md
 		- models
 			- AccountModel.js
