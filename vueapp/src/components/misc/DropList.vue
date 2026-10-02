@@ -125,6 +125,9 @@
 		window.removeEventListener('scroll', onViewportChange, true)
 	})
 
+	// Menu content is Teleported to <body>, so callers need this to check focus/click containment.
+	defineExpose({ menuRef })
+
 </script>
 
 <template>

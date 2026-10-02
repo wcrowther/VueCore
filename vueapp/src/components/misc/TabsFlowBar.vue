@@ -31,6 +31,7 @@
 	const isOverflowing 	 	= ref(false)
 	const layoutRecalcTick 		= ref(0)
 	const overflowTriggerRef 	= ref(null)
+	const dropListRef 			= ref(null)
 	const isOverflowMenuOpen 	= ref(false)
 	const { x } 				= useScroll(containerRef)
 	
@@ -246,7 +247,12 @@
 
 	const onOverflowFocusOut = event =>
 	{
-		if (!event.currentTarget?.contains(event.relatedTarget))
+		// Menu content is Teleported to <body>, so it isn't a DOM descendant of the trigger;
+		// check containment within the rendered menu too before treating focus as having left.
+		const movedWithinTrigger = event.currentTarget?.contains(event.relatedTarget)
+		const movedWithinMenu = dropListRef.value?.menuRef?.contains(event.relatedTarget)
+
+		if (!movedWithinTrigger && !movedWithinMenu)
 			closeOverflowMenuNow()
 	}
 
@@ -405,7 +411,7 @@
 			</div>
 		</div>
 
-		<DropList v-if="useMenuOverflow"
+		<DropList v-if="useMenuOverflow" ref="dropListRef"
 			v-model="isOverflowMenuOpen" :list="hiddenTabs" :anchorEl="overflowTriggerRef"
 			:maxHeight="props.menuMaxHeight"
 			@select="selectOverflowTab" @hover-enter="openOverflowMenuNow" 
