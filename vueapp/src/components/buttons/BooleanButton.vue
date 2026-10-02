@@ -12,7 +12,6 @@
 	})
 
 	const modelValue = defineModel ({ type: Boolean, default: false })
-	const attrs = useAttrs()
 
 </script>
 
@@ -22,7 +21,7 @@
 		:class="{'pr-3': (props.trueIcon || props.falseIcon)}">
 
 		<slot>
-			<span class="flex gap-1" v-bind="attrs">
+			<span class="flex gap-1">
 				<span v-if="text">{{ text }}</span>
 
 				<!-- stackTrueFalseText: stack both labels in one grid cell so the wider one sets a fixed width -->
