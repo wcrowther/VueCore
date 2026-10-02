@@ -12,7 +12,7 @@
 
         <BackGradation />
 
-        <div class="relative p-5 pt-5 sm:p-10 sm:pt-5 pb-14">
+        <div class="@container relative p-5 pt-5 sm:p-10 sm:pt-5 pb-14">
 
             <PageTitleBox pageTitle=".Net Notes" />
 
@@ -60,9 +60,9 @@
                 Markdown in the vite.config.mjs file to enable this capability.
             </HelpBox> 
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 @3xl:grid-cols-2 @6xl:grid-cols-3 gap-10">
 
-                <DotNetOverview_md class="markdown xl:col-span-2" />
+                <DotNetOverview_md class="markdown @6xl:col-span-2" />
 
                 <div class="bg-black text-white">
                     <div class="p-5 pb-0">

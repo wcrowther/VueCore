@@ -115,7 +115,7 @@ Static, hard-coded data arrays and lookup lists used to seed dropdowns, examples
 Plain JavaScript utility modules and directives with no Vue reactivity of their own, e.g. `validators.js`, `global.js`, `fileFolderHelpers.js`, `toolTipDirective.js`/`toolTipPlugin.js`, and the Conway's Game of Life helpers `lifeAlgorithms.js`/`lifePatterns.js`.
 
 #### /layouts
-Top-level `<router-view>` wrapper components (`LayoutMain.vue`, `LayoutAuth.vue`, `LayoutNoNav.vue`) that define the outer page chrome — nav bars, sidebars, footers — for groups of routes. A page picks its layout via route metadata, and the matched **pageviews** component is rendered inside it.
+Top-level wrapper components (`LayoutMain.vue`, `LayoutAuth.vue`, `LayoutNoNav.vue`) that define the outer page chrome — nav bars, sidebars, footers — for groups of routes. A page picks its layout by directly wrapping its template in one of these components (e.g. `<LayoutMain>...</LayoutMain>` in `pages/home.vue`), and the layout renders whatever is passed into its `<slot>` — typically a nested `<router-view>` whose matched **pageviews** component ends up rendered inside it.
 
 #### /markdown
 Documentation written in Markdown and rendered inside the app itself (via `MarkdownEditor.vue`/`markdown.css`), including this file, [VueHierarchy.md](VueHierarchy.md), and `src.md`.

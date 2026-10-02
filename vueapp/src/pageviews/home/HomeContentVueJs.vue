@@ -60,7 +60,7 @@
 			</li>
 			<li>
 				<span>Adaptive Mobile / Web Design</span>
-				The site is designe to be adaptive for the web at higher resolutions and for mobile when space
+				The site is designed to be adaptive for the web at higher resolutions and for mobile when space
 				is limited. The design features a left collapsible menu area for displaying lists.
 			</li>
 			<li>

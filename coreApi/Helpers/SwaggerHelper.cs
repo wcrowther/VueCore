@@ -40,7 +40,7 @@ public static class SwaggerHelper
 				Description = "Welcome to the VueCore API documentation. This OpenAPI definition is generated automatically by Swagger and is configured by environment so it can be enabled or disabled as needed. " +
 							  "Since Swagger UI (Swashbuckle) is no longer included in the default .NET 9+ Web API templates, it is added to this project manually via NuGet. \n\n" +
 							  "Most endpoints require authentication. In normal application usage, signing in through the Vue frontend issues a .NET authentication cookie that is sent with subsequent API requests. " +
-							  "Authenticate.Login uses this cookie-based flow and does not return a token in the response body. " +
+							  "Authenticate.Login uses this cookie-based flow and does not return a token in the response body. \n\n" +
 							  "For API clients such as Postman or manual bearer testing, use Authenticate.Token to retrieve a JWT, then use the Authorize button and provide: Bearer {token}. \n\n"
 			});
 
@@ -53,8 +53,8 @@ public static class SwaggerHelper
 					Name            = "Authorization",
 					BearerFormat    = "JWT",
 					Description     = "In normal application usage, sign in through the Vue frontend or use the API Authenticate.Login using cookie-based authentication.\n\n" +
-									  "For API clients such as Postman or manual bearer testing, use the API Authenticate.Token below to retrieve a JWT in the Response Body JSON 'Token' (without quotes)." +
-									  "Paste the token here and click 'Authorize' and you will be able to access the endpoints requiring Authorization.\n\n"
+									  "For API clients such as Postman or manual bearer testing, use the API Authenticate.Token below to retrieve a JWT in the Response Body JSON 'Token' (without quotes).\n\n" +
+									  "Paste the token here and click 'Authorize' and you will be able to access the endpoints requiring Authorization.\n\n \n\n"
 
 				}
 			);
