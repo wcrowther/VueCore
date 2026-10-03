@@ -11,6 +11,9 @@
     const rotateThree       = ref(false)
     const circleOne         = ref(false)
     const circleTwo         = ref(false)
+    const circleThree       = ref(false)
+    const circleFour        = ref(false)
+    const circleFive        = ref(false)
 
 </script>
 
@@ -26,7 +29,7 @@
             used for - the <b>ListButton</b> demos live in the sidebar to the right.
         </InfoBox>
 
-        <HelpBox>
+        <HelpBox class="mb-5">
             <div class="mb-3">
                 <b>Right-click to reverse:</b> <b>ListButton</b> and <b>InfoButton</b> both bind their 
                 right-click to step backward, so you never need a separate "previous" button.
@@ -117,10 +120,19 @@
                     </div>
                     <div class="flex gap-10 py-3">
 
-                        <CircleButton v-model="circleOne" borderColor="border-black" 
-                            bgColor="bg-white" padding="px-[1px] py-2" halfCircle="left" icon="heroicons:chevron-right"/>
+                        <CircleButton v-model="circleOne" 
+                            bgColor="bg-amber"  icon="heroicons:chevron-right"/>
+                        
+                        <CircleButton v-model="circleTwo" borderColor="border-gray"
+                            bgColor="bg-white" rotation="rotate-90" icon="heroicons:arrow-long-up"/>
 
-                        <CircleButton v-model="circleTwo" borderColor="border-black" size="12px"
+                        <CircleButton v-model="circleThree" 
+                            bgColor="bg-blue-200" padding="px-[1px] py-2" halfCircle="left" icon="heroicons:chevron-right"/>
+
+                        <CircleButton v-model="circleFour" borderColor="border-gray" size="18px"
+                            bgColor="bg-white" padding="pr-1" halfCircle="left" icon="heroicons:chevron-right"/>
+
+                        <CircleButton v-model="circleFive" borderColor="border-black" size="12px"
                             bgColor="bg-white" padding="px-[1px] py-[2px]" halfCircle="left" icon="heroicons:chevron-right"/>
 
                     </div>  

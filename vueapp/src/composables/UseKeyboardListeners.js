@@ -92,8 +92,7 @@ export function KeyboardListeners(bindings, disabled = false)
 			if (!isMatch(e, item.rule))
 				continue
 
-			e.preventDefault()
-			item.run(e)
+			if (item.run(e) !== false) e.preventDefault()
 			return
 		}
 	}

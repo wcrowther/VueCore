@@ -287,7 +287,7 @@
 		'ArrowUp':    	() => highlightPrev(),
 		'Enter':     	() => confirmSelection(),
 		'Escape':    	() => closeDropdown(),
-		'Backspace': 	() => { if (!search.value) removeLastSelected() }
+		'Backspace': 	() => { if (search.value) return false; removeLastSelected() }
 	}
 
 	KeyboardListeners(keys, disableKeys)
@@ -337,13 +337,14 @@
 		if (!items.length)
 		{
 			highlightedIndex.value = -1
-			return
 		}
-
-		if (highlightedIndex.value >= items.length)
+		else if (highlightedIndex.value >= items.length)
 		{
 			highlightedIndex.value = items.length - 1
 		}
+
+		// menu height changes with the item count, so reposition once it's rendered
+		if (isOpen.value) nextTick(() => updateDropdownPosition())
 	})
 
 	watch(highlightedIndex, (index) =>
@@ -381,7 +382,7 @@
 		<!-- Input container -->
 		<div class="relative flex flex-wrap items-center gap-2 border 
 			border-slate-400 px-2 py-1 pr-8"
-			@click="openDropdown()" ref="inputContainer">
+			ref="inputContainer">
 
 			<!-- Selected (capsule or comma) -->
 			<template v-if="mode !== 'comma'">

@@ -11,9 +11,6 @@
 		flipSide:	{ type: Boolean, default: false }
 	});
 
-	// track the control's own container width instead of the window width, so collapsing
-	// works correctly when this control is nested in a narrower layout (e.g. a panel or modal)
-
 	const containerRef = ref(null)
 	const { width: containerWidth } = useElementSize(containerRef)
 
