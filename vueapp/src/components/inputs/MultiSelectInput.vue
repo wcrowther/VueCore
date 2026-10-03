@@ -30,6 +30,7 @@
 	const selected 				= ref([])
 	const recentlyCheckedValues = ref([])
 	const filterInput 			= ref(null)
+	const commaTextarea 		= ref(null)
 	const dropdownMenu 			= ref(null)
 	const optionRefs 			= ref([])
 	const dropdownStyle 		= ref({})
@@ -211,6 +212,49 @@
 		emitSelected()
 	}
 
+	// Comma mode: selected items shown/edited as a single comma separated text field
+	const commaText 	  = ref('')
+	const isEditingComma  = ref(false)
+
+	const autoSizeCommaTextarea = () =>
+	{
+		const el = commaTextarea.value
+		if (!el) return
+
+		el.style.height = 'auto'
+		el.style.height = `${el.scrollHeight}px`
+
+		if (isOpen.value) updateDropdownPosition()
+	}
+
+	watch(selected, (items) =>
+	{
+		if (!isEditingComma.value)
+		{
+			commaText.value = items.map(item => item.label).join(', ')
+			nextTick(autoSizeCommaTextarea)
+		}
+	}, { immediate: true })
+
+	const onCommaFocus = () => { isEditingComma.value = true }
+
+	const onCommaBlur = () =>
+	{
+		isEditingComma.value = false
+
+		const matched = commaText.value
+			.split(',')
+			.map(label => label.trim())
+			.filter(Boolean)
+			.map(label => normalizedItems.value.find(item => item.label.toLowerCase() === label.toLowerCase()))
+			.filter(Boolean)
+
+		selected.value = matched.filter((item, index) => matched.findIndex(m => m.value === item.value) === index)
+		commaText.value = selected.value.map(item => item.label).join(', ')
+		emitSelected()
+		nextTick(autoSizeCommaTextarea)
+	}
+
 	const selectAllItems = () =>
 	{
 		recentlyCheckedValues.value = []
@@ -357,7 +401,11 @@
 		nextTick(() => scrollHighlightedItemIntoView())
 	})
 
-	onMounted(() => updateDropdownPosition())
+	onMounted(() =>
+	{
+		updateDropdownPosition()
+		nextTick(autoSizeCommaTextarea)
+	})
 
 
 </script>
@@ -394,10 +442,12 @@
 				</span>
 			</template>
 			<template v-else>
-				<span v-for="(item, index) in selected" :key="item.value"
-					class="text-sm text-gray-500 break-words last-of-type:mr-1">
-					{{ item.label }}{{ index < selected.length - 1 ? ',' : '' }}
-				</span>
+				<textarea v-model="commaText" ref="commaTextarea" rows="1"
+					@focus="onCommaFocus" @blur="onCommaBlur" @input="autoSizeCommaTextarea"
+					placeholder="None selected"
+					class="text-sm text-gray-500 border-0 w-full min-w-[120px] outline-none resize-none
+					overflow-hidden break-words leading-6
+					ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none"></textarea>
 			</template>
 
 			<!-- Input  -->
