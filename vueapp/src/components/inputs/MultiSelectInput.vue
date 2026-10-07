@@ -1,6 +1,6 @@
 <script setup>
 
-	import { onClickOutside } from '@vueuse/core'
+	import { onClickOutside } 		from '@vueuse/core'
 	import { useDropdownPlacement } from '@/composables/UseDropdownPlacement' // menu positioning helper
 
 	const MENU_GAP = 4
@@ -12,7 +12,7 @@
 		optionsList:	{ type: Object,  default: null }, 		// { value: label }
 		hideSelected:	{ type: Boolean, default: true },
 		placeholder: 	{ type: String,  default: 'Search...' },
-		mode: 			{ type: String,  default: 'capsule' }, 	// 'capsule' | 'comma'
+		mode: 			{ type: String,  default: 'capsule' }, 	// 'capsule' | 'text'
 		showSelectAll:	{ type: Boolean, default: true },		// show 'Select All'
 		showSelectNone:	{ type: Boolean, default: true },		// show 'Select None'
 		labelName:      { type: String,  required: true },  	// label for select
@@ -30,7 +30,7 @@
 	const selected 				= ref([])
 	const recentlyCheckedValues = ref([])
 	const filterInput 			= ref(null)
-	const commaTextarea 		= ref(null)
+	const textTextarea 			= ref(null)
 	const dropdownMenu 			= ref(null)
 	const optionRefs 			= ref([])
 	const dropdownStyle 		= ref({})
@@ -212,37 +212,39 @@
 		emitSelected()
 	}
 
-	// Comma mode: selected items shown/edited as a single comma separated text field
-	const commaText 	  = ref('')
-	const isEditingComma  = ref(false)
+	// Text mode: selected items shown/edited as a single comma separated text field
+	const textValue 	  = ref('')
+	const isEditingText   = ref(false)
 
-	const autoSizeCommaTextarea = () =>
+	// the mirror sizes the box's width to fit the content; height is set from the real textarea's
+	// scrollHeight since its native wrapping can differ from the mirror's by a word at the edge
+	const autoSizeTextarea = () =>
 	{
-		const el = commaTextarea.value
-		if (!el) return
+		const textarea = textTextarea.value
+		if (!textarea) return
 
-		el.style.height = 'auto'
-		el.style.height = `${el.scrollHeight}px`
+		textarea.style.height = 'auto'
+		textarea.style.height = `${textarea.scrollHeight}px`
 
 		if (isOpen.value) updateDropdownPosition()
 	}
 
 	watch(selected, (items) =>
 	{
-		if (!isEditingComma.value)
+		if (!isEditingText.value)
 		{
-			commaText.value = items.map(item => item.label).join(', ')
-			nextTick(autoSizeCommaTextarea)
+			textValue.value = items.map(item => item.label).join(', ')
+			nextTick(autoSizeTextarea)
 		}
 	}, { immediate: true })
 
-	const onCommaFocus = () => { isEditingComma.value = true }
+	const onTextFocus = () => { isEditingText.value = true }
 
-	const onCommaBlur = () =>
+	const onTextBlur = () =>
 	{
-		isEditingComma.value = false
+		isEditingText.value = false
 
-		const matched = commaText.value
+		const matched = textValue.value
 			.split(',')
 			.map(label => label.trim())
 			.filter(Boolean)
@@ -250,9 +252,9 @@
 			.filter(Boolean)
 
 		selected.value = matched.filter((item, index) => matched.findIndex(m => m.value === item.value) === index)
-		commaText.value = selected.value.map(item => item.label).join(', ')
+		textValue.value = selected.value.map(item => item.label).join(', ')
 		emitSelected()
-		nextTick(autoSizeCommaTextarea)
+		nextTick(autoSizeTextarea)
 	}
 
 	const selectAllItems = () =>
@@ -404,7 +406,7 @@
 	onMounted(() =>
 	{
 		updateDropdownPosition()
-		nextTick(autoSizeCommaTextarea)
+		nextTick(autoSizeTextarea)
 	})
 
 
@@ -432,8 +434,8 @@
 			border-slate-400 px-2 py-1 pr-8"
 			ref="inputContainer">
 
-			<!-- Selected (capsule or comma) -->
-			<template v-if="mode !== 'comma'">
+			<!-- Selected (capsule or text) -->
+			<template v-if="mode !== 'text'">
 				<span v-for="item in selected" :key="item.value"
 					class="flex items-center bg-[#b8d7ed] text-black tracking-wider 
 					font-bold pl-3 pr-2 py-[2px] text-xs rounded-full last-of-type:mr-1">
@@ -442,12 +444,16 @@
 				</span>
 			</template>
 			<template v-else>
-				<textarea v-model="commaText" ref="commaTextarea" rows="1"
-					@focus="onCommaFocus" @blur="onCommaBlur" @input="autoSizeCommaTextarea"
-					placeholder="None selected"
-					class="text-sm text-gray-500 border-0 w-full min-w-[120px] outline-none resize-none
-					overflow-hidden break-words leading-6
-					ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none"></textarea>
+				<!-- grid-stacks a hidden text mirror under the textarea so the box shrinks/grows to fit the content, like the capsules -->
+				<div v-if="textValue || isEditingText" class="grid min-w-[20px]">
+					<div aria-hidden="true" class="invisible col-start-1 row-start-1 whitespace-pre-wrap break-words
+						text-sm leading-6">{{ textValue + '\u00A0' }}</div>
+					<textarea v-model="textValue" ref="textTextarea" rows="1"
+						@focus="onTextFocus" @blur="onTextBlur" @input="autoSizeTextarea"
+						class="col-start-1 row-start-1 w-full p-0 text-sm text-gray-500 border-0 outline-none resize-none
+						overflow-hidden whitespace-pre-wrap break-words leading-6
+						ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none"></textarea>
+				</div>
 			</template>
 
 			<!-- Input  -->
@@ -519,6 +525,6 @@
 	<MultiSelectInput v-model="selected" :optionsList="items"  :hideSelected="false" />
 
 	<MultiSelectInput v-model="selectedStates" labelName="U.S. States" :optionsList="usStatesList" 
-		class="mt-10" mode="comma" :hideSelected="true" />
+		class="mt-10" mode="text" :hideSelected="true" />
 
 -->
