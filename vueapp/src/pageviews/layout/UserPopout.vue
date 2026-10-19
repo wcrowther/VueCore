@@ -51,7 +51,7 @@
 
         <div v-if="isLoggedIn" @click="popoutToggle(true)" title="Show user popout" id="popout"
             class="relative z-[100] text-white size-10 tracking-wider 
-                rounded-full bg-gray-700 flex-center hover:bg-opacity-30">
+                rounded-full bg-gray-700 flex-center hover:bg-gray-700/30">
             <span class="text-sm m-auto">{{firstInitial}}</span>
         </div>
 
@@ -211,7 +211,8 @@
 
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+    @reference "../../styles/tailwind.css";
 
     .label-row      { @apply flex h-8 items-center }
     .label-title    { @apply w-1/2 font-bold whitespace-nowrap }

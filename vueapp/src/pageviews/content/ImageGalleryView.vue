@@ -177,7 +177,8 @@
 
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+    @reference "../../styles/tailwind.css";
     .active-row     { @apply bg-gradient-white }
     .active-arrow   { @apply w-0 h-0 border-x-[8px] border-y-[6px] border-transparent border-l-[#91a5bd] relative left-3 }
     .reset-x        { @apply text-black hover:text-color-mid-gray }

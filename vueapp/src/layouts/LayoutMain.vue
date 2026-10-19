@@ -61,7 +61,8 @@
 </template> 
 
 	
-<style lang="postcss" scoped>
+<style scoped>
+	@reference "../styles/tailwind.css";
 
 	.active-tab .icon-symbol { @apply text-orange hover:text-black }
 	

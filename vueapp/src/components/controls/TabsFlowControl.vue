@@ -150,7 +150,8 @@
 
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+	@reference "../../styles/tailwind.css";
 
 	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border border-gray-400 border-b-0
 		text-sm z-[100] font-bold select-none relative -mb-px whitespace-nowrap cursor-pointer }

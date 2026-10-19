@@ -112,7 +112,7 @@
 			<!-- Editor -->
 			<div v-show="!isPreview" class="h-full">
 				<textarea id="editor" v-model="content" 
-					class="w-full h-full p-4 outline-none resize-none font-mono"
+					class="w-full h-full p-4 outline-hidden resize-none font-mono"
 					@drop="onDrop" @dragover="onDragOver" />
 			</div>
 
@@ -125,5 +125,6 @@
 </template>
 
 <style scoped>
+	@reference "../../styles/tailwind.css";
 	.btnIcon { @apply flex-center size-8 rounded border border-gray-400 h-8 hover:bg-gray-200 transition;	}
 </style>

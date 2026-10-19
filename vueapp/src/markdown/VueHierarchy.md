@@ -325,9 +325,7 @@ vueapp
 	- nuget.config
 	- package.json
 	- package-lock.json
-	- postcss.config.js
 	- README.md
-	- tailwind.config.js
 	- vite.config.mjs
 	- vueapp.esproj
 

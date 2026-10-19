@@ -59,6 +59,7 @@
 </template>
 
 <style scoped>
+	@reference "../../styles/tailwind.css";
 	.btnTool { @apply h-8 px-2 rounded border text-xs flex items-center gap-1 transition disabled:opacity-60 disabled:cursor-not-allowed; }
 	.btnTool-active { @apply bg-blue-100 border-blue-300 text-blue-900; }
 	.btnTool-inactive { @apply bg-white border-gray-300 text-color-dark-gray; }

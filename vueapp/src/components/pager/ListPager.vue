@@ -43,7 +43,8 @@
      </div>
 </template>
 
-<style lang="postcss"  scoped>
+<style  scoped>
+    @reference "../../styles/tailwind.css";
 
     .pagerPage{
         @apply text-slate-400 hover:text-color-red font-bold 

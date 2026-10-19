@@ -101,7 +101,7 @@
 <style scoped>
 	.custom-scrollbar::-webkit-scrollbar { height: 8px; }
 	.custom-scrollbar::-webkit-scrollbar-thumb { 
-		background: theme('colors.slate.700');
+		background: var(--color-slate-700);
 		border-radius: 4px;
 	}
 	pre { margin: 0; }

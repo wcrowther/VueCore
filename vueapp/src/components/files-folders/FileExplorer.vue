@@ -55,6 +55,7 @@
 </template>
 
 <style scoped>
+	@reference "../../styles/tailwind.css";
 	.btnIcon { @apply flex-center size-8 rounded border border-gray-400 h-8 hover:bg-gray-200 transition;	}
 </style>
 0

@@ -123,7 +123,8 @@
 	</div>
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+    @reference "../../styles/tailwind.css";
     .chat-user { @apply px-2 pt-[3px] pb-[2px] bg-[#f8ac59] text-red rounded-full text-center text-xs font-bold select-none }
     .current-user{ @apply text-color-dark-gray }
 </style>

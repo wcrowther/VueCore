@@ -47,7 +47,8 @@
     </Teleport>
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+    @reference "../../styles/tailwind.css";
     .capsule {
         @apply px-2 pt-[3px] pb-[2px] bg-[#f8ac59] text-red rounded-full text-center text-xs font-bold select-none 
     }

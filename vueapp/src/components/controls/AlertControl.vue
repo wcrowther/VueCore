@@ -65,7 +65,7 @@
 
 	<Teleport to="#modals">
 		<div v-if="showAlert"
-			class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+			class="fixed inset-0 flex items-center justify-center bg-black/50"
 			:style="{ zIndex: props.zIndex }">
 
 			<div class="bg-white p-5 pb-7 max-w-[300px] min-w-[200px] rounded shadow-md">
@@ -74,7 +74,7 @@
 				<div class="flex justify-end">
 
 					<button @click="onClose" v-focus @keydown.enter.prevent.stop="onClose"  
-						class="mr-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 focus:outline-none">
+						class="mr-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 focus:outline-hidden">
 						{{props.closeText}}
 					</button>
 

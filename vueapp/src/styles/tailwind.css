@@ -1,10 +1,133 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+/* Theme tokens migrated from tailwind.config.js (Tailwind v3 -> v4) ===== */
+@theme {
+	/* Custom breakpoint scale (replaces the default scale entirely) */
+	--breakpoint-*: initial;
+	--breakpoint-xxs: 390px;
+	--breakpoint-xs: 480px;
+	--breakpoint-sm: 640px;
+	--breakpoint-md: 800px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1280px;
+	--breakpoint-2xl: 1536px;
+	--breakpoint-3xl: 1920px;
+
+	/* Custom container-query size (extends the built-in scale) */
+	--container-2xs: 16rem; /* 256px */
+
+	/* Fonts */
+	--font-sans: Roboto, "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+	--font-serif: "Roboto Serif", Merriweather, serif;
+	--font-display: "Roboto Condensed", Merriweather, "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+	--text-xxs: 0.5rem;
+	--text-xxs--line-height: .75rem;
+
+	/* Drop shadows / box shadows (extend defaults) */
+	--drop-shadow-theme-layout: var(--theme-shadow);
+	--shadow-main: -8px 8px 18px -4px rgba(97,97,97,0.75);
+	--shadow-theme-layout: var(--theme-shadow);
+
+	/* Background images / gradients (extend defaults) */
+	--background-image-brand-logo: var(--logo-url);
+	--background-image-gradient-brand: var(--gradient-brand);
+	--background-image-gradient-navbar: var(--gradient-navbar);
+	--background-image-gradient-back: var(--gradient-back);
+	--background-image-gradient-footer: var(--gradient-footer);
+	--background-image-gradient-source: linear-gradient( 0, transparent 40%, white 60%);
+	--background-image-gradient-modal-bar: linear-gradient( 58deg, #e8e8e8 20%, rgb(125 125 125) 100%);
+	--background-image-gradient-table-head: linear-gradient( 58deg, #dddddd 50%, #bdbdbd 100%);
+	--background-image-gradient-tab-bar: linear-gradient( 58deg, #1c2157 50%, black 100%);
+	--background-image-gradient-subnav: linear-gradient( 170deg, #bdbdbd 0%, white 10%);
+	--background-image-gradient-background: linear-gradient( to right, #7cb9da 20%, #1b2157 80%);
+	--background-image-gradient-main: linear-gradient( 205deg, #b8d7ed 0%, white 50%);
+	--background-image-gradient-main-red: linear-gradient( 205deg, red 0%, white 50%);
+	--background-image-gradient-modal: linear-gradient( 205deg, #b8d7ed 30%, white 65%);
+	--background-image-gradient-side: linear-gradient( 205deg, #bdbdbd 0%, white 65%);
+	--background-image-gradient-side-alt: linear-gradient( 187deg, #868686 0%, white 75%);
+	--background-image-gradient-side2: linear-gradient( to right, white 75%, #e9e9e9 100%);
+	--background-image-gradient-main3: linear-gradient( 205deg, #e5e5e5 45%, white 100%);
+	--background-image-gradient-stripes: linear-gradient( 45deg, rgb(55, 48, 163, 0.5) 22%, #1c2157 83% ),
+		repeating-linear-gradient(-45deg, red, red 5px, blue 5px, blue 10px);
+	--background-image-gradient-stripes2: repeating-linear-gradient(135deg, #1e293b, #1e293b 10px, black 10px, black 20px);
+	--background-image-gradient-stripes3: repeating-linear-gradient(220deg, #1e293b, #1e293b 10px, black 10px, black 20px);
+	--background-image-gradient-white: linear-gradient( 0deg, white 0%, white 100%);
+	--background-image-gradient-tab: linear-gradient( 131deg, #91a5bd 0%, #91a5bd 30%);
+	--background-image-gradient-tab-active: linear-gradient( 220deg, #dadada 0%, white 20%);
+
+	/* Bare/DEFAULT shade (e.g. `bg-slate`, `text-red`) for every default palette color */
+	--color-slate: var(--color-slate-500);
+	--color-gray: var(--color-gray-500);
+	--color-zinc: var(--color-zinc-500);
+	--color-neutral: var(--color-neutral-500);
+	--color-stone: var(--color-stone-500);
+	--color-red: var(--color-red-500);
+	--color-orange: var(--color-orange-500);
+	--color-amber: var(--color-amber-500);
+	--color-yellow: var(--color-yellow-500);
+	--color-lime: var(--color-lime-500);
+	--color-green: var(--color-green-500);
+	--color-emerald: var(--color-emerald-500);
+	--color-teal: var(--color-teal-500);
+	--color-cyan: var(--color-cyan-500);
+	--color-sky: var(--color-sky-500);
+	--color-blue: var(--color-blue-500);
+	--color-indigo: var(--color-indigo-500);
+	--color-violet: var(--color-violet-500);
+	--color-purple: var(--color-purple-500);
+	--color-fuchsia: var(--color-fuchsia-500);
+	--color-pink: var(--color-pink-500);
+	--color-rose: var(--color-rose-500);
+
+	/* Custom 'warm' color scale */
+	--color-warm: var(--color-warm-400);
+	--color-warm-50: #E8E7E1;
+	--color-warm-100: #DFDED6;
+	--color-warm-200: #CDCCBF;
+	--color-warm-300: #BBB9A8;
+	--color-warm-400: #A9A791;
+	--color-warm-500: #908E72;
+	--color-warm-600: #716F59;
+	--color-warm-700: #525040;
+	--color-warm-800: #323127;
+	--color-warm-900: #13120F;
+
+	/* Flat custom color tokens (brand palette) */
+	--color-color-gray: #cccccc;
+	--color-color-lighter-gray: #e8e8e8;
+	--color-color-light-gray: #dddddd;
+	--color-color-mid-gray: #b7b7b7;
+	--color-color-dark-gray: #595A50;
+	--color-color-red: #e53119;
+	--color-color-dark-red: #b0321f;
+	--color-color-primary: #81caff;
+	--color-color-secondary: #9b6f24;
+	--color-color-tertiary: #d6901a;
+	--color-color-blue-gray: #99b3cf;
+	--color-color-light-blue: #b8d7ed;
+	--color-color-mid-blue: #6fa2ca;
+	--color-color-blue: #1c2157;
+	--color-color-orange: #f97316;
+	--color-color-dark-blue: #3e5091;
+	--color-color-theme-footer-text: var(--theme-footer-text);
+	--color-color-theme-nav-tab-text: var(--theme-footer-text);
+	--color-color-theme-nav-tab-back: var(--theme-footer-text);
+}
+/* ======================================================================= */
 
 @layer base 
 {
 	/* ---------------------------------------------- */
+
+	/* v4 changed the default border/divide color from gray-200 to currentColor.
+	   Restore the v3 default so the many `border`/`divide` utilities used across
+	   the app without an explicit color keep their original gray-200 appearance. */
+	*, ::after, ::before, ::backdrop, ::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
 
 	:root {
 		--logo-url: url('/images/VueCore_sans_white.png');
@@ -60,7 +183,7 @@
 	.v-select,
 	.v-select ul
 	{
-		@apply w-full border border-slate-400 rounded-sm px-2 py-1 shadow-sm ring-offset-0
+		@apply w-full border border-slate-400 rounded-xs px-2 py-1 shadow-xs ring-offset-0
 			focus:border-color-orange focus:ring-color-orange placeholder-slate-300;
 	}
 
@@ -73,17 +196,22 @@
 	}
 }
 
+/* `flex-center` is applied from other components' scoped <style> blocks (via @reference), so it
+   must be a real @utility (recognized by the engine) rather than a plain @layer components class. */
+@utility flex-center {
+	@apply flex justify-center items-center;
+}
+
 /* Custom classes (only for css beyond what can be done in TailwindCss) primary: #99b3cf */
 @layer components 
 {
 	strong 			{ @apply text-color-red }
 	.main-width 	{ @apply min-w-[380px] max-w-[1230px] md:mx-5 xl:mx-auto }
-	.flex-center 	{ @apply flex justify-center items-center }
 	.link-underline { @apply cursor-pointer hover:underline hover:text-color-blue underline-offset-4 }
 
 	.v-select { 
 		@apply w-full border border-color-dark-gray rounded-md px-3 py-1 
-			shadow-smfocus:border-orange focus:ring-color-orange
+			shadow-xs focus:border-orange focus:ring-color-orange
 	}
 	.btn-delete, .btn-disable, .btn-cancel, .btn-primary:disabled { 
 		@apply bg-color-mid-gray text-color-dark-gray select-none text-sm border border-transparent
@@ -109,7 +237,7 @@
 
 	.slider-range-input
 	{
-		@apply h-[4px] w-full appearance-none bg-[#ddd] outline-none accent-blue-500;
+		@apply h-[4px] w-full appearance-none bg-[#ddd] outline-hidden accent-blue-500;
 	}
 	.slider-range-input::-webkit-slider-thumb 
 	{

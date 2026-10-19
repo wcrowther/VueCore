@@ -6,7 +6,7 @@
 // Click the capsule to toggle between the element's current width in px and its @container tier.
 // The bound value (if any) is treated as a "hidden" flag, letting the capsule be toggled reactively.
 
-// Matches tailwind.config.js `theme.containers` plus @tailwindcss/container-queries defaults
+// Matches the --container-* theme tokens in src/styles/tailwind.css (Tailwind v4's built-in container queries)
 const CONTAINER_TIERS =
 [
 	{ name: '2xs', minWidth: 256  },

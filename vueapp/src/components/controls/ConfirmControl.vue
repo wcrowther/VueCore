@@ -78,7 +78,7 @@
 
 	<Teleport to="#modals">
 		<div v-if="showConfirm"
-			class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+			class="fixed inset-0 flex items-center justify-center bg-black/50"
 			:style="{ zIndex: props.zIndex }">
 
 			<div class="bg-white p-5 pb-7 rounded shadow-md">
@@ -87,12 +87,12 @@
 				<div class="flex justify-end">
 
 					<button @click="onConfirm" v-focus @keydown.enter.prevent.stop="onConfirm"  
-						class="mr-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 focus:outline-none">
+						class="mr-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 focus:outline-hidden">
 						{{props.confirmText}}
 					</button>
 
 					<button @click="onCancel" @keydown.enter.prevent.stop="onCancel"  
-						class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none">
+						class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-hidden">
 						{{props.cancelText}}
 					</button>
 

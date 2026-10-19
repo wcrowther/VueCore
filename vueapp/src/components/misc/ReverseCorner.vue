@@ -22,7 +22,7 @@
 </template>
 
 
-<style lang="postcss"> 
+<style  scoped> 
     /* Important: Should not be scoped. Note: this is CSS NOT tailwind */
     .corner:before
     {

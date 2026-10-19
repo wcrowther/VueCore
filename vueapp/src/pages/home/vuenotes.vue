@@ -26,14 +26,15 @@
                 <code>unplugin-vue-router</code>, which turns the folder structure under <code>/src/pages</code>
                 into the app's routes automatically.
                 <br /><br />
-                All of this is styled with <b>Tailwind CSS</b>, a utility-first CSS framework where components are
+                All of this is styled with <b>Tailwind CSS</b> (v4), a utility-first CSS framework where components are
                 styled by composing small, single-purpose classes (like <code>flex</code>, <code>p-5</code>,
                 <code>text-lg</code>) directly in the markup rather than writing separate CSS files. Tailwind scans
-                the source files, generates only the CSS actually used, and is configured in
-                <code>tailwind.config.js</code> and processed through <code>postcss.config.js</code>.
+                the source files, generates only the CSS actually used, and is configured CSS-first in
+                <code>src/styles/tailwind.css</code> via an <code>@theme</code> block, processed through the
+                <code>@tailwindcss/vite</code> plugin registered in <code>vite.config.mjs</code>.
                 <br /><br />
                 Tying it together is <b>Vite</b>, the build tool and dev server that compiles <code>.vue</code>
-                files, runs Tailwind's PostCSS pipeline, enables hot-module replacement during development, and
+                files, runs the Tailwind Vite plugin, enables hot-module replacement during development, and
                 bundles everything into the optimized <code>/dist</code> folder for production. Vite itself runs on
                 <b>Node.js</b>, the JavaScript runtime that executes build tooling outside the browser, while
                 <b>npm</b> (Node Package Manager) installs and manages every dependency listed in

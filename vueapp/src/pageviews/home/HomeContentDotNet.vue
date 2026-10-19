@@ -60,7 +60,8 @@
 
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+    @reference "../../styles/tailwind.css";
 
     .ol-list                { @apply w-full list-decimal pl-8 }
     .ol-list li             { @apply mb-3 }

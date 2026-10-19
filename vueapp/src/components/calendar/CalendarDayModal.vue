@@ -108,7 +108,7 @@
         </div>
         
         <template #footer>
-            <button class="ml-4 text-xs mr-auto outline-none" @click="disableKeys=!disableKeys">
+            <button class="ml-4 text-xs mr-auto outline-hidden" @click="disableKeys=!disableKeys">
                 {{ (disableKeys ?'Keys On':'Keys OFF') }}
             </button>
 

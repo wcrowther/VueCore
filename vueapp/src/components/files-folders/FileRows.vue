@@ -76,9 +76,9 @@
 					@click.stop.prevent="onPreviewClick(file, idx, $event)">
 					<img v-if="isImageFile(file.extension)"
 						:src="getFileUrl(file)"
-						class="size-8 object-contain block rounded-sm bg-white" />
+						class="size-8 object-contain block rounded-xs bg-white" />
 					<div v-else
-						class="size-8 bg-gray-300 rounded-sm" />
+						class="size-8 bg-gray-300 rounded-xs" />
 				</div>
 				<div class="pl-6 px-3 py-2 border-b border-gray-200 break-all min-w-16">
 					{{ trimExtension(file.name) }}

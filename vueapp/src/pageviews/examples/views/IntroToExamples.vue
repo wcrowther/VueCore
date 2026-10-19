@@ -48,7 +48,7 @@
 
                 <router-link to="/examples/inputs" class="text-color-dark-blue hover:opacity-60">
                     <img src="/images/inputs example.png"
-                        alt="Inputs preview" class="float-right ml-6 mb-3 w-[180px] rounded border border-gray-300 shadow-sm" />
+                        alt="Inputs preview" class="float-right ml-6 mb-3 w-[180px] rounded border border-gray-300 shadow-xs" />
                 </router-link>
 
                 <h3 class="font-bold text-base mb-2">
@@ -73,7 +73,7 @@
             
                 <router-link to="/examples/content" class="text-color-dark-blue hover:opacity-60">
                     <img src="/images/content example crop.png"
-                        alt="Content preview" class="float-left mr-6 mb-3 w-[180px] rounded border border-gray-300 shadow-sm" />
+                        alt="Content preview" class="float-left mr-6 mb-3 w-[180px] rounded border border-gray-300 shadow-xs" />
                 </router-link>
 
                 <h3 class="font-bold text-base mb-2">
@@ -98,7 +98,7 @@
 
                 <router-link to="/examples/checkers" class="text-color-dark-blue hover:opacity-60">
                     <img src="/images/checkers game.png" 
-                        alt="Checkers preview" class="float-right ml-6 mb-3 w-[180px] rounded border border-gray-300 shadow-sm" />
+                        alt="Checkers preview" class="float-right ml-6 mb-3 w-[180px] rounded border border-gray-300 shadow-xs" />
                 </router-link>
 
                 <h3 class="font-bold text-base mb-2">
@@ -123,7 +123,7 @@
 
                 <router-link to="/examples/conwayslife" class="text-color-dark-blue hover:opacity-60">
                     <img src="/images/conways life.png"
-                        alt="Conway's Life preview" class="float-left mr-6 mb-3 w-[180px] rounded border border-gray-300 shadow-sm" />
+                        alt="Conway's Life preview" class="float-left mr-6 mb-3 w-[180px] rounded border border-gray-300 shadow-xs" />
                 </router-link>
 
                 <h3 class="font-bold text-base mb-2">

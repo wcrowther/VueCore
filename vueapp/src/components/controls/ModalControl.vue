@@ -29,12 +29,12 @@
 			<!-- Modal Overlay (the semi-transparent background behind the modal) -->
 			<div v-if="showModal" id="ModalOverlay"
 				@click.self="props.overlayClosesModal && closeModal()"
-                class="flex fixed z-[999] top-0 left-0 w-full h-full bg-black 
-					bg-opacity-30 transition-opacity ease-in-out duration-75">
+                class="flex fixed z-[999] top-0 left-0 w-full h-full bg-black/30 
+					transition-opacity ease-in-out duration-75">
 
 				<!-- Modal Container -->
 				<div class="flex flex-col m-auto  max-w-screen transition-all relative 
-					bg-white rounded-sm shadow-lg shadow-color-dark-gray"
+					bg-white rounded-xs shadow-lg shadow-color-dark-gray"
 					:style="{ height: props.height, width: props.width }">
 
 					<!-- Modal Header -->
@@ -73,7 +73,7 @@
 	</Teleport> 
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
 
     /* The following styles are auto-applied to elements with transition="modal" when their visibility is 
     * toggled by Vue.js. You can easily play with the modal transition by editing these styles. */

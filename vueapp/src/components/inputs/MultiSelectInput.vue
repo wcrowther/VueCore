@@ -450,16 +450,16 @@
 						text-sm leading-6">{{ textValue + '\u00A0' }}</div>
 					<textarea v-model="textValue" ref="textTextarea" rows="1"
 						@focus="onTextFocus" @blur="onTextBlur" @input="autoSizeTextarea"
-						class="col-start-1 row-start-1 w-full p-0 text-sm text-gray-500 border-0 outline-none resize-none
+						class="col-start-1 row-start-1 w-full p-0 text-sm text-gray-500 border-0 outline-hidden resize-none
 						overflow-hidden whitespace-pre-wrap break-words leading-6
-						ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none"></textarea>
+							ring-0 shadow-none focus:outline-hidden bg-transparent focus:ring-0 focus:shadow-none"></textarea>
 				</div>
 			</template>
 
 			<!-- Input  -->
 			<input v-model="search" :placeholder
-				class="pl-2 text-sm border-0 flex-1 h-6 min-w-[120px] outline-none placeholder:text-gray-400
-				ring-0 shadow-none focus:outline-none bg-transparent focus:ring-0 focus:shadow-none" 
+				class="pl-2 text-sm border-0 flex-1 h-6 min-w-[120px] outline-hidden placeholder:text-gray-400
+				ring-0 shadow-none focus:outline-hidden bg-transparent focus:ring-0 focus:shadow-none" 
 				:class="{'border-l' : selectedValues.size > 0}" ref="filterInput"
 				@focus="onFocus" @blur="onBlur" />
 

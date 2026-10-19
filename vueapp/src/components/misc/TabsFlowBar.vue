@@ -420,7 +420,8 @@
 	</div>
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+	@reference "../../styles/tailwind.css";
 	.tab-active { @apply mt-0 px-4 pb-2 pt-[.4rem] rounded-t-md border border-gray-400 border-b-0
 		text-sm z-[100] font-bold select-none relative bottom-[-1px] whitespace-nowrap cursor-pointer }
 	.tab-other  { @apply mt-1 mb-[.2rem] px-4 select-none leading-7 rounded-full border

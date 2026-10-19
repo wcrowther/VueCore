@@ -228,7 +228,7 @@
     </div>
 </template>
 
-<style lang="postcss" scoped></style> 
+<style scoped></style> 
 
 <!-- 
     <TextInput labelName="State / Province" ruleName="StateProvince" v-model="account.StateProvince" :v$></TextInput>
