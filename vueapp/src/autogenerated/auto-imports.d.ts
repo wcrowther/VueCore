@@ -199,7 +199,6 @@ declare global {
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
   const userValidator: typeof import('../helpers/validators.js')['userValidator']
   const vContainerWidth: typeof import('../helpers/containerWidth.js')['vContainerWidth']
-  const vWidth: typeof import('../helpers/containerWidth.js')['vWidth']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
