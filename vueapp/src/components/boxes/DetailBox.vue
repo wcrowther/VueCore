@@ -87,7 +87,9 @@
 </script>
 
 <template>
+
     <div class="w-full mb-5">
+
         <div class="w-full flex justify-between items-center px-3 py-2 text-left font-medium bg-gray-300 cursor-pointer"
             @click="toggleItem">
 
@@ -107,7 +109,9 @@
                 <slot />
             </div>
         </div>
+
     </div>
+    
 </template>
 
 
