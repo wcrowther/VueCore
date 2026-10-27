@@ -15,7 +15,7 @@
 
 <template>
     <div v-if="infoLevel > 2 || pin" 
-        :class="['text-sm border-y border-[#f97316]  w-full',
+        :class="['text-sm border-y border-color-orange  w-full',
             props.compact ? 'mb-3 px-3 py-2' : 'mb-7 px-6 py-5']">
 
         <span v-if="!props.compact"

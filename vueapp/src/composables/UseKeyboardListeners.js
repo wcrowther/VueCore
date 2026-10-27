@@ -135,7 +135,9 @@ export function KeyboardListeners(bindings, disabled = false)
         'ArrowLeft': 	() => prevDay(),
         'ArrowRight':   () => nextDay(),
         'PageUp':       () => prevEvent(),
-        'PageDown':     () => nextEvent()
+        'PageDown':     () => nextEvent(),
+		'Shift+Tab': 	() => switchTab(), 		// Modifier + key
+		'Ctrl+KeyS': 	() => promptForSave(),	// Modifier + key
     }
 
 	KeyboardListeners(keys, disableKeys)
