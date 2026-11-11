@@ -44,7 +44,7 @@ declare module 'vue-router/auto/routes' {
     '/accounts/chat': RouteRecordInfo<'/accounts/chat', '/accounts/chat', Record<never, never>, Record<never, never>>,
     '/accounts/main': RouteRecordInfo<'/accounts/main', '/accounts/main', Record<never, never>, Record<never, never>>,
     '/accounts/main/': RouteRecordInfo<'/accounts/main/', '/accounts/main', Record<never, never>, Record<never, never>>,
-    '/accounts/main/[search]': RouteRecordInfo<'/accounts/main/[search]', '/accounts/main/:search', { search: ParamValue<true> }, { search: ParamValue<false> }>,
+    '/accounts/main/[search]/[[fullscreen]]': RouteRecordInfo<'/accounts/main/[search]/[[fullscreen]]', '/accounts/main/:search/:fullscreen?', { search: ParamValue<true>, fullscreen?: ParamValueZeroOrOne<true> }, { search: ParamValue<false>, fullscreen?: ParamValueZeroOrOne<false> }>,
     '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/site': RouteRecordInfo<'/admin/site', '/admin/site', Record<never, never>, Record<never, never>>,
     '/admin/users': RouteRecordInfo<'/admin/users', '/admin/users', Record<never, never>, Record<never, never>>,

@@ -23,7 +23,7 @@
 
 	KeyboardListeners(keys, disableKeys)
 	DisableGlobalKeys(showPrompt)
-	useScrollLock(showPrompt)
+	UseScrollLock(showPrompt)
 
 	let resolvePromise
 

@@ -18,7 +18,7 @@
 
 	DisableGlobalKeys(showModal) // disable Esc key if modal is showing
 
-	useScrollLock(showModal)
+	UseScrollLock(showModal)
 
 </script>
 
@@ -29,7 +29,7 @@
 			<!-- Modal Overlay (the semi-transparent background behind the modal) -->
 			<div v-if="showModal" id="ModalOverlay"
 				@click.self="props.overlayClosesModal && closeModal()"
-                class="flex fixed z-[999] top-0 left-0 w-full h-full bg-black/30 
+                class="flex fixed z-999 top-0 left-0 w-full h-full bg-black/30 
 					transition-opacity ease-in-out duration-75">
 
 				<!-- Modal Container -->

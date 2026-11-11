@@ -29,6 +29,7 @@ declare global {
   const SearchModel: typeof import('../models/PagerModel.js')['SearchModel']
   const SetHtmlHeadBody: typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']
   const ShowSideButtonInSubNav: typeof import('../composables/ShowSideButtonInSubNav.js')['ShowSideButtonInSubNav']
+  const UseScrollLock: typeof import('../composables/UseScrollLock.js')['UseScrollLock']
   const UserModel: typeof import('../models/UserModel.js')['default']
   const accountValidator: typeof import('../helpers/validators.js')['accountValidator']
   const addDays: typeof import('../helpers/global.js')['addDays']
@@ -187,7 +188,6 @@ declare global {
   const usePromptControl: typeof import('../composables/UsePromptControl.js')['usePromptControl']
   const useRoute: typeof import('vue-router/auto')['useRoute']
   const useRouter: typeof import('vue-router/auto')['useRouter']
-  const useScrollLock: typeof import('../composables/useScrollLock.js')['useScrollLock']
   const useSignalR: typeof import('../composables/UseSignalR.js')['useSignalR']
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
@@ -259,6 +259,7 @@ declare module 'vue' {
     readonly SearchModel: UnwrapRef<typeof import('../models/PagerModel.js')['SearchModel']>
     readonly SetHtmlHeadBody: UnwrapRef<typeof import('../composables/SetHtmlHeadBody.js')['SetHtmlHeadBody']>
     readonly ShowSideButtonInSubNav: UnwrapRef<typeof import('../composables/ShowSideButtonInSubNav.js')['ShowSideButtonInSubNav']>
+    readonly UseScrollLock: UnwrapRef<typeof import('../composables/UseScrollLock.js')['UseScrollLock']>
     readonly UserModel: UnwrapRef<typeof import('../models/UserModel.js')['default']>
     readonly accountValidator: UnwrapRef<typeof import('../helpers/validators.js')['accountValidator']>
     readonly addDays: UnwrapRef<typeof import('../helpers/global.js')['addDays']>
@@ -417,7 +418,6 @@ declare module 'vue' {
     readonly usePromptControl: UnwrapRef<typeof import('../composables/UsePromptControl.js')['usePromptControl']>
     readonly useRoute: UnwrapRef<typeof import('vue-router/auto')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router/auto')['useRouter']>
-    readonly useScrollLock: UnwrapRef<typeof import('../composables/useScrollLock.js')['useScrollLock']>
     readonly useSignalR: UnwrapRef<typeof import('../composables/UseSignalR.js')['useSignalR']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>

@@ -43,7 +43,7 @@
 
 	defineExpose({ alertPromise }) // must be after function
 
-	useScrollLock(showAlert)
+	UseScrollLock(showAlert)
 
 	// ==================================================================================
 

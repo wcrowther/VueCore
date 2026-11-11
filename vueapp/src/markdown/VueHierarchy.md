@@ -132,7 +132,7 @@ vueapp
 			- UsePagedList2.js
 			- UsePlatform.js
 			- UsePromptControl.js
-			- useScrollLock.js
+			- UseScrollLock.js
 			- UseSignalR.js
 			- UseUnsavedGuard.js
 		- datalists
@@ -215,7 +215,7 @@ vueapp
 				- AccountDetailMultiAddress.vue
 				- AccountFilters.vue
 				- AccountsList.vue
-				- AccountsPage.vue
+				- AccountsView.vue
 			- admin
 				- AdminNotes.vue
 				- UsersAdvSearch.vue

@@ -1,4 +1,4 @@
 
 <template>
-    <AccountsPage />
+    <AccountsView />
 </template>

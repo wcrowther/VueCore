@@ -36,7 +36,7 @@
 
 			<DetailBox id="detail2"  title="Detail Two" class="bg-white">
 				<template #header>
-					<div class="bg-amber w-full">Customized Header Title</div>
+					<div class="w-full">Customized Header Title</div>
 				</template>
 				Content Two
 			</DetailBox>

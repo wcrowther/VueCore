@@ -1,6 +1,6 @@
 // Used to stop the background from scrolling behind a modeal or floater
 
-export function useScrollLock(showModalRef) 
+export function UseScrollLock(showModalRef) 
 {
 	let scrollY = 0
 

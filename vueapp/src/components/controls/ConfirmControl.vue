@@ -26,7 +26,7 @@
 
 	KeyboardListeners(keys, disableKeys)
 	DisableGlobalKeys(showConfirm) 			// disable global Esc key etc
-	useScrollLock(showConfirm)
+	UseScrollLock(showConfirm)
 
     // ==================================================================================
 

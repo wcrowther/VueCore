@@ -29,7 +29,7 @@
         <code>v-model:index</code> and/or the matching item via <code>v-model:value</code>, accepts any array 
         as <code>:rangeList</code>, displays the item's <code>name</code> property by default (override with 
         <code>textName</code>), can stop instead of wrapping with <code>:wrapBack="false"</code>, and steps 
-        backward on right-click.
+        backward using the right-click.
     </p>
 
     <div class="mb-4">
@@ -44,8 +44,8 @@
 
     <div class="mb-4">
         <div class="flex flex-wrap gap-2 mb-2">
-            <ListButton v-model:index="webPageIndex" :rangeList="webPages" class="w-fit inline-block" />
-            <ListButton v-model:index="webPageIndex" :rangeList="webPages" textName="url" class="w-fit inline-block" />
+            <ListButton v-model:index="webPageIndex" :rangeList="webPages" />
+            <ListButton v-model:index="webPageIndex" :rangeList="webPages" textName="url" />
         </div>
         <div>Dual-bound index ({{ webPageIndex }}): {{ webPages[webPageIndex].url }}</div>
     </div>

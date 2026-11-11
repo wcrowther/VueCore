@@ -69,7 +69,7 @@
 
 	KeyboardListeners(keys)
 	DisableGlobalKeys(fullScreen) // disable global Esc key etc
-	useScrollLock(fullScreen)
+	UseScrollLock(fullScreen)
 
 	watchEffect(() => { document.documentElement.style.overflow = fullScreen.value ? 'hidden' : '' })
 
