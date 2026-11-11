@@ -11,12 +11,11 @@
     <AppSidebar id="UsersMain">
     
         <template #sidebar>
-            <AccountsList />
+            <UsersList />
         </template>
 
-        <AccountDetail />
+        <UsersDetail />
 
     </AppSidebar>	
 
 </template> 
-
