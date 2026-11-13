@@ -195,7 +195,7 @@
                         </span>
                     </div>
 
-                    <InfoBox class="!mb-3">
+                    <InfoBox class="mb-3!">
                         Examples list with search, paging, sorting, and keyboard shortcuts.
                     </InfoBox>
                 </div>
@@ -210,19 +210,19 @@
                     <thead class="text-left bg-gradient-table-head border-t border-gray-300">
                         <tr>
                             <th class="w-6 sm:w-8 py-5 bg-[#ddd]"></th>
-                            <th class="min-w-[100px]">
+                            <th class="min-w-25">
                                 <div class="flex items-center pr-5">
                                     <span>Example</span>
                                     <span class="ml-auto flex items-center gap-3">
 
                                         <IconSymbol :class="[disableExamplesShortcuts ? 'text-orange' : 'text-color-dark-gray']"
                                             @click="disableExamplesShortcuts = !disableExamplesShortcuts"
-                                            title="Disable Example List Keyboard Shortcuts" width="26px"
+                                            title="Disable Example List Keyboard Shortcuts" width="24px"
                                             icon="codicon:record-keys" />
                                             
                                         <IconSymbol :class="[hideSearch ? 'text-orange' : 'text-color-dark-gray']"
                                             @click="hideSearch = !hideSearch"
-                                            title="Hide Example Search Box" width="26px"
+                                            title="Hide Example Search Box" width="22px"
                                             icon="heroicons:magnifying-glass" />
 
                                         <IconSymbol class="text-color-dark-gray"

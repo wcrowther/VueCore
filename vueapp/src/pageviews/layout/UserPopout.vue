@@ -18,7 +18,8 @@
             pagerDebugger,
             showJsonEntities,
             showPlatformInfo,
-            hideToolTips
+            hideToolTips,
+            enableNotes
           }                         = storeToRefs(appStore) 
             
     const { resetLocalStorage   }   = appStore
@@ -47,22 +48,22 @@
 
 <template>
 
-    <div class="relative" id="userPopout" @mouseleave="popoutClose()">
+    <div  id="UserPopout" class="relative"@mouseleave="popoutClose()">
 
         <div v-if="isLoggedIn" @click="popoutToggle(true)" title="Show user popout" id="popout"
-            class="relative z-[100] text-white size-10 tracking-wider 
+            class="relative z-100 text-white size-10 tracking-wider 
                 rounded-full bg-gray-700 flex-center hover:bg-gray-700/30">
             <span class="text-sm m-auto">{{firstInitial}}</span>
         </div>
 
         <router-link v-if="!isLoggedIn" title="Login" to='/auth/login'
-            class="flex pt-px px-4 items-center relative h-[28px] text-sm font-semibold rounded-full tracking-wider
+            class="flex pt-px px-4 items-center relative h-7 text-sm font-semibold rounded-full tracking-wider
                 text-theme-footer-text/80 hover:theme-footer-text bg-white/30 hover:bg-white/0">
             Login 
         </router-link>
         
         <div v-if="showPopout"
-            class="z-[90] absolute min-h-[520px] w-[385px] top-0 rounded-tl-[20px] 
+            class="z-90 absolute min-h-130 w-100 top-0 rounded-tl-[20px] 
                 border border-color-gray bg-gradient-main shadow-lg shadow-color-mid-gray">
             
             <IconSymbol v-if="pinPopout" class="icon-symbol" @click="pinPopout=!pinPopout" icon="heroicons:lock-closed-20-solid" />
@@ -175,6 +176,15 @@
                         <CheckboxInput v-model="hideToolTips" />
                     </div>
                 </div>   
+                
+                <div class="label-row">
+                    <div class="label-title" 
+                        title="Enable notes feature">Enable Notes</div>
+                    <div class="label-value">
+                        <CheckboxInput v-model="enableNotes" />
+                    </div>
+                </div>   
+
 
                <!--  
                 <div class="label-row">

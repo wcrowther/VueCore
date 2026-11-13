@@ -2,6 +2,7 @@
 
 	const showWidths 		= useLocalStorage('drawerExamplesShowWidths', true)
 	const sideHidden 		= useLocalStorage('drawerExamplesSideHidden', false)
+	const sideHidden2 		= useLocalStorage('drawerExamplesSideHidden2', false)
 	const sideFlipSide 		= useLocalStorage('drawerExamplesSideFlipSide', false)
 	const topHidden 		= useLocalStorage('drawerExamplesTopHidden', false)
 	const topFlipVertical 	= useLocalStorage('drawerExamplesFlipVertical', false)
@@ -32,16 +33,8 @@
 	<SideDrawerControl v-model:drawerHidden="sideHidden" class="mb-5"
 		v-container-width="!showWidths"	:flipSide="sideFlipSide">
 
-		<template #sidedrawer>
-			<div :class="['bg-white border border-gray-400 p-7 pb-10 w-full h-full', 
-				sideFlipSide ? 'border-l-0' : 'border-r-0']" 
-				v-container-width="!showWidths">
-				SideDrawer content here
-			</div>
-		</template>
-
 		<template #default>
-			<div class="bg-white border border-gray-400  p-7 pb-10 w-full h-full" 
+			<div class="bg-white border border-gray-400  p-7 pb-10 " 
 				v-container-width="!showWidths">
 	
 				<div class="mb-5">Main content here.</div>
@@ -52,18 +45,45 @@
 					optio debitis facilis.
 				</div>
 
-				<CircleButton v-model="sideHidden" 
-					class="absolute left-1 top-1" size="12px" padding="p-[2px]"
-                    bgColor="bg-white" icon="heroicons:chevron-left"/>
-					
 			</div>
+		</template>
+		
+		<template #sidedrawer>
+			<div :class="['bg-white border border-gray-400 p-7 pb-10 w-full h-full', 
+				sideFlipSide ? 'border-l-0' : 'border-r-0']" 
+				v-container-width="!showWidths">
+				SideDrawer content here
+			</div>
+		</template>
+
+	</SideDrawerControl>	
+
+	<SideDrawerControl v-model:drawerHidden="sideHidden2" class="mb-7"
+		v-container-width="!showWidths"	:flipSide="true">
+
+		<div class="p-5 bg-gray-100">Alternate version without border</div>
+		<div class="p-5 bg-amber-100">
+			Shorter content here.
+		</div>
+
+		<template #sidedrawer>
+			<div class="bg-amber-200 p-5 h-full">
+				SideDrawer content 2
+			</div>
+		</template>
+		
+		<template #toggleButton>
+			<CircleButton v-model="sideHidden2" 
+                class="m-2 -left-8 bottom-0!" bgColor="bg-amber-500" 
+				borderColor="border-amber-800" padding="p-1" size="14px" 
+				icon="heroicons:chevron-right"/>
 		</template>
 
 	</SideDrawerControl>	
 
 	<div class="flex justify-end gap-1.5 py-5">
 
-		<BooleanButton v-model="topHidden" class="w-[166px]"
+		<BooleanButton v-model="topHidden" class="w-41.5"
 			:trueText="`Show ${topDrawerName}`" :falseText="`Hide ${topDrawerName}`" />
 
 		<BooleanButton v-model="topFlipVertical" 

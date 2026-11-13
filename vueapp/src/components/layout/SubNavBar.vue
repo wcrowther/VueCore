@@ -1,5 +1,8 @@
 <script setup>
 
+    //const appStore                   = useAppStore()
+    // const { enableNotes, showNotes } = storeToRefs(appStore) 
+
 </script>
 
 <template>
@@ -12,7 +15,12 @@
         <slot name="default"></slot>
 
         <InfoButton />
-        
+       
+        <!-- 
+        <IconSymbol v-if="enableNotes" @click="showNotes=!showNotes"
+            width="20px" class="ml-4 text-color-dark-gray" icon="heroicons:document-text" /> 
+        -->
+
     </div>
 </template>
 

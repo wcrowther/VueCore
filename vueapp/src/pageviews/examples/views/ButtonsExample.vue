@@ -46,7 +46,7 @@
             </div>
         </HelpBox>
         
-        <div class="flex flex-wrap gap-[10px] @container" v-container-width>
+        <div class="flex flex-wrap gap-2.5 @container" v-container-width>
 
             <div class="w-full @xl:flex-1 flex flex-col gap-8 mb-5">
 

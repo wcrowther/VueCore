@@ -20,10 +20,10 @@
 <template>
 
     <div id="MainSideBar"
-        :class="['absolute h-full z-50 flex-none transform transition-all duration-[300ms] overflow-hidden xs:relative ',
-        sideBarHidden ? 'w-0' : 'w-full xs:w-[300px]']">
+        :class="['absolute h-full z-50 flex-none transform transition-all duration-300 overflow-hidden xs:relative ',
+        sideBarHidden ? 'w-0' : 'w-full xs:w-75']">
 
-        <div class="absolute right-0 w-full min-w-[300px] xs:relative xs:w-[300px] xs:min-w-1">
+        <div class="absolute right-0 w-full min-w-75 xs:relative xs:w-75 xs:min-w-1">
             <slot></slot>
         </div> 
     </div>

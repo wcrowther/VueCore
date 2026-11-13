@@ -1,7 +1,6 @@
 	
 <script setup>
 
-    const { platform }			= usePlatform()
 	const appStore   			= useAppStore()
     const { sideBarHidden, 
 		    disableGlobalKeys,
@@ -44,11 +43,13 @@
 
 			<MainNavBar class="shadow-theme-layout"></MainNavBar>
 
-			<MainContent>
-				<slot></slot>
-			</MainContent>
+			<NotesDrawer>
+				<MainContent>
+					<slot />
+				</MainContent>	
+			</NotesDrawer> 
 			
-			<FooterBox class="shadow-theme-layout" />
+			<FooterBox />
 
 			<NotificationControl />
 			

@@ -10,6 +10,8 @@ export const useAppStore = defineStore('AppStore', () =>
     const sideBarHidden         = ref(false)
     const showSideButton        = ref(false)
     const disableGlobalKeys     = ref(false)
+    const enableNotes           = useLocalStorage('enableNotes', false)
+    const showNotes             = useLocalStorage('showNotes', false)
     const showPrevNext          = useLocalStorage('showPrevNext', true)
     const showBreakpoints       = useLocalStorage('showBreakpoints', false)
     const showNotification      = useLocalStorage('showNotification', true)
@@ -49,7 +51,8 @@ export const useAppStore = defineStore('AppStore', () =>
             'showNewChatMessages','showJsonEntities', 'persistSearch', 
             'altTheme', 'fullWidth', 'infoLevel', 'activeFloater', 
             'pagerDebugger', 'pagerDebuggerX', 'pagerDebuggerY', 'showPlatformInfo',
-            'activeFloater', 'disableGlobalKeys','hideToolTips'
+            'activeFloater', 'disableGlobalKeys','hideToolTips',
+            'enableNotes', 'showNotes'
         ]
 
         local.forEach(item => localStorage.removeItem(item))
@@ -97,7 +100,8 @@ export const useAppStore = defineStore('AppStore', () =>
         activeFloater,
         disableGlobalKeys,
         hideToolTips,
-
+        enableNotes,
+        showNotes,
         infoLevelText,
 
         // actions
