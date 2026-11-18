@@ -244,7 +244,7 @@
                             <td class="w-6 p-0 sm:w-8 select-none bg-white">
                                 <div v-if="isActiveItem(item.example)" class="active-arrow">&nbsp;</div>
                             </td>
-                            <td class="pr-4 py-1 h-8 max-w-[200px] break-words text-sm">
+                            <td class="pr-4 py-1 h-8 max-w-50 wrap-break-word text-sm">
                                 {{ item.name }} {{ item.featured > 0 ? '*':''}}
                             </td>
                         </tr>
@@ -272,5 +272,5 @@
 <style scoped>
 @reference "../../styles/tailwind.css";
 .active-row { @apply bg-gradient-white }
-.active-arrow { @apply w-0 h-0 border-x-[8px] border-y-[6px] border-transparent border-l-[#91a5bd] relative left-3 }
+.active-arrow { @apply w-0 h-0 border-x-8 border-y-[6px] border-transparent border-l-[#91a5bd] relative left-3 }
 </style>

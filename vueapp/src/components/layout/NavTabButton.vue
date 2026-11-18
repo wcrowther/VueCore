@@ -18,9 +18,6 @@
 			<span>{{props.navText}}</span>
 		</slot>
 
-		<ReverseCorner :pixelSize="7" class="hidden bottom-0 -left-1.75" />
-		<ReverseCorner :pixelSize="7" class="hidden bottom-0 -right-1.75 rotate-90" />	
-
 	</div>
 
 </template>

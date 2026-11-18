@@ -226,7 +226,7 @@
 
     .label-row      { @apply flex h-8 items-center }
     .label-title    { @apply w-1/2 font-bold whitespace-nowrap }
-    .label-value    { @apply flex-grow whitespace-nowrap }
+    .label-value    { @apply grow whitespace-nowrap }
     .icon-symbol    { @apply absolute top-3 right-3 text-color-mid-blue hover:text-gray-700}
 
 </style> 

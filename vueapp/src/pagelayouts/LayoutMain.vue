@@ -43,12 +43,10 @@
 
 			<MainNavBar class="shadow-theme-layout"></MainNavBar>
 
-			<NotesDrawer>
-				<MainContent>
-					<slot />
-				</MainContent>	
-			</NotesDrawer> 
-			
+			<MainContent>
+				<slot />
+			</MainContent>	
+
 			<FooterBox />
 
 			<NotificationControl />

@@ -181,11 +181,11 @@
                 label="Account Detail Json" :json="account" class="w-full"
                 :isOpen="false" :showRawJson="false" />
             <div v-if="(!account || account.AccountId === 0)  && !isAddingAccount"
-                class="basis-[300px] font-bold">
+                class="basis-75 font-bold">
                 No Account to display
             </div>
             <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="AccountInfo"
-                class="basis-[300px] min-w-[200px] p-5 flex-1 border border-color-blue-gray bg-white">
+                class="basis-75 min-w-50 p-5 flex-1 border border-color-blue-gray bg-white">
                 <TitleBox v-if="!isAddingAccount">
                     <span>{{account.AccountName}}</span>
                     <span>Account Id: {{account.AccountId}}</span>
@@ -207,7 +207,7 @@
                 :account="account" :isAddingAccount="isAddingAccount" :usStatesList="usStatesList" />-->
 
             <div v-if="account && account.AccountId > 0 || isAddingAccount"  id="Address"
-                class="basis-[300px] min-w-[200px] flex-1 border border-color-blue-gray bg-white p-5">
+                class="basis-75 min-w-50 flex-1 border border-color-blue-gray bg-white p-5">
                 <!-- -->
                 <TitleBox class="bg-transparent">
                     <span>Account Address</span>

@@ -36,12 +36,17 @@
 
 		<NavTab navText="Admin" to="/admin" v-show="adminRoles.includes(authUser.Role)" />
 
-		<!-- Example for static nav tab -->
-		<NavTabStatic v-if="enableNotes" @click="showNotes=!showNotes"> 
-			<IconSymbol width="18px" class="text-[#bddaef] 
-				homeGroup-hover:text-navy homeGroup-hover:opacity-100" icon="heroicons-solid:document-text" />
-		</NavTabStatic> 
-		
+		<!-- Example for static nav tab 
+		<NavTabButton v-if="enableNotes"
+			@click="showNotes=!showNotes" class="group w-7 justify-center px-0!">
+			
+			<IconSymbol width="16px"
+				:class="showNotes 
+				? 'text-orange group-hover:text-black' 
+				: 'text-[#bddaef] group-hover:text-white'"
+				icon="heroicons-solid:document-text" />
+		</NavTabButton> 
+		-->
 
 	</NavBar>
 

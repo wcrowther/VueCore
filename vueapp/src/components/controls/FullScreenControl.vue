@@ -82,13 +82,13 @@
 		<div :class="fullScreen ? 'fixed inset-0 flex isolate' : 'contents'" 
 			:style="fullScreen ? { zIndex: props.zIndex } : undefined">
 
-			<div v-if="fullScreen" class="absolute inset-0 z-[1] bg-black/35"></div>
+			<div v-if="fullScreen" class="absolute inset-0 z-1 bg-black/35"></div>
 
 			<div v-bind="fullScreen ? forwardedAttrs : undefined" :style="panelStyle" 
-				:class="fullScreen ? 'relative z-[2] bg-white overflow-auto ' +
+				:class="fullScreen ? 'relative z-2 bg-white overflow-auto ' +
 				'scrollbar-thin shadow-lg shadow-color-dark-gray' : 'contents'">
 
-				<BackGradation v-if="fullScreen && useBackGradation" class="!h-full !bottom-0 !z-0" />
+				<BackGradation v-if="fullScreen && useBackGradation" class="h-full! bottom-0! z-0!" />
 
 				<button v-if="fullScreen && props.showExitButton" type="button" aria-label="Exit fullscreen"
 					title="Exit fullscreen" @click="fullScreen = false"

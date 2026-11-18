@@ -358,15 +358,15 @@
 		</div>
 
 		<div ref="containerRef"
-			:class="['relative flex flex-1 gap-1 items-end min-w-0 z-[90] scroll-smooth',
+			:class="['relative flex flex-1 gap-1 items-end min-w-0 z-90 scroll-smooth',
 				useMenuOverflow
 				? 'overflow-hidden'
-				: 'overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden']">
+				: 'overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden']">
 			
 			<!-- List of Tabs -->
 			<div v-for="tab in normalizedTabs" :key="tab.id"
 				:ref="el => setTabRef(tab.id, el)"
-				:data-tab-id="tab.id" class="shrink-0 flex items-end z-[100]">
+				:data-tab-id="tab.id" class="shrink-0 flex items-end z-100">
 
 				<slot name="tab-button" :tab :is-active="selectedTabId === tab.id"
 					:activate="() => activateTab(tab)">
