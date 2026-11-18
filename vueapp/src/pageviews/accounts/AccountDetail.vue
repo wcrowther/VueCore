@@ -12,9 +12,9 @@
             addNewAccount,  
             saveAccount,    
             resetAccount }          = accountsStore
+    const { createConfirm }         = useConfirmControl()
         
     const isAddingAccount           = ref(false)
-    const showConfirmControl        = ref(false)
     const detailInput               = ref(null)
     const showMultiAddress          = ref(false) // Enable experimental multi-address feature
 
@@ -61,22 +61,13 @@
     {
         const isValidAccount = await v$.value.$validate()
         if(isValidAccount)
-        {
-            showConfirmControl.value = true
-        }
+            await createConfirm('Save Account Data?', saveAccountDetail)
     }
 
-    const saveAccountDetail = async (confirmResult) =>
+    const saveAccountDetail = () =>
     {
-        if(!confirmResult)  // cancelled
-        {
-            showConfirmControl.value = false
-            return
-        }
-        
         saveAccount()
         isAddingAccount.value = false 
-        showConfirmControl.value = false
     }
 
     // Keyboard Listeners  =====================================================================
@@ -128,12 +119,8 @@
 </script>
 
 <template>
-    <div  id="AccountDetailView" ref="accountDetail"
-        class="" >
+    <div  id="AccountDetailView" ref="accountDetail" class="" >
         
-        <ConfirmControl v-if="showConfirmControl" v-model="showConfirmControl"
-			message="Save Account Data?" @confirmResult="saveAccountDetail"  />
-
         <PageTitleBox :pageTitle="accountTitle || 'Accounts'">
 
             <button v-if="!isAddingAccount && accountIsDirty && hasKeys(account) && account.AccountId > 0" 

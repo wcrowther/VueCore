@@ -1,7 +1,7 @@
 <script setup>
 
     const { createConfirm } = useConfirmControl()
-    const toastStore         = useToastStore()
+    const toastStore        = useToastStore()
 
     const showJson          = ref(false)
     const showCode          = ref(false)
@@ -71,6 +71,9 @@ const codeContent =
 <MultiSelectInput labelName="MultiSelectInput" v-model="inputDemo.MultiSelectInput" 
     :optionsList="usStatesList" class="xl:mt-5 xl:col-span-2 3xl:col-span-3" :v$  />
 `
+
+// ======================================================================
+
 </script>
 
 <template>
@@ -127,7 +130,7 @@ const codeContent =
 
     <div id="inputDemo" class="p-5 pb-10 border border-gray-400 
         grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-x-6 gap-y-4 
-        [&>*]:!mb-0 xl:[&>*]:min-h-[80px] 3xl:[&>*]:min-h-0" >
+        *:mb-0! xl:*:min-h-20 3xl:*:min-h-0" >
 
         <TextInput labelName="TextInput" v-model="inputDemo.TextInput" :v$ />
         <PhoneInput labelName="PhoneInput" v-model="inputDemo.PhoneInput" :v$ />

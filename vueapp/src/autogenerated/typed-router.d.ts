@@ -50,7 +50,6 @@ declare module 'vue-router/auto/routes' {
     '/admin/users': RouteRecordInfo<'/admin/users', '/admin/users', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
     '/content': RouteRecordInfo<'/content', '/content', Record<never, never>, Record<never, never>>,
-    '/content/main': RouteRecordInfo<'/content/main', '/content/main', Record<never, never>, Record<never, never>>,
     '/examples': RouteRecordInfo<'/examples', '/examples', Record<never, never>, Record<never, never>>,
     '/examples/': RouteRecordInfo<'/examples/', '/examples', Record<never, never>, Record<never, never>>,
     '/examples/[search]/[[fullscreen]]': RouteRecordInfo<'/examples/[search]/[[fullscreen]]', '/examples/:search/:fullscreen?', { search: ParamValue<true>, fullscreen?: ParamValueZeroOrOne<true> }, { search: ParamValue<false>, fullscreen?: ParamValueZeroOrOne<false> }>,
