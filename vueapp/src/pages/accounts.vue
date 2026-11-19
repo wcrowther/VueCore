@@ -8,7 +8,7 @@
 <template>
 	<LayoutMain>
 		
-		<SubNavBar> 
+		<SubNavBar showNotesIcon> 
 
 			<template #leftalign>
 				<RotateButton v-model="sideBarHidden" v-show="showSideButton" title="toggle search" /> 
@@ -28,6 +28,7 @@
 
 		</SubNavBar>
 		
+		<!-- Notes Drawer wraps the detail and provides a collapsible notes section -->
 		<NotesDrawer>
 			<router-view />
 		</NotesDrawer>
