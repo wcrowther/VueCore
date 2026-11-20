@@ -181,6 +181,7 @@ declare global {
   const useKeepInView: typeof import('../composables/UseKeepInView.js')['useKeepInView']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useModel: typeof import('vue')['useModel']
+  const useNotesStore: typeof import('../stores/NotesStore.js')['useNotesStore']
   const useOldImagesStore: typeof import('../stores/OldImagesStore.js')['useOldImagesStore']
   const usePagedList: typeof import('../composables/UsePagedList.js')['usePagedList']
   const usePagedList2: typeof import('../composables/UsePagedList2.js')['usePagedList2']
@@ -411,6 +412,7 @@ declare module 'vue' {
     readonly useKeepInView: UnwrapRef<typeof import('../composables/UseKeepInView.js')['useKeepInView']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
+    readonly useNotesStore: UnwrapRef<typeof import('../stores/NotesStore.js')['useNotesStore']>
     readonly useOldImagesStore: UnwrapRef<typeof import('../stores/OldImagesStore.js')['useOldImagesStore']>
     readonly usePagedList2: UnwrapRef<typeof import('../composables/UsePagedList2.js')['usePagedList2']>
     readonly usePagedList: UnwrapRef<typeof import('../composables/UsePagedList.js')['usePagedList']>

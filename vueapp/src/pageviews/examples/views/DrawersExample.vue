@@ -27,11 +27,12 @@
     </PageTitleBox>
 
 	<InfoBox>
-		Info about the SideDrawerControl...
+		In the side-by-side layout, hover over the divider for one second, then drag to resize the side drawer.
 	</InfoBox>
 
-	<SideDrawerControl v-model:drawerHidden="sideHidden" class="mb-5"
-		v-container-width="!showWidths"	:flipSide="sideFlipSide">
+	<SideDrawer2Control id="SideDrawer2Control" 
+		v-model:drawerHidden="sideHidden" class="mb-5" 
+		v-container-width="!showWidths"	:flipSide="sideFlipSide" resize>
 
 		<template #default>
 			<div class="bg-white border border-gray-400  p-7 pb-10 " 
@@ -56,10 +57,10 @@
 			</div>
 		</template>
 
-	</SideDrawerControl>	
+	</SideDrawer2Control>	
 
-	<SideDrawerControl v-model:drawerHidden="sideHidden2" class="mb-7"
-		v-container-width="!showWidths"	:flipSide="true">
+	<SideDrawerControl id="SideDrawerControl" 
+		v-model:drawerHidden="sideHidden2" class="mb-7" flipSide resize>
 
 		<div class="p-5 bg-gray-100">Alternate version without border</div>
 		<div class="p-5 bg-amber-100">

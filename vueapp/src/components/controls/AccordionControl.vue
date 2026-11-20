@@ -1,10 +1,13 @@
+// USE DetailBox instead of AccordionControl for detailed collapsible 
+// sections as it is simpler and more flexible
+
 <script setup>
 
 	const props = defineProps(
 	{
-		id: { type: String, default: '' },
+		id: 		 { type: String, default: '' },
 		defaultOpen: { type: Array, default: () => [0] },
-		multiple: { type: Boolean, default: false }
+		multiple: 	 { type: Boolean, default: false }
 	})
 
 	const storageKey = computed(() => props.id ? `accordion_open_${props.id}` : '')

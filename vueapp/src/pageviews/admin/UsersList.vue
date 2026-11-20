@@ -128,8 +128,7 @@
         <!-- Working on moving below code into this component:
             <UsersSearch v-model:listPager="listPager" v-model:showAdvSearch="showAdvSearch"  />
         -->
-
-        
+ 
         <div class="px-5 pb-3 flex flex-wrap justify-between items-center border-t border-r border-slate-300
            bg-gradient-side shadow-[0_10px_30px_-5px_rgb(0,0,0,0.4)] xxs:shadow-none">
             
@@ -148,7 +147,7 @@
                 </span>
             </div>
 
-            <InfoBox class="!mb-3">
+            <InfoBox class="mb-3!">
                 Enter a numeric User Id or search text matching the start of a user's First or Last Name.
                 Results update automatically as you navigate through the list.
             </InfoBox>
@@ -175,7 +174,7 @@
                 <tr>
                     <th class="w-6 sm:w-8 py-5"></th>
                     <th class="hidden md:table-cell pr-4 select-none">UserId</th>
-                    <th class="pr-4 min-w-[100px]">Last Name, First</th>
+                    <th class="pr-4 min-w-25">Last Name, First</th>
                 </tr>
             </thead>
 
@@ -190,7 +189,7 @@
                     <td class="hidden md:table-cell pr-4 py-1 text-sm">
                         {{ a.UserId }}
                     </td>
-                    <td class="pr-4 py-1 h-8 max-w-[200px] break-words text-sm"
+                    <td class="pr-4 py-1 h-8 max-w-50 wrap-break-word text-sm"
                         :title="'UserId: ' + a.UserId" >{{ a.LastName }}, {{ a.FirstName }}</td>
                 </tr>
             </tbody>
