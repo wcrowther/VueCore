@@ -11,7 +11,8 @@
 
 	<SideDrawerControl v-else 
 		id="NotesDrawer" :drawerHidden="!showNotes"
-		:flip-side="true" :hideToggleButton="true"> 
+		:flip-side="true" :hideToggleButton="true"
+		resizable> 
 
 		<slot />
 

@@ -30,9 +30,9 @@
 		In the side-by-side layout, hover over the divider for one second, then drag to resize the side drawer.
 	</InfoBox>
 
-	<SideDrawer2Control id="SideDrawer2Control" 
+	<SideDrawerControl id="SideDrawer2Control" 
 		v-model:drawerHidden="sideHidden" class="mb-5" 
-		v-container-width="!showWidths"	:flipSide="sideFlipSide" resize>
+		v-container-width="!showWidths"	:flipSide="sideFlipSide" resizable>
 
 		<template #default>
 			<div class="bg-white border border-gray-400  p-7 pb-10 " 
@@ -57,10 +57,10 @@
 			</div>
 		</template>
 
-	</SideDrawer2Control>	
+	</SideDrawerControl>	
 
 	<SideDrawerControl id="SideDrawerControl" 
-		v-model:drawerHidden="sideHidden2" class="mb-7" flipSide resize>
+		v-model:drawerHidden="sideHidden2" class="mb-7" flipSide resizable>
 
 		<div class="p-5 bg-gray-100">Alternate version without border</div>
 		<div class="p-5 bg-amber-100">

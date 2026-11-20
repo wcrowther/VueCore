@@ -27,8 +27,8 @@ export function usePagedList(options)
 
     const searchFilterDefault       = useLocalStorage(searchFilterDefaultName, '')
     listPager.value.Search          = createSearchModel()
-    //listPager.value.Search.Filter   = persistSearch.value && !!listPager.value.Search.Filter 
-    //                                    ? searchFilterDefault.value : ''
+    if (persistSearch.value && !listPager.value.Search.Filter)
+        listPager.value.Search.Filter = searchFilterDefault.value
 
     // Computeds ============================================================================
 

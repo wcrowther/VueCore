@@ -4,11 +4,14 @@
 
     const route                 = useRoute()
     const examplesStore         = useExamplesStore()
+    const appStore              = useAppStore()
+    const { persistSearch }     = storeToRefs(appStore)
     const { sortedExamplesDataList, sortType, disableExamplesShortcuts, showFullscreen      
                                 } = storeToRefs(examplesStore)
     const examplesSizeDefault 	= 25
     const itemsList 			= ref([])
-    const listPager 			= ref(new PagerModel(new SearchModel(), examplesSizeDefault))
+    const searchFilterDefault   = useLocalStorage('examplesSearchFilterDefault', '')
+    const listPager 			= ref(new PagerModel(new SearchModel(persistSearch.value ? searchFilterDefault.value : ''), examplesSizeDefault))
     const hideSearch            = useLocalStorage('examplesHideSearch', false)
     const showAdvSearch 		= ref(false)
     const activeItem 			= ref(null)
@@ -151,6 +154,9 @@
     {
         if (newVal === oldVal || newVal.slice(-1) === ',' || newVal.slice(-1) === ' ') return
         useDebounceFn(() => refreshList(1, true), 300)()
+
+        if (persistSearch.value)
+            searchFilterDefault.value = newVal
     })
 
     watch(() => searchFromUrl.value, (newVal, oldVal) =>

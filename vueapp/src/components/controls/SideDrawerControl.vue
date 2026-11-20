@@ -10,7 +10,7 @@
 		id: 				{ type: String,  required: true },
 		hideToggleButton:	{ type: Boolean, default: false },
 		flipSide:			{ type: Boolean, default: false },
-		resize:				{ type: Boolean, default: false },
+		resizable:				{ type: Boolean, default: false },
 		initialWidth:		{ type: Number,  default: 300 },
 		minWidth:			{ type: Number,  default: 48 },
 		breakPoint:			{ type: Number,  default: 512 },
@@ -68,10 +68,10 @@
 			resizing ? 'transition-none' : 'transition-all duration-300',
 			'@lg:relative @lg:top-auto @lg:left-auto @lg:right-auto @lg:h-auto',
 			props.flipSide ? 'right-0' : 'left-0',
-			drawerHidden ? 'w-0' : (props.resize && drawerWidth !== null ? 'w-full @lg:w-(--side-drawer-width)' : 'w-full @lg:w-75')]"
-			:style="props.resize && drawerWidth !== null ? { '--side-drawer-width': `min(${Math.max(props.minWidth, drawerWidth)}px, calc(100% - ${props.minWidth}px))` } : null">
+			drawerHidden ? 'w-0' : (props.resizable && drawerWidth !== null ? 'w-full @lg:w-(--side-drawer-width)' : 'w-full @lg:w-75')]"
+			:style="props.resizable && drawerWidth !== null ? { '--side-drawer-width': `min(${Math.max(props.minWidth, drawerWidth)}px, calc(100% - ${props.minWidth}px))` } : null">
 
-			<LineHandle v-if="props.resize && !drawerHidden" :key="props.flipSide"
+			<LineHandle v-if="props.resizable && !drawerHidden" :key="props.flipSide"
 				:delay="200"
 				:class="['hidden @lg:block', props.flipSide ? '-left-1' : '-right-1']"
 				@start="startResize" @move="moveResize" @end="resizing = false" />
@@ -79,7 +79,7 @@
 			<div :class="['relative w-full h-full overflow-hidden @lg:border-0',
 				!drawerHidden ? (props.flipSide ? 'border-r border-gray-400' : 'border-l border-gray-400') : '']">
 				<div :class="['absolute w-full h-full min-w-75 @lg:relative @lg:min-w-1',
-					props.resize && !drawerHidden ? '@lg:w-full' : '@lg:w-75',
+					props.resizable && !drawerHidden ? '@lg:w-full' : '@lg:w-75',
 					props.flipSide ? 'left-0' : 'right-0']">
 					<slot name="sidedrawer" />
 				</div>
@@ -103,7 +103,7 @@
 	The drawer closes when its container shrinks below breakPoint (default 512px).
 	Set breakPointAutoOpen to also open it when the container grows back across it.
 	The initial drawerHidden value is preserved.
-	Pass resize to enable resizing in the side-by-side layout. Hover over the
+	Pass resizable to enable resizing in the side-by-side layout. Hover over the
 	divider briefly before dragging. minWidth sets the resizing limit for each
 	pane in pixels (default 48), when there is enough space.
 	The width is stored under "<id>.drawerWidth"; use a unique, stable id.
